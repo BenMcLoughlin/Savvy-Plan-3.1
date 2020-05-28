@@ -1,17 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import {Provider} from "react-redux"
+import {createStore} from 'redux'
+import root_reducer from "./redux/root_reducer"
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { App } from "App"
+import {theme} from "styles/theme"
+import {ThemeProvider} from "styled-components"
+// import {persistStore} from "redux-persist"
+// import {PersistGate} from "redux-persist/integration/react"
+
+const store = createStore(root_reducer,
+  composeWithDevTools(    ));
+
+
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <Provider store={store}>
+      <ThemeProvider theme={theme}>
+          <App/>
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+
