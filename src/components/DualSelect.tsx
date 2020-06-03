@@ -3,30 +3,35 @@ import styled from 'styled-components';
 
 interface IProps {
     id: string;
-    onClick: () => void
+    onClick?: () => void
     reducer: string;
     option1: string;
     option2: string;
+    value1: string | number;
+    value2: string | number;
     state: any
-    specialThing: string
-    setValue_action: (id: string, reducer: string, value: any, childId: string) => void;
+    setValue_action: (id: string, reducer: string, value: any, childId?: any) => void;
 }
 
-export const DualSelect: FC<IProps> = ({id ,onClick, reducer, option1, option2, state, setValue_action, specialThing}) => {
+export const DualSelect: FC<IProps> = ({id ,onClick, reducer, option1, option2, state, setValue_action, value1, value2}) => {
 
-  console.log(specialThing);
-  const selected = state[reducer][id]                                                                                             //enters the reducer and grabs the corrosponding value to show if it is selected or not
+  const selected = state.ui_reducer.selectedOption                                                                                          //enters the reducer and grabs the corrosponding value to show if it is selected or not
+
   return (
     <Wrapper>
-                    <Option onClick={() => {
-                      onClick()
-                      setValue_action(id, reducer, option1, "")}
+                    <Option onClick={() =>  {
+                      if(onClick) {onClick()}
+                      setValue_action(id, reducer, value1)
+                      setValue_action("selectedOption", "ui_reducer", option1)}
                     }
                          selected={ selected === option1}
                    >
                        {option1}
                    </Option>
-                   <Option onClick={() => setValue_action(id, reducer, option2, "")}
+                   <Option onClick={() => {
+                          setValue_action("selectedOption", "ui_reducer", option2)
+                          setValue_action(id, reducer, value2)
+                   } }
                            selected={selected.length === 0 || selected === option2}                                                //when the page first loads it sets both colors to grey but I want the initial color or the bar to be white
                    >   {option2}
                    </Option>

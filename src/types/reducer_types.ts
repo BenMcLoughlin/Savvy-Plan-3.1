@@ -3,12 +3,12 @@ import {Action} from "redux"
 
 export interface IUiState {
     change: boolean
-    selectedYear: string;
     selectedId: string;
     changeColor: number;
     videoUrl: string;
     progress: number 
     selectedPage: string
+    selectedOption:string,
 }
 
 export interface IUserState {
@@ -49,7 +49,7 @@ export interface IUserState {
 }
 
 export interface IMainState {
-    [key: string]: IInstance | IIncomeInstance
+    [key: string]: IInstance | IIncomeStream
 }
 
 export type TreducerID = keyof IUserState | keyof IUiState |  keyof IMainState
@@ -57,7 +57,7 @@ export type TreducerID = keyof IUserState | keyof IUiState |  keyof IMainState
 export interface ISetValue_action extends Action {
     type: string;
     id: string;
-    childId: string;
+    childId?: string;
     value: any;
 }
 
@@ -73,13 +73,14 @@ export interface IInstance {
     value: string | number | boolean,
 }
 
-export interface IIncomeInstance {
+export interface IIncomeStream {
     color: string,
     id?: string,
     reg: string,
-    stream: string,
+    name: string,
+    periods: number
     taxable: boolean,
-    year1: number,
-    year2: number,
-    value: number,
+    year0: number,
+    value0: number,
+    [key: string]: any
 }

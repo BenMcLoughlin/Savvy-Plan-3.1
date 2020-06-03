@@ -74,7 +74,7 @@ h2 {
   font-weight: 800;
 }
 h3 {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 200;
 }
 h4 {
@@ -122,12 +122,12 @@ h4 {
       @keyframes fadeInRight {
         0% {
           opacity: 0;
-          transform: translate3d(60%, 0, 0);
+          transform: translate3d(40%, 0, 0);
         }
       
        30% {
         opacity: 0;
-          transform: translate3d(60%, 0, 0);
+          transform: translate3d(40%, 0, 0);
         }
        100% {
         opacity: 1;
@@ -170,7 +170,7 @@ h4 {
 
       .transition-forward-enter-active  {
         animation-name:  fadeInRight;
-        animation-duration: 1s;
+        animation-duration: .8s;
       }
       .transition-back-enter-active  {
         animation-name:  fadeInLeft;

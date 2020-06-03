@@ -12,6 +12,7 @@ interface ICoreProps {
   subTitle?: string;   
   title: string;
   spouse?: boolean
+  onClick?: () => void
 }
 
 export interface IButton extends ICoreProps {
@@ -26,6 +27,8 @@ export interface ICumulativeSelect extends ICoreProps {
 export interface IDualSelect extends ICoreProps {
   option1: string;
   option2: string;
+  value1: string | number;
+  value2: string | number;
 }
 
 export interface INumberSelect extends ICoreProps {

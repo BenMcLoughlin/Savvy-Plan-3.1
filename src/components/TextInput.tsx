@@ -5,6 +5,7 @@ import _ from "lodash"
 interface IProps {
     id: string
     childId?: string
+    label: string
     placeholder?: string
 	reducer: string;
     state: any
@@ -13,15 +14,15 @@ interface IProps {
     type: string
 }
 
-export const TextInput:FC<IProps> = ({id, childId, placeholder, reducer, state, setValue_action, type}) => {
+export const TextInput:FC<IProps> = ({id, childId, label, placeholder, reducer, state, setValue_action, type}) => {
   
     const subject = state[reducer][id]
 
-    const valid = subject.toString().length === 4 && +subject > 1930 && +subject < 2025                         
+    const valid = subject.toString().length === 4 && +subject > 1930 && +subject < 2095                         
 
     return (
         <Wrapper>
-            <Label>{_.startCase(id)}</Label>
+            <Label>{_.startCase(label)}</Label>
             <Input
                     placeholder={placeholder}
                     type={type === "year" ? "number" : "text"}
