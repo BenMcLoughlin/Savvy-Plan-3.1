@@ -1,16 +1,7 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
 import _ from 'lodash'
-import {
-  Button,
-  CumulativeSelect,
-  DualSelect,
-  MultiSelect,
-  NumberSelect,
-  Slider,
-  TextAndTwoSliders,
-  TextInput,
-} from 'HOC/connectRedux_HOC'
+import { Button, CumulativeSelect, DualSelect, MultiSelect, NumberSelect, Slider, TextAndTwoSliders, TextInput } from 'HOC/connectRedux_HOC'
 
 /**
  * <OnboardWizard> is being rendered for each piece of the array selected to be shown in the parent component. It is being passed props
@@ -49,12 +40,7 @@ export const OnboardWizard: FC<any> = (props) => {
         {id === 'numberOfChildren' ? (
           <Children>
             {_.range(1, state.user_reducer.numberOfChildren + 1).map((d) => (
-              <TextInput
-                id={`child${d}BirthYear`}
-                reducer="user_reducer"
-                type="year"
-                label={`child${d}BirthYear`}
-              />
+              <TextInput id={`child${d}BirthYear`} reducer="user_reducer" type="year" label={`child${d}BirthYear`} />
             ))}
           </Children>
         ) : id === 'numberOfProperties' ? (
@@ -120,5 +106,5 @@ const Properties = styled.div`
   left: -2rem;
 `
 const H2 = styled.h2`
- margin-bottom: 2rem;
+  margin-bottom: 2rem;
 `

@@ -17,11 +17,11 @@ export const Next: FC<IProps> = ({ props, state, setValue_action, setDirection, 
   const subject = reducer === 'main_reducer' ? state[reducer][id][childId] : state[reducer][id] //we need to check the value to see if its valid, if its the main reducer then the value is nested by one
 
   const valid = true
-    // type === 'year'
-    //   ? subject.toString().length === 4 && +subject > 1930 && +subject < 2095
-    //   : type !== 'year'
-    //   ? subject.toString().length > 0
-    //   : false //checking to see if the input they entered is valid so they can move on
+  // type === 'year'
+  //   ? subject.toString().length === 4 && +subject > 1930 && +subject < 2095
+  //   : type !== 'year'
+  //   ? subject.toString().length > 0
+  //   : false //checking to see if the input they entered is valid so they can move on
 
   useEffect(() => {
     const pressEnter = (event: KeyboardEvent) => {

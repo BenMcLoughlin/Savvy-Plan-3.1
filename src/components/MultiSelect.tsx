@@ -11,15 +11,7 @@ interface IProps {
   textInput?: boolean
 }
 
-export const MultiSelect: FC<IProps> = ({
-  array,
-  childId,
-  id,
-  reducer,
-  state,
-  setValue_action,
-  textInput,
-}) => {
+export const MultiSelect: FC<IProps> = ({ array, childId, id, reducer, state, setValue_action, textInput }) => {
   const value = childId ? state[reducer][id][childId] : state[reducer][id]
   const { user_reducer } = state
 
@@ -33,12 +25,7 @@ export const MultiSelect: FC<IProps> = ({
             </Square>
           )
         })}
-      {textInput && (
-        <Input
-          onChange={(e) => setValue_action('other', reducer, e.target.value, '')}
-          value={user_reducer.other}
-        ></Input>
-      )}
+      {textInput && <Input onChange={(e) => setValue_action('other', reducer, e.target.value, '')} value={user_reducer.other}></Input>}
     </Wrapper>
   )
 }

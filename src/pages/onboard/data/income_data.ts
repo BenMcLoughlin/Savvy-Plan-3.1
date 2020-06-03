@@ -45,8 +45,7 @@ export const createIncomeArray = (instance: any, setValue_action: any) => {
   const array: any = [
     //INTRO USER QUESTIONS
     {
-      ask:
-        'The goal is to have your working income streams eventually be replaced by passive income streams. ',
+      ask: 'The goal is to have your working income streams eventually be replaced by passive income streams. ',
       component: 'TextInput',
       childId: 'name',
       id,
@@ -78,9 +77,7 @@ export const createIncomeArray = (instance: any, setValue_action: any) => {
       step: 1,
       topLabel: 'I started in ',
       reducer: 'main_reducer',
-      title: past
-        ? 'When did you start working there?'
-        : "When do you think you'll start working there?",
+      title: past ? 'When did you start working there?' : "When do you think you'll start working there?",
       type: 'year',
     },
     {
@@ -94,9 +91,7 @@ export const createIncomeArray = (instance: any, setValue_action: any) => {
       step: 1000,
       topLabel: 'I earned ',
       reducer: 'main_reducer',
-      title: past
-        ? 'How much were you earning when you started?'
-        : "When do you think you'll be earning?",
+      title: past ? 'How much were you earning when you started?' : "When do you think you'll be earning?",
     },
     {
       //ask: "",
@@ -126,9 +121,7 @@ export const createIncomeArray = (instance: any, setValue_action: any) => {
       step: 1,
       topLabel: finalPast ? 'It ended in' : 'It might end in',
       reducer: 'main_reducer',
-      title: finalPast
-        ? 'When did you stop earning this income?'
-        : 'When do you think it will end?',
+      title: finalPast ? 'When did you stop earning this income?' : 'When do you think it will end?',
       type: 'year',
     },
     {
@@ -167,9 +160,7 @@ export const createIncomeArray = (instance: any, setValue_action: any) => {
         step: 1,
         topLabel: past ? 'My income changed in' : 'It might change in',
         reducer: 'main_reducer',
-        title: past
-          ? 'What year did your income change?'
-          : 'What year do you think your income will change?',
+        title: past ? 'What year did your income change?' : 'What year do you think your income will change?',
         type: 'year',
       },
       {

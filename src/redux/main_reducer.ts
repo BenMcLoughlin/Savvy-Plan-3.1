@@ -2,16 +2,16 @@ import _ from "lodash"
 import { IMainState, ISetValue_action } from "types/reducer_types"
 
 const initialState = {
-    // dummyIncomeInstance: {
-    //     color: "red",
-    //     id: "dummyIncomeInstance",
-    //     reg: "employment",
-    //     stream: "Wal Mart Income",
-    //     taxable: true,
-    //     year1: 2009,
-    //     year2: 2020,
-    //     value: 50000,
-    // },
+    dummyIncomeInstance: {
+        color: "red",
+        id: "dummyIncomeInstance",
+        reg: "employment",
+        stream: "Wal Mart Income",
+        taxable: true,
+        year1: 2009,
+        year2: 2020,
+        value: 50000,
+    },
     // employmentIncome: {
     //     color: "#8CB8B7",
     //     year1: 18,

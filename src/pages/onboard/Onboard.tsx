@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react'
 import styled from 'styled-components'
 import { ProgressBar, Next, Back, OnboardWizard } from 'HOC/connectRedux_HOC'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
-import { onboard_data} from 'pages/onboard/data/index'
+import { onboard_data } from 'pages/onboard/data/index'
 import { Redirect } from 'react-router-dom'
 
 interface IProps {
@@ -32,7 +32,7 @@ export const Onboard: FC<IProps> = ({ state, setValue_action }) => {
       <Content>
         <TransitionGroup>
           {data.map(
-            (d:any, i: number) =>
+            (d: any, i: number) =>
               i === progress && (
                 <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
                   <OnboardWizard {...d} />
@@ -43,18 +43,8 @@ export const Onboard: FC<IProps> = ({ state, setValue_action }) => {
       </Content>
       {progress > 0 && (
         <>
-          <Back
-            id="progress"
-            reducer="ui_reducer"
-            value={progress > 0 ? progress - 1 : 1}
-            setDirection={setDirection}
-          />
-          <Next
-            props={data[progress]}
-            value={progress < length ? progress + 1 : length}
-            setDirection={setDirection}
-            progress={progress}
-          />
+          <Back id="progress" reducer="ui_reducer" value={progress > 0 ? progress - 1 : 1} setDirection={setDirection} />
+          <Next props={data[progress]} value={progress < length ? progress + 1 : length} setDirection={setDirection} progress={progress} />
         </>
       )}
     </Wrapper>

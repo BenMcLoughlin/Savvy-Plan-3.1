@@ -16,19 +16,7 @@ interface ISliderProps {
   setValue_action: (id: string, reducer: string, value: any, childId: any) => void
 }
 
-export const Slider: FC<ISliderProps> = ({
-  childId,
-  id,
-  min,
-  topLabel,
-  bottomLabel,
-  reducer,
-  type,
-  state,
-  max,
-  setValue_action,
-  step,
-}) => {
+export const Slider: FC<ISliderProps> = ({ childId, id, min, topLabel, bottomLabel, reducer, type, state, max, setValue_action, step }) => {
   const value = childId ? state[reducer][id][childId] : state[reducer][id]
 
   return (
@@ -38,9 +26,7 @@ export const Slider: FC<ISliderProps> = ({
         type="text"
         autoComplete="off"
         onChange={(e) => setValue_action(id, reducer, e.target.value, childId)}
-        value={
-          type === 'percentage' ? `${value}%` : type === 'year' ? value : value.toLocaleString()
-        }
+        value={type === 'percentage' ? `${value}%` : type === 'year' ? value : value.toLocaleString()}
       />
       <RangeBar
         type="range"
