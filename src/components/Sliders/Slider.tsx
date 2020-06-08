@@ -5,7 +5,7 @@ interface ISliderProps {
   bottomLabel: string
   childId?: any
   max: number
-  min?: number
+  min: number
   step: number
   id: string
   reducer: string
@@ -13,7 +13,7 @@ interface ISliderProps {
   title: string
   type?: string
   state: any
-  setValue_action: (id: string, reducer: string, value: any, childId: any) => void
+  setValue_action: (id: string, reducer: string, value: any, childId?: any) => void
 }
 
 export const Slider: FC<ISliderProps> = ({ childId, id, min, topLabel, bottomLabel, reducer, type, state, max, setValue_action, step }) => {
@@ -35,7 +35,7 @@ export const Slider: FC<ISliderProps> = ({ childId, id, min, topLabel, bottomLab
         max={max}
         min={min}
         step={step}
-        typeage={`${(value / max) * 100}%`}
+        percentage={`${((value - min) / (max - min)) * 100}%`} //the percentage is used to set the linear gradient, haveing two colors on either side of the selector circle thumb
       />
       <Label style={{ marginTop: '-1.4rem' }}>{bottomLabel}</Label>
     </Wrapper>
@@ -57,12 +57,12 @@ const Wrapper = styled.div`
 `
 
 const Label = styled.div`
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   color: ${(props) => props.theme.color.darkGrey};
   text-transform: capitalize;
 `
 interface IRange {
-  typeage: string
+  percentage: string
 }
 
 const RangeBar = styled.input<IRange>`
@@ -78,8 +78,8 @@ const RangeBar = styled.input<IRange>`
   transition: all 1s ease;
   background: linear-gradient(
     90deg,
-    ${(props) => '#707070 '} ${(props) => props.typeage},
-    ${(props) => '#C8C7C7'} ${(props) => props.typeage}
+    ${(props) => '#707070 '} ${(props) => props.percentage},
+    ${(props) => '#C8C7C7'} ${(props) => props.percentage}
   );
   &::-webkit-slider-thumb {
     -webkit-appearance: none;

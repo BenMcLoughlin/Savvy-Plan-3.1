@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react'
 import styled from 'styled-components'
 import { ProgressBar, Next, Back, OnboardWizard } from 'HOC/connectRedux_HOC'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
-import { onboard_data } from 'pages/onboard/data/index'
+import { onboard_data } from 'data/OnboardWizard'
 import { Redirect } from 'react-router-dom'
 
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
 
 export const Onboard: FC<IProps> = ({ state, setValue_action }) => {
   const { progress } = state.ui_reducer
-
+  console.log(progress)
   const [direction, setDirection] = useState<string>('forward')
 
   const data = onboard_data(state, setValue_action, progress)
@@ -26,7 +26,7 @@ export const Onboard: FC<IProps> = ({ state, setValue_action }) => {
       <ProgressBar length={length} progress={progress} />
       <Text>
         {progress > 0 ? <h3 style={{ fontWeight: 'bold' }}>Why we Ask</h3> : null}
-        <h3>{data[progress].ask}</h3>
+        <h4>{data[progress].ask}</h4>
       </Text>
       {progress}
       <Content>

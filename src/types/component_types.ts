@@ -1,76 +1,81 @@
-import { TreducerID } from "types/reducer_types"
+import { TreducerID } from 'types/reducer_types'
 
-type Icomponents = "DualSelect" | "Button" | "CumulativeSelect" | "NumberSelect" | "MultiSelect" | "Slider" | "TextInput" | "TwoSliders" | ""
-type Ireducers = "main_reducer" | "ui_reducer" | "user_reducer" 
+type Icomponents =
+  | 'DualSelect'
+  | 'Button'
+  | 'PickMultipleOptions'
+  | 'PickNumber'
+  | 'PickSingleOption'
+  | 'Slider'
+  | 'TextInput'
+  | 'TwoSliders'
+  | ''
+type Ireducers = 'main_reducer' | 'ui_reducer' | 'user_reducer'
 
 interface ICoreProps {
   ask?: string
-  component: Icomponents;
+  component: Icomponents
   childId?: string
   id: TreducerID
-  reducer: Ireducers;
-  subTitle?: string;   
-  title: string;
+  reducer: Ireducers
+  subTitle?: string
+  title: string
   spouse?: boolean
   onClick?: () => void
 }
 
 export interface IButton extends ICoreProps {
-  label?: string;
-  value: number;
+  label?: string
+  value: number | string
 }
 
-export interface ICumulativeSelect extends ICoreProps {
-  array: string[];
+export interface IPickMultipleOptions extends ICoreProps {
+  array: string[]
 }
 
 export interface IDualSelect extends ICoreProps {
-  option1: string;
-  option2: string;
-  value1: string | number;
-  value2: string | number;
+  value1: string | number
+  value2: string | number
 }
 
-export interface INumberSelect extends ICoreProps {
-  value: number;
+export interface IPickNumber extends ICoreProps {
+  value: number
 }
 
-export interface IMultiSelect extends ICoreProps {
-  array: string[];
+export interface IPickSingleOption extends ICoreProps {
+  array: string[]
   textInput: boolean
 }
 
 export interface ISlider extends ICoreProps {
   ask: string
-  bottomLabel?: string;
+  bottomLabel?: string
   max: number
   min?: number
   step: number
-  topLabel:  string;
+  topLabel: string
   title: string
-  type?: string;
+  type?: string
 }
 
-interface ISingleSlider  {
+interface ISingleSlider {
   bottomLabel?: string
   max: number
   step: number
   id: string
   topLabel: string
   reducer: string
-  type?: string;
+  type?: string
 }
 
 export interface ITwoSliders extends ICoreProps {
-  props1: ISingleSlider 
-  props2: ISingleSlider 
+  props1: ISingleSlider
+  props2: ISingleSlider
 }
 
 export interface ITextInput extends ICoreProps {
-  placeholder: string;
-  type: string;
+  placeholder: string
+  type: string
 }
-  
 
-
-export type IOnboard = IButton | ICumulativeSelect | IDualSelect | ITwoSliders | ITextInput | INumberSelect | IMultiSelect | ISlider
+export type IOnboard = IButton | IPickMultipleOptions | IDualSelect | ITwoSliders | ITextInput | IPickNumber | IPickSingleOption | ISlider

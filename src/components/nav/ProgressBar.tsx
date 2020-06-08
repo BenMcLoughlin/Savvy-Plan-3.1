@@ -37,7 +37,7 @@ interface ISquare {
 
 const Square = styled.div<ISquare>`
   height: 0.5rem;
-  width: 8rem;
+  width: 7rem;
   background: #9ac0cd;
 `
 //width: ${(props) => `${(1 / props.length) * 145}rem`};

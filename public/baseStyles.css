@@ -1,62 +1,61 @@
-
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 body {
- font-family: 'Muli', sans-serif;
- color: #707070;
+  font-family: 'Muli', sans-serif;
+  color: #707070;
 }
 
 @media screen and (min-width: 200px) {
   html {
-      font-size: 32.5%;
+    font-size: 32.5%;
   }
 }
 
 @media screen and (min-width: 200px) {
   html {
-      font-size: 37.5%;
+    font-size: 37.5%;
   }
 }
 
-@media screen and  (min-width: 600px) {
+@media screen and (min-width: 600px) {
   html {
-      font-size: 42.5%;
+    font-size: 42.5%;
   }
 }
 @media screen and (min-width: 1000px) {
   html {
-      font-size: 47.5%;
+    font-size: 47.5%;
   }
 }
 @media screen and (min-width: 1100px) {
   html {
-      font-size: 52.5%;
+    font-size: 52.5%;
   }
 }
 
 @media screen and (min-width: 1200px) {
   html {
-      font-size: 57.5%;
+    font-size: 57.5%;
   }
 }
 
 @media screen and (min-width: 1300px) {
   html {
-      font-size: 62.5%;
+    font-size: 62.5%;
   }
 }
 @media screen and (min-width: 1500px) {
   html {
-      font-size: 67.5%;
+    font-size: 67.5%;
   }
 }
 
 @media screen and (min-width: 1700px) {
   html {
-      font-size: 72.5%;
+    font-size: 72.5%;
   }
 }
 
@@ -80,10 +79,10 @@ h3 {
 h4 {
   font-size: 1.4rem;
   font-weight: 200;
+  line-height: 2.2rem;
 }
 
-
-  /* .transition-back-enter {
+/* .transition-back-enter {
         opacity: 0.01;
         transform: translate(-190px, 0);
       }
@@ -119,72 +118,69 @@ h4 {
         display: hidden;
       } */
 
-      @keyframes fadeInRight {
-        0% {
-          opacity: 0;
-          transform: translate3d(40%, 0, 0);
-        }
-      
-       30% {
-        opacity: 0;
-          transform: translate3d(40%, 0, 0);
-        }
-       100% {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-        }
-      }
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translate3d(40%, 0, 0);
+  }
 
-      @keyframes fadeInLeft {
-        0% {
-          opacity: 0;
-          transform: translate3d(-20%, 0, 0);
-        }
-      
-       30% {
-        opacity: 0;
-          transform: translate3d(-20%, 0, 0);
-        }
-       100% {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-        }
-      }
+  30% {
+    opacity: 0;
+    transform: translate3d(40%, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
 
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translate3d(-20%, 0, 0);
+  }
+
+  30% {
+    opacity: 0;
+    transform: translate3d(-20%, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
 
 @keyframes fadeOut {
-0% {
-  opacity: 1;
+  0% {
+    opacity: 1;
+  }
+
+  30% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
-30% {
-  opacity: 0;
-}
-100% {
-  opacity: 0;
-}
-}
-      
-      /* The element to apply the animation to */
-  
+/* The element to apply the animation to */
 
-      .transition-forward-enter-active  {
-        animation-name:  fadeInRight;
-        animation-duration: .8s;
-      }
-      .transition-back-enter-active  {
-        animation-name:  fadeInLeft;
-        animation-duration: 1s;
-      }
-      .transition-forward-exit-active,
-      .transition-back-exit-active
-      {
-        animation-name: fadeOut;
-        animation-duration: 1.1s;
-      }
+.transition-forward-enter-active {
+  animation-name: fadeInRight;
+  animation-duration: 0.8s;
+}
+.transition-back-enter-active {
+  animation-name: fadeInLeft;
+  animation-duration: 1s;
+}
+.transition-forward-exit-active,
+.transition-back-exit-active {
+  animation-name: fadeOut;
+  animation-duration: 1.1s;
+}
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
-};
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

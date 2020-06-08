@@ -8,12 +8,12 @@ export interface IUiState {
     videoUrl: string;
     progress: number 
     selectedPage: string
-    selectedOption:string,
+    selectedUser: string
 }
 
 export interface IUserState {
     firstName: string;
-    spouseFistName: string;
+    spouseFirstName: string;
     spouseBirthYear: string;
     province: string;
     maritalStatus: string;

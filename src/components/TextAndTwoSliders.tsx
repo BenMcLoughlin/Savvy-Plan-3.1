@@ -12,6 +12,7 @@ export const TextAndTwoSliders: FC<IProps> = ({}) => {
         bottomLabel={'life span'}
         id={'lifeSpan'}
         max={120}
+        min={0}
         step={1}
         topLabel={"I'll plan to live till"}
         reducer={'user_reducer'}
@@ -21,6 +22,7 @@ export const TextAndTwoSliders: FC<IProps> = ({}) => {
         bottomLabel={'life span'}
         id={'lifeSpan'}
         max={120}
+        min={0}
         step={1}
         topLabel={"I'll plan to live till"}
         reducer={'user_reducer'}

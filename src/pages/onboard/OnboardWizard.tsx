@@ -1,7 +1,15 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
 import _ from 'lodash'
-import { Button, CumulativeSelect, DualSelect, MultiSelect, NumberSelect, Slider, TextAndTwoSliders, TextInput } from 'HOC/connectRedux_HOC'
+import {
+  Button,
+  PickMultipleOptions,
+  DualSelect,
+  PickSingleOption,
+  PickNumber,
+  Slider,
+  TextInput,
+} from 'HOC/connectRedux_HOC'
 
 /**
  * <OnboardWizard> is being rendered for each piece of the array selected to be shown in the parent component. It is being passed props
@@ -21,14 +29,14 @@ export const OnboardWizard: FC<any> = (props) => {
           <Button {...props} />
         ) : component === 'TextInput' ? ( //If the component equals "TextInput" it will render a textbox and pass in props
           <TextInput {...props} />
-        ) : component === 'MultiSelect' ? (
-          <MultiSelect {...props} />
-        ) : component === 'CumulativeSelect' ? (
-          <CumulativeSelect {...props} />
+        ) : component === 'PickSingleOption' ? (
+          <PickSingleOption {...props} />
+        ) : component === 'PickMultipleOptions' ? (
+          <PickMultipleOptions {...props} />
         ) : component === 'DualSelect' ? (
           <DualSelect {...props} />
-        ) : component === 'NumberSelect' ? (
-          <NumberSelect {...props} />
+        ) : component === 'PickNumber' ? (
+          <PickNumber {...props} />
         ) : component === 'Slider' ? (
           <Slider {...props} />
         ) : component === 'TwoSliders' ? (
@@ -43,12 +51,6 @@ export const OnboardWizard: FC<any> = (props) => {
               <TextInput id={`child${d}BirthYear`} reducer="user_reducer" type="year" label={`child${d}BirthYear`} />
             ))}
           </Children>
-        ) : id === 'numberOfProperties' ? (
-          <Properties>
-            {_.range(1, state.user_reducer.numberOfProperties + 1).map((d) => (
-              <TextAndTwoSliders />
-            ))}
-          </Properties>
         ) : null}
       </Content>
     </Wrapper>

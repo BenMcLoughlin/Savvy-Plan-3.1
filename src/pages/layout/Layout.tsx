@@ -1,19 +1,27 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { SideNav, Income } from 'HOC/connectRedux_HOC'
+import { SideNav, Income, TripleSelector } from 'HOC/connectRedux_HOC'
 import { InfoCard } from 'components/InfoCard'
 
-interface IProps {}
+interface IProps {
+  state: any
+}
 
-export const Plan: FC<IProps> = ({}) => {
+export const Layout: FC<IProps> = ({ state }) => {
+  const maritalStatus = state.user_reducer
   return (
     <Wrapper>
       <A>
         <Title>Your Financial Plan</Title>
-        <SideNav id={'selectedPage'} reducer={'ui_reducer'} />{' '}
+        <SideNav id={'selectedPage'} reducer={'ui_reducer'} />
+        {maritalStatus === 'married' && (
+          <Position1>
+            <TripleSelector id={'selectedUser'} reducer={'ui_reducer'} />
+          </Position1>
+        )}
       </A>
       <B>
-       <Income/>
+        <Income />
       </B>
       <C>
         <InfoCard></InfoCard>
@@ -62,14 +70,14 @@ const D = styled.div`
   height: 50rem;
   width: 70rem;
 `
-/**
- * Styled H1
- * padding: 2rem 0rem 2rem 1rem        ;
- * margin-left: 1rem;
- *  */
 
 const Title = styled.h1`
   padding: 2rem 0rem 2rem 1rem;
   width: 40rem;
   margin-left: -5rem;
+`
+const Position1 = styled.h1`
+  position: absolute;
+  left: 48rem;
+  top: 34rem;
 `

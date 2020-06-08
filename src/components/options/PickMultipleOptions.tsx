@@ -3,16 +3,14 @@ import styled from 'styled-components'
 
 interface IProps {
   array?: string[]
-  childId?: any
-  id: string
   reducer: string
   state: any
-  setValue_action: (id: string, reducer: string, value: any, childId: any) => void
+  id: string
+  setValue_action: (id: string, reducer: string, value: any, childId: string) => void
   textInput?: boolean
 }
 
-export const MultiSelect: FC<IProps> = ({ array, childId, id, reducer, state, setValue_action, textInput }) => {
-  const value = childId ? state[reducer][id][childId] : state[reducer][id]
+export const PickMultipleOptions: FC<IProps> = ({ array, id, reducer, state, setValue_action, textInput }) => {
   const { user_reducer } = state
 
   return (
@@ -20,7 +18,7 @@ export const MultiSelect: FC<IProps> = ({ array, childId, id, reducer, state, se
       {array &&
         array.map((d: string) => {
           return (
-            <Square selected={d === value} onClick={() => setValue_action(id, reducer, d, childId)}>
+            <Square selected={user_reducer[d]} onClick={() => setValue_action(d, reducer, !user_reducer[d], '')}>
               {d}
             </Square>
           )
@@ -45,7 +43,6 @@ interface SProps {
   selected: boolean
 }
 
-// eslint-disable-next-line
 const Square = styled.div<SProps>`
   width: 100%;
   padding: 1rem;

@@ -4,10 +4,9 @@ import Header from "components/Header"
 import Footer from "components/Footer"
 import {ThemeProvider} from "styled-components"
 import {theme} from "styles/theme"
-import {Onboard} from "HOC/connectRedux_HOC"
+import {Onboard, Layout} from "HOC/connectRedux_HOC"
 import { Route } from "react-router-dom"
 import { LandingPage } from "pages/landingPage/LandingPage"
-import { Plan } from "pages/plan/Layout"
 import {BrowserRouter} from "react-router-dom"
 
 export const App = () => {
@@ -20,7 +19,7 @@ export const App = () => {
           <BrowserRouter>
                         <Route exact path="/" component={LandingPage}/>
                         <Route path="/onboarding" component={Onboard}/>
-                        <Route exact path="/Plan" component={Plan} />
+                        <Route exact path="/Plan" component={Layout} />
           </BrowserRouter>
         </Content>
       <Footer/> 

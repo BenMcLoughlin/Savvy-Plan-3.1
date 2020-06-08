@@ -2,7 +2,7 @@ import { IUserState } from 'types/reducer_types'
 import { IOnboard } from 'types/component_types'
 
 export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
-  const spouseName = user_reducer.spouseFistName
+  const spouseName = user_reducer.spouseFirstName
 
   const array: IOnboard[] = [
     {
@@ -37,7 +37,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
     {
       array: ['male', 'female', 'prefer not to say', 'write below'],
       ask: 'We want to ensure our planning process is inclusive.',
-      component: 'MultiSelect',
+      component: 'PickSingleOption',
       id: 'firstName',
       reducer: 'user_reducer',
       title: "What's your Gender?",
@@ -46,7 +46,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
     {
       array: ['single', 'married', 'common-law', 'write below'],
       ask: 'Having a spouse has a large impact on your plan',
-      component: 'MultiSelect',
+      component: 'PickSingleOption',
       id: 'maritalStatus',
       reducer: 'user_reducer',
       title: "What's your marital status?",
@@ -99,7 +99,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
     {
       array: ['tax free savings account', 'registered retirement savings', 'non-registered'],
       ask: "We'll use this info to see how much income in retirement your investments will provide",
-      component: 'CumulativeSelect',
+      component: 'PickMultipleOptions',
       id: 'investments',
       reducer: 'user_reducer',
       title: 'Do you have investments?',
@@ -107,7 +107,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
     {
       array: ['yes', 'no', 'hope to eventually', 'yes, and they are over 18'],
       ask: "We'd like to estimate your government child benefits.",
-      component: 'MultiSelect',
+      component: 'PickSingleOption',
       id: 'hasChildren',
       reducer: 'user_reducer',
       title: 'Do you have children?',
@@ -131,7 +131,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
     array.splice(priorQuestionIndex, 0, {
       ask: "We'll use this to keep your details seperate from your spouse.",
       component: 'TextInput',
-      id: 'spouseFistName',
+      id: 'spouseFirstName',
       label: "Spouse's First Name",
       reducer: 'user_reducer',
       title: "What's your spouse's first Name?",
@@ -232,7 +232,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
       array.findIndex((d) => d.title === 'Do you own you own any other property?') + 1
     array.splice(priorQuestionIndex, 0, {
       ask: "Property will be added to your net worth'",
-      component: 'NumberSelect',
+      component: 'PickNumber',
       id: 'numberOfProperties',
       value: 4,
       reducer: 'user_reducer',
@@ -244,7 +244,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
     const priorQuestionIndex = array.findIndex((d) => d.title === 'Do you have children?') + 1
     array.splice(priorQuestionIndex, 0, {
       ask: "We'd like to estimate your government child benefits.",
-      component: 'NumberSelect',
+      component: 'PickNumber',
       id: 'numberOfChildren',
       value: 4,
       reducer: 'user_reducer',
@@ -257,7 +257,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
     array.splice(priorQuestionIndex, 0, {
       ask:
         "We want to show estimate how much you'd earn in goverment benefits if you have children",
-      component: 'NumberSelect',
+      component: 'PickNumber',
       id: 'numberOfChildren',
       value: 4,
       reducer: 'user_reducer',

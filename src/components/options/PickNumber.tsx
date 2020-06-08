@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 import styled from 'styled-components'
 import _ from 'lodash'
-import { AddButton } from 'components/AddButton'
+import { AddButton } from 'components/buttons/AddButton'
 
 interface IProps {
   id: string
@@ -11,7 +11,7 @@ interface IProps {
   setValue_action: (id: string, reducer: string, value: any, childId: string) => void
 }
 
-export const NumberSelect: FC<IProps> = ({ id, value, reducer, state, setValue_action }) => {
+export const PickNumber: FC<IProps> = ({ id, value, reducer, state, setValue_action }) => {
   const selected = state[reducer][id]
   const [topNumber, setTopNumber] = useState<number>(value)
 
