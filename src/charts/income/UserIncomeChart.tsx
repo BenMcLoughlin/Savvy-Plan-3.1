@@ -26,7 +26,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 8rem;
-  margin-left: 8rem;
+  margin-left: 2rem;
 `
 
 const Img = styled.img`

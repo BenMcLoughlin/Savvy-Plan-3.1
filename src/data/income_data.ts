@@ -180,3 +180,37 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
   }
   return array
 }
+
+
+export const incomeInsights_data = (setValue_action: any, state: any) => {
+
+  const array = [
+    "Your estimated retirement pension income is is $14,000 a year. That's you Canada Pension Plan and Old age security combined",
+    "Since you don't have a large pension income in retirement and you're working earnings are higher than $70k you'll want to focus on your RRSP",
+    "The best years to contribute to your RRSP will be 2025-2029 because you're earning more and you're receiving the child Canadd Benefit",
+  ]
+  return array
+}
+
+
+export const incomeActionSteps_data = (setValue_action: any, state: any) => {
+
+  const array = [
+    "Focus on contributing to your RRSP in the years 2024 - 2029",
+    "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribution room is ",
+    "Since your spouse earns considerably less you'll want to look into setting up a spousal RRSP",
+  ]
+
+  return array
+}
+
+export const howThisWorks_data = (setValue_action: any, state: any) => {
+
+  const array = [
+    "Click on a bar in the chart if you'd like to edit the income stream",
+    "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribution room is ",
+    "Since your spouse earns considerably less you'll want to look into setting up a spousal RRSP",
+  ]
+
+  return array
+}

@@ -5,7 +5,7 @@ const initialState: IUiState = {
   selectedId: 'incomeDummy',
   changeColor: 0,
   videoUrl: '',
-  progress: 5,
+  progress: 0,
   selectedPage: 'income',
   selectedUser: '',
 }

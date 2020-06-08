@@ -117,7 +117,7 @@ export const EditCard: FC<IProps> = ({ delete_action, state, setValue_action }) 
 
 const Wrapper = styled.div`
   height: 25rem;
-  width: 79rem;
+  width: 75rem;
   background: white;
   box-shadow: 0 1px 2px rgba(0, 0, 0.01, 0.08);
   border-radius: 5px;
@@ -125,7 +125,6 @@ const Wrapper = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  margin-top: 8rem;
 `
 
 const Header = styled.div`

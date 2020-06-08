@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect } from 'react'
 import styled from 'styled-components'
 
 interface IProps {
@@ -14,11 +14,16 @@ interface IProps {
  *  */
 
 export const TripleSelector: FC<IProps> = ({ id, reducer, state, setValue_action }) => {
- 
+
   const selected = state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
 
   const {firstName, spouseFirstName}= state.user_reducer
   const options = [`${firstName}`, 'Combined', `${spouseFirstName}`]
+
+  useEffect(() => {
+    setValue_action(id, reducer, firstName)
+  }, [])
+
 
   return (
     <Wrapper>

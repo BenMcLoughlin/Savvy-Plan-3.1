@@ -1,9 +1,11 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { EditCard, UserIncomeChart } from 'HOC/connectRedux_HOC'
+import { EditCard, UserIncomeChart, TripleSelector } from 'HOC/connectRedux_HOC'
 import { AddButton } from 'components/buttons/AddButton'
 import { createStream } from 'services/ui_functions'
 import { newIncomeStream } from 'services/ui_functions'
+import { InfoCard } from 'components/cards/InfoCard'
+import { incomeInsights_data, incomeActionSteps_data, howThisWorks_data } from 'data/income_data'
 
 interface IProps {
   state: any
@@ -15,28 +17,46 @@ export const Income: FC<IProps> = ({ state, setValue_action }) => {
   const { selectedId } = ui_reducer //when an income instance is clicked on it's it is placed in the ui_reducer for all components to have access to it
   const instance = main_reducer[selectedId] //instance refers the object being displayed, for example Wal mart income
 
-  const { birthYear } = state.user_reducer
+  const { birthYear, maritalStatus } = state.user_reducer
 
   const newStream = newIncomeStream('#00BDD3', 'Employment', 'Wal Mart Income', 0, true, +birthYear + 18, 15000, +birthYear + 40)
 
+  const incomeInsights = incomeInsights_data(state, setValue_action)
+  const incomeActionSteps = incomeActionSteps_data(state, setValue_action)
+  const howThisWorks= howThisWorks_data(state, setValue_action)
+
   return (
     <Wrapper>
-      <UserIncomeChart />
-      {selectedId ? (
-        <EditCard {...instance} />
-      ) : (
-        <Dialogue>
-          <AddPrompt>
-            <AddButton
-              onClick={() => {
-                createStream(newStream, setValue_action, 'income')
-              }}
-            />{' '}
-            <p>Add a new income stream</p>
-          </AddPrompt>
-          <h4>Or click on a bar in the chart if you would like to edit that income stream.</h4>
-        </Dialogue>
-      )}
+      <A>
+        <UserIncomeChart />
+      </A>
+      <B>
+        <InfoCard label={'insights'} array={incomeInsights} />
+        <InfoCard label={'action steps'} array={incomeActionSteps} />
+        <InfoCard label={'how this works'} array={howThisWorks} />
+      </B>
+      <C>
+        {selectedId ? (
+          <EditCard {...instance} />
+        ) : (
+            <AddPrompt>
+              <AddButton
+                onClick={() => {
+                  createStream(newStream, setValue_action, 'income')
+                }}
+              />
+              <p>New income stream</p>
+            </AddPrompt>
+        )}
+      </C>
+      <CenterNav>{maritalStatus === 'married' && <TripleSelector id={'selectedUser'} reducer={'ui_reducer'} />}</CenterNav>
+      <Text>
+        <h3 style={{ fontWeight: 'bold' }}>Why this matters</h3>
+        <h4>
+          This chart shows your all the different sources that make up your income. In order to retire you'll need to replace your working
+          income with passive income streams like pension income or investment income.
+        </h4>
+      </Text>
     </Wrapper>
   )
 }
@@ -44,24 +64,55 @@ export const Income: FC<IProps> = ({ state, setValue_action }) => {
 //---------------------------STYLES-------------------------------------------//
 
 const Wrapper = styled.div`
-  height: 100rem;
-  width: 70rem;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 80rem 30rem;
+  grid-template-rows: 37rem 30rem;
+  grid-template-areas:
+    'a b'
+    'c b';
 `
-const Dialogue = styled.div`
-  width: 60rem;
-  height: 10rem;
-  text-align: center;
-  margin-left: 5rem;
+const A = styled.div`
+  grid-area: a;
+  display: flex;
+`
+const B = styled.div`
+  grid-area: b;
+  height: 70rem;
   margin-top: 6rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: start;
+  justify-content: space-around;
+`
+const C = styled.div`
+  grid-area: c;
+  display: flex;
+  justify-content: center;
 `
 
 const AddPrompt = styled.div`
-  width: 33rem;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  font-size: 1.4rem;
-  font-weight: bold;
-  text-decoration: underline;
-  line-height: 2rem;
+  width: 16rem;
+  display: flex;
+  justify-content: space-between;
+  margin-left: -50rem;
+`
+const CenterNav = styled.h1`
+  position: absolute;
+  top: 38rem;
+  left: 52rem;
+  width: 40rem;
+  height: 4rem;
+`
+const Text = styled.div`
+  height: 20rem;
+  width: 20rem;
+  display: flex;
+  flex-wrap: flex-start;
+  flex-direction: column;
+  position: absolute;
+  left: 10rem;
+  top: 45rem;
 `

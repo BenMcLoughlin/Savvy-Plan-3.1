@@ -9,7 +9,7 @@ const initialState = {
   spouseFirstName: 'Kelsey',
   spouseBirthYear: '',
   province: '',
-  maritalStatus: '',
+  maritalStatus: 'married',
   housing: '',
   investments: ' ',
   otherProperty: 'yes',
