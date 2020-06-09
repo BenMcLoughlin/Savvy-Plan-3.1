@@ -2,11 +2,12 @@ import { IUiState, ISetValue_action } from 'types/reducer_types'
 
 const initialState: IUiState = {
   change: false,
-  selectedId: 'incomeDummy',
+  selectedId: '',
   changeColor: 0,
   videoUrl: '',
-  progress: 0,
+  progress: 10,
   selectedPage: 'income',
+  selectedAccount: 'tfsa',
   selectedUser: '',
 }
 

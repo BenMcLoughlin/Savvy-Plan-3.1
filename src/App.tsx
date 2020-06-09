@@ -37,8 +37,8 @@ const Wrapper = styled.div`
   min-width: 100vh;
 `
 const Content = styled.div`
-background: rgb(252,252,252);
-background: radial-gradient(circle, rgba(252,252,252,1) 47%, rgba(237,242,242,1) 100%);
+background: rgb(255,255,255);
+background: radial-gradient(circle, rgba(255,255,255,1) -20%, rgba(226,226,226,1) 350%);
   min-height: 80rem;
   width: 100%;
 `

@@ -8,9 +8,10 @@ interface IProps {
   id: string
   setValue_action: (id: string, reducer: string, value: any, childId: string) => void
   textInput?: boolean
+  onClick: () => void
 }
 
-export const PickMultipleOptions: FC<IProps> = ({ array, id, reducer, state, setValue_action, textInput }) => {
+export const PickMultipleOptions: FC<IProps> = ({ array, id, onClick, reducer, state, setValue_action, textInput }) => {
   const { user_reducer } = state
 
   return (
@@ -18,7 +19,10 @@ export const PickMultipleOptions: FC<IProps> = ({ array, id, reducer, state, set
       {array &&
         array.map((d: string) => {
           return (
-            <Square selected={user_reducer[d]} onClick={() => setValue_action(d, reducer, !user_reducer[d], '')}>
+            <Square selected={user_reducer[d]} onClick={() => {
+              onClick()
+              setValue_action(d, reducer, !user_reducer[d], '')}
+              }>
               {d}
             </Square>
           )
@@ -53,7 +57,7 @@ const Square = styled.div<SProps>`
   font-size: 1.6rem;
   font-weight: 800;
   background: ${(props) => (props.selected ? '#5E9090' : 'white')};
-  border: 0.5px solid #e0dedd;
+  border: 0.5px solid  ${props => props.theme.color.lightGrey};
   cursor: pointer;
   &:nth-child(1) {
     border-radius: 10px 10px 0 0;
@@ -74,9 +78,9 @@ const Input = styled.input`
   display: block;
   width: 100%;
   min-height: 5rem;
-  border: 0.5px solid #e0dedd;
+  border: 0.5px solid ${props => props.theme.color.lightGrey};
   border-radius: 3px;
-  color: ${(props) => props.theme.color.mediumGrey};
+  color: ${props => props.theme.color.mediumGrey};
   border-radius: 0 0 10px 10px;
   &:focus {
     outline: none;

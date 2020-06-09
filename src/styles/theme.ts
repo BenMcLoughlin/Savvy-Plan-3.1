@@ -3,9 +3,9 @@ export const theme = {
       ice: "#FCFCFC",
       blue: "#63bbcf",
       primary:  "#5E9090",
-      lightGrey: "#c9d0cc",
+      lightGrey: "#E0DEDD",
       mediumGrey: "#CDCCCC",
-      darkGrey: "#7f7f7f",
+      darkGrey: "#5D5D5D",
       slate: "#536D7A",
       turquoise: "#4BB9D0",
       drab: "#324755",
@@ -15,6 +15,7 @@ export const theme = {
       onyx: '#485056',
       salmon: '#F29278',
       darkSalmon: '#F07655',
+      white: "#FCFCFC"
   },
   fontSize: {
       smallest: "1rem",

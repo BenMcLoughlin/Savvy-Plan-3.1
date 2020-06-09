@@ -1,38 +1,41 @@
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { setValue_action, delete_action } from '../redux/actions'
-import { IAppState } from 'types/reducer_types'
+import { compose } from "redux"
+import { connect } from "react-redux"
+import { setValue_action, delete_action } from "../redux/actions"
+import { IAppState } from "types/reducer_types"
 
 //Pages
-import { Onboard as _Onboard } from 'pages/onboard/Onboard'
-import { OnboardWizard as _OnboardWizard } from 'pages/onboard/OnboardWizard'
-import { Income as _Income } from 'pages/income/Income'
-import { Layout as _Layout } from 'pages/layout/Layout'
+import { Onboard as _Onboard } from "pages/onboard/Onboard"
+import { OnboardWizard as _OnboardWizard } from "pages/onboard/OnboardWizard"
+import { Income as _Income } from "pages/income/Income"
+import { Savings as _Savings } from "pages/savings/Savings"
+import { Layout as _Layout } from "pages/layout/Layout"
 
 //Components
 
-import { ProgressBar as _ProgressBar } from 'components/nav/ProgressBar'
-import { Button as _Button } from '../components/buttons/Button'
-import { Next as _Next } from 'components/buttons/Next'
-import { Back as _Back } from 'components/buttons/Back'
-import { PickMultipleOptions as _PickMultipleOptions} from 'components/options/PickMultipleOptions'
-import { DualSelect as _DualSelect } from 'components/options/DualSelect'
-import { PickSingleOption as _PickSingleOption } from 'components/options/PickSingleOption'
-import { TextInput as _TextInput } from 'components/TextInput/TextInput'
-import { PickNumber as _PickNumber } from 'components/options/PickNumber'
-import { Slider as _Slider } from 'components/Sliders/Slider'
-import { TextAndTwoSliders as _TextAndTwoSliders } from 'components/TextAndTwoSliders'
-import { SideNav as _SideNav } from 'components/nav/SideNav'
-import { ColorSelect as _ColorSelect } from 'components/dropdowns/ColorSelect'
-import { Dropdown as _Dropdown } from 'components/dropdowns/Dropdown'
-import { ScrollCircles as _ScrollCircles } from 'components/scroll/ScrollCircles'
-import { EditTitle as _EditTitle } from 'components/TextInput/EditTitle'
-import { EditCard as _EditCard } from 'components/cards/EditCard'
-import { TripleSelector as _TripleSelector } from 'components/nav/TripleSelector'
+import { ProgressBar as _ProgressBar } from "components/nav/ProgressBar"
+import { Button as _Button } from "../components/buttons/Button"
+import { Next as _Next } from "components/buttons/Next"
+import { Back as _Back } from "components/buttons/Back"
+import { PickMultipleOptions as _PickMultipleOptions } from "components/options/PickMultipleOptions"
+import { DualSelect as _DualSelect } from "components/options/DualSelect"
+import { PickSingleOption as _PickSingleOption } from "components/options/PickSingleOption"
+import { TextInput as _TextInput } from "components/TextInput/TextInput"
+import { PickNumber as _PickNumber } from "components/options/PickNumber"
+import { Slider as _Slider } from "components/Sliders/Slider"
+import { TextAndTwoSliders as _TextAndTwoSliders } from "components/TextAndTwoSliders"
+import { SideNav as _SideNav } from "components/nav/SideNav"
+import { ColorSelect as _ColorSelect } from "components/dropdowns/ColorSelect"
+import { Dropdown as _Dropdown } from "components/dropdowns/Dropdown"
+import { ScrollCircles as _ScrollCircles } from "components/scroll/ScrollCircles"
+import { EditTitle as _EditTitle } from "components/TextInput/EditTitle"
+import { EditCard as _EditCard } from "components/cards/EditCard"
+import { TripleSelector as _TripleSelector } from "components/nav/TripleSelector"
+import { ChartNav as _ChartNav } from "components/nav/ChartNav"
 
 //CHARTS
 
-import { UserIncomeChart as _UserIncomeChart } from 'charts/income/UserIncomeChart'
+import { UserIncomeChart as _UserIncomeChart } from "charts/income/UserIncomeChart"
+import { UserSavingsChart as _UserSavingsChart } from "charts/savings/UserSavingsChart"
 
 const mapStateToProps = (state: IAppState) => ({ state })
 
@@ -47,6 +50,7 @@ export const PickSingleOption = compose(connect(mapStateToProps, { setValue_acti
 export const TextInput = compose(connect(mapStateToProps, { setValue_action }))(_TextInput)
 export const PickNumber = compose(connect(mapStateToProps, { setValue_action }))(_PickNumber)
 export const Slider = compose(connect(mapStateToProps, { setValue_action }))(_Slider)
+export const ChartNav = compose(connect(mapStateToProps, { setValue_action }))(_ChartNav)
 
 /**
  * The  TextAndTwoSliders component manages a set of `<Transition>` components
@@ -104,6 +108,12 @@ export const OnboardWizard = compose(connect(mapStateToProps, { setValue_action 
  *  */
 
 export const Income = compose(connect(mapStateToProps, { setValue_action }))(_Income)
+/**
+ * The <Savings> component is the main component for the Savingssection. It renders the chart along showing the users
+ * savings plan and enables them to edit it.
+ *  */
+
+export const Savings = compose(connect(mapStateToProps, { setValue_action }))(_Savings)
 
 /**
  * The <EditCard> component enables the user to change all the values pertaining to one subject instance  */
@@ -123,3 +133,8 @@ export const TripleSelector = compose(connect(mapStateToProps, { setValue_action
  *  */
 
 export const UserIncomeChart = compose(connect(mapStateToProps, { setValue_action }))(_UserIncomeChart)
+/**
+ * The <UserSavingsChart> renders a chart showing the users savings from age 18-95.
+ *  */
+
+export const UserSavingsChart = compose(connect(mapStateToProps, { setValue_action }))(_UserSavingsChart)

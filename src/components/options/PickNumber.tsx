@@ -45,12 +45,12 @@ interface NProps {
 const Number = styled.div<NProps>`
   height: 5rem;
   min-width: 5rem;
-  background-color: ${(props) => (props.selected ? 'grey' : 'none')};
+  background-color: ${(props) => (props.selected ? props.theme.color.grey : 'none')};
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${(props) => (props.selected ? 'white' : 'grey')};
+  color: ${(props) => (props.selected ? props.theme.color.white :  props.theme.color.grey)};
   font-size: ${(props) => props.theme.fontSize.smallMedium};
   font-weight: bold;
   cursor: pointer;

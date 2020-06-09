@@ -1,6 +1,6 @@
 import React, { FC } from "react"
 import styled from "styled-components"
-import { EditCard, UserIncomeChart, TripleSelector } from "HOC/connectRedux_HOC"
+import { EditCard, UserSavingsChart, TripleSelector, ChartNav } from "HOC/connectRedux_HOC"
 import { AddButton } from "components/buttons/AddButton"
 import { createStream } from "services/ui_functions"
 import { newStream } from "services/ui_functions"
@@ -12,14 +12,12 @@ interface IProps {
   setValue_action: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
-export const Income: FC<IProps> = ({ state, setValue_action }) => {
+export const Savings: FC<IProps> = ({ state, setValue_action }) => {
   const { main_reducer, ui_reducer } = state
   const { selectedId } = ui_reducer //when an income instance is clicked on it's it is placed in the ui_reducer for all components to have access to it
   const instance = main_reducer[selectedId] //instance refers the object being displayed, for example Wal mart income
 
   const { birthYear, maritalStatus } = state.user_reducer
-
-  const incomeStream = newStream("#00BDD3", "Employment", "Wal Mart Income", 0, true, +birthYear + 18, 15000, +birthYear + 40)
 
   const incomeInsights = incomeInsights_data(state, setValue_action)
   const incomeActionSteps = incomeActionSteps_data(state, setValue_action)
@@ -28,7 +26,10 @@ export const Income: FC<IProps> = ({ state, setValue_action }) => {
   return (
     <Wrapper>
       <A>
-        <UserIncomeChart />
+        <UserSavingsChart />
+        <ChartNavWrapper>
+            <ChartNav id={"selectedAccount"} reducer={"ui_reducer"} />
+        </ChartNavWrapper>
       </A>
       <B>
         <InfoCard label={"insights"} array={incomeInsights} />
@@ -40,12 +41,8 @@ export const Income: FC<IProps> = ({ state, setValue_action }) => {
           <EditCard {...instance} />
         ) : (
           <AddPrompt>
-            <AddButton
-              onClick={() => {
-                createStream(incomeStream, setValue_action, "income")
-              }}
-            />
-            <p>New income incomeStream</p>
+             <AddButton onClick={() => null}/>
+            <p>New income stream</p>
           </AddPrompt>
         )}
       </C>
@@ -65,7 +62,7 @@ export const Income: FC<IProps> = ({ state, setValue_action }) => {
 
 const Wrapper = styled.div`
   height: 100%;
-  width: 100%;
+  width: 70rem;
   display: grid;
   grid-template-columns: 80rem 30rem;
   grid-template-rows: 37rem 30rem;
@@ -94,12 +91,10 @@ const C = styled.div`
 
 const AddPrompt = styled.div`
   display: flex;
-  width: 21rem;
-  height: 4rem;
+  width: 16rem;
   display: flex;
   justify-content: space-between;
   margin-left: -50rem;
-  font-weight: bold;
 `
 const CenterNav = styled.h1`
   position: absolute;
@@ -117,4 +112,9 @@ const Text = styled.div`
   position: absolute;
   left: 10rem;
   top: 45rem;
+`
+const ChartNavWrapper = styled.div`
+  position: absolute;
+  left: 36rem;
+  top: 20rem;
 `

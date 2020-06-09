@@ -24,7 +24,7 @@ justify-content: center;
 align-items:center;
 text-align: center;
 cursor: pointer;
-border: 1px solid lightGrey;
+border: 1px solid ${props => props.theme.color.grey};
 border-radius: 50%;
    &::before,
    &::after {

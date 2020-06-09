@@ -20,7 +20,7 @@ export default function Header() {
 const Wrapper = styled.div`
   height: 6.5rem;
   width: 100%;
-  background: #d8dad0;
+  background: #617A7C;
   box-shadow: 0 1px 2px rgba(0, 0, 0.01, 0.08);
   position: relative;
 `

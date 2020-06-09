@@ -22,6 +22,7 @@ const initialState = {
   retirementPensionIncome: '',
   gender: '',
   hasChildren: '',
+  hasSavings: '',
   'tax free savings account': false,
   'registered retirement savings': false,
   changeAssumptions: '',

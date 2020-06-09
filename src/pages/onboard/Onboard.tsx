@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react'
 import styled from 'styled-components'
 import { ProgressBar, Next, Back, OnboardWizard } from 'HOC/connectRedux_HOC'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
-import { onboard_data } from 'data/OnboardWizard'
+import { onboard_data } from 'data/wizard_data'
 import { Redirect } from 'react-router-dom'
 
 interface IProps {

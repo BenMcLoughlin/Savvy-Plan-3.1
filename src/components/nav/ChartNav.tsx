@@ -1,5 +1,5 @@
-import React, { FC, useEffect } from 'react'
-import styled from 'styled-components'
+import React, { FC, useEffect } from "react"
+import styled from "styled-components"
 
 interface IProps {
   id: string
@@ -9,25 +9,20 @@ interface IProps {
 }
 
 /**
- * The <TripleSelector> component contains a list of values: "Income", "Spending", "Taxes" etc. The User can click
- * a value to navigate between pages. The Nav is visible non matter which page is rendered.
+ * The <ChartNavr> component enables the user to display different subjects in the chart. FOr instance their TFSA savings plan, then swith to RRSP.
  *  */
 
-export const TripleSelector: FC<IProps> = ({ id, reducer, state, setValue_action }) => {
-
+export const ChartNav: FC<IProps> = ({ id, reducer, state, setValue_action }) => {
   const selected = state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
-
-  const {firstName, spouseFirstName}= state.user_reducer
-  const options = [`${firstName}`, 'Combined', `${spouseFirstName}`]
+  const options = ["tfsa", "rrsp", "non-reg", "all accounts"]
 
   useEffect(() => {
-    setValue_action(id, reducer, firstName)
+    setValue_action(id, reducer, "tfsa")
   }, [])
-
 
   return (
     <Wrapper>
-      {options.map((d) => (
+      {options.map(d => (
         <Option onClick={() => setValue_action(id, reducer, d)} selected={selected === d}>
           {d}
         </Option>
@@ -41,8 +36,9 @@ export const TripleSelector: FC<IProps> = ({ id, reducer, state, setValue_action
 
 const Wrapper = styled.div`
   display: flex;
-  height: 5rem;
-  width: 30rem;
+  height: 3rem;
+  width: 32rem;
+  padding: 2rem;
   margin: 0px;
   margin-left: 5rem;
   padding: 0px;
@@ -50,6 +46,8 @@ const Wrapper = styled.div`
   justify-content: space-around;
   position: relative;
   margin: 0 auto;
+  border-top: 1px solid ${props => props.theme.color.lightGrey};
+  border-bottom: 1px solid ${props => props.theme.color.lightGrey};
 `
 interface OProps {
   selected: boolean
@@ -62,9 +60,9 @@ interface PProps {
 
 const Option = styled.div<OProps>`
   position: relative;
-  min-width: 10rem;
+  min-width: 7rem;
   transition: all 2s ease;
-  color: ${(props) => (props.selected ? props.theme.color.ice : 'grey')};
+  color: ${props => (props.selected ? props.theme.color.ice : props.theme.color.grey)};
   text-align: center;
   z-index: 1;
   transition: all 100ms linear 0s;
@@ -75,27 +73,23 @@ const Option = styled.div<OProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${(props) => props.theme.fontSize.small};
+  font-size: 1.2rem;
 `
 const Pill = styled.div<PProps>`
         position: absolute;
-        min-width: 10rem;
-        height: 3rem;
-        top: 1rem;
+        min-width: 8rem;
+        height: 2.8rem;
+        top: 0rem;
         left: 0rem;
-        background-color: #4F9190;
-        transform: ${(props) =>
-          props.selected === props.options[0]
-            ? 'translate(0rem,0rem)'
-            : (props) =>
-                props.selected === props.options[1]
-                  ? 'translate(10rem,0rem)'
-                  : (props) =>
-                      props.selected === props.options[2]
-                        ? 'translate(20rem,0rem)'
-                        : null};
+        background-color: lightGrey;
+        transform: ${props => props.selected === props.options[0] ? "translate(0rem,0rem)" :
+                     props => props.selected === props.options[1] ? "translate(8rem,0rem)" : 
+                     props => props.selected === props.options[2] ? "translate(16rem,0rem)" :
+                     props => props.selected === props.options[3] ? "translate(24rem,0rem)" :
+                   null};
         transition: all .3s ease;
-        border-radius: 25px;
+        border-radius: 0px;
         animation: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) 0s 1 normal forwards running fmdUjs;
 }
 `
+

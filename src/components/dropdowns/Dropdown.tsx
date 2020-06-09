@@ -67,7 +67,7 @@ const Input = styled.input`
   position: relative;
   border-radius: 15px;
   &:focus {
-    background: grey;
+    background: ${props => props.theme.color.grey};
   }
 `
 
@@ -96,12 +96,12 @@ const Square = styled.div<ISquare>`
   align-content: center;
   padding-left: 1rem;
   font-size: 1.4rem;
-  background-color: #73706e;
+  background-color: ${props => props.theme.color.grey};
   color: white;
   border: 0.5px solid #e0dedd;
   cursor: pointer;
   &:hover {
-    background: grey;
+    background: ${props => props.theme.color.grey};
     color: white;
   }
   &:nth-child(1) {

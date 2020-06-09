@@ -57,7 +57,6 @@ const Text = styled.label`
 `
 const Input = styled.input`
   background-color: white;
-  color: grey;
   font-size: 1.6rem;
   font-weight: 800;
   padding: 1.2rem;

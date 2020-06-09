@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { SideNav, Income } from 'HOC/connectRedux_HOC'
+import { SideNav, Income, Savings } from 'HOC/connectRedux_HOC'
 
 
 interface IProps {
@@ -8,7 +8,7 @@ interface IProps {
 }
 
 export const Layout: FC<IProps> = ({ state }) => {
-  const maritalStatus = state.user_reducer
+  const {selectedPage} = state.ui_reducer
 
   return (
     <Wrapper>
@@ -17,7 +17,12 @@ export const Layout: FC<IProps> = ({ state }) => {
       <SideNav id={'selectedPage'} reducer={'ui_reducer'} />
       </Nav>
     < Content>
-    <Income />
+    {
+      selectedPage === "income" ? <Income/> :
+      selectedPage === "savings" ? <Savings/> :
+      null
+    }
+ 
     </Content>
 
     </Wrapper>
