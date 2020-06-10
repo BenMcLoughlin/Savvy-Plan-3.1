@@ -55,7 +55,7 @@ const Square = styled.div<SProps>`
   flex-direction: column;
   font-size: 1.6rem;
   font-weight: 800;
-  background: ${(props) => (props.selected ? props.theme.color.primary : props.theme.color.white)};
+  background: ${(props) => (props.selected ? props.theme.color.primary : "white")};
   border: 0.5px solid ${props => props.theme.color.lightGrey};
   cursor: pointer;
   &:nth-child(1) {
@@ -64,7 +64,7 @@ const Square = styled.div<SProps>`
   &:nth-last-child(1) {
     border-radius: 0 0 10px 10px;
   }
-  color: ${(props) => (props.selected ? 'white' : props.theme.color.mediumGrey)};
+  color: ${(props) => (props.selected ? 'white' : props.theme.color.darkGrey)};
 `
 
 const Input = styled.input`

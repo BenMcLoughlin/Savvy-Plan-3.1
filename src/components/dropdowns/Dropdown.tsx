@@ -9,17 +9,16 @@ interface IProps {
   reducer: string
   state: any
   setValue_action: (id: string, reducer: string, value: any, childId: any) => void
-  textInput?: boolean
 }
 
-export const Dropdown: FC<IProps> = ({ array, childId, id, label, reducer, state, setValue_action, textInput }) => {
+export const Dropdown: FC<IProps> = ({ array, childId, id, label, reducer, state, setValue_action}) => {
   const [open, toggleOpen] = useState<boolean>(false)
   const selectedValue = state[reducer][id][childId]
 
   return (
     <Wrapper>
       <Input onChange={(e) => e} type="text" autoComplete="off" value={selectedValue} onClick={() => toggleOpen(!open)}></Input>
-      <Label>Type: </Label>
+      <Label>{label}: </Label>
       {open && (
         <DropDown>
           {array.map((d: string) => {
@@ -67,7 +66,7 @@ const Input = styled.input`
   position: relative;
   border-radius: 15px;
   &:focus {
-    background: ${props => props.theme.color.grey};
+    background: ${props => props.theme.color.darkGrey};
   }
 `
 
@@ -96,12 +95,12 @@ const Square = styled.div<ISquare>`
   align-content: center;
   padding-left: 1rem;
   font-size: 1.4rem;
-  background-color: ${props => props.theme.color.grey};
+  background-color: ${props => props.theme.color.darkGrey};
   color: white;
   border: 0.5px solid #e0dedd;
   cursor: pointer;
   &:hover {
-    background: ${props => props.theme.color.grey};
+    background: ${props => props.theme.color.darkGrey};
     color: white;
   }
   &:nth-child(1) {

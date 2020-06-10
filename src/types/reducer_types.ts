@@ -4,7 +4,7 @@ import { Action } from "redux"
 export interface IUiState {
   change: boolean
   selectedId: string
-  changeColor: number
+  colorIndex: number
   videoUrl: string
   progress: number
   selectedPage: string
@@ -14,7 +14,7 @@ export interface IUiState {
 
 export interface IUserState {
   firstName: string
-  spouseFirstName: string
+  spouseName: string
   spouseBirthYear: string
   province: string
   maritalStatus: string

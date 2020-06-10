@@ -1,19 +1,19 @@
-import { IUiState, ISetValue_action } from 'types/reducer_types'
+import { IUiState, ISetValue_action } from "types/reducer_types"
 
 const initialState: IUiState = {
   change: false,
-  selectedId: '',
-  changeColor: 0,
-  videoUrl: '',
-  progress: 10,
-  selectedPage: 'income',
-  selectedAccount: 'tfsa',
-  selectedUser: '',
+  selectedId: "incomeDummy",
+  colorIndex: 0,
+  videoUrl: "",
+  progress: 0,
+  selectedPage: "taxes",
+  selectedAccount: "tfsa",
+  selectedUser: "",
 }
 
 export function ui_reducer(state: IUiState = initialState, action: ISetValue_action): IUiState {
   switch (action.type) {
-    case 'ui_reducer/SET_VALUE':
+    case "ui_reducer/SET_VALUE":
       return { ...state, [action.id]: action.value } //sets a simple id value pair within the reducer object
     default:
       return state

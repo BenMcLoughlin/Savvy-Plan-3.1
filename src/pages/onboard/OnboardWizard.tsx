@@ -1,15 +1,8 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
+import * as components from "HOC/connectRedux_HOC"
 import _ from 'lodash'
-import {
-  Button,
-  PickMultipleOptions,
-  DualSelect,
-  PickSingleOption,
-  PickNumber,
-  Slider,
-  TextInput,
-} from 'HOC/connectRedux_HOC'
+import { TextInput } from 'HOC/connectRedux_HOC'
 
 /**
  * <OnboardWizard> is being rendered for each piece of the array selected to be shown in the parent component. It is being passed props
@@ -18,6 +11,11 @@ import {
 export const OnboardWizard: FC<any> = (props) => {
   const { id, title, component, subTitle, state } = props
 
+  const renderComponent = () => {
+    const Component = components[component]
+    return <Component {...props}/>
+  }
+
   return (
     <Wrapper>
       <Header>
@@ -25,26 +23,7 @@ export const OnboardWizard: FC<any> = (props) => {
         <h3>{subTitle}</h3>
       </Header>
       <Content>
-        {component === 'Button' ? ( //As the array of wizard data is mapped through each item contains a component
-          <Button {...props} />
-        ) : component === 'TextInput' ? ( //If the component equals "TextInput" it will render a textbox and pass in props
-          <TextInput {...props} />
-        ) : component === 'PickSingleOption' ? (
-          <PickSingleOption {...props} />
-        ) : component === 'PickMultipleOptions' ? (
-          <PickMultipleOptions {...props} />
-        ) : component === 'DualSelect' ? (
-          <DualSelect {...props} />
-        ) : component === 'PickNumber' ? (
-          <PickNumber {...props} />
-        ) : component === 'Slider' ? (
-          <Slider {...props} />
-        ) : component === 'TwoSliders' ? (
-          <Row>
-            <Slider {...props.props1} />
-            <Slider {...props.props2} />
-          </Row>
-        ) : null}
+        {renderComponent()}
         {id === 'numberOfChildren' ? (
           <Children>
             {_.range(1, state.user_reducer.numberOfChildren + 1).map((d) => (

@@ -31,6 +31,7 @@ export const newStream = (
  *  */
 
 export const createStream = (
+  colorIndex: number,
   newStream: IIncomeStream,
   setValue_action: (id: string, reducer: string, value: any, childId: string) => void,
   streamType: string
@@ -39,6 +40,7 @@ export const createStream = (
   const id = streamType + (Math.random() * 1000000).toFixed() //creates the random ID that is the key to the object
   setValue_action(id, "main_reducer", { ...newStream, id }, "") //This action fires and sets the state in the income reducer creating a new item there,
   setValue_action("selectedId", "ui_reducer", id, "") // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
+  setValue_action("colorIndex", "ui_reducer", colorIndex+1, "") // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
 }
 
 export const addPeriodToStream = (

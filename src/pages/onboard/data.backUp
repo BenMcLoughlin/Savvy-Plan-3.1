@@ -2,7 +2,7 @@ import { IUserState } from 'types/reducer_types'
 import { IOnboard } from 'types/component_types'
 
 export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
-  const spouseName = user_reducer.spouseFirstName
+  const spouseName = user_reducer.spouseName
 
   const array: IOnboard[] = [
     {
@@ -131,7 +131,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
     array.splice(priorQuestionIndex, 0, {
       ask: "We'll use this to keep your details seperate from your spouse.",
       component: 'TextInput',
-      id: 'spouseFirstName',
+      id: 'spouseName',
       label: "Spouse's First Name",
       reducer: 'user_reducer',
       title: "What's your spouse's first Name?",

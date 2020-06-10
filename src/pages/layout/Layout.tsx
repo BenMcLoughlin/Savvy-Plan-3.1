@@ -1,13 +1,14 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { SideNav, Income, Savings } from 'HOC/connectRedux_HOC'
-
+import { SideNav, Income, Savings, Display } from 'HOC/connectRedux_HOC'
+import {incomePage_data} from "data/pageData/incomePage_data"
 
 interface IProps {
   state: any
+  setValue_action: (id: string, reducer: string, value: any, childId?: any) => void
 }
 
-export const Layout: FC<IProps> = ({ state }) => {
+export const Layout: FC<IProps> = ({ state, setValue_action }) => {
   const {selectedPage} = state.ui_reducer
 
   return (
@@ -18,7 +19,7 @@ export const Layout: FC<IProps> = ({ state }) => {
       </Nav>
     < Content>
     {
-      selectedPage === "income" ? <Income/> :
+      selectedPage === "income" ? <Display data={incomePage_data(state, setValue_action)}/> :
       selectedPage === "savings" ? <Savings/> :
       null
     }

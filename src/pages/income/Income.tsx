@@ -42,7 +42,7 @@ export const Income: FC<IProps> = ({ state, setValue_action }) => {
           <AddPrompt>
             <AddButton
               onClick={() => {
-                createStream(incomeStream, setValue_action, "income")
+                createStream(3, incomeStream, setValue_action, "income")
               }}
             />
             <p>New income incomeStream</p>

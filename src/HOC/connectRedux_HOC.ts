@@ -9,6 +9,7 @@ import { OnboardWizard as _OnboardWizard } from "pages/onboard/OnboardWizard"
 import { Income as _Income } from "pages/income/Income"
 import { Savings as _Savings } from "pages/savings/Savings"
 import { Layout as _Layout } from "pages/layout/Layout"
+import { Display as _Display } from "pages/Display"
 
 //Components
 
@@ -29,8 +30,10 @@ import { Dropdown as _Dropdown } from "components/dropdowns/Dropdown"
 import { ScrollCircles as _ScrollCircles } from "components/scroll/ScrollCircles"
 import { EditTitle as _EditTitle } from "components/TextInput/EditTitle"
 import { EditCard as _EditCard } from "components/cards/EditCard"
+import { EditIncome as _EditIncome } from "components/cards/EditIncome"
 import { TripleSelector as _TripleSelector } from "components/nav/TripleSelector"
 import { ChartNav as _ChartNav } from "components/nav/ChartNav"
+import { InfoCard as _InfoCard } from "components/cards/InfoCard"
 
 //CHARTS
 
@@ -51,7 +54,14 @@ export const TextInput = compose(connect(mapStateToProps, { setValue_action }))(
 export const PickNumber = compose(connect(mapStateToProps, { setValue_action }))(_PickNumber)
 export const Slider = compose(connect(mapStateToProps, { setValue_action }))(_Slider)
 export const ChartNav = compose(connect(mapStateToProps, { setValue_action }))(_ChartNav)
+export const InfoCard = compose(connect(mapStateToProps, { setValue_action }))(_InfoCard)
 
+/**
+ * The <Display> component receives page data and renders a page based on the data passed to it. The page
+ * will show a chart, edit box, and info cards. .
+ *  */
+
+export const Display = compose(connect(mapStateToProps, { setValue_action }))(_Display)
 /**
  * The  TextAndTwoSliders component manages a set of `<Transition>` components
  * in a list. Like with the `<Transition>` component, `<SideNav>`, is a
@@ -119,6 +129,10 @@ export const Savings = compose(connect(mapStateToProps, { setValue_action }))(_S
  * The <EditCard> component enables the user to change all the values pertaining to one subject instance  */
 
 export const EditCard = compose(connect(mapStateToProps, { setValue_action, delete_action }))(_EditCard)
+/**
+ * The <EditCard> component enables the user to change all the values pertaining to one subject instance  */
+
+export const EditIncome = compose(connect(mapStateToProps, { setValue_action, delete_action }))(_EditIncome)
 
 /**
  * The <TripleSelector> gives the user 3 options and enables the user to toggle between them  */

@@ -9,7 +9,7 @@ export const onboard_data = (state: any, setValue_action: any, progress: number)
 
   const thisYear = new Date().getFullYear()
 
-  const id = ui_reducer.selectedId
+  const { id, colorIndex } = ui_reducer
 
   const incomeStream = newStream("#00BDD3", "Employment", "Wal Mart Income", 0, true, +birthYear + 18, 15000, +birthYear + 40)
   const savingsStream = newStream("#00BDD3", "TFSA", "TFSA Savings", 0, true, thisYear, 1000, +birthYear + 95)
@@ -76,7 +76,7 @@ export const onboard_data = (state: any, setValue_action: any, progress: number)
       //Question 4.1: SPOUSE FIRST NAME
       ask: "We'll use this to keep your details seperate from your spouse.",
       component: "TextInput",
-      id: "spouseFirstName",
+      id: "spouseName",
       label: "Spouse's First Name",
       reducer: "user_reducer",
       title: "What's your spouse's first Name?",
@@ -134,7 +134,7 @@ export const onboard_data = (state: any, setValue_action: any, progress: number)
     value: progress + 1,
     onClick: function () {
       //the onClick function adds a new income incomeStream into the reducer which enables the user to edit it
-      createStream(incomeStream, setValue_action, "userIncome")
+      createStream(colorIndex, incomeStream, setValue_action, "userIncome")
     },
   })
 
@@ -163,7 +163,7 @@ export const onboard_data = (state: any, setValue_action: any, progress: number)
       reducer: "ui_reducer",
       title: "Would you like to add your spouses income?",
       onClick: function () {
-        createStream(incomeStream, setValue_action, "spouseIncome")
+        createStream(colorIndex, incomeStream, setValue_action, "spouseIncome")
       },
     })
 
@@ -190,7 +190,7 @@ export const onboard_data = (state: any, setValue_action: any, progress: number)
     title: "Do you have investments?",
     onClick: function () {
       //the onClick function adds a new income incomeStream into the reducer which enables the user to edit it
-      createStream(savingsStream, setValue_action, "tfsa")
+      createStream(colorIndex, savingsStream, setValue_action, "tfsa")
     },
   })
 
@@ -304,7 +304,7 @@ export const onboard_data = (state: any, setValue_action: any, progress: number)
 //         //Question 4.1: SPOUSE FIRST NAME
 //         ask: "We'll use this to keep your details seperate from your spouse.",
 //         component: 'TextInput',
-//         id: 'spouseFirstName',
+//         id: 'spouseName',
 //         label: "Spouse's First Name",
 //         reducer: 'user_reducer',
 //         title: "What's your spouse's first Name?",

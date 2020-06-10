@@ -26,6 +26,7 @@ export const EditCard: FC<IProps> = ({ delete_action, state, setValue_action }) 
   const { id, reg, periods, taxable, year0, value0 } = instance
 
   const lastAge = instance[`yearLast`] - 1988
+  
   return (
     <Wrapper>
       <Header>

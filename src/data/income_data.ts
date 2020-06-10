@@ -17,6 +17,7 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
   let finalPast = currentYear > instance[`yearLast`]
 
   const { birthYear } = state.user_reducer
+  const { colorIndex } = state.ui_reducer
 
   const incomeStream = newStream("#00BDD3", "Employment", "Wal Mart Income", 0, true, +birthYear + 18, 1500, +birthYear + 40)
 
@@ -115,7 +116,7 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
       reducer: "ui_reducer",
       title: "Would you like to add another income incomeStream to the chart?",
       onClick: function () {
-        createStream(incomeStream, setValue_action, "userIncome")
+        createStream(colorIndex, incomeStream, setValue_action, "userIncome")
       },
     },
   ]

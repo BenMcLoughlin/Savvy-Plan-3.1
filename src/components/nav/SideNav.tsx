@@ -20,8 +20,8 @@ export const SideNav: FC<IProps> = ({ id, reducer, state, setValue_action }) => 
 
   return (
     <Wrapper>
-      {options.map((d) => (
-        <Option onClick={() => setValue_action(id, reducer, d, '')} selected={selected === d}>
+      {options.map((d, i) => (
+        <Option key={i}  onClick={() => setValue_action(id, reducer, d, '')} selected={selected === d}>
           {d}
         </Option>
       ))}
