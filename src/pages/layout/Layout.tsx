@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 import styled from 'styled-components'
-import { SideNav, Income, Savings, Display } from 'HOC/connectRedux_HOC'
+import { SideNav, Savings, Display } from 'HOC/connectRedux_HOC'
 import {incomePage_data} from "data/pageData/incomePage_data"
+import {savingsPage_data} from "data/pageData/savingsPage_data"
 
 interface IProps {
   state: any
@@ -20,6 +21,7 @@ export const Layout: FC<IProps> = ({ state, setValue_action }) => {
     < Content>
     {
       selectedPage === "income" ? <Display data={incomePage_data(state, setValue_action)}/> :
+      selectedPage === "taxes" ? <Display data={savingsPage_data(state, setValue_action)}/> :
       selectedPage === "savings" ? <Savings/> :
       null
     }

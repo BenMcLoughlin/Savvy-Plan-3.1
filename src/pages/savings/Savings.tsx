@@ -1,6 +1,6 @@
 import React, { FC } from "react"
 import styled from "styled-components"
-import { EditCard, UserSavingsChart, TripleSelector, ChartNav } from "HOC/connectRedux_HOC"
+import { EditCard, SavingsChart, TripleSelector, ChartNav } from "HOC/connectRedux_HOC"
 import { AddButton } from "components/buttons/AddButton"
 import { createStream } from "services/ui_functions"
 import { newStream } from "services/ui_functions"
@@ -17,7 +17,7 @@ export const Savings: FC<IProps> = ({ state, setValue_action }) => {
   const { selectedId } = ui_reducer //when an income instance is clicked on it's it is placed in the ui_reducer for all components to have access to it
   const instance = main_reducer[selectedId] //instance refers the object being displayed, for example Wal mart income
 
-  const { birthYear, maritalStatus } = state.user_reducer
+  const { user1BirthYear, maritalStatus } = state.user_reducer
 
   const incomeInsights = incomeInsights_data(state, setValue_action)
   const incomeActionSteps = incomeActionSteps_data(state, setValue_action)
@@ -26,10 +26,7 @@ export const Savings: FC<IProps> = ({ state, setValue_action }) => {
   return (
     <Wrapper>
       <A>
-        <UserSavingsChart />
-        <ChartNavWrapper>
-            <ChartNav id={"selectedAccount"} reducer={"ui_reducer"} />
-        </ChartNavWrapper>
+        <ChartNavWrapper></ChartNavWrapper>
       </A>
       <B>
         <InfoCard label={"insights"} array={incomeInsights} />
@@ -41,7 +38,7 @@ export const Savings: FC<IProps> = ({ state, setValue_action }) => {
           <EditCard {...instance} />
         ) : (
           <AddPrompt>
-             <AddButton onClick={() => null}/>
+            <AddButton onClick={() => null} />
             <p>New income stream</p>
           </AddPrompt>
         )}

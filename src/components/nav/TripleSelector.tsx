@@ -16,11 +16,11 @@ interface IProps {
 export const TripleSelector: FC<IProps> = ({ id, reducer, state, setValue_action }) => {
   const selected = state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
 
-  const { firstName, spouseName } = state.user_reducer
-  const options = [`${firstName}`, "Combined", `${spouseName}`]
+  const { user1Name, user2Name } = state.user_reducer
+  const options = [`${user1Name}`, "Combined", `${user2Name}`]
 
   useEffect(() => {
-    setValue_action(id, reducer, firstName)
+    setValue_action(id, reducer, user1Name)
   }, [])
 
   return (

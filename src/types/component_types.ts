@@ -21,7 +21,7 @@ interface ICoreProps {
   subTitle?: string
   title: string
   spouse?: boolean
-  onClick?: () => void
+  onClick?: (string: any) => void
 }
 
 export interface IButton extends ICoreProps {
@@ -30,7 +30,8 @@ export interface IButton extends ICoreProps {
 }
 
 export interface IPickMultipleOptions extends ICoreProps {
-  array: string[]
+  array: any
+  user: string
 }
 
 export interface IDualSelect extends ICoreProps {
@@ -43,7 +44,7 @@ export interface IPickNumber extends ICoreProps {
 }
 
 export interface IPickSingleOption extends ICoreProps {
-  array: string[]
+  array: any
   textInput: boolean
 }
 

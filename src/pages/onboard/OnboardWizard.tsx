@@ -1,19 +1,19 @@
-import React, { FC } from 'react'
-import styled from 'styled-components'
+import React, { FC } from "react"
+import styled from "styled-components"
 import * as components from "HOC/connectRedux_HOC"
-import _ from 'lodash'
-import { TextInput } from 'HOC/connectRedux_HOC'
+import _ from "lodash"
+import { TextInput } from "HOC/connectRedux_HOC"
 
 /**
  * <OnboardWizard> is being rendered for each piece of the array selected to be shown in the parent component. It is being passed props
  *  */
 
-export const OnboardWizard: FC<any> = (props) => {
+export const OnboardWizard: FC<any> = props => {
   const { id, title, component, subTitle, state } = props
 
   const renderComponent = () => {
     const Component = components[component]
-    return <Component {...props}/>
+    return <Component {...props} />
   }
 
   return (
@@ -24,9 +24,9 @@ export const OnboardWizard: FC<any> = (props) => {
       </Header>
       <Content>
         {renderComponent()}
-        {id === 'numberOfChildren' ? (
+        {id === "numberOfChildren" ? (
           <Children>
-            {_.range(1, state.user_reducer.numberOfChildren + 1).map((d) => (
+            {_.range(1, state.user_reducer.numberOfChildren + 1).map(d => (
               <TextInput id={`child${d}BirthYear`} reducer="user_reducer" type="year" label={`child${d}BirthYear`} />
             ))}
           </Children>
@@ -75,7 +75,7 @@ const Children = styled.div`
   flex-wrap: start;
   flex-direction: column;
   position: absolute;
-  top: 15rem;
+  top: 8rem;
 `
 const Properties = styled.div`
   min-height: 40rem;

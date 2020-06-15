@@ -13,41 +13,30 @@ export interface IUiState {
 }
 
 export interface IUserState {
-  firstName: string
-  spouseName: string
-  spouseBirthYear: string
-  province: string
-  maritalStatus: string
-  housing: string
-  investments: string
-  otherProperty: string
-  numberOfProperties: number
-  nonEmploymentIncome: string
-  taxAge: string
-  birthYear: string
-  currentAge: string
-  rrifWithdrawalAge: string
-  retirementPensionIncome: string
+  child1BirthYear: number
+  child2BirthYear: number
+  changeAssumptions: string
+  numberOfChildren: number
   gender: string
   hasChildren: string
-  hasSavings: string
-  "tax free savings account": boolean
-  "registered retirement savings": boolean
-  changeAssumptions: string
-  "employer savings": boolean
-  "non-registered": boolean
-  numberOfChildren: number
-  retirementAge: number
-  lifeSpan: number
-  cppStartAge: number
-  oasStartAge: number
-  rrspStartAge: number
-  tfsaStartAge: number
+  housing: boolean
+  inflationRate: number
+  maritalStatus: string
+  MER: number
+  province: string
   rate1: number
   rate2: number
-  inflationRate: number
-  MER: number
-  propertyAppreciation: number
+  user1BirthYear: number
+  user2BirthYear: number
+  user1CPPStartAge: number
+  user2CPPStartAge: number
+  user1LifeSpan: number
+  user2LifeSpan: number
+  user1Name: string
+  user2Name: string
+  user1OasStartAge: number
+  user2OasStartAge: number
+
 }
 
 export interface IMainState {

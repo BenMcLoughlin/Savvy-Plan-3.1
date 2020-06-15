@@ -12,7 +12,7 @@ interface IProps {
 
 export const Onboard: FC<IProps> = ({ state, setValue_action }) => {
   const { progress } = state.ui_reducer
-  console.log(progress)
+
   const [direction, setDirection] = useState<string>('forward')
 
   const data = onboard_data(state, setValue_action, progress)

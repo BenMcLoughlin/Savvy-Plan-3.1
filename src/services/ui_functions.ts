@@ -41,6 +41,7 @@ export const createStream = (
   setValue_action(id, "main_reducer", { ...newStream, id }, "") //This action fires and sets the state in the income reducer creating a new item there,
   setValue_action("selectedId", "ui_reducer", id, "") // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
   setValue_action("colorIndex", "ui_reducer", colorIndex+1, "") // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
+       
 }
 
 export const addPeriodToStream = (
@@ -51,5 +52,6 @@ export const addPeriodToStream = (
 ): void => {
   setValue_action(selectedId, "main_reducer", period + 1, "periods")
   setValue_action(selectedId, "main_reducer", +instance[`year${period}`] + 3, `year${period + 1}`)
-  setValue_action(selectedId, "main_reducer", +instance[`value${period}`] + 3000, `value${period + 1}`)
+  setValue_action(selectedId, "main_reducer",  3000, `value${period + 1}`)
 }
+

@@ -5,6 +5,7 @@ interface IProps {
   id: string
   reducer: string
   state: any
+  options: string[]
   setValue_action: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
@@ -12,9 +13,9 @@ interface IProps {
  * The <ChartNavr> component enables the user to display different subjects in the chart. FOr instance their TFSA savings plan, then swith to RRSP.
  *  */
 
-export const ChartNav: FC<IProps> = ({ id, reducer, state, setValue_action }) => {
+export const ChartNav: FC<IProps> = ({ id, options, reducer, state, setValue_action }) => {
+  
   const selected = state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
-  const options = ["tfsa", "rrsp", "non-reg", "all accounts"]
 
   useEffect(() => {
     setValue_action(id, reducer, "tfsa")

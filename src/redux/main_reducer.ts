@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { IMainState, ISetValue_action } from 'types/reducer_types'
+import { IMainState } from 'types/reducer_types'
 
 const initialState = {
   incomeDummy: {
@@ -165,7 +165,7 @@ const initialState = {
   // },
 }
 
-export const main_reducer = (state: IMainState = initialState, action: ISetValue_action) => {
+export const main_reducer = (state: IMainState = initialState, action:any) => {
   switch (action.type) {
     case 'main_reducer/DELETE':
       return _.omit(state, [action.id])

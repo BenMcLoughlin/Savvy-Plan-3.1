@@ -9,10 +9,9 @@ interface IProps {
 }
 
 export const Display: FC<IProps> = ({ data }) => {
-
   const renderChart = () => {
     const Chart = components[data.chart]
-    return <Chart />
+    return <Chart {...data} />
   }
   const renderUserEditForm = () => {
     const EditForm = components[data.userEditForm]
@@ -27,13 +26,20 @@ export const Display: FC<IProps> = ({ data }) => {
           <InfoCard key={d.label} label={d.label} array={d.array} />
         ))}
       </InfoCards>
-      <Edit>{data.editProps ? renderUserEditForm() : 
-                <AddPrompt>
-                <AddButton onClick={() => data.createStream()}/>
-                <p>{data.addButtonLabel}</p>
-              </AddPrompt>
-      }</Edit>
-       <CenterNav>{data.spouseName && <TripleSelector id={"selectedUser"} reducer={"ui_reducer"} />}</CenterNav>
+      {
+        <Edit>
+          {data.editProps ? (
+            renderUserEditForm()
+          ) : (
+            <AddPrompt>
+              <AddButton onClick={() => data.createStream()} />
+              <p>{data.addButtonLabel}</p>
+            </AddPrompt>
+          )}
+        </Edit>
+      }
+
+      <CenterNav>{data.user2Name && <TripleSelector id={"selectedUser"} reducer={"ui_reducer"} />}</CenterNav>
     </Wrapper>
   )
 }

@@ -1,5 +1,5 @@
-import React, { FC } from 'react'
-import styled from 'styled-components'
+import React, { FC } from "react"
+import styled from "styled-components"
 
 export interface IButton {
   label: string
@@ -17,7 +17,7 @@ export const Button: FC<IButton> = ({ label, id, onClick, reducer, setValue_acti
         if (onClick) {
           onClick()
         }
-        setValue_action(id, reducer, value, '')
+        setValue_action(id, reducer, value, "")
       }}
     >
       {label}

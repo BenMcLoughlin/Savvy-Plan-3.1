@@ -8,7 +8,7 @@ import { colorArray_data } from "styles/color_data"
  * add as many periods as they like to the array by incrementing the "periods" number. This array is then spliced into the main wizard array.
  *  */
 
-export const createIncomeArray = (instance: IIncomeStream, setValue_action: any, state: any) => {
+export const createNetWorthArray = (instance: IIncomeStream, setValue_action: any, state: any) => {
   const { periods, id } = instance
 
   const currentYear = new Date().getFullYear() //the text needs to be able to refer to the income being earned in the past or in the future, so we will use this to test that

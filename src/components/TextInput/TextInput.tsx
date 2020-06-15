@@ -16,7 +16,7 @@ interface IProps {
 
 export const TextInput: FC<IProps> = ({ id, childId, label, placeholder, reducer, state, setValue_action, type }) => {
   const subject = state[reducer][id]
-
+console.log(subject);
   const valid = subject.toString().length === 4 && +subject > 1930 && +subject < 2095
 
   return (

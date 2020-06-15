@@ -6,7 +6,6 @@ import { IAppState } from "types/reducer_types"
 //Pages
 import { Onboard as _Onboard } from "pages/onboard/Onboard"
 import { OnboardWizard as _OnboardWizard } from "pages/onboard/OnboardWizard"
-import { Income as _Income } from "pages/income/Income"
 import { Savings as _Savings } from "pages/savings/Savings"
 import { Layout as _Layout } from "pages/layout/Layout"
 import { Display as _Display } from "pages/Display"
@@ -37,23 +36,78 @@ import { InfoCard as _InfoCard } from "components/cards/InfoCard"
 
 //CHARTS
 
-import { UserIncomeChart as _UserIncomeChart } from "charts/income/UserIncomeChart"
-import { UserSavingsChart as _UserSavingsChart } from "charts/savings/UserSavingsChart"
+import { IncomeChart as _IncomeChart } from "charts/IncomeChart"
+import { SavingsChart as _SavingsChart } from "charts/SavingsChart"
 
 const mapStateToProps = (state: IAppState) => ({ state })
 
 //EXPORT SMART CONNECTED COMPONENTS
+/**
+ * The <ProgressBar> runs along the top right below the header and shows the users progress through the wizard. Its takes its information from  a value called progress 
+ * in the ui_reducer. 
+ *  */
+
 export const ProgressBar = compose(connect(mapStateToProps, { setValue_action }))(_ProgressBar)
+
+
+/**
+ * A Simple Dark Button that can fire an onclick or set a value in a reducer. 
+ *  */
+
 export const Button = compose(connect(mapStateToProps, { setValue_action }))(_Button)
+
+/**
+ * Next is a button with an arrow pointing right that changes color when the user is ready to advance. 
+ *  */
+
 export const Next = compose(connect(mapStateToProps, { setValue_action }))(_Next)
+
+/**
+* Back is a button with an arrow pointing left that enables the user to move back through the wizard. 
+*  */
+
 export const Back = compose(connect(mapStateToProps, { setValue_action }))(_Back)
-export const PickMultipleOptions = compose(connect(mapStateToProps, { setValue_action }))(_PickMultipleOptions)
+
+/**
+* PickMultipleOptions provides a series of options and allows the user to pick as many as they like. 
+*  */
+export const PickMultipleOptions = compose(connect(mapStateToProps, { setValue_action, delete_action }))(_PickMultipleOptions)
+
+/**
+* DualSelect allows the user to choose between two options
+*  */
 export const DualSelect = compose(connect(mapStateToProps, { setValue_action }))(_DualSelect)
+
+/**
+*  PickSingleOption provides a series of options and allows the user to pick only one. 
+*  */
 export const PickSingleOption = compose(connect(mapStateToProps, { setValue_action }))(_PickSingleOption)
+
+/**
+*  TextInput allows the user to enter text to change a name or year. 
+*  */
 export const TextInput = compose(connect(mapStateToProps, { setValue_action }))(_TextInput)
+
+/**
+*  PickNumber enables the user to choose a number starting at 1, there is a plus button and they can increase the numbers available. 
+*  */
+
 export const PickNumber = compose(connect(mapStateToProps, { setValue_action }))(_PickNumber)
+
+/**
+*  Slider enables the user to change a value with a range Bar or type in a value
+*  */
 export const Slider = compose(connect(mapStateToProps, { setValue_action }))(_Slider)
+
+/**
+*  A Nav menu sitting above a chart that lets the user shift that data being shown in the chart
+*  */
+
 export const ChartNav = compose(connect(mapStateToProps, { setValue_action }))(_ChartNav)
+
+/**
+*  A Card that provides infomation and can be scrolled through. 
+*  */
 export const InfoCard = compose(connect(mapStateToProps, { setValue_action }))(_InfoCard)
 
 /**
@@ -113,12 +167,6 @@ export const Onboard = compose(connect(mapStateToProps, { setValue_action }))(_O
 export const OnboardWizard = compose(connect(mapStateToProps, { setValue_action }))(_OnboardWizard)
 
 /**
- * The <Income> component is the main component for the income section. It renders the chart along with a wizard
- * enabling the user to input their data and then a user interface that enables them to edit their income if they like.
- *  */
-
-export const Income = compose(connect(mapStateToProps, { setValue_action }))(_Income)
-/**
  * The <Savings> component is the main component for the Savingssection. It renders the chart along showing the users
  * savings plan and enables them to edit it.
  *  */
@@ -142,13 +190,13 @@ export const TripleSelector = compose(connect(mapStateToProps, { setValue_action
 //CHARTS
 
 /**
- * The <UserIncomeChart> renders a chart showing the users income from age 18-95. If the user clicks on a bar it will set that
+ * The <IncomeChart> renders a chart showing the users income from age 18-95. If the user clicks on a bar it will set that
  * value's id in the ui_reducer as selectedId and open an edit box.
  *  */
 
-export const UserIncomeChart = compose(connect(mapStateToProps, { setValue_action }))(_UserIncomeChart)
+export const IncomeChart = compose(connect(mapStateToProps, { setValue_action }))(_IncomeChart)
 /**
- * The <UserSavingsChart> renders a chart showing the users savings from age 18-95.
+ * The <SavingsChart> renders a chart showing the users savings from age 18-95.
  *  */
 
-export const UserSavingsChart = compose(connect(mapStateToProps, { setValue_action }))(_UserSavingsChart)
+export const SavingsChart = compose(connect(mapStateToProps, { setValue_action }))(_SavingsChart)

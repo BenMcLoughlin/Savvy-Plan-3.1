@@ -1,6 +1,5 @@
-import { ISetValue_action } from 'types/reducer_types'
 
-export const setValue_action = (id: string, reducer: string, value: any, childId: any): ISetValue_action => {
+export const setValue_action = (id: string, reducer: string, value: any, childId: any): any => {
   return {
     type: `${reducer}/SET_VALUE`,
     childId, // child id in the id value pair of the object nested within the parent object,

@@ -56,7 +56,7 @@ const Square = styled.div<SProps>`
   font-size: 1.6rem;
   font-weight: 800;
   background: ${(props) => (props.selected ? props.theme.color.primary : "white")};
-  border: 0.5px solid ${props => props.theme.color.lightGrey};
+   border: ${props => props.theme.border.primary};
   cursor: pointer;
   &:nth-child(1) {
     border-radius: 10px 10px 0 0;
@@ -77,7 +77,7 @@ const Input = styled.input`
   display: block;
   width: 100%;
   min-height: 5rem;
-  border: 0.5px solid${(props) => props.theme.color.mediumGrey};
+  border: ${props => props.theme.border.primary};
   border-radius: 3px;
   color: ${(props) => props.theme.color.mediumGrey};
   border-radius: 0 0 10px 10px;

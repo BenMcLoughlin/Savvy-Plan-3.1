@@ -1,6 +1,6 @@
 import React, { useState, FC } from "react"
 import styled from "styled-components"
-import { ColorSelect, Dropdown, EditTitle, ScrollCircles, Slider } from "HOC/connectRedux_HOC"
+import { ColorSelect, Dropdown, EditTitle, ScrollCircles, Slider, DualSelect } from "HOC/connectRedux_HOC"
 import { Exit } from "components/buttons/Exit"
 import { AddButton } from "components/buttons/AddButton"
 import { addPeriodToStream } from "services/ui_functions"
@@ -12,14 +12,16 @@ interface IProps {
   id: string
   instance: any
   periodSliders: any
+  addPeriodLabel: string
   dropdown: any
   periods: number
+  editTitle: boolean
   lastSlider: any
   setValue_action: (id: string, reducer: string, value: any, childId?: string) => void
   delete_action: (id: string) => void
 }
 
-export const EditIncome: FC<IProps> = ({ id, lastSlider, dropdown, periods, instance, delete_action, periodSliders, setValue_action }) => {
+export const EditIncome: FC<IProps> = ({ addPeriodLabel, editTitle, id, lastSlider, dropdown, periods, instance, delete_action, periodSliders, setValue_action }) => {
   const [position, setPosition] = useState<number>(0)
 
   const [direction, setDirection] = useState<string>("forward")
@@ -28,18 +30,27 @@ export const EditIncome: FC<IProps> = ({ id, lastSlider, dropdown, periods, inst
     <Wrapper>
       <Header>
         <ColorSelect id={id} reducer={"main_reducer"} childId={"color"} />
-        <EditTitle id={id} reducer={"main_reducer"} childId={"name"} />
-        <Dropdown {...dropdown} />
+        {editTitle ? (
+          <>
+            <EditTitle id={id} reducer={"main_reducer"} childId={"name"} />
+            <Dropdown {...dropdown} />
+          </>
+        ) : (
+          instance.reg
+        )}
         <Exit onClick={() => setValue_action("selectedId", "ui_reducer", "")} />
       </Header>
+      {/* <DualSelectWrapper>
+        <DualSelect id={"banana"} onClick={() => null} reducer={"user_reducer"} value1={"contributions"} value2={"withdrawals"} />
+      </DualSelectWrapper> */}
       <TransitionGroup>
         {periodSliders.map(
           (d, i) =>
             i === position && (
               <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
                 <TwoSliders>
-                  <Slider {...d.yearSlider} />
-                  <Slider {...d.valueSlider} />
+                  <Slider {...d.sliderLeft} />
+                  <Slider {...d.sliderRight} />
                 </TwoSliders>
               </CSSTransition>
             )
@@ -56,7 +67,7 @@ export const EditIncome: FC<IProps> = ({ id, lastSlider, dropdown, periods, inst
             setPosition(periods + 1)
           }}
         />
-        Add a period where your income changed
+        {addPeriodLabel}
       </Change>
       <Delete>
         <TrashIcon
@@ -92,6 +103,8 @@ const Header = styled.div`
   display: flex;
   flex-direction: row;
   padding: 0.5rem;
+  color: white;
+  font-size: ${props => props.theme.fontSize.smallMedium};
 `
 
 const Change = styled.div`
@@ -153,4 +166,9 @@ const Delete = styled.div`
       opacity: 1;
     }
   }
+`
+const DualSelectWrapper = styled.div`
+  position: absolute;
+  top: 4rem;
+  left: 2rem;
 `

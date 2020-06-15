@@ -2,7 +2,7 @@ import { IUserState } from 'types/reducer_types'
 import { IOnboard } from 'types/component_types'
 
 export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
-  const spouseName = user_reducer.spouseName
+  const user2Name = user_reducer.user2Name
 
   const array: IOnboard[] = [
     {
@@ -17,7 +17,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
     {
       ask: 'This helps us personalize your plan.',
       component: 'TextInput',
-      id: 'firstName',
+      id: 'user1Name',
       label: "First Name",
       reducer: 'user_reducer',
       title: "What's your first Name?",
@@ -27,7 +27,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
     {
       ask: 'This forms the basis of our financial calculations.',
       component: 'TextInput',
-      id: 'birthYear',
+      id: 'user1BirthYear',
       label: "Birth Year",
       reducer: 'user_reducer',
       title: "What's your Birth Year?",
@@ -38,7 +38,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
       array: ['male', 'female', 'prefer not to say', 'write below'],
       ask: 'We want to ensure our planning process is inclusive.',
       component: 'PickSingleOption',
-      id: 'firstName',
+      id: 'user1Name',
       reducer: 'user_reducer',
       title: "What's your Gender?",
       textInput: true,
@@ -131,7 +131,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
     array.splice(priorQuestionIndex, 0, {
       ask: "We'll use this to keep your details seperate from your spouse.",
       component: 'TextInput',
-      id: 'spouseName',
+      id: 'user2Name',
       label: "Spouse's First Name",
       reducer: 'user_reducer',
       title: "What's your spouse's first Name?",
@@ -141,7 +141,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
     array.splice(priorQuestionIndex + 1, 0, {
       ask: 'This will form the basis of our financial calculations',
       component: 'TextInput',
-      id: 'spouseBirthYear',
+      id: 'user2BirthYear',
       label: "Spouse's Birth Year",
       reducer: 'user_reducer',
       title: "What's your spouse's birth Year?",
@@ -276,11 +276,11 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
       id: 'TFSAinitialValue',
       reducer: 'main_reducer',
       title: `We'll need some details about ${
-        spouseName.length > 1 ? spouseName : 'your spouse'
+        user2Name.length > 1 ? user2Name : 'your spouse'
       }'s TFSA`,
       props1: {
         id: 'TFSAinitialValue',
-        topLabel: `${spouseName.length > 1 ? spouseName : 'your spouse'} currently has`,
+        topLabel: `${user2Name.length > 1 ? user2Name : 'your spouse'} currently has`,
         bottomLabel: 'in my TFSA',
         max: 100000,
         step: 1000,
@@ -288,7 +288,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
       },
       props2: {
         id: 'TFSAcontribution',
-        topLabel: `${spouseName.length > 1 ? spouseName : 'your spouse'} contributes`,
+        topLabel: `${user2Name.length > 1 ? user2Name : 'your spouse'} contributes`,
         bottomLabel: 'per year',
         max: 6000,
         step: 1000,
@@ -308,11 +308,11 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
       id: 'RRSPinitialValue_Spouse',
       reducer: 'main_reducer',
       title: `We'll need some details about ${
-        spouseName.length > 1 ? spouseName : 'your spouse'
+        user2Name.length > 1 ? user2Name : 'your spouse'
       }'s RRSP`,
       props1: {
         id: 'RRSPinitialValue_Spouse',
-        topLabel: `${spouseName.length > 1 ? spouseName : 'your spouse'} currently has`,
+        topLabel: `${user2Name.length > 1 ? user2Name : 'your spouse'} currently has`,
         bottomLabel: 'in their RRSP',
         max: 100000,
         step: 1000,
@@ -320,7 +320,7 @@ export const onboard_data = (user_reducer: IUserState): IOnboard[] => {
       },
       props2: {
         id: 'RRSPcontribution_Spouse',
-        topLabel: `${spouseName.length > 1 ? spouseName : 'your spouse'} contributes`,
+        topLabel: `${user2Name.length > 1 ? user2Name : 'your spouse'} contributes`,
         bottomLabel: 'per year',
         max: 25000,
         step: 1000,
