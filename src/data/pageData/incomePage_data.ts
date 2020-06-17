@@ -20,6 +20,7 @@ export const incomePage_data = (state: any, setValue_action: any): any => {
   const incomeStream = newStream(colorArray_data[colorIndex], "Employment", "Income Name", 0, true, +user1BirthYear + 18, 15000, +user1BirthYear + 40)
 
   const data = {
+    page: "income",
     chart: "IncomeChart", //determines the chart that will be rendered
     userEditForm: "EditIncome", //tells <Display> which edit component to use
     addButtonLabel: "Add Income Strem", //Label next to the plus button

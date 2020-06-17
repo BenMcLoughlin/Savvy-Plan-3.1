@@ -26,8 +26,6 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 8rem;
-  margin-left: 2rem;
   width: 70rem;
   position: relative;
 `
@@ -39,7 +37,7 @@ const Img = styled.img`
 `
 const ChartNavWrapper = styled.div`
   position: absolute;
-  top: 5rem;
+  top: 3rem;
   left: 4rem;
 `
 

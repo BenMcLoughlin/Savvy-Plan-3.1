@@ -1,22 +1,29 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import styled from "styled-components"
 import * as components from "HOC/connectRedux_HOC"
 import { InfoCard, TripleSelector } from "HOC/connectRedux_HOC"
 import { AddButton } from "components/buttons/AddButton"
 
 interface IProps {
+  setValue_action: (id: string, reducer: string, value: any, childId?: string) => void
   data: any
 }
 
-export const Display: FC<IProps> = ({ data }) => {
+export const Display: FC<IProps> = ({ data, setValue_action }) => {
+
+  useEffect(() => {
+    setValue_action('selectedId', "ui_reducer", "") //Sets the id in the ui_reducer to nothing when pages and changed, prevents errors with an edit income box being shown in the savings section etc.
+  }, [data.page])
+
   const renderChart = () => {
-    const Chart = components[data.chart]
+    const Chart = components[data.chart] //each page renders a unique chart, its name is provided by the props in string format. connectRedux_HOC holds all components so here it finds the chart to be rendered
     return <Chart {...data} />
   }
   const renderUserEditForm = () => {
     const EditForm = components[data.userEditForm]
     return <EditForm {...data.editProps} />
   }
+
 
   return (
     <Wrapper>

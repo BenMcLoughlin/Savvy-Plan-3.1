@@ -27,6 +27,10 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
       ask: 'Examples could be if you work as an Engineer, you could say "Engineer Income. Or name if after the employer that pays you, like "Wal Mart Income".',
       component: "TextInput",
       childId: "name",
+      chart: "IncomeChart",
+      comment: "See how you already have income? This shows some of your government benefits.",
+      commentTop: 0,
+      commentLeft: 43,
       id,
       label: "Source of Income",
       reducer: "main_reducer",
@@ -38,6 +42,7 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
       //QUESTION 1 - Type of income
       array: ["Regular Employment", "Business Income", "Investment Income", "Rental Income"], // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
       ask: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
+      chart: "IncomeChart",
       component: "PickSingleOption",
       childId: "reg",
       id,
@@ -48,6 +53,10 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
     {
       ask: "In order to calculate your pension income we need to know when you started, what you earned, and when you might end.",
       bottomLabel: `at age ${instance.year0 - 1988}`,
+      chart: "IncomeChart",
+      comment: "As your income changes, we're calculating your Canada Pension income.",
+      commentTop: 0,
+      commentLeft: 43,
       component: "Slider",
       childId: "year0",
       id,
@@ -63,6 +72,10 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
       //ask: "How much were you earning when you started?",
       ask: "Put in the value when you started. You can add changes in incomelater",
       bottomLabel: "before tax per year",
+      chart: "IncomeChart",
+      comment: "The more you earn, the more you've contributed and the more you get.",
+      commentTop: 0,
+      commentLeft: 43,
       childId: "value0",
       component: "Slider",
       id,
@@ -77,6 +90,7 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
       ask:
         "Ending could be caused by changing careers or retiring. Even if you're not sure, just guess. It will help us give you an idea of what your pension would be if you did end at that time.",
       bottomLabel: `at age ${instance[`yearLast`] - 1988}`,
+      chart: "IncomeChart",
       component: "Slider",
       childId: `yearLast`,
       id,
@@ -90,7 +104,11 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
     },
     {
       ask: "Your values don't have to be perfect, but we do want to capture large changes as they might impact your pension income.",
+      chart: "IncomeChart",
       component: "DualSelect",
+      comment: "Adding the changes helps us do a better job esitmating your Canada Pension plan. ",
+      commentTop: 0,
+      commentLeft: 43,
       id: "selectedUser",
       value1: "yes",
       value2: "no",
@@ -105,6 +123,7 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
     {
       ask:
         "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
+      chart: "IncomeChart",
       component: "DualSelect",
       id: "selectedUser",
       value1: "yes",
@@ -117,19 +136,6 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
     },
   ]
 
-  //   ask:
-  //   'We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ',
-  // component: 'DualSelect',
-  // id: 'selectedUser',
-  // value1: 'yes',
-  // value2: 'no',
-  // reducer: 'ui_reducer',
-  // title: 'Would you like to add an incomeStream to the chart?',
-  // onClick: function () {
-  //   //the onClick function adds a new incomeStream into the reducer which enables the user to edit it
-  //   createStream(newStream, setValue_action, 'userIncome')
-  // },
-
   for (let i = periods; i > 0; i--) {
     let past = currentYear > instance[`year${i}`]
     array.splice(
@@ -138,6 +144,7 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
       {
         ask: `If you think you're income might increase or decrease it's helpful to place that here. It helps us determine when and how much you should contribute to different savings accounts.`,
         bottomLabel: `at age ${instance[`year${i}`] - 1988}`,
+        chart: "IncomeChart",
         childId: `year${i}`,
         component: "Slider",
         id,
@@ -152,6 +159,7 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
       {
         ask: `Once again, it doesn't have to be perfect. There's a big difference between 70k and 30k which makes a difference in our plan but small changes won't have much of an impact.`,
         bottomLabel: "before tax per year",
+        chart: "IncomeChart",
         childId: `value${i}`,
         component: "Slider",
         id,
@@ -165,6 +173,7 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
       },
       {
         ask: `If you think it will change significantly again, add it in. Examples could be taking a few years off or getting a promotion.`,
+        chart: "IncomeChart",
         component: "DualSelect",
         id: "selectedUser",
         value1: "yes",
@@ -180,31 +189,3 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
   return array
 }
 
-export const incomeInsights_data = (setValue_action: any, state: any) => {
-  const array = [
-    "Your estimated retirement pension income is is $14,000 a year. That's you Canada Pension Plan and Old age security combined",
-    "Since you don't have a large pension income in retirement and you're working earnings are higher than $70k you'll want to focus on your RRSP",
-    "The best years to contribute to your RRSP will be 2025-2029 because you're earning more and you're receiving the child Canadd Benefit",
-  ]
-  return array
-}
-
-export const incomeActionSteps_data = (setValue_action: any, state: any) => {
-  const array = [
-    "Focus on contributing to your RRSP in the years 2024 - 2029",
-    "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribution room is ",
-    "Since your spouse earns considerably less you'll want to look into setting up a spousal RRSP",
-  ]
-
-  return array
-}
-
-export const howThisWorks_data = (setValue_action: any, state: any) => {
-  const array = [
-    "Click on a bar in the chart if you'd like to edit the income incomeStream",
-    "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribution room is ",
-    "Since your spouse earns considerably less you'll want to look into setting up a spousal RRSP",
-  ]
-
-  return array
-}

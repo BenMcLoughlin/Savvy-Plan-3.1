@@ -14,7 +14,9 @@ type Ireducers = 'main_reducer' | 'ui_reducer' | 'user_reducer'
 
 interface ICoreProps {
   ask?: string
+  chart?: string
   component: Icomponents
+  comment?: string
   childId?: string
   id: TreducerID
   reducer: Ireducers

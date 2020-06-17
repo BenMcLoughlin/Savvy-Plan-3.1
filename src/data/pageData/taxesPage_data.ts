@@ -6,7 +6,7 @@ interface IData {
   chart: string
 }
 
-export const savingsPage_data = (state: any, setValue_action: any): any => {
+export const taxesPage_data = (state: any, setValue_action: any): any => {
   const { selectedId, colorIndex, selectedAccount } = state.ui_reducer
 
   const { user1BirthYear, userName, user2Name } = state.user_reducer
@@ -14,8 +14,8 @@ export const savingsPage_data = (state: any, setValue_action: any): any => {
   const incomeStream = newStream(colorArray_data[colorIndex], `${selectedAccount}`, "Income Name", 0, true, +user1BirthYear + 18, 15000, +user1BirthYear + 40)
 
   const data = {
-    page: "savings",
-    chart: "SavingsChart",
+    page: "taxes",
+    chart: "TaxesChart",
     userEditForm: "EditIncome",
     addButtonLabel: "Add Income Stream",
     userName,

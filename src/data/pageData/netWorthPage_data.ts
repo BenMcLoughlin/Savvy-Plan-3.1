@@ -6,21 +6,20 @@ interface IData {
   chart: string
 }
 
-export const savingsPage_data = (state: any, setValue_action: any): any => {
-  const { selectedId, colorIndex, selectedAccount } = state.ui_reducer
+export const netWorthPage_data = (state: any, setValue_action: any): any => {
+  const { selectedId, colorIndex } = state.ui_reducer
 
   const { user1BirthYear, userName, user2Name } = state.user_reducer
 
-  const incomeStream = newStream(colorArray_data[colorIndex], `${selectedAccount}`, "Income Name", 0, true, +user1BirthYear + 18, 15000, +user1BirthYear + 40)
+  const incomeStream = newStream(colorArray_data[colorIndex], "Employment", "Income Name", 0, true, +user1BirthYear + 18, 15000, +user1BirthYear + 40)
 
   const data = {
-    page: "savings",
-    chart: "SavingsChart",
+    page: "networth",
+    chart: "NetWorthChart",
     userEditForm: "EditIncome",
-    addButtonLabel: "Add Income Stream",
+    addButtonLabel: "Add Asset or a liability",
     userName,
     user2Name,
-    chartNavOptions: ["tfsa", "rrsp", "non-reg", "all accounts"],
     infoCards: [
       {
         label: "insights",
@@ -40,7 +39,7 @@ export const savingsPage_data = (state: any, setValue_action: any): any => {
       },
     ],
     createStream: function () {
-      createStream(colorIndex, incomeStream, setValue_action, selectedAccount)
+      createStream(colorIndex, incomeStream, setValue_action, "income")
     },
   }
 
@@ -65,7 +64,7 @@ export const savingsPage_data = (state: any, setValue_action: any): any => {
         childId: "reg",
       },
       lastSlider: {
-        bottomLabel: `in my ${selectedAccount}`,
+        bottomLabel: `in my TFSA`,
         childId: "yearLast",
         id,
         max: 20080,

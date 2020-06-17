@@ -6,7 +6,6 @@ import { IAppState } from "types/reducer_types"
 //Pages
 import { Onboard as _Onboard } from "pages/onboard/Onboard"
 import { OnboardWizard as _OnboardWizard } from "pages/onboard/OnboardWizard"
-import { Savings as _Savings } from "pages/savings/Savings"
 import { Layout as _Layout } from "pages/layout/Layout"
 import { Display as _Display } from "pages/Display"
 
@@ -38,6 +37,9 @@ import { InfoCard as _InfoCard } from "components/cards/InfoCard"
 
 import { IncomeChart as _IncomeChart } from "charts/IncomeChart"
 import { SavingsChart as _SavingsChart } from "charts/SavingsChart"
+import { NetWorthChart as _NetWorthChart } from "charts/NetWorthChart"
+import { TaxesChart as _TaxesChart } from "charts/TaxesChart"
+import { SpendingChart as _SpendingChart } from "charts/SpendingChart"
 
 const mapStateToProps = (state: IAppState) => ({ state })
 
@@ -166,12 +168,6 @@ export const ScrollCircles = compose(connect(mapStateToProps, { setValue_action 
 export const Onboard = compose(connect(mapStateToProps, { setValue_action }))(_Onboard)
 export const OnboardWizard = compose(connect(mapStateToProps, { setValue_action }))(_OnboardWizard)
 
-/**
- * The <Savings> component is the main component for the Savingssection. It renders the chart along showing the users
- * savings plan and enables them to edit it.
- *  */
-
-export const Savings = compose(connect(mapStateToProps, { setValue_action }))(_Savings)
 
 /**
  * The <EditCard> component enables the user to change all the values pertaining to one subject instance  */
@@ -200,3 +196,19 @@ export const IncomeChart = compose(connect(mapStateToProps, { setValue_action })
  *  */
 
 export const SavingsChart = compose(connect(mapStateToProps, { setValue_action }))(_SavingsChart)
+
+/**
+ * The <NetWorthChart> renders a chart showing the users net worth from current age until  95.
+ *  */
+
+export const NetWorthChart = compose(connect(mapStateToProps, { setValue_action }))(_NetWorthChart)
+/**
+ * The <TaxesChart> renders a chart showing the users Taxes from current age until  95.
+ *  */
+
+export const TaxesChart = compose(connect(mapStateToProps, { setValue_action }))(_TaxesChart)
+/**
+ * The <SpendingChart> renders a chart showing the users spending from current age until  95.
+ *  */
+
+export const SpendingChart = compose(connect(mapStateToProps, { setValue_action }))(_SpendingChart)

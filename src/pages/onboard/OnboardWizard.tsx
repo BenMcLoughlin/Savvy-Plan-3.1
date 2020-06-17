@@ -16,6 +16,7 @@ export const OnboardWizard: FC<any> = props => {
     return <Component {...props} />
   }
 
+
   return (
     <Wrapper>
       <Header>

@@ -25,6 +25,7 @@ export const createSavingsArray = (instance: any, setValue_action: any, state: a
     },
     {
       ask: "If you're making regular contributions we'll factor that into the plan",
+      chart: "SavingsChart",
       component: "DualSelect",
       id: "selectedUser",
       value1: "yes",
@@ -41,6 +42,7 @@ export const createSavingsArray = (instance: any, setValue_action: any, state: a
     // if the user indicated they do contribute, it will increase periods by 1
     array.push({
       ask: "Just an approximation of the current value is helpful. ",
+      chart: "SavingsChart",
       bottomLabel: "per year",
       childId: "value1",
       component: "Slider",
@@ -55,6 +57,7 @@ export const createSavingsArray = (instance: any, setValue_action: any, state: a
     array.push({
       ask: "Most people aim to contribute the same amount till they retire. ",
       bottomLabel: `at age ${instance.yearLast - user1BirthYear}`,
+      chart: "SavingsChart",
       childId: "yearLast",
       component: "Slider",
       id,

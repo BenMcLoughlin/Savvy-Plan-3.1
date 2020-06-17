@@ -6,14 +6,14 @@ interface IProps {
   setValue_action: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
-export const IncomeChart: FC<IProps> = ({ state, setValue_action }) => {
+export const NetWorthChart: FC<IProps> = ({ state, setValue_action }) => {
   return (
     <Wrapper>
       <Img
         alt="#"
-        src={require("assets/lifetimeIncome.png")}
+        src={require("assets/netWorth.png")}
         style={{ height: "20rem" }}
-        onClick={() => setValue_action("selectedId", "ui_reducer", "incomeDummy")}
+        onClick={() => setValue_action("selectedAccount", "ui_reducer", "incomeDummy")}
       />
     </Wrapper>
   )
@@ -25,6 +25,8 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 8rem;
+  margin-left: 2rem;
 `
 const Img = styled.img`
   height: 20rem;

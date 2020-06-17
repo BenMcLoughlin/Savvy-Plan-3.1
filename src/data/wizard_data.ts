@@ -1,5 +1,6 @@
 import { createIncomeArray } from "data/income_data"
 import { createSavingsArray } from "data/savings_data"
+import { createPropertyArray } from "data/netWorth_data"
 import { IOnboard } from "types/component_types"
 import { createStream, newStream } from "services/ui_functions"
 import { colorArray_data } from "styles/color_data"
@@ -13,7 +14,8 @@ export const onboard_data = (state: any, setValue_action: any, progress: number)
 
   const { id, colorIndex } = ui_reducer
 
-  const incomeStream = newStream("#00BDD3", "Employment", "Wal Mart Income", 0, true, +user1BirthYear + 18, 15000, +user1BirthYear + 40)
+  const incomeStream = newStream("#00BDD3", "", "", 0, true, +user1BirthYear + 18, 15000, +user1BirthYear + 40)
+  const propertyStream = newStream("#00BDD3", "", "", 0, true, +user1BirthYear + 30, 15000, +user1BirthYear + 60)
 
   const array: IOnboard[] = [
     {
@@ -70,62 +72,62 @@ export const onboard_data = (state: any, setValue_action: any, progress: number)
     },
   ]
 
-  //  ------ADD TO ARRAY IF USER IS MARRIED
-  if (maritalStatus === "married" || maritalStatus === "common-law") {
-    // if the user is married we need to gather their spouse's first name and birth
-    array.push({
-      //Question 4.1: SPOUSE FIRST NAME
-      ask: "We'll use this to keep your details seperate from your spouse.",
-      component: "TextInput",
-      id: "user2Name",
-      label: "Spouse's First Name",
-      reducer: "user_reducer",
-      title: "What's your spouse's first Name?",
-      placeholder: "Name",
-      type: "text",
-    })
-    array.push({
-      //Question 4.2: SPOUSE BIRTH YEAY
-      ask: "This will form the basis of our financial calculations",
-      component: "TextInput",
-      id: "user2BirthYear",
-      label: "Spouse's Birth Year",
-      reducer: "user_reducer",
-      title: "What's your spouse's birth Year?",
-      placeholder: "YYYY",
-      type: "year",
-    })
-  }
+  // //  ------ADD TO ARRAY IF USER IS MARRIED
+  // if (maritalStatus === "married" || maritalStatus === "common-law") {
+  //   // if the user is married we need to gather their spouse's first name and birth
+  //   array.push({
+  //     //Question 4.1: SPOUSE FIRST NAME
+  //     ask: "We'll use this to keep your details seperate from your spouse.",
+  //     component: "TextInput",
+  //     id: "user2Name",
+  //     label: "Spouse's First Name",
+  //     reducer: "user_reducer",
+  //     title: "What's your spouse's first Name?",
+  //     placeholder: "Name",
+  //     type: "text",
+  //   })
+  //   array.push({
+  //     //Question 4.2: SPOUSE BIRTH YEAY
+  //     ask: "This will form the basis of our financial calculations",
+  //     component: "TextInput",
+  //     id: "user2BirthYear",
+  //     label: "Spouse's Birth Year",
+  //     reducer: "user_reducer",
+  //     title: "What's your spouse's birth Year?",
+  //     placeholder: "YYYY",
+  //     type: "year",
+  //   })
+  // }
 
-  array.push({
-    //Question 5: HAS CHILDREN
-    array: ["yes", "no", "hope to eventually", "yes, and they are over 18"],
-    ask: "We'd like to estimate your government child benefits.",
-    component: "PickSingleOption",
-    id: "hasChildren",
-    reducer: "user_reducer",
-    title: "Do you have children?",
-    textInput: false,
-  })
+  // array.push({
+  //   //Question 5: HAS CHILDREN
+  //   array: ["yes", "no", "hope to eventually", "yes, and they are over 18"],
+  //   ask: "We'd like to estimate your government child benefits.",
+  //   component: "PickSingleOption",
+  //   id: "hasChildren",
+  //   reducer: "user_reducer",
+  //   title: "Do you have children?",
+  //   textInput: false,
+  // })
 
-  //  ------ADD TO ARRAY IF USER HAS CHILDREN
-  if (hasChildren === "yes" || hasChildren === "hopeToEventually") {
-    // if the user has children we need to gather the number and birth years of the children
-    array.push({
-      //Question 5.1: NUMBER OF CHILDREN
-      ask: "We'd like to estimate your government child benefits.",
-      component: "PickNumber",
-      id: "numberOfChildren",
-      value: 3,
-      reducer: "user_reducer",
-      title: "How many children?",
-      onClick: function(number) {
-        setValue_action(`child${number}BirthYear`, "user_reducer", 2000)
-      },
-    })
-  }
+  // //  ------ADD TO ARRAY IF USER HAS CHILDREN
+  // if (hasChildren === "yes" || hasChildren === "hope to eventually") {
+  //   // if the user has children we need to gather the number and birth years of the children
+  //   array.push({
+  //     //Question 5.1: NUMBER OF CHILDREN
+  //     ask: hasChildren === "yes" ? "We'd like to estimate your government child benefits." : "Just guessing is fine, it will give you an idea of the impact of government benefits on your plan. You can always change it later. ",
+  //     component: "PickNumber",
+  //     id: "numberOfChildren",
+  //     value: 3,
+  //     reducer: "user_reducer",
+  //     title: "How many children?",
+  //     onClick: function(number) {
+  //       setValue_action(`child${number}BirthYear`, "user_reducer", 2000)
+  //     },
+  //   })
+  // }
 
-  //INCOME SECTION DON"T DELETE
+  // //INCOME SECTION DON"T DELETE
 
   // //Question 6: ADD INCOME TO CHART?
   // array.push({
@@ -186,173 +188,186 @@ export const onboard_data = (state: any, setValue_action: any, progress: number)
   //     })
   // }
 
-  // ASK IF THEY HAVE INVESTMENTS
+  // // ASK IF THEY HAVE INVESTMENTS
+  // array.push({
+  //   array: [
+  //     {
+  //       label: "tax free savings account",
+  //       subTitle: "for tax-free investing",
+  //       reg: "TFSA",
+  //       info:
+  //         "The TFSa enables you to  avoid taxes on the gains you make. If you invest $100 right now and it becomes $1000 by the time you retire, that $900 you'll have earned is tax-free. You can also take money out any time you want. There is no penalty to withdraw - and if you do, the amount is added to how much you can contribute the following year.",
+  //     },
+  //     {
+  //       label: "registered retirement savings",
+  //       subTitle: "for investing towards retirement",
+  //       reg: "RRSP",
+  //       info:
+  //         "A popular retirement account designed to help Canadians save for retirement. The money you contribute to your RRSP is “pre-tax.” That means that you can subtract the amount you contribute from your income and pay less in income taxes. If you made $60,000 and you contributed $5,000 to your RRSP, you will pay tax on only $55,000 of income.",
+  //     },
+  //     {
+  //       label: "personal, non-registered",
+  //       subTitle: "",
+  //       reg: "N-Reg",
+  //       info:
+  //         "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
+  //     },
+  //     {
+  //       label: "Lira",
+  //       subTitle: "for funds from former employers",
+  //       reg: "LIRA",
+  //       info:
+  //         "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
+  //     },
+  //     {
+  //       label: "Pension",
+  //       subTitle: "for funds from former employers",
+  //       reg: "Pension",
+  //       info:
+  //         "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
+  //     },
+  //     {
+  //       label: "RESP",
+  //       subTitle: "for children's education",
+  //       reg: "RESP",
+  //       info:
+  //         "A popular savings account for parents or family members to save money for their children's education. With an RESP, the government will match your contributions and anything you earn through investing is earned tax-free. As always, there are rules and limitations.",
+  //     },
+  //     { label: "none", reg: "none" },
+  //   ],
+  //   ask: "We'll use this info to see how much income in retirement your investments will provide",
+  //   component: "PickMultipleOptions",
+  //   id: "progress",
+  //   user: "User1",
+  //   reducer: "ui_reducer",
+  //   title: maritalStatus === "married" ? `Does ${user1Name} have investments?` : "Do you have investments?",
+  //   onClick: function (account) {
+  //     createStream(
+  //       colorIndex,
+  //       newStream(colorArray_data[colorIndex], account, `${account}`, 0, true, thisYear, 0, +user1BirthYear + 55),
+  //       setValue_action,
+  //       `savingsUser1${account}`
+  //     )
+  //   },
+  // })
+
+
+  // // //  ------ADD TO SAVINGS STREAMS TO ARRAY
+  // // // Here need to map through all the savings streams and add them to the primary array.
+  // Object.values(main_reducer)
+  //   .filter((d: any) => d.id.includes("savingsUser1"))
+  //   .map((instance: any) => {
+  //     //looks at all the savings streams listed in the main reducer
+  //     const savingsData = createSavingsArray(instance, setValue_action, state) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
+  //     savingsData.map((d: any, i: number) => {
+  //       //maps through the array and pushes the contents to the main array that controls the wizard
+  //       array.push(d)
+  //     })
+  //   })
+
+  // // ------ ASK IF THEIR SPOUSE HAS INVESTMENTS
+  // if (maritalStatus === "married" || maritalStatus === "common-law") {
+  //   array.push({
+  //     array: [
+  //       {
+  //         label: "tax free savings account",
+  //         subTitle: "for tax-free investing",
+  //         reg: "TFSA",
+  //         info:
+  //           "The TFSa enables you to  avoid taxes on the gains you make. If you invest $100 right now and it becomes $1000 by the time you retire, that $900 you'll have earned is tax-free. You can also take money out any time you want. There is no penalty to withdraw - and if you do, the amount is added to how much you can contribute the following year.",
+  //       },
+  //       {
+  //         label: "registered retirement savings",
+  //         subTitle: "for investing towards retirement",
+  //         reg: "RRSP",
+  //         info:
+  //           "A popular retirement account designed to help Canadians save for retirement. The money you contribute to your RRSP is “pre-tax.” That means that you can subtract the amount you contribute from your income and pay less in income taxes. If you made $60,000 and you contributed $5,000 to your RRSP, you will pay tax on only $55,000 of income.",
+  //       },
+  //       {
+  //         label: "personal, non-registered",
+  //         subTitle: "",
+  //         reg: "N-Reg",
+  //         info:
+  //           "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
+  //       },
+  //       {
+  //         label: "Lira",
+  //         subTitle: "for funds from former employers",
+  //         reg: "LIRA",
+  //         info:
+  //           "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
+  //       },
+  //       {
+  //         label: "Pension",
+  //         subTitle: "for funds from former employers",
+  //         reg: "Pension",
+  //         info:
+  //           "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
+  //       },
+  //       {
+  //         label: "RESP",
+  //         subTitle: "for children's education",
+  //         reg: "RESP",
+  //         info:
+  //           "A popular savings account for parents or family members to save money for their children's education. With an RESP, the government will match your contributions and anything you earn through investing is earned tax-free. As always, there are rules and limitations.",
+  //       },
+  //       { label: "none", reg: "none" },
+  //     ],
+  //     ask: "We'll use this info to see how much income in retirement your investments will provide",
+  //     component: "PickMultipleOptions",
+  //     id: "progress",
+  //     user: "User2",
+  //     reducer: "ui_reducer",
+  //     title: `Does ${user2Name}  have investments?`,
+  //     onClick: function (account) {
+  //       createStream(
+  //         colorIndex,
+  //         newStream(colorArray_data[colorIndex], account, `account`, 0, true, thisYear, 0, +user1BirthYear + 55),
+  //         setValue_action,
+  //         `savingsUser2${account}`
+  //       )
+  //     },
+  //   })
+  //   // ------ADD TO SPOUSE'S INCOME STREAMS TO ARRAY
+  //   //Here need to map through all the spouse streams and add them to the primary array.
+  //   Object.values(main_reducer)
+  //     .filter((d: any) => d.id.includes("savingsUser2"))
+  //     .map((instance: any) => {
+  //       //looks at all the spouse streams listed in the main reducer
+  //       const savingsData = createSavingsArray(instance, setValue_action, state) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
+  //       savingsData.map((d: any, i: number) => {
+  //         //maps through the array and pushes the contents to the main array that controls the wizard
+  //         array.push(d)
+  //       })
+  //     })
+  // }
+
   array.push({
-    array: [
-      {
-        label: "tax free savings account",
-        subTitle: "for tax-free investing",
-        reg: "TFSA",
-        info:
-          "The TFSa enables you to  avoid taxes on the gains you make. If you invest $100 right now and it becomes $1000 by the time you retire, that $900 you'll have earned is tax-free. You can also take money out any time you want. There is no penalty to withdraw - and if you do, the amount is added to how much you can contribute the following year.",
-      },
-      {
-        label: "registered retirement savings",
-        subTitle: "for investing towards retirement",
-        reg: "RRSP",
-        info:
-          "A popular retirement account designed to help Canadians save for retirement. The money you contribute to your RRSP is “pre-tax.” That means that you can subtract the amount you contribute from your income and pay less in income taxes. If you made $60,000 and you contributed $5,000 to your RRSP, you will pay tax on only $55,000 of income.",
-      },
-      {
-        label: "personal, non-registered",
-        subTitle: "",
-        reg: "N-Reg",
-        info:
-          "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
-      },
-      {
-        label: "Lira",
-        subTitle: "for funds from former employers",
-        reg: "LIRA",
-        info:
-          "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
-      },
-      {
-        label: "Pension",
-        subTitle: "for funds from former employers",
-        reg: "Pension",
-        info:
-          "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
-      },
-      {
-        label: "RESP",
-        subTitle: "for children's education",
-        reg: "RESP",
-        info:
-          "A popular savings account for parents or family members to save money for their children's education. With an RESP, the government will match your contributions and anything you earn through investing is earned tax-free. As always, there are rules and limitations.",
-      },
-      { label: "none", reg: "none" },
-    ],
-    ask: "We'll use this info to see how much income in retirement your investments will provide",
-    component: "PickMultipleOptions",
-    id: "progress",
-    user: "User1",
+    ask:
+      "We want to add any property you might own to your net worth chart.",
+    component: "DualSelect",
+    id: "selectedUser",
+    value1: "yes",
+    value2: "no",
     reducer: "ui_reducer",
-    title: maritalStatus === "married" ? `Does ${user1Name} have investments?` : "Do you have investments?",
-    onClick: function (account) {
-      createStream(
-        colorIndex,
-        newStream(colorArray_data[colorIndex], account, `${account}`, 0, true, thisYear, 0, +user1BirthYear + 55),
-        setValue_action,
-        `savingsUser1${account}`
-      )
+    title: "Do you own the home you live in?",
+    onClick: function () {
+      createStream(colorIndex, propertyStream, setValue_action, "property")
     },
   })
 
-
-  // //  ------ADD TO SAVINGS STREAMS TO ARRAY
-  // // Here need to map through all the savings streams and add them to the primary array.
-  Object.values(main_reducer)
-    .filter((d: any) => d.id.includes("savingsUser1"))
-    .map((instance: any) => {
-      //looks at all the savings streams listed in the main reducer
-      const savingsData = createSavingsArray(instance, setValue_action, state) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
-      savingsData.map((d: any, i: number) => {
-        //maps through the array and pushes the contents to the main array that controls the wizard
-        array.push(d)
-      })
-    })
-
-  // ------ ASK IF THEIR SPOUSE HAS INVESTMENTS
-  if (maritalStatus === "married" || maritalStatus === "common-law") {
-    array.push({
-      array: [
-        {
-          label: "tax free savings account",
-          subTitle: "for tax-free investing",
-          reg: "TFSA",
-          info:
-            "The TFSa enables you to  avoid taxes on the gains you make. If you invest $100 right now and it becomes $1000 by the time you retire, that $900 you'll have earned is tax-free. You can also take money out any time you want. There is no penalty to withdraw - and if you do, the amount is added to how much you can contribute the following year.",
-        },
-        {
-          label: "registered retirement savings",
-          subTitle: "for investing towards retirement",
-          reg: "RRSP",
-          info:
-            "A popular retirement account designed to help Canadians save for retirement. The money you contribute to your RRSP is “pre-tax.” That means that you can subtract the amount you contribute from your income and pay less in income taxes. If you made $60,000 and you contributed $5,000 to your RRSP, you will pay tax on only $55,000 of income.",
-        },
-        {
-          label: "personal, non-registered",
-          subTitle: "",
-          reg: "N-Reg",
-          info:
-            "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
-        },
-        {
-          label: "Lira",
-          subTitle: "for funds from former employers",
-          reg: "LIRA",
-          info:
-            "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
-        },
-        {
-          label: "Pension",
-          subTitle: "for funds from former employers",
-          reg: "Pension",
-          info:
-            "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
-        },
-        {
-          label: "RESP",
-          subTitle: "for children's education",
-          reg: "RESP",
-          info:
-            "A popular savings account for parents or family members to save money for their children's education. With an RESP, the government will match your contributions and anything you earn through investing is earned tax-free. As always, there are rules and limitations.",
-        },
-        { label: "none", reg: "none" },
-      ],
-      ask: "We'll use this info to see how much income in retirement your investments will provide",
-      component: "PickMultipleOptions",
-      id: "progress",
-      user: "User2",
-      reducer: "ui_reducer",
-      title: `Does ${user2Name}  have investments?`,
-      onClick: function (account) {
-        createStream(
-          colorIndex,
-          newStream(colorArray_data[colorIndex], account, `account`, 0, true, thisYear, 0, +user1BirthYear + 55),
-          setValue_action,
-          `savingsUser2${account}`
-        )
-      },
-    })
-    // ------ADD TO SPOUSE'S INCOME STREAMS TO ARRAY
-    //Here need to map through all the spouse streams and add them to the primary array.
+      // ------ADD PROPERTRY ARRAY TO MAIN ARRAY.
     Object.values(main_reducer)
-      .filter((d: any) => d.id.includes("savingsUser2"))
+      .filter((d: any) => d.id.includes("property"))
       .map((instance: any) => {
-        //looks at all the spouse streams listed in the main reducer
-        const savingsData = createSavingsArray(instance, setValue_action, state) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
-        savingsData.map((d: any, i: number) => {
+        //looks at all the spouse streams listed in the main reducer to find those related to property
+        const propertyData = createPropertyArray(instance, setValue_action, state) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
+        propertyData.map((d: any, i: number) => {
           //maps through the array and pushes the contents to the main array that controls the wizard
           array.push(d)
         })
       })
-  }
-
-  array.push({
-    ask:
-      "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
-    component: "DualSelect",
-    id: "selectedUser",
-    value1: "rent",
-    value2: "own",
-    reducer: "ui_reducer",
-    title: "Do you rent or own your home?",
-    onClick: function () {
-      createStream(colorIndex, incomeStream, setValue_action, "spouseIncome")
-    },
-  })
+  
 
   console.log(array)
   return array

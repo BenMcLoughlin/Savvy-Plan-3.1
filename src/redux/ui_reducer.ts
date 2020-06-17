@@ -2,13 +2,13 @@ import { IUiState } from "types/reducer_types"
 
 const initialState: IUiState = {
   change: false,
-  selectedId: "incomeDummy",
+  selectedId: "",
   colorIndex: 0,
   videoUrl: "",
-  progress: 6,
-  selectedPage: "taxes",
+  progress: 0,
+  selectedPage: "income",
   selectedAccount: "tfsa",
-  selectedUser: "",
+  selectedUser: "user1",
 }
 
 export function ui_reducer(state: IUiState = initialState, action: any): IUiState {
