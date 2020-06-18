@@ -1,41 +1,42 @@
-import React, { FC, useState } from 'react'
-import styled from 'styled-components'
+import React, { FC, useState } from "react"
+import styled from "styled-components"
 
 interface IProps {
   childId: any
   id: string
   reducer: string
   state: any
-  setValue_action: (id: string, reducer: string, value: any, childId: any) => void
+  set: (id: string, reducer: string, value: any, childId: any) => void
 }
 
-export const ColorSelect: FC<IProps> = ({childId, id, reducer, state, setValue_action}) => {
-
+export const ColorSelect: FC<IProps> = ({ childId, id, reducer, state, set }) => {
   const [open, toggleOpen] = useState<boolean>(false)
 
   const selectedColor = state[reducer][id][childId]
-  const colors = [ "#c9d0cc","#7f7f7f", "#536D7A","#4BB9D0", "#324755",'#ffd152','#8CB8B7','#3B7B8E','#485056','#F29278', '#F07655', "#4F9190"]
+  const colors = ["#c9d0cc", "#7f7f7f", "#536D7A", "#4BB9D0", "#324755", "#ffd152", "#8CB8B7", "#3B7B8E", "#485056", "#F29278", "#F07655", "#4F9190"]
 
-  return <Wrapper onClick={() => toggleOpen(!open)}>
-    <Circle color={selectedColor}/>
-    {open && (
+  return (
+    <Wrapper onClick={() => toggleOpen(!open)}>
+      <Circle color={selectedColor} />
+      {open && (
         <DropDown>
           {colors.map((d: string) => {
             return (
               <Square
                 selected={false}
                 onClick={() => {
-                  setValue_action(id, reducer, d, childId)
+                  set(id, reducer, d, childId)
                   toggleOpen(false)
                 }}
               >
-                  <Circle color={d}/>
+                <Circle color={d} />
               </Square>
             )
           })}
         </DropDown>
       )}
-  </Wrapper>
+    </Wrapper>
+  )
 }
 
 //---------------------------STYLES-------------------------------------------//
@@ -55,7 +56,7 @@ interface IColor {
 
 const Circle = styled.div<IColor>`
   display: flex;
-  background: ${(props) => props.color};
+  background: ${props => props.color};
   border-radius: 50%;
   height: 3rem;
   width: 3rem;
@@ -63,7 +64,6 @@ const Circle = styled.div<IColor>`
 interface ISquare {
   selected: boolean
 }
-
 
 const Square = styled.div<ISquare>`
   width: 6rem;

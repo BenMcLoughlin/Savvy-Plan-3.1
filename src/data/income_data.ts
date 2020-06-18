@@ -1,6 +1,5 @@
 import { IIncomeStream } from "types/reducer_types"
-import { createStream, addPeriodToStream, newStream } from "services/ui_functions"
-import { colorArray_data } from "styles/color_data"
+import { createStream, addPeriodToStream, newIncomeStream } from "services/ui_functions"
 /**
  * createIncomeArray() returns an array of objects that each represent a detail of the income incomeStream such as when they started and how much they earn.
  * It initially consists of an array that returns an income incomeStream with one period.  As the user
@@ -8,7 +7,7 @@ import { colorArray_data } from "styles/color_data"
  * add as many periods as they like to the array by incrementing the "periods" number. This array is then spliced into the main wizard array.
  *  */
 
-export const createIncomeArray = (instance: IIncomeStream, setValue_action: any, state: any) => {
+export const createIncomeArray = (instance: IIncomeStream, set: any, state: any, remove: any) => {
   const { periods, id } = instance
 
   const currentYear = new Date().getFullYear() //the text needs to be able to refer to the income being earned in the past or in the future, so we will use this to test that
@@ -19,7 +18,7 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
   const { user1BirthYear } = state.user_reducer
   const { colorIndex } = state.ui_reducer
 
-  const incomeStream = newStream(colorArray_data[colorIndex], "Employment", "Wal Mart Income", 0, true, +user1BirthYear + 18, 1500, +user1BirthYear + 40)
+  const incomeStream = newIncomeStream( +user1BirthYear + 18, +user1BirthYear + 40)
 
   const array: any = [
     //INTRO USER QUESTIONS
@@ -110,28 +109,30 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
       commentTop: 0,
       commentLeft: 43,
       id: "selectedUser",
-      value1: "yes",
-      value2: "no",
+      option1: "yes",
+      option2: "no",
       reducer: "ui_reducer",
       title: past ? "Did it ever have a change greater than $5,000?" : "Did you think it will ever have a change greater than $5,000?",
       onClick: function () {
-        setValue_action(id, "main_reducer", periods + 1, "periods")
-        addPeriodToStream(instance, periods, id, setValue_action)
+        set(id, "main_reducer", periods + 1, "periods")
+        addPeriodToStream(instance, periods, id, set)
       },
     },
     //---INSERT HERE
     {
-      ask:
-        "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
+      ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
       chart: "IncomeChart",
       component: "DualSelect",
       id: "selectedUser",
-      value1: "yes",
-      value2: "no",
+      option1: "yes",
+      option2: "no",
       reducer: "ui_reducer",
       title: "Would you like to add another income incomeStream to the chart?",
       onClick: function () {
-        createStream(colorIndex, incomeStream, setValue_action, "userIncome")
+        createStream(colorIndex, incomeStream, set, "userIncome")
+      },
+      undo(id) {
+        remove(id)
       },
     },
   ]
@@ -176,16 +177,15 @@ export const createIncomeArray = (instance: IIncomeStream, setValue_action: any,
         chart: "IncomeChart",
         component: "DualSelect",
         id: "selectedUser",
-        value1: "yes",
-        value2: "no",
+        option1: "yes",
+        option2: "no",
         reducer: "ui_reducer",
         title: past ? "Did it change over $5000 again?" : "Did you think it will change over $5000 again?",
         onClick: function () {
-          addPeriodToStream(instance, periods, id, setValue_action)
+          addPeriodToStream(instance, periods, id, set)
         },
       }
     )
   }
   return array
 }
-

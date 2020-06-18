@@ -3,27 +3,11 @@ import styled from "styled-components"
 
 export interface IButton {
   label: string
-  id: string
-  onClick?: () => void
-  reducer: string
-  value: string | number | boolean
-  setValue_action: (id: string, reducer: string, value: any, childId: string) => void
+  onClick: () => void
+  set: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
-export const Button: FC<IButton> = ({ label, id, onClick, reducer, setValue_action, value }) => {
-  return (
-    <Wrapper
-      onClick={() => {
-        if (onClick) {
-          onClick()
-        }
-        setValue_action(id, reducer, value, "")
-      }}
-    >
-      {label}
-    </Wrapper>
-  )
-}
+export const Button: FC<IButton> = ({ label, onClick, set }) => <Wrapper onClick={() => onClick()}>{label}</Wrapper>
 
 //---------------------------STYLES-------------------------------------------//
 

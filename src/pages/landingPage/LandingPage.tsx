@@ -5,7 +5,7 @@ interface IProps {
       
 }
 
-export const LandingPage: FC<IProps> = ({}) => {
+export const LandingPage: FC<IProps> = () => {
 
   return (
     <Wrapper>

@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react'
-import styled from 'styled-components'
+import React, { FC, useState } from "react"
+import styled from "styled-components"
 
 interface IProps {
   array: string[]
@@ -8,16 +8,16 @@ interface IProps {
   label: string
   reducer: string
   state: any
-  setValue_action: (id: string, reducer: string, value: any, childId: any) => void
+  set: (id: string, reducer: string, value: any, childId: any) => void
 }
 
-export const Dropdown: FC<IProps> = ({ array, childId, id, label, reducer, state, setValue_action}) => {
+export const Dropdown: FC<IProps> = ({ array, childId, id, label, reducer, state, set }) => {
   const [open, toggleOpen] = useState<boolean>(false)
   const selectedValue = state[reducer][id][childId]
 
   return (
     <Wrapper>
-      <Input onChange={(e) => e} type="text" autoComplete="off" value={selectedValue} onClick={() => toggleOpen(!open)}></Input>
+      <Input onChange={e => e} type="text" autoComplete="off" value={selectedValue} onClick={() => toggleOpen(!open)}></Input>
       <Label>{label}: </Label>
       {open && (
         <DropDown>
@@ -26,7 +26,7 @@ export const Dropdown: FC<IProps> = ({ array, childId, id, label, reducer, state
               <Square
                 selected={false}
                 onClick={() => {
-                  setValue_action(id, reducer, d, childId)
+                  set(id, reducer, d, childId)
                   toggleOpen(false)
                 }}
               >
@@ -50,7 +50,6 @@ const Wrapper = styled.div`
   align-items: center;
   position: absolute;
   right: 1rem;
-
 `
 
 const Input = styled.input`
@@ -115,6 +114,6 @@ const Label = styled.div`
   color: white;
   font-size: 1.4rem;
   position: absolute;
-  top: .64rem;
+  top: 0.64rem;
   left: -2rem;
 `

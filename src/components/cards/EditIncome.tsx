@@ -1,12 +1,11 @@
 import React, { useState, FC } from "react"
 import styled from "styled-components"
-import { ColorSelect, Dropdown, EditTitle, ScrollCircles, Slider, DualSelect } from "HOC/connectRedux_HOC"
+import { ColorSelect, Dropdown, EditTitle, ScrollCircles, Slider } from "HOC/connectRedux_HOC"
 import { Exit } from "components/buttons/Exit"
 import { AddButton } from "components/buttons/AddButton"
 import { addPeriodToStream } from "services/ui_functions"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 import { Trash2 } from "@styled-icons/feather/Trash2"
-import _ from "lodash"
 
 interface IProps {
   id: string
@@ -17,11 +16,11 @@ interface IProps {
   periods: number
   editTitle: boolean
   lastSlider: any
-  setValue_action: (id: string, reducer: string, value: any, childId?: string) => void
-  delete_action: (id: string) => void
+  set: (id: string, reducer: string, value: any, childId?: string) => void
+  remove: (id: string) => void
 }
 
-export const EditIncome: FC<IProps> = ({ addPeriodLabel, editTitle, id, lastSlider, dropdown, periods, instance, delete_action, periodSliders, setValue_action }) => {
+export const EditIncome: FC<IProps> = ({ addPeriodLabel, editTitle, id, lastSlider, dropdown, periods, instance, remove, periodSliders, set }) => {
   const [position, setPosition] = useState<number>(0)
 
   const [direction, setDirection] = useState<string>("forward")
@@ -38,11 +37,8 @@ export const EditIncome: FC<IProps> = ({ addPeriodLabel, editTitle, id, lastSlid
         ) : (
           instance.reg
         )}
-        <Exit onClick={() => setValue_action("selectedId", "ui_reducer", "")} />
+        <Exit onClick={() => set("selectedId", "ui_reducer", "")} />
       </Header>
-      {/* <DualSelectWrapper>
-        <DualSelect id={"banana"} onClick={() => null} reducer={"user_reducer"} value1={"contributions"} value2={"withdrawals"} />
-      </DualSelectWrapper> */}
       <TransitionGroup>
         {periodSliders.map(
           (d, i) =>
@@ -63,20 +59,20 @@ export const EditIncome: FC<IProps> = ({ addPeriodLabel, editTitle, id, lastSlid
       <Change>
         <AddButton
           onClick={() => {
-            addPeriodToStream(instance, periods, id, setValue_action)
+            addPeriodToStream(instance, periods, id, set)
             setPosition(periods + 1)
           }}
         />
         {addPeriodLabel}
       </Change>
-      <Delete>
+      <Remove>
         <TrashIcon
           onClick={() => {
-            setValue_action("selectedId", "ui_reducer", "", "") // sets the seleted ID in the reducer to nothing so the box will no longer show                                                                                                         // determines which income instance to show within the edit box
-            delete_action(id)
+            set("selectedId", "ui_reducer", "", "") // sets the seleted ID in the reducer to nothing so the box will no longer show                                                                                                         // determines which income instance to show within the edit box
+            remove(id)
           }}
         />
-      </Delete>
+      </Remove>
     </Wrapper>
   )
 }
@@ -142,7 +138,7 @@ const TrashIcon = styled(Trash2)`
   color: #73706e;
 `
 
-const Delete = styled.div`
+const Remove = styled.div`
   height: 1.5rem;
   width: 4.5rem;
   position: absolute;
@@ -151,7 +147,7 @@ const Delete = styled.div`
   font-size: 1.4rem;
   cursor: pointer;
   &:after {
-    content: "Delete";
+    content: "remove";
     top: -2.5rem;
     right: 0.7rem;
     height: 2rem;
@@ -166,9 +162,4 @@ const Delete = styled.div`
       opacity: 1;
     }
   }
-`
-const DualSelectWrapper = styled.div`
-  position: absolute;
-  top: 4rem;
-  left: 2rem;
 `

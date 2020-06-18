@@ -1,27 +1,17 @@
-import { createStream, addPeriodToStream, newStream } from "services/ui_functions"
-import { colorArray_data } from "styles/color_data"
+import { createStream, newPropertyStream } from "services/ui_functions"
+
 /**
- * createPropertyArray() returns an array of objects that each represent a detail of the income propertyStream such as when they started and how much they earn.
- * It initially consists of an array that returns an income propertyStream with one period.  As the user
- * increments the "periods" number in the propertyStream a set of new objects is added to the propertyStream that enable the user to add the values for that period. They can then
- * add as many periods as they like to the array by incrementing the "periods" number. This array is then spliced into the main wizard array.
+ * createPropertyArray() returns an array of objects that each represent a deatil about their property such as its value and mortgage. 
  *  */
 
-export const createPropertyArray = (instance, setValue_action: any, state: any) => {
-  const { periods, id } = instance
+export const createPropertyArray = (instance, set: any, state: any) => {
+  const { id } = instance
 
-  const currentYear = new Date().getFullYear() //the text needs to be able to refer to the income being earned in the past or in the future, so we will use this to test that
-
-  let past = currentYear > instance.year0
-  let finalPast = currentYear > instance[`yearLast`]
-
-  const { user1BirthYear } = state.user_reducer
+  const { maritalStatus } = state.user_reducer
   const { colorIndex } = state.ui_reducer
-
-  const propertyStream = newStream(colorArray_data[colorIndex], "property", "Primary Residence", 0, true, +user1BirthYear + 18, 1500, +user1BirthYear + 40)
+  const propertyStream = newPropertyStream()
 
   const array: any = [
-    //INTRO USER QUESTIONS
     {
       ask: 'Examples could be Primary Residence, home, rental property or the address".',
       component: "TextInput",
@@ -29,14 +19,13 @@ export const createPropertyArray = (instance, setValue_action: any, state: any) 
       id,
       label: "Property Name",
       reducer: "main_reducer",
-      title: "What do you call this property",
+      title: "What should we call this property?",
       placeholder: "",
       type: "text",
     },
     {
-      //QUESTION 1 - Type of income
       array: ["Primary Residence", "Vacation Property", "Rental Property", "Business", "Other"], // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
-      ask: "If its rental property there could be some tax advantages we could look at.",
+      ask: "The type of property can have different tax consequences.",
       component: "PickSingleOption",
       childId: "reg",
       id,
@@ -44,91 +33,223 @@ export const createPropertyArray = (instance, setValue_action: any, state: any) 
       title: "What kind of property is it?",
       textInput: true,
     },
-    {
-      ask: "We'll add it to the charts. If you plan to buy property in the future we can add that too.",
-      bottomLabel: `at age ${instance.year0 - 1988}`,
-      component: "Slider",
-      childId: "year0",
+  ]
+  if (maritalStatus === "married" || maritalStatus === "common law") {
+    array.push({
+      ask: "We'll use this information in the tax section.",
+      component: "TripleSelector",
+      childId: "owner",
+      id,
+      reducer: "main_reducer",
+      title: "Who's name is it under?",
+      textInput: true,
+    })
+  }
+
+  array.push({
+    ask: "We'll add it to the charts. If you plan to buy property in the future we can add that too.",
+    component: "MultiSliders",
+    num: 3,
+    id,
+    childId: "purchaseYear",
+    reducer: "main_reducer",
+    title: "Tell us about the value of the house",
+    slider1: {
+      bottomLabel: "year",
+      childId: "purchaseYear",
       id,
       max: 2080,
-      min: `${+user1BirthYear + 16}`,
+      min: 1990,
       step: 1,
       topLabel: "I bought it in ",
       reducer: "main_reducer",
-      title: past ? "When did you purchase it?" : "When do you plan to purchase it?",
       type: "year",
     },
-    {
-      ask: "Put in the value when you started. You can add changes in incomelater",
-      bottomLabel: "",
-      childId: "value0",
-      component: "Slider",
+    slider2: {
+      bottomLabel: "purchase price",
+      childId: "purchasePrice",
       id,
-      max: 150000,
+      max: 1500000,
       min: 0,
-      step: 1000,
-      topLabel: "purchase price ",
+      step: 5000,
+      topLabel: "For About ",
       reducer: "main_reducer",
-      title: past ? "How much did you buy it for?" : "How much do you think you'll buy it for?",
     },
-    {
-      ask: "We want to add the impact of capital gains into your tax calculations",
-      bottomLabel: "",
-      childId: "value0",
-      component: "Slider",
+    slider3: {
+      bottomLabel: "current value",
+      childId: "currentValue",
       id,
-      max: 150000,
+      max: 1500000,
       min: 0,
-      step: 1000,
-      topLabel: "purchase price ",
+      step: 5000,
+      topLabel: "And now its worth ",
       reducer: "main_reducer",
-      title: past ? "How much is it worth now?" : "How much do you think you'll buy it for?",
     },
-    {
-      ask:
-        "Ending could be caused by changing careers or retiring. Even if you're not sure, just guess. It will help us give you an idea of what your pension would be if you did end at that time.",
-      bottomLabel: `at age ${instance[`yearLast`] - 1988}`,
-      component: "Slider",
-      childId: `yearLast`,
+  })
+  array.push({
+    ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
+    component: "DualSelect",
+    id,
+    childId: "hasMortgage",
+    option1: "yes",
+    option2: "no",
+    reducer: "main_reducer",
+    title: "Do you have a mortgage on this property?",
+  })
+
+  if (instance["hasMortgage"] === "yes") {
+    array.push({
+      ask: "We can add the debt to your networth and show you how it will play out in your plan.",
+      component: "MultiSliders",
+      num: 3,
       id,
-      max: 2095,
-      min: instance[`year${periods}`],
-      step: 1,
-      topLabel: finalPast ? "I sold it in" : "It might sell it in",
+      childId: "purchaseYear",
       reducer: "main_reducer",
-      title: finalPast ? "When did you sell it?" : "When do you think you might sell it?",
-      type: "year",
-    },
-    {
-      ask:
-        "Ending could be caused by changing careers or retiring. Even if you're not sure, just guess. It will help us give you an idea of what your pension would be if you did end at that time.",
-      bottomLabel: `at age ${instance[`yearLast`] - 1988}`,
-      component: "Slider",
-      childId: `yearLast`,
-      id,
-      max: .6,
-      min: 0,
-      step: .01,
-      topLabel: finalPast ? "I sold it in" : "It might sell it in",
-      reducer: "main_reducer",
-      title: "what growth rate would you like to use?",
-      type: "percentage",
-    },
-    //---INSERT HERE
-    {
-      ask:
-        "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
-      component: "DualSelect",
-      id: "selectedUser",
-      value1: "yes",
-      value2: "no",
-      reducer: "ui_reducer",
-      title: "Would you like to add another property to the chart?",
-      onClick: function () {
-        createStream(colorIndex, propertyStream, setValue_action, "userIncome")
+      title: `We need some mortgage details for ${instance.name}`,
+      slider1: {
+        bottomLabel: "on the balance",
+        childId: "mortgageBalance",
+        id,
+        max: 1000000,
+        min: 0,
+        step: 1000,
+        topLabel: "I currently owe",
+        reducer: "main_reducer",
       },
+      slider2: {
+        bottomLabel: "mortgage rate",
+        childId: "mortgageRate",
+        id,
+        max: 5,
+        min: 0,
+        step: 0.1,
+        topLabel: "With a rate of",
+        reducer: "main_reducer",
+        type: "percentage",
+      },
+      slider3: {
+        bottomLabel: "Years Remaining ",
+        childId: "mortgageAmortization",
+        id,
+        max: 35,
+        min: 0,
+        step: 1,
+        topLabel: "And have",
+        reducer: "main_reducer",
+      },
+    })
+  }
+  array.push({
+    ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
+    component: "DualSelect",
+    id: "ownHome",
+    option1: "yes",
+    option2: "no",
+    reducer: "user_reducer",
+    title: "Would you like to add another property to the chart?",
+    onClick: function () {
+      createStream(colorIndex, propertyStream, set, "property")
+    },
+  })
+  return array
+}
+
+
+export const createDebtArray = (instance, set: any, state: any) => {
+  const { id } = instance
+
+  const { maritalStatus } = state.user_reducer
+  const { colorIndex } = state.ui_reducer
+  const propertyStream = newPropertyStream()
+
+  const array: any = [
+    {
+      ask: 'Examples could be Primary Residence, home, rental property or the address".',
+      component: "TextInput",
+      childId: "name",
+      id,
+      label: "Debt Name",
+      reducer: "main_reducer",
+      title: "What should we call this debt?",
+      placeholder: "",
+      type: "text",
+    },
+    {
+      array: ["Credit Card", "Student Loan", "Line of Credit", "Business loan", "Other"], // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
+      ask: "The type of property can have different tax consequences.",
+      component: "PickSingleOption",
+      childId: "reg",
+      id,
+      reducer: "main_reducer",
+      title: "What kind of unsecured debt is it?",
+      textInput: true,
     },
   ]
+  if (maritalStatus === "married" || maritalStatus === "common law") {
+    array.push({
+      ask: "We'll use this information in the tax section.",
+      component: "TripleSelector",
+      childId: "owner",
+      id,
+      reducer: "main_reducer",
+      title: "Who's name is it under?",
+      textInput: true,
+    })
+  }
+  array.push({
+    ask: "We'll add it to the charts. If you plan to buy property in the future we can add that too.",
+    component: "MultiSliders",
+    num: 3,
+    id,
+    childId: "balance",
+    reducer: "main_reducer",
+    title: "Tell us about the debt",
+    slider1: {
+      bottomLabel: "on the balance",
+      childId: "balance",
+      id,
+      max: 100000,
+      min: 0,
+      step: 100,
+      topLabel: "I carry about ",
+      reducer: "main_reducer",
+    },
+    slider2: {
+      bottomLabel: "per year",
+      childId: "rate",
+      id,
+      max: 30,
+      min: 0,
+      step: 1,
+      topLabel: "My Interest rate is",
+      reducer: "main_reducer",
+      type: "percentage",
+    },
+    slider3: {
+      bottomLabel: "per month",
+      childId: "payment",
+      id,
+      max: 10000,
+      min: 0,
+      step: 100,
+      topLabel: "I make payments of ",
+      reducer: "main_reducer",
+    },
+  })
+
+  array.push({
+    ask: "The more debt streams you add the better an idea you'll get of your finanical position and the long term impact of the debt.",
+    component: "DualSelect",
+    id: "hasUnsecuredDebt",
+    option1: "yes",
+    option2: "no",
+    reducer: "user_reducer",
+    title: "Would you like to add any other debt to the plan?",
+    onClick: function () {
+      createStream(colorIndex, propertyStream, set, "debt")
+    },
+  })
 
   return array
+
 }

@@ -1,5 +1,5 @@
-import React, { FC } from 'react'
-import styled from 'styled-components'
+import React, { FC } from "react"
+import styled from "styled-components"
 
 interface ISliderProps {
   bottomLabel: string
@@ -13,10 +13,10 @@ interface ISliderProps {
   title: string
   type?: string
   state: any
-  setValue_action: (id: string, reducer: string, value: any, childId?: any) => void
+  set: (id: string, reducer: string, value: any, childId?: any) => void
 }
 
-export const Slider: FC<ISliderProps> = ({ childId, id, min, topLabel, bottomLabel, reducer, type, state, max, setValue_action, step }) => {
+export const Slider: FC<ISliderProps> = ({ childId, id, min, topLabel, bottomLabel, reducer, type, state, max, set, step }) => {
   const value = childId ? state[reducer][id][childId] : state[reducer][id]
 
   return (
@@ -25,19 +25,19 @@ export const Slider: FC<ISliderProps> = ({ childId, id, min, topLabel, bottomLab
       <Value
         type="text"
         autoComplete="off"
-        onChange={(e) => setValue_action(id, reducer, e.target.value, childId)}
-        value={type === 'percentage' ? `${value}%` : type === 'year' ? value : value.toLocaleString()}
+        onChange={e => set(id, reducer, e.target.value, childId)}
+        value={type === "percentage" ? `${value}%` : type === "year" ? value : value.toLocaleString()}
       />
       <RangeBar
         type="range"
-        onChange={(e) => setValue_action(id, reducer, +e.target.value, childId)}
+        onChange={e => set(id, reducer, +e.target.value, childId)}
         value={value}
         max={max}
         min={min}
         step={step}
         percentage={`${((value - min) / (max - min)) * 100}%`} //the percentage is used to set the linear gradient, haveing two colors on either side of the selector circle thumb
       />
-      <Label style={{ marginTop: '-1.4rem' }}>{bottomLabel}</Label>
+      <Label style={{ marginTop: "-1.4rem" }}>{bottomLabel}</Label>
     </Wrapper>
   )
 }
@@ -58,7 +58,7 @@ const Wrapper = styled.div`
 
 const Label = styled.div`
   font-size: 1.4rem;
-  color: ${(props) => props.theme.color.darkGrey};
+  color: ${props => props.theme.color.darkGrey};
   text-transform: capitalize;
 `
 interface IRange {
@@ -76,11 +76,7 @@ const RangeBar = styled.input<IRange>`
   margin-top: 2rem;
   margin-bottom: 2rem;
   transition: all 1s ease;
-  background: linear-gradient(
-    90deg,
-    ${(props) => '#707070 '} ${(props) => props.percentage},
-    ${(props) => '#C8C7C7'} ${(props) => props.percentage}
-  );
+  background: linear-gradient(90deg, ${props => "#707070 "} ${props => props.percentage}, ${props => "#C8C7C7"} ${props => props.percentage});
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;

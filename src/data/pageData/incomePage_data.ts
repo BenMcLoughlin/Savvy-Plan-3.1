@@ -1,6 +1,5 @@
 import _ from "lodash"
-import { newStream, createStream } from "services/ui_functions"
-import { colorArray_data } from "styles/color_data"
+import { newIncomeStream, createStream } from "services/ui_functions"
 
 interface IData {
   chart: string
@@ -12,12 +11,12 @@ interface IData {
  * <Display> box as dumb as possible.
  * */
 
-export const incomePage_data = (state: any, setValue_action: any): any => {
+export const incomePage_data = (state: any, set: any): any => {
   const { selectedId, colorIndex } = state.ui_reducer
 
   const { user1BirthYear } = state.user_reducer
 
-  const incomeStream = newStream(colorArray_data[colorIndex], "Employment", "Income Name", 0, true, +user1BirthYear + 18, 15000, +user1BirthYear + 40)
+  const incomeStream = newIncomeStream(+user1BirthYear + 18, +user1BirthYear + 40)
 
   const data = {
     page: "income",
@@ -45,7 +44,7 @@ export const incomePage_data = (state: any, setValue_action: any): any => {
     ],
     createStream: function () {
       //when the user clicks "Add new Stream" this function creates a new income stream and sets the id in the ui_reducer to it is displayed
-      createStream(colorIndex, incomeStream, setValue_action, "income")
+      createStream(colorIndex, incomeStream, set, "income")
     },
   }
 

@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
-import styled from 'styled-components'
-import _ from 'lodash'
+import React, { FC } from "react"
+import styled from "styled-components"
+import _ from "lodash"
 
 interface IProps {
   id: string
@@ -9,26 +9,23 @@ interface IProps {
   placeholder?: string
   reducer: string
   state: any
-  setValue_action: (id: string, reducer: string, value: any, childId?: string) => void
+  set: (id: string, reducer: string, value: any, childId?: string) => void
   textInput?: boolean
   type: string
 }
 
-export const TextInput: FC<IProps> = ({ id, childId, label, placeholder, reducer, state, setValue_action, type }) => {
+export const TextInput: FC<IProps> = ({ id, childId, label, placeholder, reducer, state, set, type }) => {
   const subject = state[reducer][id]
-console.log(subject);
-  const valid = subject.toString().length === 4 && +subject > 1930 && +subject < 2095
 
+  const valid = subject.toString().length === 4 && +subject > 1930 && +subject < 2095
+console.log('id', id);
+console.log('reducer', reducer);
+console.log('childid', childId);
   return (
     <Wrapper>
       <Label>{_.startCase(label)}</Label>
-      <Input
-        placeholder={placeholder}
-        type={type === 'year' ? 'number' : 'text'}
-        step={1}
-        onChange={(e) => setValue_action(id, reducer, e.target.value, childId)}
-      />
-      {type === 'year' && subject.length === 4 && !valid && <Text>Please Enter a valid year eg. 1990</Text>}
+      <Input placeholder={placeholder} type={type === "year" ? "number" : "text"} step={1} onChange={e => set(id, reducer, e.target.value, childId)} />
+      {type === "year" && subject.length === 4 && !valid && <Text>Please Enter a valid year eg. 1990</Text>}
     </Wrapper>
   )
 }
@@ -42,7 +39,7 @@ const Label = styled.label`
   font-size: 1.2rem;
   font-weight: normal;
   pointer-events: none;
-  color: ${(props) => props.theme.color.darkGrey};
+  color: ${props => props.theme.color.darkGrey};
   font-weight: 800;
   position: absolute;
   top: 2.2rem;
@@ -53,7 +50,7 @@ const Text = styled.label`
   top: 3rem;
   left: 3rem;
   font-size: 1.2rem;
-  color: ${(props) => props.theme.color.salmon};
+  color: ${props => props.theme.color.salmon};
 `
 const Input = styled.input`
   background-color: white;
@@ -67,10 +64,10 @@ const Input = styled.input`
   height: 9rem;
   border: none;
   border-radius: 5px;
-  color: ${(props) => props.theme.color.darkGrey};
+  color: ${props => props.theme.color.darkGrey};
   box-shadow: 0 1px 2px rgba(0, 0, 0.01, 0.08);
   &:focus {
     outline: none;
-    border: 1px solid ${(props) => props.theme.color.green};
+    border: 1px solid ${props => props.theme.color.green};
   }
 `

@@ -1,16 +1,7 @@
-import { TreducerID } from 'types/reducer_types'
+import { TreducerID } from "types/reducer_types"
 
-type Icomponents =
-  | 'DualSelect'
-  | 'Button'
-  | 'PickMultipleOptions'
-  | 'PickNumber'
-  | 'PickSingleOption'
-  | 'Slider'
-  | 'TextInput'
-  | 'TwoSliders'
-  | ''
-type Ireducers = 'main_reducer' | 'ui_reducer' | 'user_reducer'
+type Icomponents = "DualSelect" | "Button" | "PickMultipleOptions" | "PickNumber" | "PickSingleOption" | "Slider" | "TextInput" | "TwoSliders" | ""
+type Ireducers = "main_reducer" | "ui_reducer" | "user_reducer"
 
 interface ICoreProps {
   ask?: string
@@ -18,17 +9,18 @@ interface ICoreProps {
   component: Icomponents
   comment?: string
   childId?: string
-  id: TreducerID
-  reducer: Ireducers
+  id?: TreducerID
+  reducer?: Ireducers
   subTitle?: string
   title: string
   spouse?: boolean
   onClick?: (string: any) => void
+  undo?: (id: string) => void
+  location?: string
 }
 
 export interface IButton extends ICoreProps {
   label?: string
-  value: number | string
 }
 
 export interface IPickMultipleOptions extends ICoreProps {
@@ -37,10 +29,13 @@ export interface IPickMultipleOptions extends ICoreProps {
 }
 
 export interface IDualSelect extends ICoreProps {
-  value1: string | number
-  value2: string | number
+  option1: string | number
+  option2: string | number
 }
 
+export interface IMultiSliders extends ICoreProps {
+  num: number
+}
 export interface IPickNumber extends ICoreProps {
   value: number
 }
@@ -81,4 +76,4 @@ export interface ITextInput extends ICoreProps {
   type: string
 }
 
-export type IOnboard = IButton | IPickMultipleOptions | IDualSelect | ITwoSliders | ITextInput | IPickNumber | IPickSingleOption | ISlider
+export type IOnboard = IButton | IMultiSliders | IPickMultipleOptions | IDualSelect | ITwoSliders | ITextInput | IPickNumber | IPickSingleOption | ISlider

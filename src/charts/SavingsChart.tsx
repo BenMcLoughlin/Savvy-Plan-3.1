@@ -5,14 +5,14 @@ import { ChartNav } from "HOC/connectRedux_HOC"
 interface IProps {
   state: any
   data: any
-  setValue_action: (id: string, reducer: string, value: any, childId?: string) => void
+  set: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
-export const SavingsChart: FC<IProps> = ({ data, state, setValue_action }) => {
+export const SavingsChart: FC<IProps> = ({ data, state, set }) => {
   console.log(data)
   return (
     <Wrapper>
-      <Img alt="#" src={require("assets/savings.png")} style={{ height: "20rem" }} onClick={() => setValue_action("selectedId", "ui_reducer", "incomeDummy")} />
+      <Img alt="#" src={require("assets/savings.png")} style={{ height: "20rem" }} onClick={() => set("selectedId", "ui_reducer", "incomeDummy")} />
       <ChartNavWrapper>
         <ChartNav options={["tfsa", "rrsp", "non-reg", "combined"]} id={"selectedAccount"} reducer={"ui_reducer"} />
       </ChartNavWrapper>

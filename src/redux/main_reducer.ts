@@ -1,17 +1,18 @@
-import _ from 'lodash'
-import { IMainState } from 'types/reducer_types'
+import _ from "lodash"
+import { IMainState } from "types/reducer_types"
 
 const initialState = {
   incomeDummy: {
-    color: 'red',
-    reg: 'Employment',
-    name: 'Wal Mart Income',
+    color: "red",
+    reg: "Employment",
+    name: "Wal Mart Income",
+    owner: "user1",
     periods: 0,
     taxable: true,
     year0: 2010,
     value0: 1000,
     yearLast: 2029,
-    id: 'incomeDummy',
+    id: "incomeDummy",
   },
   // employmentIncome: {
   //     color: "#8CB8B7",
@@ -165,11 +166,11 @@ const initialState = {
   // },
 }
 
-export const main_reducer = (state: IMainState = initialState, action:any) => {
+export const main_reducer = (state: IMainState = initialState, action: any) => {
   switch (action.type) {
-    case 'main_reducer/DELETE':
+    case "main_reducer/remove":
       return _.omit(state, [action.id])
-    case 'main_reducer/SET_VALUE':
+    case "main_reducer/SET_VALUE":
       return action.childId
         ? { ...state, [action.id]: { ...state[action.id], [action.childId]: action.value } } //usually this action is just used to change a value within the object
         : { ...state, [action.id]: action.value } //but if I don't pass it an id then I'm telling it that I want to create a new instance

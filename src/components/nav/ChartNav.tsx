@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react"
+import React, { FC } from "react"
 import styled from "styled-components"
 
 interface IProps {
@@ -6,25 +6,20 @@ interface IProps {
   reducer: string
   state: any
   options: string[]
-  setValue_action: (id: string, reducer: string, value: any, childId?: string) => void
+  set: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
 /**
  * The <ChartNavr> component enables the user to display different subjects in the chart. FOr instance their TFSA savings plan, then swith to RRSP.
  *  */
 
-export const ChartNav: FC<IProps> = ({ id, options, reducer, state, setValue_action }) => {
-  
+export const ChartNav: FC<IProps> = ({ id, options, reducer, state, set }) => {
   const selected = state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
-
-  useEffect(() => {
-    setValue_action(id, reducer, "tfsa")
-  }, [])
 
   return (
     <Wrapper>
       {options.map(d => (
-        <Option onClick={() => setValue_action(id, reducer, d)} selected={selected === d}>
+        <Option onClick={() => set(id, reducer, d)} selected={selected === d}>
           {d}
         </Option>
       ))}
@@ -83,14 +78,15 @@ const Pill = styled.div<PProps>`
         top: 0rem;
         left: 0rem;
         background-color: lightGrey;
-        transform: ${props => props.selected === props.options[0] ? "translate(0rem,0rem)" :
-                     props => props.selected === props.options[1] ? "translate(8rem,0rem)" : 
-                     props => props.selected === props.options[2] ? "translate(16rem,0rem)" :
-                     props => props.selected === props.options[3] ? "translate(24rem,0rem)" :
-                   null};
+        transform: ${props =>
+          props.selected === props.options[0]
+            ? "translate(0rem,0rem)"
+            : props =>
+                props.selected === props.options[1]
+                  ? "translate(8rem,0rem)"
+                  : props => (props.selected === props.options[2] ? "translate(16rem,0rem)" : props => (props.selected === props.options[3] ? "translate(24rem,0rem)" : null))};
         transition: all .3s ease;
         border-radius: 0px;
         animation: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) 0s 1 normal forwards running fmdUjs;
 }
 `
-

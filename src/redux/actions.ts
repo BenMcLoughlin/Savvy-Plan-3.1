@@ -1,5 +1,4 @@
-
-export const setValue_action = (id: string, reducer: string, value: any, childId: any): any => {
+export const set = (id: string, reducer: string, value: any, childId?: any): any => {
   return {
     type: `${reducer}/SET_VALUE`,
     childId, // child id in the id value pair of the object nested within the parent object,
@@ -8,9 +7,9 @@ export const setValue_action = (id: string, reducer: string, value: any, childId
   }
 }
 
-export const delete_action = (id: string): any => {
+export const remove = (id: string): any => {
   return {
-    type: `main_reducer/DELETE`,
+    type: `main_reducer/remove`,
     id,
   }
 }

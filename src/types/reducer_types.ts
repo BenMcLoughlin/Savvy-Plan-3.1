@@ -19,7 +19,7 @@ export interface IUserState {
   numberOfChildren: number
   gender: string
   hasChildren: string
-  housing: boolean
+  ownHome: boolean
   inflationRate: number
   maritalStatus: string
   MER: number
@@ -36,7 +36,6 @@ export interface IUserState {
   user2Name: string
   user1OasStartAge: number
   user2OasStartAge: number
-
 }
 
 export interface IMainState {
@@ -45,7 +44,7 @@ export interface IMainState {
 
 export type TreducerID = keyof IUserState | keyof IUiState | keyof IMainState
 
-export interface ISetValue_action extends Action {
+export interface Iset extends Action {
   type: string
   id: string
   childId?: string
@@ -58,6 +57,7 @@ export interface IInstance {
   color: string
   year1: number
   reg: string
+  owner: string
   stream: string
   year2: number
   id: string
@@ -65,13 +65,61 @@ export interface IInstance {
 }
 
 export interface IIncomeStream {
-  color: string
+  color?: string
   id?: string
   reg: string
   name: string
+  owner: string
   periods: number
   taxable: boolean
   year0: number
   value0: number
   [key: string]: any
 }
+
+export interface ISavingsStream {
+  color?: string
+  contribution0: number
+  contributionPeriods: number
+  contributionYear0: number
+  currentValue: number
+  id?: string
+  reg: string
+  name: string
+  owner: string
+  taxable: boolean
+  withdrawal0: number
+  withdrawalPeriods: number
+  withdrawalYear0: number
+  [key: string]: any
+}
+
+export interface IPropertyStream {
+  color?: string
+  currentValue: number
+  hasMortgage: string
+  mortgageRate: number
+  mortgageBalance: number
+  mortgageAmortization: number
+  mortgageStartYear: number
+  name: string
+  owner: string
+  purchasePrice: number
+  purchaseYear: number
+  reg: string
+  taxable: boolean
+  sellYear: number
+}
+export interface IDebtStream {
+  color?: string
+  rate: number
+  reg: string
+  balance: number
+  amortization: number
+  payment: number
+  name: string
+  owner: string
+}
+
+
+export type streamType = IIncomeStream | IPropertyStream | IDebtStream | ISavingsStream

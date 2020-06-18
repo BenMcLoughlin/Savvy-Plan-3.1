@@ -8,49 +8,47 @@ interface IProps {
   state: any
   user: string
   id: string
-  setValue_action: (id: string, reducer: string, value: any, childId: string) => void
-  delete_action: (id: string) => void
+  set: (id: string, reducer: string, value: any, childId: string) => void
+  remove: (id: string) => void
   textInput?: boolean
   onClick: (value: string) => void
 }
 
-export const PickMultipleOptions: FC<IProps> = ({ array, id, onClick, reducer, state, setValue_action, textInput, user, delete_action }) => {
-  const {  main_reducer } = state
+export const PickMultipleOptions: FC<IProps> = ({ array, id, onClick, reducer, state, set, textInput, user, remove }) => {
+  const { main_reducer } = state
 
   const [info, showInfo] = useState<string>("")
 
-  const arrayOfAccounts = Object.values(main_reducer).filter((d:any) => d.id.includes(`savings${user}`))
+  const arrayOfAccounts = Object.values(main_reducer).filter((d: any) => d.id.includes(`savings${user}`))
 
-  console.log(arrayOfAccounts);
+  console.log(arrayOfAccounts)
 
   return (
     <Wrapper>
       {array &&
-        array.map((d: any) => 
-        {
-          const selected = arrayOfAccounts.filter((v:any) => v.reg === d.reg).length > 0
-
+        array.map((d: any) => {
+          const selected = arrayOfAccounts.filter((v: any) => v.reg === d.reg).length > 0
+console.log(selected);
           return (
             <Square key={d.label} selected={selected}>
               <Text
-
-              selected={selected}
+                selected={selected}
                 onClick={() => {
-                  if (!selected && d.label !== "none") {// check if the item doesnt already exist, or its not none, and will then create a new income st
+                  if (!selected && d.label !== "none") {
+                    // check if the item doesnt already exist, or its not none, and will then create a new income st
                     onClick(d.reg)
                   } //checks if there is no currently selected version, if so it adds a new one, prevents adding mulitple with many clicks
                   if (selected) {
-                    //the user needs to be able to delete the new object if they click on it again enabling them to undo the account they added.
-                    const selectedInstance: any = Object.values(main_reducer).find((b: any) => b.reg === d.reg) //searches the main reducer to find the matching object to be deleted
-                    delete_action(selectedInstance.id) //deletes it from the main reducer
+                    //the user needs to be able to remove the new object if they click on it again enabling them to undo the account they added.
+                    const selectedInstance: any = Object.values(main_reducer).find((b: any) => b.reg === d.reg) //searches the main reducer to find the matching object to be removed
+                    remove(selectedInstance.id) //removes it from the main reducer
                   }
                   if (d.label === "none") {
-                    //the user needs to be able to delete the new object if they click on it again enabling them to undo the account they added.
-                    const selectedInstances: any = Object.values(main_reducer).filter((b: any) => b.id.includes("savings")) //searches the main reducer to find the matching object to be deleted
-                    selectedInstances.map(instance => delete_action(instance.id))
+                    //the user needs to be able to remove the new object if they click on it again enabling them to undo the account they added.
+                    const selectedInstances: any = Object.values(main_reducer).filter((b: any) => b.id.includes("savings")) //searches the main reducer to find the matching object to be removed
+                    selectedInstances.map(instance => remove(instance.id))
                   }
                 }}
-                
               >
                 <Circle />
                 <CenterCircle selected={selected} />
@@ -101,23 +99,6 @@ const Text = styled.div<SProps>`
   color: ${props => (props.selected ? "white" : props.theme.color.darkGrey)};
 `
 
-const Input = styled.input`
-  background: none;
-  background-color: white;
-  color: grey;
-  font-size: 1.6rem;
-  font-weight: 800;
-  padding: 1.2rem;
-  display: block;
-  width: 100%;
-  min-height: 5rem;
-  border-radius: 3px;
-  color: ${props => props.theme.color.mediumGrey};
-  border-radius: 0 0 10px 10px;
-  &:focus {
-    outline: none;
-  }
-`
 const Square = styled.div<SProps>`
   position: relative;
   background: ${props => (props.selected ? props.theme.color.primary : "white")};
@@ -194,9 +175,4 @@ const CenterCircle = styled.div<SProps>`
   position: absolute;
   top: 1.42rem;
   left: 1.6rem;
-`
-const SubTitle = styled.div`
-  font-size: 1rem;
-  margin-left: 5rem;
-  margin-top: 1rem;
 `

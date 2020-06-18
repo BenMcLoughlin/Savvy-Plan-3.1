@@ -3,18 +3,13 @@ import styled from "styled-components"
 
 interface IProps {
   state: any
-  setValue_action: (id: string, reducer: string, value: any, childId?: string) => void
+  set: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
-export const NetWorthChart: FC<IProps> = ({ state, setValue_action }) => {
+export const NetWorthChart: FC<IProps> = ({ state, set }) => {
   return (
     <Wrapper>
-      <Img
-        alt="#"
-        src={require("assets/netWorth.png")}
-        style={{ height: "20rem" }}
-        onClick={() => setValue_action("selectedAccount", "ui_reducer", "incomeDummy")}
-      />
+      <Img alt="#" src={require("assets/netWorth.png")} style={{ height: "20rem" }} onClick={() => set("selectedAccount", "ui_reducer", "incomeDummy")} />
     </Wrapper>
   )
 }

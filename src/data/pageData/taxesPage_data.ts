@@ -1,17 +1,16 @@
 import _ from "lodash"
-import { newStream, createStream } from "services/ui_functions"
-import { colorArray_data } from "styles/color_data"
+import { newIncomeStream, createStream } from "services/ui_functions"
 
 interface IData {
   chart: string
 }
 
-export const taxesPage_data = (state: any, setValue_action: any): any => {
+export const taxesPage_data = (state: any, set: any): any => {
   const { selectedId, colorIndex, selectedAccount } = state.ui_reducer
 
   const { user1BirthYear, userName, user2Name } = state.user_reducer
 
-  const incomeStream = newStream(colorArray_data[colorIndex], `${selectedAccount}`, "Income Name", 0, true, +user1BirthYear + 18, 15000, +user1BirthYear + 40)
+  const incomeStream = newIncomeStream( +user1BirthYear + 18, +user1BirthYear + 40)
 
   const data = {
     page: "taxes",
@@ -40,7 +39,7 @@ export const taxesPage_data = (state: any, setValue_action: any): any => {
       },
     ],
     createStream: function () {
-      createStream(colorIndex, incomeStream, setValue_action, selectedAccount)
+      createStream(colorIndex, incomeStream, set, selectedAccount)
     },
   }
 
@@ -48,8 +47,6 @@ export const taxesPage_data = (state: any, setValue_action: any): any => {
     const instance = state.main_reducer[selectedId]
 
     const { id, periods } = instance
-
-    const lastAge = instance[`yearLast`] - 1988
 
     const editProps = {
       instance,

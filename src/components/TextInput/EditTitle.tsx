@@ -1,19 +1,21 @@
-import React, { FC } from 'react'
-import styled from 'styled-components'
+import React, { FC } from "react"
+import styled from "styled-components"
 
 interface IProps {
   id: string
   reducer: string
   childId: string
   state: any
-  setValue_action: (id: string, reducer: string, value: any, childId?: string) => void
+  set: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
-export const EditTitle: FC<IProps> = ({id, reducer, childId, setValue_action, state}) => {
+export const EditTitle: FC<IProps> = ({ id, reducer, childId, set, state }) => {
   const title = state[reducer][id][childId]
-  return <Wrapper>
-            <Input value={title} onChange={(e) => setValue_action(id, reducer, e.target.value, 'name')} />
-  </Wrapper>
+  return (
+    <Wrapper>
+      <Input value={title} onChange={e => set(id, reducer, e.target.value, "name")} />
+    </Wrapper>
+  )
 }
 
 //---------------------------STYLES-------------------------------------------//

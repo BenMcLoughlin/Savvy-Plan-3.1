@@ -4,10 +4,11 @@ const initialState = {
   child1BirthYear: 2000,
   child2BirthYear: 2000,
   changeAssumptions: "",
+  hasUnsecuredDebt: false,
   numberOfChildren: 1,
   gender: "",
   hasChildren: "",
-  housing: false,
+  ownHome: false,
   inflationRate: 2,
   maritalStatus: "married",
   MER: 2,
@@ -35,5 +36,3 @@ export function user_reducer(state = initialState, action: any): IUserState {
       return state
   }
 }
-
-

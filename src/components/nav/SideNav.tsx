@@ -1,11 +1,11 @@
-import React, { FC, useState } from 'react'
-import styled from 'styled-components'
+import React, { FC} from "react"
+import styled from "styled-components"
 
 interface IProps {
   id: string
   reducer: string
   state: any
-  setValue_action: (id: string, reducer: string, value: any, childId: string) => void
+  set: (id: string, reducer: string, value: any, childId: string) => void
 }
 
 /**
@@ -13,15 +13,15 @@ interface IProps {
  * a value to navigate between pages. The Nav is visible non matter which page is rendered.
  *  */
 
-export const SideNav: FC<IProps> = ({ id, reducer, state, setValue_action }) => {
+export const SideNav: FC<IProps> = ({ id, reducer, state, set }) => {
   const selected = state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
 
-  const options = ['income', 'savings', 'taxes', 'spending', 'networth']
+  const options = ["income", "savings", "taxes", "spending", "networth"]
 
   return (
     <Wrapper>
       {options.map((d, i) => (
-        <Option key={i}  onClick={() => setValue_action(id, reducer, d, '')} selected={selected === d}>
+        <Option key={i} onClick={() => set(id, reducer, d, "")} selected={selected === d}>
           {d}
         </Option>
       ))}
@@ -56,7 +56,7 @@ interface PProps {
 const Option = styled.div<OProps>`
   position: relative;
   min-width: 16rem;
-  color: ${(props) => (props.selected ? props.theme.color.ice : 'grey')};
+  color: ${props => (props.selected ? props.theme.color.ice : "grey")};
   text-align: center;
   z-index: 1;
   transition: all 100ms linear 0s;
@@ -67,7 +67,7 @@ const Option = styled.div<OProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${(props) => props.theme.fontSize.smallMedium};
+  font-size: ${props => props.theme.fontSize.smallMedium};
 `
 const Pill = styled.div<PProps>`
         position: absolute;
@@ -76,22 +76,16 @@ const Pill = styled.div<PProps>`
         top: .8rem;
         left: 1.6rem;
         background-color: #73706E;
-        transform: ${(props) =>
+        transform: ${props =>
           props.selected === props.options[0]
-            ? 'translate(0,0rem)'
-            : (props) =>
+            ? "translate(0,0rem)"
+            : props =>
                 props.selected === props.options[1]
-                  ? 'translate(0,5rem)'
-                  : (props) =>
+                  ? "translate(0,5rem)"
+                  : props =>
                       props.selected === props.options[2]
-                        ? 'translate(0,10rem)'
-                        : (props) =>
-                            props.selected === props.options[3]
-                              ? 'translate(0,15rem)'
-                              : (props) =>
-                                  props.selected === props.options[4]
-                                    ? 'translate(0,20rem)'
-                                    : 'translateY(0%)'};
+                        ? "translate(0,10rem)"
+                        : props => (props.selected === props.options[3] ? "translate(0,15rem)" : props => (props.selected === props.options[4] ? "translate(0,20rem)" : "translateY(0%)"))};
         transition: all .3s ease;
         border-radius: 25px;
         animation: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) 0s 1 normal forwards running fmdUjs;

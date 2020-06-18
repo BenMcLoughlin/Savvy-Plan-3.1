@@ -1,7 +1,5 @@
 import React, { FC } from "react"
 import styled from "styled-components"
-import _ from "lodash"
-
 
 interface IProps {
   data: any

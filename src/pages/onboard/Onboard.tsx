@@ -9,15 +9,16 @@ import { Redirect } from "react-router-dom"
 
 interface IProps {
   state: any
-  setValue_action: (id: string, reducer: string, value: any, childId: string) => void
+  set: (id: string, reducer: string, value: any, childId?: string) => void
+  remove: (id:string) => void
 }
 
-export const Onboard: FC<IProps> = ({ state, setValue_action }) => {
+export const Onboard: FC<IProps> = ({ remove, state, set }) => {
   const { progress } = state.ui_reducer
 
   const [direction, setDirection] = useState<string>("forward")
 
-  const data = onboard_data(state, setValue_action, progress)
+  const data = onboard_data(state, set, progress, remove)
 
   const { length } = data
 
@@ -52,12 +53,12 @@ export const Onboard: FC<IProps> = ({ state, setValue_action }) => {
       {data[progress].chart ? (
         <Chart>
           {renderChart(data[progress].chart)}
-          {data[progress].comment ? <Comment data={data[progress]}/> : null }
+          {data[progress].comment ? <Comment data={data[progress]} /> : null}
         </Chart>
       ) : null}
       {progress > 0 && (
         <>
-          <Back id="progress" reducer="ui_reducer" value={progress > 0 ? progress - 1 : 1} setDirection={setDirection} />
+          <Back onClick={() => set("progress", "ui_reducer", progress > 0 ? progress - 1 : 1)} setDirection={setDirection} />
           <Next props={data[progress]} value={progress < length ? progress + 1 : length} setDirection={setDirection} progress={progress} />
         </>
       )}

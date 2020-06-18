@@ -7,9 +7,6 @@ interface IProps {
 
 export const AddButton: FC<IProps> = ({ onClick }) => <Add onClick={onClick} />
 
-/**
-*  A Circle with a plus sign in the middle.
-*  */
 
 const Add = styled.div`
   position: relative;

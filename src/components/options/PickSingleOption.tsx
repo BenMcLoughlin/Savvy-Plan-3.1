@@ -1,5 +1,5 @@
-import React, { FC } from 'react'
-import styled from 'styled-components'
+import React, { FC } from "react"
+import styled from "styled-components"
 
 interface IProps {
   array?: string[]
@@ -7,11 +7,11 @@ interface IProps {
   id: string
   reducer: string
   state: any
-  setValue_action: (id: string, reducer: string, value: any, childId: any) => void
+  set: (id: string, reducer: string, value: any, childId: any) => void
   textInput?: boolean
 }
 
-export const PickSingleOption: FC<IProps> = ({ array, childId, id, reducer, state, setValue_action, textInput }) => {
+export const PickSingleOption: FC<IProps> = ({ array, childId, id, reducer, state, set, textInput }) => {
   const value = childId ? state[reducer][id][childId] : state[reducer][id]
   const { user_reducer } = state
 
@@ -20,12 +20,12 @@ export const PickSingleOption: FC<IProps> = ({ array, childId, id, reducer, stat
       {array &&
         array.map((d: string, i: number) => {
           return (
-            <Square key={i} selected={d === value} onClick={() => setValue_action(id, reducer, d, childId)}>
+            <Square key={i} selected={d === value} onClick={() => set(id, reducer, d, childId)}>
               {d}
             </Square>
           )
         })}
-      {textInput && <Input onChange={(e) => setValue_action('other', reducer, e.target.value, '')} value={user_reducer.other}></Input>}
+      {textInput && <Input onChange={e => set("other", reducer, e.target.value, "")} value={user_reducer.other}></Input>}
     </Wrapper>
   )
 }
@@ -55,8 +55,8 @@ const Square = styled.div<SProps>`
   flex-direction: column;
   font-size: 1.6rem;
   font-weight: 800;
-  background: ${(props) => (props.selected ? props.theme.color.primary : "white")};
-   border: ${props => props.theme.border.primary};
+  background: ${props => (props.selected ? props.theme.color.primary : "white")};
+  border: ${props => props.theme.border.primary};
   cursor: pointer;
   &:nth-child(1) {
     border-radius: 10px 10px 0 0;
@@ -64,13 +64,13 @@ const Square = styled.div<SProps>`
   &:nth-last-child(1) {
     border-radius: 0 0 10px 10px;
   }
-  color: ${(props) => (props.selected ? 'white' : props.theme.color.darkGrey)};
+  color: ${props => (props.selected ? "white" : props.theme.color.darkGrey)};
 `
 
 const Input = styled.input`
   background: none;
   background-color: white;
-  ${(props) => props.theme.color.darkGrey}
+  ${props => props.theme.color.darkGrey}
   font-size: 1.6rem;
   font-weight: 800;
   padding: 1.2rem;
@@ -79,7 +79,7 @@ const Input = styled.input`
   min-height: 5rem;
   border: ${props => props.theme.border.primary};
   border-radius: 3px;
-  color: ${(props) => props.theme.color.mediumGrey};
+  color: ${props => props.theme.color.mediumGrey};
   border-radius: 0 0 10px 10px;
   &:focus {
     outline: none;

@@ -5,14 +5,13 @@ import { InfoCard, TripleSelector } from "HOC/connectRedux_HOC"
 import { AddButton } from "components/buttons/AddButton"
 
 interface IProps {
-  setValue_action: (id: string, reducer: string, value: any, childId?: string) => void
+  set: (id: string, reducer: string, value: any, childId?: string) => void
   data: any
 }
 
-export const Display: FC<IProps> = ({ data, setValue_action }) => {
-
+export const Display: FC<IProps> = ({ data, set }) => {
   useEffect(() => {
-    setValue_action('selectedId', "ui_reducer", "") //Sets the id in the ui_reducer to nothing when pages and changed, prevents errors with an edit income box being shown in the savings section etc.
+    set("selectedId", "ui_reducer", "") //Sets the id in the ui_reducer to nothing when pages and changed, prevents errors with an edit income box being shown in the savings section etc.
   }, [data.page])
 
   const renderChart = () => {
@@ -23,7 +22,6 @@ export const Display: FC<IProps> = ({ data, setValue_action }) => {
     const EditForm = components[data.userEditForm]
     return <EditForm {...data.editProps} />
   }
-
 
   return (
     <Wrapper>

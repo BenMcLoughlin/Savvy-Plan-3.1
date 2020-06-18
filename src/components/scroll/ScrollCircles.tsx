@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
 import _ from 'lodash'
 import { ArrowLeftS } from '@styled-icons/remix-line'
@@ -49,12 +49,6 @@ const Wrapper = styled.div`
   justify-content: space-around;
 `
 
-const ScrollLabel = styled.div`
-  font-size: 1.2rem;
-  position: absolute;
-  left: 14rem;
-  bottom: 0.5rem;
-`
 interface ICircle {
   selected: boolean
 }

@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import styled from "styled-components"
 import * as components from "HOC/connectRedux_HOC"
 import _ from "lodash"
-import { TextInput } from "HOC/connectRedux_HOC"
+import { TextInput,  } from "HOC/connectRedux_HOC"
 
 /**
  * <OnboardWizard> is being rendered for each piece of the array selected to be shown in the parent component. It is being passed props
@@ -15,7 +15,6 @@ export const OnboardWizard: FC<any> = props => {
     const Component = components[component]
     return <Component {...props} />
   }
-
 
   return (
     <Wrapper>
@@ -55,11 +54,6 @@ const Header = styled.div`
   flex-direction: column;
   justify-content: space-around;
 `
-const Row = styled.div`
-  display: flex;
-  width: 40rem;
-  justify-content: space-between;
-`
 
 const Content = styled.div`
   position: relative;
@@ -77,15 +71,6 @@ const Children = styled.div`
   flex-direction: column;
   position: absolute;
   top: 8rem;
-`
-const Properties = styled.div`
-  min-height: 40rem;
-  display: flex;
-  flex-wrap: start;
-  flex-direction: column;
-  position: absolute;
-  top: 12rem;
-  left: -2rem;
 `
 const H2 = styled.h2`
   margin-bottom: 2rem;
