@@ -1,5 +1,5 @@
 import { IIncomeStream } from "types/reducer_types"
-import { createStream, addPeriodToStream, newIncomeStream } from "services/ui_functions"
+import { createStream, addPeriodToIncomeStream, newIncomeStream } from "services/ui_functions"
 /**
  * createIncomeArray() returns an array of objects that each represent a detail of the income incomeStream such as when they started and how much they earn.
  * It initially consists of an array that returns an income incomeStream with one period.  As the user
@@ -18,7 +18,7 @@ export const createIncomeArray = (instance: IIncomeStream, set: any, state: any,
   const { user1BirthYear } = state.user_reducer
   const { colorIndex } = state.ui_reducer
 
-  const incomeStream = newIncomeStream( +user1BirthYear + 18, +user1BirthYear + 40)
+  const incomeStream = newIncomeStream(+user1BirthYear + 18, +user1BirthYear + 40)
 
   const array: any = [
     //INTRO USER QUESTIONS
@@ -115,7 +115,7 @@ export const createIncomeArray = (instance: IIncomeStream, set: any, state: any,
       title: past ? "Did it ever have a change greater than $5,000?" : "Did you think it will ever have a change greater than $5,000?",
       onClick: function () {
         set(id, "main_reducer", periods + 1, "periods")
-        addPeriodToStream(instance, periods, id, set)
+        addPeriodToIncomeStream(instance, periods, id, set)
       },
     },
     //---INSERT HERE
@@ -182,7 +182,7 @@ export const createIncomeArray = (instance: IIncomeStream, set: any, state: any,
         reducer: "ui_reducer",
         title: past ? "Did it change over $5000 again?" : "Did you think it will change over $5000 again?",
         onClick: function () {
-          addPeriodToStream(instance, periods, id, set)
+          addPeriodToIncomeStream(instance, periods, id, set)
         },
       }
     )

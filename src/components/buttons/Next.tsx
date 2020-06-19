@@ -17,7 +17,7 @@ export const Next: FC<IProps> = ({ props, state, set, setDirection, value }) => 
   const subject = reducer === "main_reducer" ? state[reducer][id][childId] : state[reducer][id] //we need to check the value to see if its valid, if its the main reducer then the value is nested by one
   const valid = type === "year" ? subject.toString().length === 4 && +subject > 1930 && +subject < 2095 : type !== "year" ? subject.toString().length > 0 : false //checking to see if the input they entered is valid so they can move on
 
-  const enterToMoveForward = (set: any, value):any => {
+  useEffect(() => {
     const pressEnter = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
         setDirection("forward")
@@ -28,9 +28,7 @@ export const Next: FC<IProps> = ({ props, state, set, setDirection, value }) => 
       window.addEventListener("keydown", pressEnter)
       return () => window.removeEventListener("keydown", pressEnter)
     }
-  }
-
-  useEffect(enterToMoveForward(set, value), [state])
+  }, [state])
 
   return (
     <Wrapper>
