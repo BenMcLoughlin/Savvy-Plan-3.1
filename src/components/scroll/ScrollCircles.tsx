@@ -54,7 +54,7 @@ interface ICircle {
 }
 
 const Circle = styled.div<ICircle>`
-  background: ${(props) => (props.selected ? '#5A5758' : '#dddddd')};
+  background: ${(props) => (props.selected ? props.theme.color.darkGrey : props.theme.color.lightGrey)};
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
@@ -70,14 +70,14 @@ const Circle = styled.div<ICircle>`
 const ArrowLeft = styled(ArrowLeftS)`
   height: 2.2rem;
   width: 2.2rem;
-  color: #c8c7c7;
+  color: ${props => props.theme.color.mediumGrey};
   cursor: pointer;
 `
 
 const ArrowRight = styled(ArrowLeftS)`
   height: 2.2rem;
   width: 2.2rem;
-  color: #c8c7c7;
+  color: ${props => props.theme.color.mediumGrey};
   cursor: pointer;
   transform: rotate(180deg);
 `

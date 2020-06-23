@@ -3,16 +3,15 @@ import { IMainState } from "types/reducer_types"
 
 const initialState = {
   incomeDummy: {
-    color: "red",
-    reg: "Employment",
-    name: "Wal Mart Income",
-    owner: "user1",
-    periods: 0,
-    taxable: true,
-    year0: 2010,
-    value0: 1000,
-    yearLast: 2029,
+    name: "",
     id: "incomeDummy",
+    color: "red",
+    periods: 0,
+    period0StartYear: 2010,
+    period0Value: 20000,
+    period0EndYear: 2020,
+    reg: "employment Income",
+    taxable: true,
   },
   // employmentIncome: {
   //     color: "#8CB8B7",

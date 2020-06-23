@@ -6,11 +6,11 @@ interface IData {
 }
 
 export const spendingPage_data = (state: any, set: any): any => {
-  const { selectedId, colorIndex, selectedAccount } = state.ui_reducer
+  const { selectedId, colorIndex, selectedAccount, selectedUser } = state.ui_reducer
 
   const { user1BirthYear, userName, user2Name } = state.user_reducer
 
-  const incomeStream = newIncomeStream( +user1BirthYear + 18, +user1BirthYear + 40)
+  const incomeStream = newIncomeStream(+user1BirthYear + 18, +user1BirthYear + 40)
 
   const data = {
     page: "spending",
@@ -19,7 +19,7 @@ export const spendingPage_data = (state: any, set: any): any => {
     addButtonLabel: "Add Income Stream",
     userName,
     user2Name,
-    chartNavOptions: ["tfsa", "rrsp", "non-reg", "all accounts"],
+    chartNavOptions: ["tfsa", "rrsp", "nopersonal", "all accounts"],
     infoCards: [
       {
         label: "insights",
@@ -39,7 +39,7 @@ export const spendingPage_data = (state: any, set: any): any => {
       },
     ],
     createStream: function () {
-      createStream(colorIndex, incomeStream, set, selectedAccount)
+      createStream(colorIndex, incomeStream, set, selectedAccount, selectedUser)
     },
   }
 
@@ -48,7 +48,6 @@ export const spendingPage_data = (state: any, set: any): any => {
 
     const { id, periods } = instance
 
-
     const editProps = {
       instance,
       id,
@@ -56,7 +55,7 @@ export const spendingPage_data = (state: any, set: any): any => {
       periods,
       addPeriodLabel: "add different contributions or withdrawals", //this label sits beside a plus button that prompts the user to add a new period
       dropdown: {
-        array: ["TFSA", "RRSP", "Non-Reg"],
+        array: ["TFSA", "RRSP", "Nopersonal"],
         id,
         label: "Account",
         reducer: "main_reducer",

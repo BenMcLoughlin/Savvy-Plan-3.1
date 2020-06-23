@@ -20,6 +20,7 @@ export const Onboard: FC<IProps> = ({ remove, state, set }) => {
 
   const data = onboard_data(state, set, progress, remove)
 
+  console.log(data);
   const { length } = data
 
   if (progress === length) return <Redirect to="/plan" />

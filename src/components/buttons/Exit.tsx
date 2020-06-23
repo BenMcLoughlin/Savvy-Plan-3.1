@@ -19,7 +19,7 @@ const Cross = styled.div`
   align-items: center;
   text-align: center;
   cursor: pointer;
-  border: 1px solid white;
+  border: 1px solid ${props => props.theme.color.darkGrey};
   transform: rotate(-45deg);
   margin-right: 1rem;
   margin-top: 0.5rem;
@@ -31,7 +31,7 @@ const Cross = styled.div`
     width: 50%;
     border-radius: 3px;
     height: 1px; /* cross thickness */
-    background-color: white;
+    background-color: ${props => props.theme.color.darkGrey};
   }
   &::before {
     transform: rotate(90deg);

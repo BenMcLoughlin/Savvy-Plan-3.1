@@ -1,11 +1,11 @@
-import { createStream, newPropertyStream } from "services/ui_functions"
+import { createStream, newPropertyStream, newDebtStream } from "services/ui_functions"
 
 /**
- * createPropertyArray() returns an array of objects that each represent a deatil about their property such as its value and mortgage. 
+ * createPropertyArray() returns an array of objects that each represent a deatil about their property such as its value and mortgage.
  *  */
 
-export const createPropertyArray = (instance, set: any, state: any) => {
-  const { id } = instance
+export const createPropertyArray = (instance, set: any, state: any, remove: any) => {
+  const { id, owner } = instance
 
   const { maritalStatus } = state.user_reducer
   const { colorIndex } = state.ui_reducer
@@ -97,7 +97,7 @@ export const createPropertyArray = (instance, set: any, state: any) => {
     title: "Do you have a mortgage on this property?",
   })
 
-  if (instance["hasMortgage"] === "yes") {
+  if (instance["hasMortgage"]) {
     array.push({
       ask: "We can add the debt to your networth and show you how it will play out in your plan.",
       component: "MultiSliders",
@@ -142,21 +142,23 @@ export const createPropertyArray = (instance, set: any, state: any) => {
   array.push({
     ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
     component: "DualSelect",
-    id: "ownHome",
+    id: "change",
     option1: "yes",
     option2: "no",
-    reducer: "user_reducer",
+    reducer: "ui_reducer",
     title: "Would you like to add another property to the chart?",
     onClick: function () {
-      createStream(colorIndex, propertyStream, set, "property")
+      createStream(colorIndex, propertyStream, set, "property", owner)
+    },
+    undo(id) {
+      remove(id)
     },
   })
   return array
 }
 
-
-export const createDebtArray = (instance, set: any, state: any) => {
-  const { id } = instance
+export const createDebtArray = (instance, set: any, state: any, remove: any) => {
+  const { id, owner } = instance
 
   const { maritalStatus } = state.user_reducer
   const { colorIndex } = state.ui_reducer
@@ -240,16 +242,18 @@ export const createDebtArray = (instance, set: any, state: any) => {
   array.push({
     ask: "The more debt streams you add the better an idea you'll get of your finanical position and the long term impact of the debt.",
     component: "DualSelect",
-    id: "hasUnsecuredDebt",
+    id: "change",
     option1: "yes",
     option2: "no",
-    reducer: "user_reducer",
+    reducer: "ui_reducer",
     title: "Would you like to add any other debt to the plan?",
     onClick: function () {
-      createStream(colorIndex, propertyStream, set, "debt")
+      createStream(colorIndex, newDebtStream(), set, "debt", owner)
+    },
+    undo(id) {
+      remove(id)
     },
   })
 
   return array
-
 }

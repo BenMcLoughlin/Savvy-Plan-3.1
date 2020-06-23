@@ -1,13 +1,12 @@
 import _ from "lodash"
 import { newIncomeStream, createStream } from "services/ui_functions"
 
-
 interface IData {
   chart: string
 }
 
 export const netWorthPage_data = (state: any, set: any): any => {
-  const { selectedId, colorIndex } = state.ui_reducer
+  const { selectedId, colorIndex, selectedUser } = state.ui_reducer
 
   const { user1BirthYear, userName, user2Name } = state.user_reducer
 
@@ -39,7 +38,7 @@ export const netWorthPage_data = (state: any, set: any): any => {
       },
     ],
     createStream: function () {
-      createStream(colorIndex, incomeStream, set, "income")
+      createStream(colorIndex, incomeStream, set, "income", selectedUser)
     },
   }
 
@@ -55,7 +54,7 @@ export const netWorthPage_data = (state: any, set: any): any => {
       periods,
       addPeriodLabel: "add different contributions or withdrawals", //this label sits beside a plus button that prompts the user to add a new period
       dropdown: {
-        array: ["TFSA", "RRSP", "Non-Reg"],
+        array: ["TFSA", "RRSP", "Nopersonal"],
         id,
         label: "Account",
         reducer: "main_reducer",

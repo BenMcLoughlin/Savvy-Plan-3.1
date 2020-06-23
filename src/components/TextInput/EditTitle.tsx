@@ -22,25 +22,26 @@ export const EditTitle: FC<IProps> = ({ id, reducer, childId, set, state }) => {
 
 const Wrapper = styled.div`
   height: 3.5rem;
-  width: 20rem;
+  width: 16rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  margin-left: -8rem;
+  z-index: 100;
 `
 const Input = styled.input`
   height: 3.5rem;
-  padding-left: 3.5rem;
-  width: 20rem;
+  padding-left: 1.5rem;
+  width: 16rem;
   outline: none;
   background: none;
-  color: white;
+  color: ${props => props.theme.color.darkGrey};
   border: none;
   font-size: 1.8rem;
+  background: none;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  border-radius: 15px;
   &:focus {
-    background: grey;
+    background: lightGrey;
   }
 `

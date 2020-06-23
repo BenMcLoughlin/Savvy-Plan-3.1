@@ -10,12 +10,11 @@ interface ISliderProps {
 
 export const MultiSliders: FC<ISliderProps> = props => {
   const { num } = props //the num tells the component how many sliders to render
-  console.log(props)
+
   return (
     <Wrapper>
       {_.range(1, num + 1).map(d => {
         //creates an array of numbers from 1 to the number which we map through to render sliders
-        console.log(d)
         return <Slider {...props[`slider${d}`]} />
       })}
     </Wrapper>

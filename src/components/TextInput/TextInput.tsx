@@ -18,9 +18,7 @@ export const TextInput: FC<IProps> = ({ id, childId, label, placeholder, reducer
   const subject = state[reducer][id]
 
   const valid = subject.toString().length === 4 && +subject > 1930 && +subject < 2095
-console.log('id', id);
-console.log('reducer', reducer);
-console.log('childid', childId);
+  
   return (
     <Wrapper>
       <Label>{_.startCase(label)}</Label>

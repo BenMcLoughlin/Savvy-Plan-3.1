@@ -19,7 +19,10 @@ export const PickMultipleOptions: FC<IProps> = ({ array, id, onClick, reducer, s
 
   const [info, showInfo] = useState<string>("")
 
-  const arrayOfAccounts = Object.values(main_reducer).filter((d: any) => d.id.includes(`savings${user}`))
+  console.log("user1Savings".includes(`${user}Savings`))
+  console.log(user)
+
+  const arrayOfAccounts = Object.values(main_reducer).filter((d: any) => d.id.includes(`${user}Savings`))
 
   console.log(arrayOfAccounts)
 
@@ -28,7 +31,7 @@ export const PickMultipleOptions: FC<IProps> = ({ array, id, onClick, reducer, s
       {array &&
         array.map((d: any) => {
           const selected = arrayOfAccounts.filter((v: any) => v.reg === d.reg).length > 0
-console.log(selected);
+          console.log(selected)
           return (
             <Square key={d.label} selected={selected}>
               <Text

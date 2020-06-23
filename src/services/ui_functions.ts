@@ -1,38 +1,34 @@
 import { streamType } from "types/reducer_types"
 import { colorArray } from "styles/color_data"
+import _ from "lodash"
 /**
  * newIncomeStream is a function that creates a new income instance. An instance represents income for a certain period. Eg. Wal mart Income from 2009 - 2020.
  * It is different than other instances in the same stream because the value is different. Eg. the user may have made less money for the first 5 years of employment, then more later.
  *  */
 
-export const newIncomeStream = (year0: number, yearLast: number): streamType => ({
+export const newIncomeStream = (period0StartYear: number, period0EndYear: number): streamType => ({
   name: "",
-  owner: "",
   periods: 0,
+  period0StartYear,
+  period0Value: 20000,
+  period0EndYear,
   reg: "employment Income",
   taxable: true,
-  year0,
-  value0: 20000,
-  yearLast,
 })
 
 /**
  * newSavingsStream creates a new Savings Account object which contains all the details pertaining to a property
  *  */
 
-export const newSavingsStream = (reg, withdrawalYear0: number): streamType => ({
-  contribution0: 0,
-  contributionPeriods: 0,
-  contributionYear0: new Date().getFullYear(),
-  contributionYear1: 2030,
-  currentValue: 3000,
+export const newSavingsStream = (reg, period0StartYear): streamType => ({
   name: "",
-  owner: "",
+  periods: 0,
+  currentValue: 0,
+  period0StartYear: 2020,
+  period0Value: 1000,
+  period0EndYear: 2040,
   reg,
   taxable: true,
-  withdrawal0: 0,
-  withdrawalPeriods: 0,
-  withdrawalYear0,
 })
 
 /**
@@ -42,12 +38,11 @@ export const newSavingsStream = (reg, withdrawalYear0: number): streamType => ({
 export const newPropertyStream = (): streamType => ({
   currentValue: 300000,
   hasMortgage: "no",
-  mortgageRate: 0.03,
+  mortgageRate: 3,
   mortgageBalance: 200000,
   mortgageAmortization: 30,
   mortgageStartYear: 30,
   name: "",
-  owner: "",
   purchasePrice: 300000,
   purchaseYear: 2015,
   reg: "",
@@ -76,20 +71,22 @@ export const newDebtStream = (): streamType => ({
 
 export const addPeriodToIncomeStream = (instance: any, period: number, selectedId: any, set: (id: string, reducer: string, value: any, childId?: string) => void): void => {
   set(selectedId, "main_reducer", period + 1, "periods")
-  set(selectedId, "main_reducer", +instance[`year${period}`] + 3, `year${period + 1}`)
-  set(selectedId, "main_reducer", 3000, `value${period + 1}`)
+  set(selectedId, "main_reducer", +instance[`period${period}StartYear`] + 3, `period${period + 1}StartYear`)
+  set(selectedId, "main_reducer", +instance[`period${period}EndYear`] + 3, `period${period + 1}EndYear`)
+  set(selectedId, "main_reducer", 3000, `period${period + 1}Value`)
 }
-export const addPeriodToSavingsStream = (instance: any, period: number, selectedId: any, set: (id: string, reducer: string, value: any, childId?: string) => void): void => {
-  set(selectedId, "main_reducer", period + 1, "contributionPeriods")
-  set(selectedId, "main_reducer", +instance[`contributionYear${period}`] + 3, `contributionYear${period + 1}`)
-  set(selectedId, "main_reducer", 3000, `contributionValue${period + 1}`)
+export const addPeriodToStream = (instance: any, period: number, selectedId: any, set: (id: string, reducer: string, value: any, childId?: string) => void): void => {
+  set(selectedId, "main_reducer", period + 1, "periods")
+  set(selectedId, "main_reducer", instance[`period${period}EndYear`], `period${period + 1}StartYear`)
+  set(selectedId, "main_reducer", +instance[`period${period}EndYear`] + 5, `period${period + 1}EndYear`)
+  set(selectedId, "main_reducer", 3000, `period${period + 1}Value`)
 }
 
-export const createStream = (colorIndex: number, newIncomeStream: streamType, set: (id: string, reducer: string, value: any, childId?: string) => void, streamType: string): void => {
+export const createStream = (colorIndex: number, newIncomeStream: streamType, set: (id: string, reducer: string, value: any, childId?: string) => void, streamType: string, owner: any): void => {
   //This creates a new Income Instance, such as from ages 18-22
-  const id = streamType + "_" + (Math.random() * 1000000).toFixed() //creates the random ID that is the key to the object
+  const id = owner + _.startCase(streamType) + "_" + (Math.random() * 1000000).toFixed() //creates the random ID that is the key to the object, key includes the owner, then the type of instance eg. "Income", then a random number
   const color = colorArray[colorIndex] //ensures that the color of the new stream is unique
-  const stream = { ...newIncomeStream, id, color }
+  const stream = { ...newIncomeStream, id, color, owner }
 
   set(id, "main_reducer", stream, "") //This action fires and sets the state in the income reducer creating a new item there,
   set("selectedId", "ui_reducer", id, "") // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box

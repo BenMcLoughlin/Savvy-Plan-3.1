@@ -5,10 +5,11 @@ const initialState: IUiState = {
   selectedId: "",
   colorIndex: 0,
   videoUrl: "",
-  progress: 4,
+  progress: 0,
   selectedPage: "income",
   selectedAccount: "tfsa",
   selectedUser: "user1",
+  newStream: false,
 }
 
 export function ui_reducer(state: IUiState = initialState, action: any): IUiState {

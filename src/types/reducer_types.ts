@@ -10,6 +10,7 @@ export interface IUiState {
   selectedPage: string
   selectedUser: string
   selectedAccount: string
+  newStream: boolean
 }
 
 export interface IUserState {
@@ -64,35 +65,63 @@ export interface IInstance {
   value: string | number | boolean
 }
 
+// export interface IIncomeStream {
+//   color?: string
+//   id?: string
+//   reg: string
+//   name: string
+//   owner: string
+//   periods: number
+//   taxable: boolean
+//   year0: number
+//   value0: number
+//   [key: string]: any
+// }
+
 export interface IIncomeStream {
-  color?: string
+  color?:string 
   id?: string
-  reg: string
   name: string
-  owner: string
+  owner?: string
   periods: number
-  taxable: boolean
-  year0: number
-  value0: number
+  period0StartYear: number 
+  period0Value: number 
+  period0EndYear
+  reg: string
+  taxable:boolean
   [key: string]: any
 }
 
 export interface ISavingsStream {
-  color?: string
-  contribution0: number
-  contributionPeriods: number
-  contributionYear0: number
-  currentValue: number
+  color?:string 
   id?: string
-  reg: string
   name: string
-  owner: string
-  taxable: boolean
-  withdrawal0: number
-  withdrawalPeriods: number
-  withdrawalYear0: number
+  owner?: string
+  periods: number
+  period0StartYear: number 
+  period0Value: number 
+  period0EndYear: number
+  reg: string
+  taxable:boolean
   [key: string]: any
 }
+
+// export interface ISavingsStream {
+//   color?: string
+//   contribution0: number
+//   contributionPeriods: number
+//   contributionYear0: number
+//   currentValue: number
+//   id?: string
+//   reg: string
+//   name: string
+//   owner: string
+//   taxable: boolean
+//   withdrawal0: number
+//   withdrawalPeriods: number
+//   withdrawalYear0: number
+//   [key: string]: any
+// }
 
 export interface IPropertyStream {
   color?: string
@@ -103,7 +132,7 @@ export interface IPropertyStream {
   mortgageAmortization: number
   mortgageStartYear: number
   name: string
-  owner: string
+  owner?: string
   purchasePrice: number
   purchaseYear: number
   reg: string
@@ -112,13 +141,14 @@ export interface IPropertyStream {
 }
 export interface IDebtStream {
   color?: string
+  id?: string
   rate: number
   reg: string
   balance: number
   amortization: number
   payment: number
   name: string
-  owner: string
+  owner?: string
 }
 
 

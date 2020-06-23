@@ -14,7 +14,7 @@ export const SavingsChart: FC<IProps> = ({ data, state, set }) => {
     <Wrapper>
       <Img alt="#" src={require("assets/savings.png")} style={{ height: "20rem" }} onClick={() => set("selectedId", "ui_reducer", "incomeDummy")} />
       <ChartNavWrapper>
-        <ChartNav options={["tfsa", "rrsp", "non-reg", "combined"]} id={"selectedAccount"} reducer={"ui_reducer"} />
+        <ChartNav options={["tfsa", "rrsp", "nopersonal", "combined"]} id={"selectedAccount"} reducer={"ui_reducer"} />
       </ChartNavWrapper>
     </Wrapper>
   )
@@ -42,5 +42,5 @@ const ChartNavWrapper = styled.div`
 `
 
 // {/* <ChartNavWrapper>
-// <ChartNav options={["tfsa", "rrsp", "non-reg", "combined"]} id={"selectedAccount"} reducer={"ui_reducer"} />
+// <ChartNav options={["tfsa", "rrsp", "nopersonal", "combined"]} id={"selectedAccount"} reducer={"ui_reducer"} />
 // </ChartNavWrapper> */}

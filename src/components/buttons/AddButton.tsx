@@ -24,7 +24,7 @@ const Add = styled.div`
   &::after {
     position: absolute;
     content: "";
-    width: 50%;
+    width: 48%;
     border-radius: 3px;
     height: 1px; /* cross thickness */
     background-color: grey;
@@ -32,6 +32,5 @@ const Add = styled.div`
   &::before {
     transform: rotate(90deg);
   }
-  &::after {
-  }
+
 `

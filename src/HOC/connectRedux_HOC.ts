@@ -31,6 +31,8 @@ import { TripleSelector as _TripleSelector } from "components/nav/TripleSelector
 import { ChartNav as _ChartNav } from "components/nav/ChartNav"
 import { InfoCard as _InfoCard } from "components/cards/InfoCard"
 import { MultiSliders as _MultiSliders } from "components/Sliders/MultiSliders"
+import { TripleSliderSelector as _TripleSliderSelector } from "components/cards/TripleSliderSelector"
+import { EditPanel as _EditPanel } from "components/cards/EditPanel"
 
 //CHARTS
 
@@ -112,9 +114,14 @@ export const InfoCard = compose(connect(mapStateToProps, { set }))(_InfoCard)
 
 /**
  *  It enables the user to see two or more sliders side by side. It recives a number which tells it how many sliders to render.
- * Then it receives props for each slider. 
+ * Then it receives props for each slider.
  *  */
 export const MultiSliders = compose(connect(mapStateToProps, { set }))(_MultiSliders)
+/**
+ *  It enables the user to see two or more sliders side by side. It recives a number which tells it how many sliders to render.
+ * Then it receives props for each slider.
+ *  */
+export const TripleSliderSelector = compose(connect(mapStateToProps, { set }))(_TripleSliderSelector)
 
 /**
  * The <Display> component receives page data and renders a page based on the data passed to it. The page
@@ -123,9 +130,7 @@ export const MultiSliders = compose(connect(mapStateToProps, { set }))(_MultiSli
 
 export const Display = compose(connect(mapStateToProps, { set }))(_Display)
 
-
 export const Layout = compose(connect(mapStateToProps, { set }))(_Layout)
-
 
 /**
  * The <SideNav> component contains a list of values: "Income", "Spending", "Taxes" etc. The User can click
@@ -171,6 +176,11 @@ export const EditIncome = compose(connect(mapStateToProps, { set, remove }))(_Ed
  * The <TripleSelector> gives the user 3 options and enables the user to toggle between them  */
 
 export const TripleSelector = compose(connect(mapStateToProps, { set, remove }))(_TripleSelector)
+
+/**
+ * The <TripleSelector> gives the user 3 options and enables the user to toggle between them  */
+
+export const EditPanel = compose(connect(mapStateToProps, { set, remove }))(_EditPanel)
 
 //CHARTS
 

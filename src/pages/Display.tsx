@@ -20,7 +20,7 @@ export const Display: FC<IProps> = ({ data, set }) => {
   }
   const renderUserEditForm = () => {
     const EditForm = components[data.userEditForm]
-    return <EditForm {...data.editProps} />
+    return <EditForm {...data} />
   }
 
   return (
@@ -92,8 +92,8 @@ const AddPrompt = styled.div`
 `
 const CenterNav = styled.h1`
   position: absolute;
-  top: 38rem;
-  left: 52rem;
+  top: 35rem;
+  left: 50rem;
   width: 40rem;
   height: 4rem;
 `

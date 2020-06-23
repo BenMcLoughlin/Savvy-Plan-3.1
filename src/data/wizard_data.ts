@@ -20,7 +20,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     {
       //Question 1: INTRO
       component: "Button",
-      subTitle: "We’ll gather some information that will enable us to build a plan suited to you.",
+      subTitle: "In order to build your plan we'll need some details about your situation.",
       title: "Lets build you a financial Plan",
       label: "continue",
       onClick() {
@@ -41,23 +41,23 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     {
       //Question 3: BIRTH YEAR
       ask: "This forms the basis of our financial calculations.",
-      component: "TextInput",
-      id: "user1BirthYear",
-      label: "Birth Year",
-      reducer: "user_reducer",
-      title: "What's your Birth Year?",
+      component: "TextInput", //Text input will capture their birthyear
+      id: "user1BirthYear", //the year will be stored under this name in the user_reducer
+      label: "Birth Year", //label shown above text box
+      reducer: "user_reducer", //reducer we want the information stored in
+      title: "What's your Birth Year?", //question at top of page
       placeholder: "YYYY",
-      type: "year",
+      type: "year", //by setting it as type year the component will place valiation on the text
     },
     {
       //Question 4: GENDER
-      array: ["male", "female", "prefer not to say", "write below"],
+      array: ["male", "female", "prefer not to say", "write below"], //array of options shown in component
       ask: "We want to ensure our planning process is inclusive.",
-      component: "PickSingleOption",
-      id: "user1Gender",
-      reducer: "user_reducer",
+      component: "PickSingleOption", //this component allows the user to choose one of a number of options
+      id: "user1Gender", //the gender will be stored under this name in the user_reducer
+      reducer: "user_reducer", //reducer we want the information stored in
       title: "What's your Gender?",
-      textInput: true,
+      textInput: true, //enables a text input box for the user to write their gender if they want
     },
     {
       //Question 4: MARITAL STATUS
@@ -71,123 +71,129 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     },
   ]
 
-  // //  ------ADD TO ARRAY IF USER IS MARRIED
-  // if (maritalStatus === "married" || maritalStatus === "common-law") {
-  //   // if the user is married we need to gather their spouse's first name and birth
-  //   array.push({
-  //     //Question 4.1: SPOUSE FIRST NAME
-  //     ask: "We'll use this to keep your details seperate from your spouse.",
-  //     component: "TextInput",
-  //     id: "user2Name",
-  //     label: "Spouse's First Name",
-  //     reducer: "user_reducer",
-  //     title: "What's your spouse's first Name?",
-  //     placeholder: "Name",
-  //     type: "text",
-  //   })
-  //   array.push({
-  //     //Question 4.2: SPOUSE BIRTH YEAY
-  //     ask: "This will form the basis of our financial calculations",
-  //     component: "TextInput",
-  //     id: "user2BirthYear",
-  //     label: "Spouse's Birth Year",
-  //     reducer: "user_reducer",
-  //     title: "What's your spouse's birth Year?",
-  //     placeholder: "YYYY",
-  //     type: "year",
-  //   })
-  // }
+  //  ------ADD TO ARRAY IF USER IS MARRIED
+  if (maritalStatus === "married" || maritalStatus === "common-law") {
+    // if the user is married we need to gather their spouse's first name and birth
+    array.push({
+      //Question 4.1: SPOUSE FIRST NAME
+      ask: "We'll use this to keep your details seperate from your spouse.",
+      component: "TextInput",
+      id: "user2Name",
+      label: "Spouse's First Name",
+      reducer: "user_reducer",
+      title: "What's your spouse's first Name?",
+      placeholder: "Name",
+      type: "text",
+    })
+    array.push({
+      //Question 4.2: SPOUSE BIRTH YEAY
+      ask: "This will form the basis of our financial calculations",
+      component: "TextInput",
+      id: "user2BirthYear",
+      label: "Spouse's Birth Year",
+      reducer: "user_reducer",
+      title: "What's your spouse's birth Year?",
+      placeholder: "YYYY",
+      type: "year",
+    })
+  }
 
-  // array.push({
-  //   //Question 5: HAS CHILDREN
-  //   array: ["yes", "no", "hope to eventually", "yes, and they are over 18"],
-  //   ask: "We'd like to estimate your government child benefits.",
-  //   component: "PickSingleOption",
-  //   id: "hasChildren",
-  //   reducer: "user_reducer",
-  //   title: "Do you have children?",
-  //   textInput: false,
-  // })
+  array.push({
+    //Question 5: HAS CHILDREN
+    array: ["yes", "no", "hope to eventually", "yes, and they are over 18"],
+    ask: "We'd like to estimate your government child benefits. Even if you only plan on having children its helpful to know so we can show you how it will impact your finances.",
+    component: "PickSingleOption",
+    id: "hasChildren",
+    reducer: "user_reducer",
+    title: "Do you have children?",
+    textInput: false,
+  })
 
-  // //  ------ADD TO ARRAY IF USER HAS CHILDREN
-  // if (hasChildren === "yes" || hasChildren === "hope to eventually") {
-  //   // if the user has children we need to gather the number and birth years of the children
-  //   array.push({
-  //     //Question 5.1: NUMBER OF CHILDREN
-  //     ask:
-  //       hasChildren === "yes"
-  //         ? "We'd like to estimate your government child benefits."
-  //         : "Just guessing is fine, it will give you an idea of the impact of government benefits on your plan. You can always change it later. ",
-  //     component: "PickNumber",
-  //     id: "numberOfChildren",
-  //     value: 3,
-  //     reducer: "user_reducer",
-  //     title: "How many children?",
-  //     onClick: function (number) {
-  //       set(`child${number}BirthYear`, "user_reducer", 2000)
-  //     },
-  //   })
-  // }
+  //  ------ADD TO ARRAY IF USER HAS CHILDREN
+  if (hasChildren === "yes" || hasChildren === "hope to eventually") {
+    // if the user has children we need to gather the number and birth years of the children
+    array.push({
+      //Question 5.1: NUMBER OF CHILDREN
+      ask:
+        hasChildren === "yes"
+          ? "We'd like to estimate your government child benefits."
+          : "Just guessing is fine, it will give you an idea of the impact of government benefits on your plan. You can always change it later. ",
+      component: "PickNumber",
+      id: "numberOfChildren",
+      value: 3,
+      reducer: "user_reducer",
+      title: "How many children?",
+      onClick: function (number) {
+        set(`child${number}BirthYear`, "user_reducer", 2000)
+      },
+    })
+  }
 
   // //INCOME SECTION DON"T remove
 
-  // //Question 6: ADD INCOME TO CHART?
-  // array.push({
-  //   ask:
-  //     "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
-  //   component: "Button",
-  //   id: "progress", //I only want the "Continue" button to make the change, so it sets the progress forward in the reducer.
-  //   reducer: "ui_reducer",
-  //   subTitle: "We'll use this to build a chart showings your income streams and estimate your pension income.",
-  //   title: "We need some details about your income.",
-  //   label: "lets go",
-  //   onClick() {
-  //     set("progress", "ui_reducer", progress + 1)
-  //     createStream(colorIndex, incomeStream, set, "userIncome")
-  //   },
-  // })
+  //Question 6: ADD INCOME TO CHART?
+  array.push({
+    ask:
+      "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
+    component: "Button",
+    id: "progress", //I only want the "Continue" button to make the change, so it sets the progress forward in the reducer.
+    reducer: "ui_reducer",
+    subTitle: "We'll use this to build a chart showings your income streams and estimate your pension income.",
+    title: "We need some details about your income.",
+    label: "lets go",
+    onClick() {
+      set("progress", "ui_reducer", progress + 1)
+      createStream(colorIndex, incomeStream, set, "income", "user1")
+    },
+    undo(id) {
+      remove(id)
+    },
+  })
 
-  // //  ------ADD TO INCOME STREAMS TO ARRAY
-  // // Here need to map through all the income streams and add them to the primary array.
-  // Object.values(main_reducer)
-  //   .filter((d: any) => d.id.includes("userIncome"))
-  //   .map((instance: any) => {
-  //     //looks at all the income streams listed in the main reducer
-  //     const incomeData = createIncomeArray(instance, set, state, remove) //creates an array for each income incomeStream, enabling the user to change individual details in the wizard
-  //     incomeData.map((d: any, i: number) => {
-  //       //maps through the array and pushes the contents to the main array that controls the wizard
-  //       array.push(d)
-  //     })
-  //   })
+  //  ------ADD TO INCOME STREAMS TO ARRAY
+  // Here need to map through all the income streams and add them to the primary array.
+  Object.values(main_reducer)
+    .filter((d: any) => d.id.includes("user1Income"))
+    .map((instance: any) => {
+      //looks at all the income streams listed in the main reducer
+      const incomeData = createIncomeArray(instance, set, state, remove) //creates an array for each income incomeStream, enabling the user to change individual details in the wizard
+      incomeData.map((d: any, i: number) => {
+        //maps through the array and pushes the contents to the main array that controls the wizard
+        array.push(d)
+      })
+    })
 
-  // //Question 6: ADD SPOUSE'S INCOME TO CHART?
-  // if (maritalStatus === "married" || maritalStatus === "common-law") {
-  //   array.push({
-  //     ask:
-  //       "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
-  //     component: "DualSelect",
-  //     id: "selectedUser",
-  //     option1: "yes",
-  //     option2: "no",
-  //     reducer: "ui_reducer",
-  //     title: "Would you like to add your spouses income?",
-  //     onClick: function () {
-  //       createStream(colorIndex, incomeStream, set, "spouseIncome")
-  //     },
-  //   })
-  //   // ------ADD SPOUSE'S INCOME STREAMS TO ARRAY
-  //   //Here need to map through all the income streams and add them to the primary array.
-  //   Object.values(main_reducer)
-  //     .filter((d: any) => d.id.includes("spouseIncome"))
-  //     .map((instance: any) => {
-  //       //looks at all the income streams listed in the main reducer
-  //       const incomeData = createIncomeArray(instance, set, state, remove) //creates an array for each income incomeStream, enabling the user to change individual details in the wizard
-  //       incomeData.map((d: any, i: number) => {
-  //         //maps through the array and pushes the contents to the main array that controls the wizard
-  //         array.push(d)
-  //       })
-  //     })
-  // }
+  //Question 6: ADD SPOUSE'S INCOME TO CHART?
+  if (maritalStatus === "married" || maritalStatus === "common-law") {
+    array.push({
+      ask:
+        "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
+      component: "DualSelect",
+      id: "selectedUser",
+      option1: "yes",
+      option2: "no",
+      reducer: "ui_reducer",
+      title: "Would you like to add your spouses income?",
+      onClick: function () {
+        createStream(colorIndex, incomeStream, set, "income", "user2")
+      },
+      undo(id) {
+        remove(id)
+      },
+    })
+    // ------ADD SPOUSE'S INCOME STREAMS TO ARRAY
+    //Here need to map through all the income streams and add them to the primary array.
+    Object.values(main_reducer)
+      .filter((d: any) => d.id.includes("user2Income"))
+      .map((instance: any) => {
+        //looks at all the income streams listed in the main reducer
+        const incomeData = createIncomeArray(instance, set, state, remove) //creates an array for each income incomeStream, enabling the user to change individual details in the wizard
+        incomeData.map((d: any, i: number) => {
+          //maps through the array and pushes the contents to the main array that controls the wizard
+          array.push(d)
+        })
+      })
+  }
 
   // ASK IF THEY HAVE INVESTMENTS
   array.push({
@@ -207,14 +213,14 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
           "A popular retirement account designed to help Canadians save for retirement. The money you contribute to your RRSP is “pre-tax.” That means that you can subtract the amount you contribute from your income and pay less in income taxes. If you made $60,000 and you contributed $5,000 to your RRSP, you will pay tax on only $55,000 of income.",
       },
       {
-        label: "personal, non-registered",
+        label: "personal, nopersonalistered",
         subTitle: "",
         reg: "Personal",
         info:
           "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
       },
       {
-        label: "Lira",
+        label: "Locked in Retirement Account",
         subTitle: "for funds from former employers",
         reg: "LIRA",
         info:
@@ -239,21 +245,21 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     ask: "We'll use this info to see how much income in retirement your investments will provide",
     component: "PickMultipleOptions",
     id: "progress",
-    user: "User1",
+    user: "user1",
     reducer: "ui_reducer",
     title: maritalStatus === "married" ? `Does ${user1Name} have investments?` : "Do you have investments?",
     onClick: function (reg) {
-      createStream(colorIndex, newSavingsStream(reg, +user1BirthYear + 65), set, `savingsUser1_${reg}`)
+      createStream(colorIndex, newSavingsStream(reg, +user1BirthYear + 65), set, `savings`, "user1")
     },
   })
 
   // //  ------ADD TO SAVINGS STREAMS TO ARRAY
   // // Here need to map through all the savings streams and add them to the primary array.
   Object.values(main_reducer)
-    .filter((d: any) => d.id.includes("savingsUser1"))
+    .filter((d: any) => d.id.includes("user1Savings"))
     .map((instance: any) => {
       //looks at all the savings streams listed in the main reducer
-      const savingsData = createSavingsArray(instance, set, state) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
+      const savingsData = createSavingsArray(instance, set, state, remove) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
       savingsData.map((d: any, i: number) => {
         //maps through the array and pushes the contents to the main array that controls the wizard
         array.push(d)
@@ -277,14 +283,14 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
             "A popular retirement account designed to help Canadians save for retirement. The money you contribute to your RRSP is “pre-tax.” That means that you can subtract the amount you contribute from your income and pay less in income taxes. If you made $60,000 and you contributed $5,000 to your RRSP, you will pay tax on only $55,000 of income.",
         },
         {
-          label: "personal, non-registered",
+          label: "personal, nopersonalistered",
           subTitle: "",
-          reg: "N-Reg",
+          reg: "personal",
           info:
             "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
         },
         {
-          label: "Lira",
+          label: "Locked in Retirement Account",
           reg: "LIRA",
           info:
             "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
@@ -306,20 +312,20 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
       ask: "We'll use this info to see how much income in retirement your investments will provide",
       component: "PickMultipleOptions",
       id: "progress",
-      user: "User2",
+      user: "user2",
       reducer: "ui_reducer",
       title: `Does ${user2Name}  have investments?`,
       onClick: function (reg) {
-        createStream(colorIndex, newSavingsStream(reg, +user1BirthYear + 55), set, `savingsUser2_${reg}`)
+        createStream(colorIndex, newSavingsStream(reg, +user1BirthYear + 55), set, `savings`, "user2")
       },
     })
     // ------ADD TO SPOUSE'S INCOME STREAMS TO ARRAY
     //Here need to map through all the spouse streams and add them to the primary array.
     Object.values(main_reducer)
-      .filter((d: any) => d.id.includes("savingsUser2"))
+      .filter((d: any) => d.id.includes("user2Savings"))
       .map((instance: any) => {
         //looks at all the spouse streams listed in the main reducer
-        const savingsData = createSavingsArray(instance, set, state) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
+        const savingsData = createSavingsArray(instance, set, state, remove) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
         savingsData.map((d: any, i: number) => {
           //maps through the array and pushes the contents to the main array that controls the wizard
           array.push(d)
@@ -336,7 +342,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     reducer: "user_reducer",
     title: "Do you own the home you live in, or any property?",
     onClick: function () {
-      createStream(colorIndex, propertyStream, set, "property")
+      createStream(colorIndex, propertyStream, set, "property", "user1")
     },
     undo(id) {
       remove(id)
@@ -346,10 +352,10 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
   if (ownHome) {
     //------ADD PROPERTRY ARRAY TO MAIN ARRAY.
     Object.values(main_reducer)
-      .filter((d: any) => d.id.includes("property"))
+      .filter((d: any) => d.id.includes("Property"))
       .map((instance: any) => {
         //looks at all the spouse streams listed in the main reducer to find those related to property
-        const propertyData = createPropertyArray(instance, set, state) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
+        const propertyData = createPropertyArray(instance, set, state, remove) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
         propertyData.map((d: any, i: number) => {
           //maps through the array and pushes the contents to the main array that controls the wizard
           array.push(d)
@@ -358,15 +364,15 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
   }
 
   array.push({
-    ask: "This is debt that isn't secured on a property. Examples are credit card debt, student loans, or lines of credit.'",
+    ask: "This is debt that isn't secured on a property. Examples are credit card debt, student loans, or lines of credit.",
     component: "DualSelect",
     id: "hasUnsecuredDebt",
     option1: "yes",
     option2: "no",
     reducer: "user_reducer",
-    title: "Do you carry any unsecured debt?",
+    title: "Do you have any unsecured debt?",
     onClick: function () {
-      createStream(colorIndex, newDebtStream(), set, "debt")
+      createStream(colorIndex, newDebtStream(), set, "debt", "user1")
     },
     undo(id) {
       remove(id)
@@ -376,16 +382,16 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
   if (hasUnsecuredDebt) {
     //------ADD PROPERTRY ARRAY TO MAIN ARRAY.
     Object.values(main_reducer)
-      .filter((d: any) => d.id.includes("debt"))
+      .filter((d: any) => d.id.includes("Debt"))
       .map((instance: any) => {
         //looks at all the spouse streams listed in the main reducer to find those related to property
-        const debtData = createDebtArray(instance, set, state) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
+        const debtData = createDebtArray(instance, set, state, remove) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
         debtData.map((d: any, i: number) => {
           //maps through the array and pushes the contents to the main array that controls the wizard
           array.push(d)
         })
       })
   }
-  console.log(array)
+
   return array
 }

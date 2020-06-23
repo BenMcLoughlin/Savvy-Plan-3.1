@@ -4,6 +4,7 @@ import * as components from "HOC/connectRedux_HOC"
 import _ from "lodash"
 import { TextInput,  } from "HOC/connectRedux_HOC"
 
+
 /**
  * <OnboardWizard> is being rendered for each piece of the array selected to be shown in the parent component. It is being passed props
  *  */
@@ -31,6 +32,7 @@ export const OnboardWizard: FC<any> = props => {
             ))}
           </Children>
         ) : null}
+
       </Content>
     </Wrapper>
   )
