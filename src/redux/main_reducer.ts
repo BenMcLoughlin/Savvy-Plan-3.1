@@ -3,7 +3,7 @@ import { IMainState } from "types/reducer_types"
 
 const initialState = {
   incomeDummy: {
-    name: "",
+    name: "My Dummy Income",
     id: "incomeDummy",
     color: "red",
     periods: 0,

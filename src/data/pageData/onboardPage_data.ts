@@ -11,7 +11,7 @@ interface IData {
  * <Display> box as dumb as possible.
  * */
 
-export const incomePage_data = (state: any, set: any): any => {
+export const onboardPage_data = (state: any, set: any): any => {
 
   const data = {
 

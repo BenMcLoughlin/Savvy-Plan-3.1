@@ -1,17 +1,25 @@
 import React, { FC, useEffect } from "react"
 import styled from "styled-components"
 import * as components from "HOC/connectRedux_HOC"
-import { InfoCard, TripleSelector } from "HOC/connectRedux_HOC"
-import { AddButton } from "components/buttons/AddButton"
+import { InfoCard, TripleSelector, Onboard } from "HOC/connectRedux_HOC"
+import { AddPrompt } from "components/buttons/AddPrompt"
+import _ from "lodash"
+import * as wizardData from "data/wizard"
 
 interface IProps {
   set: (id: string, reducer: string, value: any, childId?: string) => void
+  remove: (id) => void
+  state: any
   data: any
 }
 
-export const Display: FC<IProps> = ({ data, set }) => {
+export const Display: FC<IProps> = ({ data, remove, set, state }) => {
+  const { selectedId, newStream, selectedPage } = state.ui_reducer
+
   useEffect(() => {
     set("selectedId", "ui_reducer", "") //Sets the id in the ui_reducer to nothing when pages and changed, prevents errors with an edit income box being shown in the savings section etc.
+    set("progress", "ui_reducer", 0)
+    set("selectedId", "ui_reducer", "")
   }, [data.page])
 
   const renderChart = () => {
@@ -23,6 +31,10 @@ export const Display: FC<IProps> = ({ data, set }) => {
     return <EditForm {...data} />
   }
 
+  const newWizardArray = wizardData[`create${_.startCase(selectedPage)}Array`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
+
+  const instance = state.main_reducer[selectedId]
+
   return (
     <Wrapper>
       <Chart>{renderChart()}</Chart>
@@ -31,19 +43,15 @@ export const Display: FC<IProps> = ({ data, set }) => {
           <InfoCard key={d.label} label={d.label} array={d.array} />
         ))}
       </InfoCards>
-      {
-        <Edit>
-          {data.editProps ? (
-            renderUserEditForm()
-          ) : (
-            <AddPrompt>
-              <AddButton onClick={() => data.createStream()} />
-              <p>{data.addButtonLabel}</p>
-            </AddPrompt>
-          )}
-        </Edit>
-      }
-
+      <Edit>
+        {selectedId && newStream && <Onboard data={newWizardArray(instance, set, state, remove, "display")} />}
+        {data.editPeriod && renderUserEditForm()} {/*if edit props has been set in the data, which is conditional to selectedId being true, then a edit box will appear */}
+        {!selectedId && (
+        <Left>
+          <AddPrompt onClick={() => data.createStream()} label={data.addButtonLabel} />{" "}
+        </Left>
+      )}
+      </Edit>
       <CenterNav>{data.user2Name && <TripleSelector id={"selectedUser"} reducer={"ui_reducer"} />}</CenterNav>
     </Wrapper>
   )
@@ -79,16 +87,11 @@ const Edit = styled.div`
   grid-area: c;
   display: flex;
   justify-content: center;
-`
-
-const AddPrompt = styled.div`
-  display: flex;
-  width: 18rem;
-  height: 4rem;
-  display: flex;
-  justify-content: space-between;
-  margin-left: -50rem;
-  font-weight: bold;
+  width: 85rem;
+  height: 10rem;
+  margin-top: -5rem;
+  margin-left: -5rem;
+  position: relative;
 `
 const CenterNav = styled.h1`
   position: absolute;
@@ -96,4 +99,9 @@ const CenterNav = styled.h1`
   left: 50rem;
   width: 40rem;
   height: 4rem;
+`
+const Left = styled.h1`
+  position: absolute;
+  top: 5rem;
+  left: 10rem;
 `

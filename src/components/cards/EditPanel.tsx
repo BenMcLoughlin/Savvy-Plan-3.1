@@ -7,12 +7,12 @@ import { Trash2 } from "@styled-icons/feather/Trash2"
 import _ from "lodash"
 
 interface ISliderProps {
-  editProps: any
+  editPeriod: any
   set: (id: string, reducer: string, value: any, childId?: string) => void
   remove: (id: string) => void
 }
 
-export const EditPanel: FC<ISliderProps> = ({ editProps, remove, set }) => {
+export const EditPanel: FC<ISliderProps> = ({ editPeriod, remove, set }) => {
   const id = "incomeDummy"
   return (
     <Wrapper>
@@ -23,7 +23,7 @@ export const EditPanel: FC<ISliderProps> = ({ editProps, remove, set }) => {
         <Exit onClick={() => set("selectedId", "ui_reducer", "")} />
       </Header>
       <Center>
-        <TripleSliderSelector {...editProps} />
+        <TripleSliderSelector {...editPeriod} />
       </Center>
 
       <BottomRight>
@@ -50,7 +50,7 @@ const Wrapper = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  margin-top: -3.5rem;
+  margin-top: 1.5rem;
 `
 const Header = styled.div`
   height: 4rem;
@@ -61,7 +61,7 @@ const Header = styled.div`
   padding: 0.5rem;
   color: white;
   font-size: ${props => props.theme.fontSize.smallMedium};
-  border-bottom: .3px solid ${props => props.theme.color.lightGrey};
+  border-bottom: 0.3px solid ${props => props.theme.color.lightGrey};
 `
 
 const TrashIcon = styled(Trash2)`
@@ -72,8 +72,7 @@ const TrashIcon = styled(Trash2)`
 const Center = styled.div`
   display: flex;
   position: absolute;
-  top: 0rem;
-  left: 9rem;
+  top: 4rem;
 `
 const BottomRight = styled.div`
   position: absolute;

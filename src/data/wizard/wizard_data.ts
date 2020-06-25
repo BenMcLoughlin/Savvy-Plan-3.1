@@ -1,27 +1,29 @@
-import { createIncomeArray } from "data/income_data"
-import { createSavingsArray } from "data/savings_data"
-import { createPropertyArray, createDebtArray } from "data/netWorth_data"
+import { createIncomeArray } from "data/wizard/income_data"
+import { createSavingsArray } from "data/wizard/savings_data"
+import { createPropertyArray, createDebtArray } from "data/wizard/netWorth_data"
 import { IOnboard } from "types/component_types"
 import { createStream, newIncomeStream, newSavingsStream, newPropertyStream, newDebtStream } from "services/ui_functions"
+
+import {addInstanceArray} from "services/wizard_functions"
 
 export const onboard_data = (state: any, set: any, progress: number, remove: any) => {
   const { user_reducer, main_reducer, ui_reducer } = state
 
-  const { maritalStatus, hasChildren, user1BirthYear, user1Name, hasSavings, user2Name, ownHome, hasUnsecuredDebt } = user_reducer
+  const { maritalStatus, hasChildren, user1BirthYear, user1Name, user2Name, ownHome, hasUnsecuredDebt } = user_reducer
 
-  const thisYear = new Date().getFullYear()
-
-  const { colorIndex, id } = ui_reducer
+  const { colorIndex } = ui_reducer
 
   const incomeStream = newIncomeStream(+user1BirthYear + 18, +user1BirthYear + 40)
   const propertyStream = newPropertyStream()
 
-  const array: IOnboard[] = [
+  const wizardArray: IOnboard[] = [
     {
       //Question 1: INTRO
       component: "Button",
       subTitle: "In order to build your plan we'll need some details about your situation.",
       title: "Lets build you a financial Plan",
+      reducer: "ui_reducer",
+      id: "progress",
       label: "continue",
       onClick() {
         set("progress", "ui_reducer", 1)
@@ -51,7 +53,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     },
     {
       //Question 4: GENDER
-      array: ["male", "female", "prefer not to say", "write below"], //array of options shown in component
+      array: ["male", "female", "prefer not to say", "write below"], //wizardArray of options shown in component
       ask: "We want to ensure our planning process is inclusive.",
       component: "PickSingleOption", //this component allows the user to choose one of a number of options
       id: "user1Gender", //the gender will be stored under this name in the user_reducer
@@ -74,7 +76,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
   //  ------ADD TO ARRAY IF USER IS MARRIED
   if (maritalStatus === "married" || maritalStatus === "common-law") {
     // if the user is married we need to gather their spouse's first name and birth
-    array.push({
+    wizardArray.push({
       //Question 4.1: SPOUSE FIRST NAME
       ask: "We'll use this to keep your details seperate from your spouse.",
       component: "TextInput",
@@ -85,7 +87,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
       placeholder: "Name",
       type: "text",
     })
-    array.push({
+    wizardArray.push({
       //Question 4.2: SPOUSE BIRTH YEAY
       ask: "This will form the basis of our financial calculations",
       component: "TextInput",
@@ -98,7 +100,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     })
   }
 
-  array.push({
+  wizardArray.push({
     //Question 5: HAS CHILDREN
     array: ["yes", "no", "hope to eventually", "yes, and they are over 18"],
     ask: "We'd like to estimate your government child benefits. Even if you only plan on having children its helpful to know so we can show you how it will impact your finances.",
@@ -112,7 +114,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
   //  ------ADD TO ARRAY IF USER HAS CHILDREN
   if (hasChildren === "yes" || hasChildren === "hope to eventually") {
     // if the user has children we need to gather the number and birth years of the children
-    array.push({
+    wizardArray.push({
       //Question 5.1: NUMBER OF CHILDREN
       ask:
         hasChildren === "yes"
@@ -132,7 +134,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
   // //INCOME SECTION DON"T remove
 
   //Question 6: ADD INCOME TO CHART?
-  array.push({
+  wizardArray.push({
     ask:
       "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
     component: "Button",
@@ -145,27 +147,24 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
       set("progress", "ui_reducer", progress + 1)
       createStream(colorIndex, incomeStream, set, "income", "user1")
     },
-    undo(id) {
-      remove(id)
-    },
   })
 
   //  ------ADD TO INCOME STREAMS TO ARRAY
-  // Here need to map through all the income streams and add them to the primary array.
-  Object.values(main_reducer)
-    .filter((d: any) => d.id.includes("user1Income"))
-    .map((instance: any) => {
-      //looks at all the income streams listed in the main reducer
-      const incomeData = createIncomeArray(instance, set, state, remove) //creates an array for each income incomeStream, enabling the user to change individual details in the wizard
-      incomeData.map((d: any, i: number) => {
-        //maps through the array and pushes the contents to the main array that controls the wizard
-        array.push(d)
-      })
-    })
+  // Here need to map through all the income streams and add them to the primary wizardArray.
+  addInstanceArray(main_reducer, "user1Income", remove, set, state, "income", wizardArray)
+  // Object.values(main_reducer)
+  //   .filter((d: any) => d.id.includes("user1Income"))
+  //   .map((instance: any) => {
+  //     //looks at all the income streams listed in the main reducer
+  //     const incomeData = createIncomeArray(instance, set, state, remove, "onboard") //creates an wizardArray for each income incomeStream, enabling the user to change individual details in the wizard
+  //     return incomeData.wizardArray.map(
+  //       (d: any) => wizardArray.push(d) //maps through the wizardArray and pushes the contents to the main wizardArray that controls the wizard
+  //     )
+  //   })
 
   //Question 6: ADD SPOUSE'S INCOME TO CHART?
   if (maritalStatus === "married" || maritalStatus === "common-law") {
-    array.push({
+    wizardArray.push({
       ask:
         "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
       component: "DualSelect",
@@ -177,26 +176,26 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
       onClick: function () {
         createStream(colorIndex, incomeStream, set, "income", "user2")
       },
-      undo(id) {
+      onClick2(id) {
         remove(id)
       },
     })
     // ------ADD SPOUSE'S INCOME STREAMS TO ARRAY
-    //Here need to map through all the income streams and add them to the primary array.
+    //Here need to map through all the income streams and add them to the primary wizardArray.
     Object.values(main_reducer)
       .filter((d: any) => d.id.includes("user2Income"))
       .map((instance: any) => {
         //looks at all the income streams listed in the main reducer
-        const incomeData = createIncomeArray(instance, set, state, remove) //creates an array for each income incomeStream, enabling the user to change individual details in the wizard
-        incomeData.map((d: any, i: number) => {
-          //maps through the array and pushes the contents to the main array that controls the wizard
-          array.push(d)
+        const incomeData = createIncomeArray(instance, set, state, remove, "onboard") //creates an wizardArray for each income incomeStream, enabling the user to change individual details in the wizard
+        return incomeData.wizardArray.map((d: any, i: number) => {
+          //maps through the wizardArray and pushes the contents to the main wizardArray that controls the wizard
+          wizardArray.push(d)
         })
       })
   }
 
   // ASK IF THEY HAVE INVESTMENTS
-  array.push({
+  wizardArray.push({
     array: [
       {
         label: "tax free savings account",
@@ -254,21 +253,21 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
   })
 
   // //  ------ADD TO SAVINGS STREAMS TO ARRAY
-  // // Here need to map through all the savings streams and add them to the primary array.
+  // // Here need to map through all the savings streams and add them to the primary wizardArray.
   Object.values(main_reducer)
     .filter((d: any) => d.id.includes("user1Savings"))
     .map((instance: any) => {
       //looks at all the savings streams listed in the main reducer
-      const savingsData = createSavingsArray(instance, set, state, remove) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
-      savingsData.map((d: any, i: number) => {
-        //maps through the array and pushes the contents to the main array that controls the wizard
-        array.push(d)
+      const savingsData = createSavingsArray(instance, set, state, remove) //creates an wizardArray for each savings savingsStream, enabling the user to change individual details in the wizard
+      return savingsData.wizardArray.map((d: any, i: number) => {
+        //maps through the wizardArray and pushes the contents to the main wizardArray that controls the wizard
+        wizardArray.push(d)
       })
     })
 
   // ------ ASK IF THEIR SPOUSE HAS INVESTMENTS
   if (maritalStatus === "married" || maritalStatus === "common-law") {
-    array.push({
+    wizardArray.push({
       array: [
         {
           label: "tax free savings account",
@@ -320,20 +319,20 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
       },
     })
     // ------ADD TO SPOUSE'S INCOME STREAMS TO ARRAY
-    //Here need to map through all the spouse streams and add them to the primary array.
+    //Here need to map through all the spouse streams and add them to the primary wizardArray.
     Object.values(main_reducer)
       .filter((d: any) => d.id.includes("user2Savings"))
       .map((instance: any) => {
         //looks at all the spouse streams listed in the main reducer
-        const savingsData = createSavingsArray(instance, set, state, remove) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
-        savingsData.map((d: any, i: number) => {
-          //maps through the array and pushes the contents to the main array that controls the wizard
-          array.push(d)
+        const savingsData = createSavingsArray(instance, set, state, remove) //creates an wizardArray for each savings savingsStream, enabling the user to change individual details in the wizard
+        savingsData.wizardArray.map((d: any, i: number) => {
+          //maps through the wizardArray and pushes the contents to the main wizardArray that controls the wizard
+          wizardArray.push(d)
         })
       })
   }
 
-  array.push({
+  wizardArray.push({
     ask: "We want to add any property you might own to your net worth chart.",
     component: "DualSelect",
     id: "ownHome",
@@ -344,7 +343,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     onClick: function () {
       createStream(colorIndex, propertyStream, set, "property", "user1")
     },
-    undo(id) {
+    onClick2(id) {
       remove(id)
     },
   })
@@ -355,15 +354,15 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
       .filter((d: any) => d.id.includes("Property"))
       .map((instance: any) => {
         //looks at all the spouse streams listed in the main reducer to find those related to property
-        const propertyData = createPropertyArray(instance, set, state, remove) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
-        propertyData.map((d: any, i: number) => {
-          //maps through the array and pushes the contents to the main array that controls the wizard
-          array.push(d)
+        const propertyData = createPropertyArray(instance, set, state, remove) //creates an wizardArray for each savings savingsStream, enabling the user to change individual details in the wizard
+        propertyData.wizardArray.map((d: any, i: number) => {
+          //maps through the wizardArray and pushes the contents to the main wizardArray that controls the wizard
+          wizardArray.push(d)
         })
       })
   }
 
-  array.push({
+  wizardArray.push({
     ask: "This is debt that isn't secured on a property. Examples are credit card debt, student loans, or lines of credit.",
     component: "DualSelect",
     id: "hasUnsecuredDebt",
@@ -374,7 +373,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     onClick: function () {
       createStream(colorIndex, newDebtStream(), set, "debt", "user1")
     },
-    undo(id) {
+    onClick2(id) {
       remove(id)
     },
   })
@@ -385,13 +384,16 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
       .filter((d: any) => d.id.includes("Debt"))
       .map((instance: any) => {
         //looks at all the spouse streams listed in the main reducer to find those related to property
-        const debtData = createDebtArray(instance, set, state, remove) //creates an array for each savings savingsStream, enabling the user to change individual details in the wizard
-        debtData.map((d: any, i: number) => {
-          //maps through the array and pushes the contents to the main array that controls the wizard
-          array.push(d)
+        const debtData = createDebtArray(instance, set, state, remove) //creates an wizardArray for each savings savingsStream, enabling the user to change individual details in the wizard
+        debtData.wizardArray.map((d: any, i: number) => {
+          //maps through the wizardArray and pushes the contents to the main wizardArray that controls the wizard
+          wizardArray.push(d)
         })
       })
   }
 
-  return array
+  return {
+    wizardType: "onboard",
+    wizardArray,
+  }
 }

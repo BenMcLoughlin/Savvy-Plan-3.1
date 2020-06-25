@@ -2,19 +2,19 @@ import React, { FC } from "react"
 import styled from "styled-components"
 import * as components from "HOC/connectRedux_HOC"
 import _ from "lodash"
-import { TextInput,  } from "HOC/connectRedux_HOC"
-
+import { TextInput } from "HOC/connectRedux_HOC"
 
 /**
  * <OnboardWizard> is being rendered for each piece of the array selected to be shown in the parent component. It is being passed props
  *  */
 
 export const OnboardWizard: FC<any> = props => {
-  const { id, title, component, subTitle, state } = props
+  const { id, title, component, subTitle, state, setProgress } = props
 
+  console.log(props);
   const renderComponent = () => {
     const Component = components[component]
-    return <Component {...props} />
+    return <Component {...props} setProgress={setProgress} />
   }
 
   return (
@@ -32,7 +32,6 @@ export const OnboardWizard: FC<any> = props => {
             ))}
           </Children>
         ) : null}
-
       </Content>
     </Wrapper>
   )
@@ -42,19 +41,16 @@ export const OnboardWizard: FC<any> = props => {
 
 const Wrapper = styled.div`
   display: flex;
-  width: 70rem;
+  height: 80%;
+  width: 100%;
   flex-direction: column;
   position: absolute;
-  flex-wrap: start;
-  top: 20%;
-  left: 25%;
 `
 const Header = styled.div`
-  height: 10rem;
-  width: 70rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  margin-top: 8%;
+  margin-left: 25%;
 `
 
 const Content = styled.div`
@@ -62,7 +58,8 @@ const Content = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
+  width: 100%;
+  margin-top: 2%;
 `
 
 const Children = styled.div`

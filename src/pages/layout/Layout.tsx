@@ -1,11 +1,7 @@
 import React, { FC } from "react"
 import styled from "styled-components"
 import { SideNav, Display } from "HOC/connectRedux_HOC"
-import { incomePage_data } from "data/pageData/incomePage_data"
-import { savingsPage_data } from "data/pageData/savingsPage_data"
-import { netWorthPage_data } from "data/pageData/netWorthPage_data"
-import { taxesPage_data } from "data/pageData/taxesPage_data"
-import { spendingPage_data } from "data/pageData/spendingPage_data"
+import * as PageData from "data/pageData"
 
 interface IProps {
   state: any
@@ -15,6 +11,8 @@ interface IProps {
 export const Layout: FC<IProps> = ({ state, set }) => {
   const { selectedPage } = state.ui_reducer
 
+  const data = PageData[`${selectedPage}Page_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
+
   return (
     <Wrapper>
       <Title>Your Financial Plan</Title>
@@ -22,17 +20,7 @@ export const Layout: FC<IProps> = ({ state, set }) => {
         <SideNav id={"selectedPage"} reducer={"ui_reducer"} />
       </Nav>
       <Content>
-        {selectedPage === "income" ? (
-          <Display data={incomePage_data(state, set)} />
-        ) : selectedPage === "savings" ? (
-          <Display data={savingsPage_data(state, set)} />
-        ) : selectedPage === "networth" ? (
-          <Display data={netWorthPage_data(state, set)} />
-        ) : selectedPage === "taxes" ? (
-          <Display data={taxesPage_data(state, set)} />
-        ) : selectedPage === "spending" ? (
-          <Display data={spendingPage_data(state, set)} />
-        ) : null}
+      <Display data={data(state, set)} /> {/*Display is the main page that shows all the info, it renders the data based on the selectedPage in the ui_reducder */}
       </Content>
     </Wrapper>
   )

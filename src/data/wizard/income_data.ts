@@ -9,7 +9,7 @@ import _ from "lodash"
  * add as many periods as they like to the array by incrementing the "periods" number. This array is then spliced into the main wizard array.
  *  */
 
-export const createIncomeArray = (instance: IIncomeStream, set: any, state: any, remove: any) => {
+export const createIncomeArray = (instance: IIncomeStream, set: any, state: any, remove: any, parent: string) => {
   const { periods, id, owner } = instance
 
   const currentYear = new Date().getFullYear() //the text needs to be able to refer to the income being earned in the past or in the future, so we will use this to test that
@@ -22,17 +22,17 @@ export const createIncomeArray = (instance: IIncomeStream, set: any, state: any,
 
   const incomeStream = newIncomeStream(+user1BirthYear + 18, +user1BirthYear + 40)
 
-  const array: any = [
+  const wizardArray: any = [
     //INTRO USER QUESTIONS
     {
-      ask: 'Examples could be if you work as an Engineer, you could say "Engineer Income. Or name if after the employer that pays you, like "Wal Mart Income".',
+      ask: 'Examples could be if you work as an Engineer, you could say "Engineering". Or name if after the employer that pays you, like "Wal Mart".',
       component: "TextInput",
       childId: "name",
-      chart: "IncomeChart",
+      chart: parent === "onboard" ? "IncomeChart" : null,
       id,
       label: "Source of Income",
       reducer: "main_reducer",
-      title: "What do you call this income stream?",
+      title: "Where does this income come from?",
       placeholder: "Income Name",
       type: "text",
     },
@@ -40,7 +40,7 @@ export const createIncomeArray = (instance: IIncomeStream, set: any, state: any,
       //QUESTION 1 - Type of income
       array: ["Regular Employment", "Business Income", "Investment Income", "Rental Income"], // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
       ask: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
-      chart: "IncomeChart",
+      chart: parent === "onboard" ? "IncomeChart" : null,
       component: "PickSingleOption",
       childId: "reg",
       id,
@@ -50,18 +50,15 @@ export const createIncomeArray = (instance: IIncomeStream, set: any, state: any,
     },
     {
       ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
-      chart: "IncomeChart",
+      chart: parent === "onboard" ? "IncomeChart" : null,
       component: "DualSelect",
       id: "selectedUser",
       option1: "yes",
       option2: "no",
       reducer: "ui_reducer",
-      title: "Would you like to add another income stream to the chart?",
+      title: "Would you like to add another income source?",
       onClick: function () {
         createStream(colorIndex, incomeStream, set, "income", owner)
-      },
-      undo(id) {
-        remove(id)
       },
     },
   ]
@@ -70,7 +67,7 @@ export const createIncomeArray = (instance: IIncomeStream, set: any, state: any,
    *these other objects are created by mapping through the period numbers on the instance and adding new periods.
    */
 
-  const editIncome = {
+  const editPeriod = {
     ask: "Its hard to predict future contributions. But by doing this you can see how they will impact your financial plan",
     component: "TripleSliderSelector", //very special advanced component tailored for this type of object
     periods: periods,
@@ -87,6 +84,7 @@ export const createIncomeArray = (instance: IIncomeStream, set: any, state: any,
     return {
       component: "MultiSliders",
       num: 3,
+      parent, 
       slider1: {
         bottomLabel: `at age ${instance[`period${i}StartYear`] - birthYear}`, //eg "at age 26"
         childId: `period${i}StartYear`, //the value being changed
@@ -122,56 +120,10 @@ export const createIncomeArray = (instance: IIncomeStream, set: any, state: any,
     }
   })
 
-  array.splice(2, 0, { ...editIncome, slidersArray })
-  // for (let i = periods; i > 0; i--) {
-  //   let past = currentYear > instance[`year${i}`]
-  //   array.splice(
-  //     6,
-  //     0,
-  //     {
-  //       ask: `If you think you're income might increase or decrease it's helpful to place that here. It helps us determine when and how much you should contribute to different savings accounts.`,
-  //       bottomLabel: `at age ${instance[`year${i}`] - 1988}`,
-  //       chart: "IncomeChart",
-  //       childId: `year${i}`,
-  //       component: "Slider",
-  //       id,
-  //       max: 2100,
-  //       min: instance[`year${i - 1}`],
-  //       step: 1,
-  //       topLabel: past ? "My income changed in" : "It might change in",
-  //       reducer: "main_reducer",
-  //       title: past ? "What year did your income change?" : "What year do you think your income will change?",
-  //       type: "year",
-  //     },
-  //     {
-  //       ask: `Once again, it doesn't have to be perfect. There's a big difference between 70k and 30k which makes a difference in our plan but small changes won't have much of an impact.`,
-  //       bottomLabel: "before tax per year",
-  //       chart: "IncomeChart",
-  //       childId: `value${i}`,
-  //       component: "Slider",
-  //       id,
-  //       max: 400000,
-  //       min: 0,
-  //       step: 1000,
-  //       topLabel: past ? "I earned?" : "I might earn",
-  //       reducer: "main_reducer",
-  //       title: past ? "How much did you earn?" : "What would you guess you will earn?",
-  //       type: "currency",
-  //     },
-  //     {
-  //       ask: `If you think it will change significantly again, add it in. Examples could be taking a few years off or getting a promotion.`,
-  //       chart: "IncomeChart",
-  //       component: "DualSelect",
-  //       id: "selectedUser",
-  //       option1: "yes",
-  //       option2: "no",
-  //       reducer: "ui_reducer",
-  //       title: past ? "Did it change over $5000 again?" : "Did you think it will change over $5000 again?",
-  //       onClick: function () {
-  //         addPeriodToIncomeStream(instance, periods, id, set)
-  //       },
-  //     }
-  //   )
-  // }
-  return array
+  wizardArray.splice(2, 0, { ...editPeriod, slidersArray })
+
+  return {
+    wizardType: "income",
+    wizardArray,
+  }
 }

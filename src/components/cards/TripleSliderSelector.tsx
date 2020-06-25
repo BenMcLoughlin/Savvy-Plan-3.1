@@ -2,7 +2,7 @@ import React, { FC, useState } from "react"
 import styled from "styled-components"
 import { MultiSliders } from "HOC/connectRedux_HOC"
 import { ScrollCircles } from "HOC/connectRedux_HOC"
-import { AddButton } from "components/buttons/AddButton"
+import { AddPrompt } from "components/buttons/AddPrompt"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 import { addPeriodToStream } from "services/ui_functions"
 import _ from "lodash"
@@ -16,37 +16,38 @@ interface ISliderProps {
   slidersArray: any
   set: (id: string, reducer: string, value: any, childId?: string) => void
   state: any
+  parent: string
 }
 
-export const TripleSliderSelector: FC<ISliderProps> = ({addLabel, id, periods, slidersArray, state, set }) => {
+export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, id, parent, periods, slidersArray, state, set }) => {
   const instance = state.main_reducer[id]
   const [position, setPosition] = useState<number>(0)
 
   const [direction, setDirection] = useState<string>("forward")
-
+  console.log(slidersArray)
   return (
-    <Wrapper>
+    <Wrapper parent={parent}>
       <TransitionGroup>
         {slidersArray.map(
           (d, i) =>
             i === position && (
               <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
-                <TwoSliders>
+                <Center>
                   <MultiSliders {...d} />
-                </TwoSliders>
+                </Center>
               </CSSTransition>
             )
         )}
       </TransitionGroup>
-      <ScrollCircles periods={periods + 1} setPosition={setPosition} setDirection={setDirection} position={position} />
       <Change>
-        <AddButton
+        <ScrollCircles periods={periods + 1} setPosition={setPosition} setDirection={setDirection} position={position} />
+        <AddPrompt
           onClick={() => {
             addPeriodToStream(instance, periods, id, set)
             setPosition(periods + 1)
           }}
+          label={"Add a period where it changed"}
         />
-        {addLabel}
       </Change>
     </Wrapper>
   )
@@ -54,35 +55,35 @@ export const TripleSliderSelector: FC<ISliderProps> = ({addLabel, id, periods, s
 
 //-----------------------------------------------style-----------------------------------------------//
 
-const Wrapper = styled.div`
+interface IWrapper {
+  parent: string
+}
+const Wrapper = styled.div<IWrapper>`
   position: relative;
-  width: 64rem;
-  height: 12rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-`
-
-const Change = styled.div`
-  margin-top: 2rem;
-  width: 23rem;
-  height: 12rem;
+  width: 80rem;
+  height: 25rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+`
+const Center = styled.div`
+  position: absolute;
+  display: flex;
+  top: 2%;
+  left: 10%;
+`
+
+const Change = styled.div`
+  width: 47rem;
+  height: 5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   font-size: 1.2rem;
   justify-content: space-around;
+  align-content: center;
   position: absolute;
-  top: 14rem;
-  left: 29rem;
-`
-const TwoSliders = styled.div`
-  display: flex;
-  position: absolute;
-  top: 5rem;
-  left: 10rem;
-  width: 40rem;
-  justify-content: space-around;
+  top: 70%;
+  left: 20%;
 `

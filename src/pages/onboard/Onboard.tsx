@@ -4,24 +4,24 @@ import * as components from "HOC/connectRedux_HOC"
 import { Comment } from "components/cards/Comment"
 import { ProgressBar, Next, Back, OnboardWizard } from "HOC/connectRedux_HOC"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
-import { onboard_data } from "data/wizard_data"
+import { onboard_data } from "data/wizard/wizard_data"
 import { Redirect } from "react-router-dom"
 
 interface IProps {
   state: any
   set: (id: string, reducer: string, value: any, childId?: string) => void
-  remove: (id:string) => void
+  remove: (id: string) => void
+  data: any
 }
 
-export const Onboard: FC<IProps> = ({ remove, state, set }) => {
+export const Onboard: FC<IProps> = ({ data, remove, state, set }) => {
   const { progress } = state.ui_reducer
 
   const [direction, setDirection] = useState<string>("forward")
 
-  const data = onboard_data(state, set, progress, remove)
+  const { wizardType, wizardArray } = data
 
-  console.log(data);
-  const { length } = data
+  const { length } = wizardArray
 
   if (progress === length) return <Redirect to="/plan" />
 
@@ -32,15 +32,18 @@ export const Onboard: FC<IProps> = ({ remove, state, set }) => {
 
   return (
     <Wrapper>
-      <ProgressBar length={length} progress={progress} />
-      <Text>
-        {progress > 0 ? <h3 style={{ fontWeight: "bold" }}>Why we Ask</h3> : null}
-        <h4>{data[progress].ask}</h4>
-      </Text>
-      {progress}
+      {wizardType === "onboard" ? (
+        <>
+          <ProgressBar length={length} progress={progress} />
+          <Text>
+            {progress > 0 ? <h3 style={{ fontWeight: "bold" }}>Why we Ask</h3> : null}
+            <h4>{wizardArray[progress].ask}</h4>
+          </Text>
+        </>
+      ) : null}
       <Content>
         <TransitionGroup>
-          {data.map(
+          {wizardArray.map(
             (d: any, i: number) =>
               i === progress && (
                 <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
@@ -51,18 +54,14 @@ export const Onboard: FC<IProps> = ({ remove, state, set }) => {
         </TransitionGroup>
       </Content>
 
-      {data[progress].chart ? (
+      {wizardArray[progress].chart ? (
         <Chart>
-          {renderChart(data[progress].chart)}
-          {data[progress].comment ? <Comment data={data[progress]} /> : null}
+          {renderChart(wizardArray[progress].chart)}
+          {wizardArray[progress].comment ? <Comment data={wizardArray[progress]} /> : null}
         </Chart>
       ) : null}
-      {progress > 0 && (
-        <>
-          <Back onClick={() => set("progress", "ui_reducer", progress > 0 ? progress - 1 : 1)} setDirection={setDirection} />
-          <Next props={data[progress]} value={progress < length ? progress + 1 : length} setDirection={setDirection} progress={progress} />
-        </>
-      )}
+      <Back onClick={() => set("progress", "ui_reducer", progress > 0 ? progress - 1 : 1)} setDirection={setDirection} />
+      <Next props={wizardArray[progress]} value={progress < length ? progress + 1 : length} setDirection={setDirection} progress={progress} />
     </Wrapper>
   )
 }
@@ -72,13 +71,11 @@ export const Onboard: FC<IProps> = ({ remove, state, set }) => {
 const Wrapper = styled.div`
   height: 100%;
   width: 100%;
-  box-shadow: 0 1px 2px rgba(0, 0, 0.01, 0.08);
+  position: relative;
 `
 const Content = styled.div`
   height: 100%;
   width: 100%;
-  display: flex;
-  justify-content: center;
 `
 const Text = styled.div`
   height: 20rem;

@@ -5,7 +5,7 @@ interface IData {
   chart: string
 }
 
-export const netWorthPage_data = (state: any, set: any): any => {
+export const networthPage_data = (state: any, set: any): any => {
   const { selectedId, colorIndex, selectedUser } = state.ui_reducer
 
   const { user1BirthYear, userName, user2Name } = state.user_reducer
@@ -38,6 +38,7 @@ export const netWorthPage_data = (state: any, set: any): any => {
       },
     ],
     createStream: function () {
+      set("newInstance", 'ui_reducer', true)
       createStream(colorIndex, incomeStream, set, "income", selectedUser)
     },
   }

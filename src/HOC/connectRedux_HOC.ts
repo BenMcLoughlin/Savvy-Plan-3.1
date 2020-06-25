@@ -8,6 +8,7 @@ import { Onboard as _Onboard } from "pages/onboard/Onboard"
 import { OnboardWizard as _OnboardWizard } from "pages/onboard/OnboardWizard"
 import { Layout as _Layout } from "pages/layout/Layout"
 import { Display as _Display } from "pages/Display"
+import { App as _App } from "App"
 
 //Components
 
@@ -128,7 +129,10 @@ export const TripleSliderSelector = compose(connect(mapStateToProps, { set }))(_
  * will show a chart, edit box, and info cards. .
  *  */
 
-export const Display = compose(connect(mapStateToProps, { set }))(_Display)
+export const Display = compose(connect(mapStateToProps, { set, remove }))(_Display)
+
+export const App = compose(connect(mapStateToProps, { set, remove }))(_App)
+
 
 export const Layout = compose(connect(mapStateToProps, { set }))(_Layout)
 

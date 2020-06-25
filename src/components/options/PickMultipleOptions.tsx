@@ -42,12 +42,12 @@ export const PickMultipleOptions: FC<IProps> = ({ array, id, onClick, reducer, s
                     onClick(d.reg)
                   } //checks if there is no currently selected version, if so it adds a new one, prevents adding mulitple with many clicks
                   if (selected) {
-                    //the user needs to be able to remove the new object if they click on it again enabling them to undo the account they added.
+                    //the user needs to be able to remove the new object if they click on it again enabling them to onClick2 the account they added.
                     const selectedInstance: any = Object.values(main_reducer).find((b: any) => b.reg === d.reg) //searches the main reducer to find the matching object to be removed
                     remove(selectedInstance.id) //removes it from the main reducer
                   }
                   if (d.label === "none") {
-                    //the user needs to be able to remove the new object if they click on it again enabling them to undo the account they added.
+                    //the user needs to be able to remove the new object if they click on it again enabling them to onClick2 the account they added.
                     const selectedInstances: any = Object.values(main_reducer).filter((b: any) => b.id.includes("savings")) //searches the main reducer to find the matching object to be removed
                     selectedInstances.map(instance => remove(instance.id))
                   }

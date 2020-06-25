@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { newIncomeStream, createStream } from "services/ui_functions"
+import { newSavingsStream, createStream } from "services/ui_functions"
 
 interface IData {
   chart: string
@@ -10,7 +10,7 @@ export const savingsPage_data = (state: any, set: any): any => {
 
   const { user1BirthYear, userName, user2Name } = state.user_reducer
 
-  const incomeStream = newIncomeStream(+user1BirthYear + 18, +user1BirthYear + 40)
+  const savingsStream = newSavingsStream("tfsa", 2020)
 
   const data = {
     page: "savings",
@@ -39,7 +39,9 @@ export const savingsPage_data = (state: any, set: any): any => {
       },
     ],
     createStream: function () {
-      createStream(colorIndex, incomeStream, set, selectedAccount, selectedUser)
+      //when the user clicks "Add new Stream" this function creates a new income stream and sets the id in the ui_reducer to it is displayed along with setting new stream to be true so it knows to edit a new stream
+      createStream(colorIndex, savingsStream, set, "savings", selectedUser)
+      set("newStream", "ui_reducer", true)
     },
   }
 

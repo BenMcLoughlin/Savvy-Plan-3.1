@@ -22,7 +22,7 @@ export const ProgressBar: FC<IProps> = ({ progress, length }) => {
 
 const Wrapper = styled.div`
   position: absolute;
-  top: 7rem;
+  top: 0rem;
   left: 0rem;
   height: 0.5rem;
   width: 100%;

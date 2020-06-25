@@ -11,7 +11,7 @@ export const createPropertyArray = (instance, set: any, state: any, remove: any)
   const { colorIndex } = state.ui_reducer
   const propertyStream = newPropertyStream()
 
-  const array: any = [
+  const wizardArray: any = [
     {
       ask: 'Examples could be Primary Residence, home, rental property or the address".',
       component: "TextInput",
@@ -35,7 +35,7 @@ export const createPropertyArray = (instance, set: any, state: any, remove: any)
     },
   ]
   if (maritalStatus === "married" || maritalStatus === "common law") {
-    array.push({
+    wizardArray.push({
       ask: "We'll use this information in the tax section.",
       component: "TripleSelector",
       childId: "owner",
@@ -46,7 +46,7 @@ export const createPropertyArray = (instance, set: any, state: any, remove: any)
     })
   }
 
-  array.push({
+  wizardArray.push({
     ask: "We'll add it to the charts. If you plan to buy property in the future we can add that too.",
     component: "MultiSliders",
     num: 3,
@@ -86,7 +86,7 @@ export const createPropertyArray = (instance, set: any, state: any, remove: any)
       reducer: "main_reducer",
     },
   })
-  array.push({
+  wizardArray.push({
     ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
     component: "DualSelect",
     id,
@@ -98,7 +98,7 @@ export const createPropertyArray = (instance, set: any, state: any, remove: any)
   })
 
   if (instance["hasMortgage"]) {
-    array.push({
+    wizardArray.push({
       ask: "We can add the debt to your networth and show you how it will play out in your plan.",
       component: "MultiSliders",
       num: 3,
@@ -139,7 +139,7 @@ export const createPropertyArray = (instance, set: any, state: any, remove: any)
       },
     })
   }
-  array.push({
+  wizardArray.push({
     ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
     component: "DualSelect",
     id: "change",
@@ -150,11 +150,14 @@ export const createPropertyArray = (instance, set: any, state: any, remove: any)
     onClick: function () {
       createStream(colorIndex, propertyStream, set, "property", owner)
     },
-    undo(id) {
+    onClick2(id) {
       remove(id)
     },
   })
-  return array
+  return {
+    wizardType: "property",
+    wizardArray,
+  }
 }
 
 export const createDebtArray = (instance, set: any, state: any, remove: any) => {
@@ -164,7 +167,7 @@ export const createDebtArray = (instance, set: any, state: any, remove: any) => 
   const { colorIndex } = state.ui_reducer
   const propertyStream = newPropertyStream()
 
-  const array: any = [
+  const wizardArray: any = [
     {
       ask: 'Examples could be Primary Residence, home, rental property or the address".',
       component: "TextInput",
@@ -188,7 +191,7 @@ export const createDebtArray = (instance, set: any, state: any, remove: any) => 
     },
   ]
   if (maritalStatus === "married" || maritalStatus === "common law") {
-    array.push({
+    wizardArray.push({
       ask: "We'll use this information in the tax section.",
       component: "TripleSelector",
       childId: "owner",
@@ -198,7 +201,7 @@ export const createDebtArray = (instance, set: any, state: any, remove: any) => 
       textInput: true,
     })
   }
-  array.push({
+  wizardArray.push({
     ask: "We'll add it to the charts. If you plan to buy property in the future we can add that too.",
     component: "MultiSliders",
     num: 3,
@@ -239,7 +242,7 @@ export const createDebtArray = (instance, set: any, state: any, remove: any) => 
     },
   })
 
-  array.push({
+  wizardArray.push({
     ask: "The more debt streams you add the better an idea you'll get of your finanical position and the long term impact of the debt.",
     component: "DualSelect",
     id: "change",
@@ -250,10 +253,13 @@ export const createDebtArray = (instance, set: any, state: any, remove: any) => 
     onClick: function () {
       createStream(colorIndex, newDebtStream(), set, "debt", owner)
     },
-    undo(id) {
+    onClick2(id) {
       remove(id)
     },
   })
 
-  return array
+  return {
+    wizardType: "debt",
+    wizardArray,
+  }
 }

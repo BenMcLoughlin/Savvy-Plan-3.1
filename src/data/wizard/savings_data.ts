@@ -4,11 +4,13 @@ import _ from "lodash"
 export const createSavingsArray = (instance: any, set: any, state: any, remove: any) => {
   const { periods, id, reg, owner } = instance
 
+  const { selectedId, colorIndex, selectedUser, newStream } = state.ui_reducer
+
   const { user1BirthYear, user2BirthYear } = state.user_reducer
 
   const birthYear = owner === "user1" ? user1BirthYear : user2BirthYear
 
-  const array: any = [
+  const wizardArray: any = [
     {
       ask: "Just an approximation of the current value is helpful. ",
       bottomLabel: `in my ${reg}`,
@@ -28,7 +30,8 @@ export const createSavingsArray = (instance: any, set: any, state: any, remove: 
   /** This is the data required to build a component that renders three range bars, a scroll bar and an add button. It is a base object that has an array of other objects attached to it.
   *these other objects are created by mapping through the period numbers on the instance and adding new periods. 
   */
-  const editSavingAccount = {
+
+  const editPeriod = {
     ask: "Its hard to predict future contributions. But by doing this you can see how they will impact your financial plan",
     component: "TripleSliderSelector", //very special advanced component tailored for this type of object
     periods,
@@ -63,6 +66,7 @@ export const createSavingsArray = (instance: any, set: any, state: any, remove: 
         step: 100,
         topLabel: i === 0 ? "I aim to contribute" : "I might contribute",
         reducer: "main_reducer",
+        type: "currency",
       },
       slider3: {
         bottomLabel: `at age ${instance[`period${i}EndYear`] - birthYear}`,
@@ -77,8 +81,11 @@ export const createSavingsArray = (instance: any, set: any, state: any, remove: 
       },
     }
   })
+ 
+  wizardArray.push({ ...editPeriod , slidersArray })
 
-  array.push({ ...editSavingAccount, slidersArray })
-
-  return array
+  return {
+    wizardType: "savings",
+    wizardArray,
+  }
 }
