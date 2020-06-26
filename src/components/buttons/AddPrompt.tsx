@@ -24,11 +24,12 @@ const Wrapper = styled.div`
   height: 4rem;
   display: flex;
   justify-content: space-between;
-  margin-left: 0rem;
+  align-items: center;
   font-weight: bold;
   position: relative;
 `
 const P = styled.p`
   position: absolute;
   left: 3.3rem;
+
 `

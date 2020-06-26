@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { newIncomeStream, createStream } from "services/ui_functions"
+import { newIncomeStream, createStream } from "services/create_functions"
 
 /**
  * incomePage_data receives state and provides all the information needed to render the <Display> component. It has the name of the chart that needs to be rendered. The details for the info card
@@ -59,7 +59,7 @@ export const incomePage_data = (state: any, set: any, parent: string): any => {
     const birthYear = owner === "user1" ? +user1BirthYear : +user2BirthYear
 
     const editPeriod = {
-      ask: "Its hard to predict future contributions. But by doing this you can see how they will impact your financial plan",
+      ask: "Its hard to predict future income. But by doing this you can see how they it impact your financial plan",
       component: "TripleSliderSelector", //very special advanced component tailored for this type of object
       periods: periods,
       id,
@@ -118,6 +118,5 @@ export const incomePage_data = (state: any, set: any, parent: string): any => {
     }
   }
 
-  console.log(data);
   return data
 }

@@ -5,13 +5,14 @@ interface IProps {
   array?: string[]
   childId?: any
   id: string
+  onClick?: (d) => void
   reducer: string
   state: any
   set: (id: string, reducer: string, value: any, childId: any) => void
   textInput?: boolean
 }
 
-export const PickSingleOption: FC<IProps> = ({ array, childId, id, reducer, state, set, textInput }) => {
+export const PickSingleOption: FC<IProps> = ({ array, childId, onClick, id, reducer, state, set, textInput }) => {
   const value = childId ? state[reducer][id][childId] : state[reducer][id]
   const { user_reducer } = state
 
@@ -20,7 +21,10 @@ export const PickSingleOption: FC<IProps> = ({ array, childId, id, reducer, stat
       {array &&
         array.map((d: string, i: number) => {
           return (
-            <Square key={i} selected={d === value} onClick={() => set(id, reducer, d, childId)}>
+            <Square key={i} selected={d.toLowerCase() === value} onClick={() => {
+              if (onClick) onClick(d.toLowerCase())
+              else(set(id, reducer, d.toLowerCase(), childId))
+              }}>
               {d}
             </Square>
           )

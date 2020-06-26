@@ -21,8 +21,6 @@ export const App = ({ remove, state, set }) => {
 
   const data = onboard_data(state, set, progress, remove)
 
-  console.log(data)
-
   return (
     <ThemeProvider theme={theme}>
       <Wrapper>

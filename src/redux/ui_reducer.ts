@@ -9,6 +9,7 @@ const initialState: IUiState = {
   selectedPage: "income",
   selectedAccount: "tfsa",
   selectedUser: "user1",
+  selectedTransaction: "contribution",
   newStream: false,
 }
 

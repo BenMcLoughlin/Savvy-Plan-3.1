@@ -86,7 +86,7 @@ export const createStream = (colorIndex: number, newIncomeStream: streamType, se
   //This creates a new Income Instance, such as from ages 18-22
   const id = owner + _.startCase(streamType) + "_" + (Math.random() * 1000000).toFixed() //creates the random ID that is the key to the object, key includes the owner, then the type of instance eg. "Income", then a random number
   const color = colorArray[colorIndex] //ensures that the color of the new stream is unique
-  const stream = { ...newIncomeStream, id, color, owner }
+  const stream = { ...newIncomeStream, id, color, owner, streamType }
 
   set(id, "main_reducer", stream, "") //This action fires and sets the state in the income reducer creating a new item there,
   set("selectedId", "ui_reducer", id, "") // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box

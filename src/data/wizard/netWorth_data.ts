@@ -1,4 +1,4 @@
-import { createStream, newPropertyStream, newDebtStream } from "services/ui_functions"
+import { createStream, newPropertyStream, newDebtStream } from "services/create_functions"
 
 /**
  * createPropertyArray() returns an array of objects that each represent a deatil about their property such as its value and mortgage.

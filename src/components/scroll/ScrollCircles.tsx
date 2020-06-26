@@ -38,7 +38,7 @@ export const ScrollCircles: FC<IProps> = ({periods, position, setPosition,  setD
 const Wrapper = styled.div`
   font-size: 1.6rem;
   padding: 2rem;
-  height: 1rem;
+  height: 4rem;
   display: flex;
   align-content: center;
   align-items: center;

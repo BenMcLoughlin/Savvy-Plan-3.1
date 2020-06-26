@@ -1,22 +1,22 @@
 import _ from "lodash"
-import { newSavingsStream, createStream } from "services/ui_functions"
+import { newSavingsStream, createStream } from "services/create_functions"
 
 interface IData {
   chart: string
 }
 
 export const savingsPage_data = (state: any, set: any): any => {
-  const { selectedId, colorIndex, selectedAccount, selectedUser } = state.ui_reducer
+  const { selectedId, colorIndex, selectedAccount, selectedUser, newStream } = state.ui_reducer
 
-  const { user1BirthYear, userName, user2Name } = state.user_reducer
+  const { userName, user2Name } = state.user_reducer
 
-  const savingsStream = newSavingsStream("tfsa", 2020)
+  const savingsStream = newSavingsStream(selectedAccount.toLowerCase(), 2020)
 
   const data = {
     page: "savings",
     chart: "SavingsChart",
-    userEditForm: "EditIncome",
-    addButtonLabel: "Add Income Stream",
+    userEditForm: "EditPanel",
+    addButtonLabel: "Add Savings Account",
     userName,
     user2Name,
     chartNavOptions: ["tfsa", "rrsp", "nopersonal", "all accounts"],
@@ -45,75 +45,81 @@ export const savingsPage_data = (state: any, set: any): any => {
     },
   }
 
-  if (selectedId) {
+  if (selectedId && !newStream) {
     const instance = state.main_reducer[selectedId]
 
-    const { id, periods } = instance
+    const { id, periods, owner } = instance
 
-    const editProps = {
-      instance,
+    const { user1BirthYear, user2BirthYear } = state.user_reducer
+
+    const birthYear = owner === "user1" ? +user1BirthYear : +user2BirthYear
+
+    const editPeriod = {
+      ask: "Its hard to predict future contributions. But by doing this you can see how they will impact your financial plan",
+      component: "TripleSliderSelector", //very special advanced component tailored for this type of object
+      periods: periods,
       id,
-      editTitle: false, //this enables the user to change the name of the instance, we want this for income but not for savings accounts
-      periods,
-      addPeriodLabel: "add different contributions or withdrawals", //this label sits beside a plus button that prompts the user to add a new period
-      dropdown: {
-        array: ["TFSA", "RRSP", "Nopersonal"],
-        id,
-        label: "Account",
-        reducer: "main_reducer",
-        childId: "reg",
-      },
-      lastSlider: {
-        bottomLabel: `in my ${selectedAccount}`,
-        childId: "yearLast",
-        id,
-        max: 20080,
-        min: 0,
-        step: 1000,
-        title: "1",
-        reducer: "main_reducer",
-        type: "currency",
-        topLabel: "I currently have",
+      childId: "period0StartYear",
+      reducer: "main_reducer",
+      title: `Lets gather some details about your ${instance.reg} contributions`,
+      addLabel: `Add a period when these contributions change`,
+      dualSelectorProps:    {
+        ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
+        component: "DualSelect",
+        id: "selectedTransaction",
+        option1: "contributions",
+        option2: "withdrawals",
+        reducer: "ui_reducer",
+        title: "Would you like to add another income source?",
       },
     }
 
-    const periodSliders = _.range(periods + 1).map((d: any, i: number) => {
-      const minYear = instance[`year${i - 1}`] ? instance[`year${i - 1}`] : 1990
-      const selectedAge = instance[`year${i}`] - 1988
-      const value = instance[`value${i}`]
+    const slidersArray = _.range(periods + 1).map((d: any, i: number) => {
       return {
-        sliderLeft: {
-          bottomLabel: `per year`,
-          childId: `value${i}`,
-          id,
-          max: 6000,
-          min: -10000,
-          step: 100,
-          title: "1",
-          reducer: "main_reducer",
-          type: "year",
-          topLabel: value >= 0 ? "I can contribute" : "I'd like to withdraw",
-        },
-        sliderRight: {
-          bottomLabel: `at age ${selectedAge}`,
-          childId: `year${i}`,
-          id,
-          max: 2100,
-          min: minYear,
+        component: "MultiSliders",
+        num: 3,
+        slider1: {
+          bottomLabel: `at age ${instance[`period${i}StartYear`] - birthYear}`, //eg "at age 26"
+          childId: `period${i}StartYear`, //the value being changed
+          id, //id of the instance
+          max: 2080, //max year
+          min: i === 0 ? 2020 : instance[`period${i - 1}EndYear`], //if its the first one then just 2020, otherwise its the period priors last year
           step: 1,
-          title: "1",
+          topLabel: i === 0 ? "From" : "then in", //for the first one we want to say "starting in" but after they add changes we want it to say "then in"
           reducer: "main_reducer",
           type: "year",
-          topLabel: i === 0 ? "Until" : `from ${instance[`year${i - 1}`]}, until`,
+        },
+        slider2: {
+          bottomLabel: "per year",
+          childId: `period${i}Value`,
+          id,
+          max: instance.reg === "tfsa" ? 6000 : 25000, //tfsa has a max contribution per year of 6000
+          min: 0,
+          step: 100,
+          topLabel: i === 0 ? "I aim to contribute" : "I might contribute",
+          reducer: "main_reducer",
+          type: "currency",
+        },
+        slider3: {
+          bottomLabel: `at age ${instance[`period${i}EndYear`] - birthYear}`,
+          childId: `period${i}EndYear`,
+          id,
+          max: 2080,
+          min: instance[`period${i}StartYear`],
+          step: 1,
+          topLabel: "Until ",
+          reducer: "main_reducer",
+          type: "year",
         },
       }
     })
 
     return {
+      //add the edit details to the final data object
       ...data,
-      editProps: {
-        ...editProps,
-        periodSliders,
+      editPeriod: {
+        ...editPeriod,
+        slidersArray,
       },
     }
   }

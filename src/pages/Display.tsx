@@ -45,7 +45,7 @@ export const Display: FC<IProps> = ({ data, remove, set, state }) => {
       </InfoCards>
       <Edit>
         {selectedId && newStream && <Onboard data={newWizardArray(instance, set, state, remove, "display")} />}
-        {data.editPeriod && renderUserEditForm()} {/*if edit props has been set in the data, which is conditional to selectedId being true, then a edit box will appear */}
+        {data.editPeriod  && renderUserEditForm()} {/*if edit props has been set in the data, which is conditional to selectedId being true, then a edit box will appear */}
         {!selectedId && (
         <Left>
           <AddPrompt onClick={() => data.createStream()} label={data.addButtonLabel} />{" "}

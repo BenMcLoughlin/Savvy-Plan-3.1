@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { newIncomeStream, createStream } from "services/ui_functions"
+import { newIncomeStream, createStream } from "services/create_functions"
 
 interface IData {
   chart: string

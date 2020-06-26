@@ -1,19 +1,34 @@
-import { addPeriodToStream } from "services/ui_functions"
+import { newSavingsStream, createStream } from "services/create_functions"
 import _ from "lodash"
 
-export const createSavingsArray = (instance: any, set: any, state: any, remove: any) => {
+export const createSavingsArray = (instance: any, set: any, state: any, remove: any, parent: string) => {
   const { periods, id, reg, owner } = instance
 
-  const { selectedId, colorIndex, selectedUser, newStream } = state.ui_reducer
+  const { selectedId, colorIndex, selectedUser,selectedAccount,  newStream } = state.ui_reducer
 
   const { user1BirthYear, user2BirthYear } = state.user_reducer
 
   const birthYear = owner === "user1" ? user1BirthYear : user2BirthYear
 
+
+  const savingsStream = newSavingsStream(selectedAccount.toLowerCase(), 2020)
+
   const wizardArray: any = [
     {
+      array: ["TFSA", "RRSP", "Personal", "RESP", "LIRA"], //wizardArray of options shown in component
+      ask: "We want to ensure our planning process is inclusive.",
+      component: "PickSingleOption", //this component allows the user to choose one of a number of options
+      id: "selectedAccount",
+      reducer: "ui_reducer", //reducer we want the information stored in
+      title: "What kind of account is it?",
+      onClick: (d) => {
+        set(id, "main_reducer", d, "reg")
+        set("selectedAccount", "ui_reducer", d)
+      }
+     },
+    {
       ask: "Just an approximation of the current value is helpful. ",
-      bottomLabel: `in my ${reg}`,
+      bottomLabel: `in my ${reg.toUpperCase()}`,
       childId: "currentValue",
       component: "Slider",
       id,
@@ -22,9 +37,21 @@ export const createSavingsArray = (instance: any, set: any, state: any, remove: 
       step: 1000,
       topLabel: "I have around ",
       reducer: "main_reducer",
-      title: `How much do you currently have in your ${reg}?`,
+      title: `How much do you currently have in your ${reg.toUpperCase()}?`,
     },
-
+    {
+      ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
+      chart: parent === "onboard" ? "IncomeChart" : null,
+      component: "DualSelect",
+      id: "videoUrl",
+      option1: "yes",
+      option2: "no",
+      reducer: "ui_reducer",
+      title: "Would you like to add another income source?",
+      onClick: function () {
+        createStream(colorIndex, savingsStream, set, "income", owner)
+      },
+    }
   ]
 
   /** This is the data required to build a component that renders three range bars, a scroll bar and an add button. It is a base object that has an array of other objects attached to it.
@@ -38,7 +65,7 @@ export const createSavingsArray = (instance: any, set: any, state: any, remove: 
     id,
     childId: "period0StartYear",
     reducer: "main_reducer",
-    title: `Lets gather some details about your ${instance.reg} contributions`,
+    title: `How much do you contribute?`,
     addLabel: `Add a period when these contributions change`,
   }
 
@@ -82,7 +109,7 @@ export const createSavingsArray = (instance: any, set: any, state: any, remove: 
     }
   })
  
-  wizardArray.push({ ...editPeriod , slidersArray })
+  wizardArray.splice(2, 0, { ...editPeriod, slidersArray })
 
   return {
     wizardType: "savings",

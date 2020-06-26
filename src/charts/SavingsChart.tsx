@@ -1,6 +1,7 @@
 import React, { FC } from "react"
 import styled from "styled-components"
 import { ChartNav } from "HOC/connectRedux_HOC"
+import { AnyRecord } from "dns"
 
 interface IProps {
   state: any
@@ -9,12 +10,13 @@ interface IProps {
 }
 
 export const SavingsChart: FC<IProps> = ({ data, state, set }) => {
-  console.log(data)
+
+
   return (
     <Wrapper>
-      <Img alt="#" src={require("assets/savings.png")} style={{ height: "20rem" }} onClick={() => set("selectedId", "ui_reducer", "incomeDummy")} />
+      <Img alt="#" src={require("assets/savings.png")} style={{ height: "20rem" }} onClick={() => set("selectedId", "ui_reducer",  "savingsDummy")} />
       <ChartNavWrapper>
-        <ChartNav options={["tfsa", "rrsp", "nopersonal", "combined"]} id={"selectedAccount"} reducer={"ui_reducer"} />
+        <ChartNav options={["tfsa", "rrsp", "personal", "combined"]} id={"selectedAccount"} reducer={"ui_reducer"} />
       </ChartNavWrapper>
     </Wrapper>
   )
@@ -37,7 +39,7 @@ const Img = styled.img`
 `
 const ChartNavWrapper = styled.div`
   position: absolute;
-  top: 3rem;
+  top: 10rem;
   left: 4rem;
 `
 

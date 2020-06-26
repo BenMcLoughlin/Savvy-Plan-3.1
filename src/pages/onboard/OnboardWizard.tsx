@@ -10,8 +10,6 @@ import { TextInput } from "HOC/connectRedux_HOC"
 
 export const OnboardWizard: FC<any> = props => {
   const { id, title, component, subTitle, state, setProgress } = props
-
-  console.log(props);
   const renderComponent = () => {
     const Component = components[component]
     return <Component {...props} setProgress={setProgress} />

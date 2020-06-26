@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import styled from "styled-components"
 
 interface IProps {
@@ -15,9 +15,10 @@ interface IProps {
 
 export const ChartNav: FC<IProps> = ({ id, options, reducer, state, set }) => {
   const selected = state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
-
+ 
+  const {length} = options
   return (
-    <Wrapper>
+    <Wrapper length={length}>
       {options.map(d => (
         <Option onClick={() => set(id, reducer, d)} selected={selected === d}>
           {d}
@@ -30,10 +31,14 @@ export const ChartNav: FC<IProps> = ({ id, options, reducer, state, set }) => {
 
 //---------------------------STYLES-------------------------------------------//
 
-const Wrapper = styled.div`
+interface IWrapper {
+  length: number
+}
+
+const Wrapper = styled.div<IWrapper>`
   display: flex;
   height: 3rem;
-  width: 32rem;
+  width: ${props => `${props.length * 9}rem`};
   padding: 2rem;
   margin: 0px;
   margin-left: 5rem;
@@ -73,7 +78,7 @@ const Option = styled.div<OProps>`
 `
 const Pill = styled.div<PProps>`
         position: absolute;
-        min-width: 8rem;
+        min-width: 9rem;
         height: 2.8rem;
         top: 0rem;
         left: 0rem;
@@ -83,8 +88,8 @@ const Pill = styled.div<PProps>`
             ? "translate(0rem,0rem)"
             : props =>
                 props.selected === props.options[1]
-                  ? "translate(8rem,0rem)"
-                  : props => (props.selected === props.options[2] ? "translate(16rem,0rem)" : props => (props.selected === props.options[3] ? "translate(24rem,0rem)" : null))};
+                  ? "translate(9rem,0rem)"
+                  : props => (props.selected === props.options[2] ? "translate(18rem,0rem)" : props => (props.selected === props.options[3] ? "translate(27rem,0rem)" : null))};
         transition: all .3s ease;
         border-radius: 0px;
         animation: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) 0s 1 normal forwards running fmdUjs;

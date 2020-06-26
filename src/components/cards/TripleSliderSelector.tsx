@@ -4,7 +4,7 @@ import { MultiSliders } from "HOC/connectRedux_HOC"
 import { ScrollCircles } from "HOC/connectRedux_HOC"
 import { AddPrompt } from "components/buttons/AddPrompt"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
-import { addPeriodToStream } from "services/ui_functions"
+import { addPeriodToStream } from "services/create_functions"
 import _ from "lodash"
 import { isNullOrUndefined } from "util"
 
@@ -24,7 +24,7 @@ export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, id, parent, p
   const [position, setPosition] = useState<number>(0)
 
   const [direction, setDirection] = useState<string>("forward")
-  console.log(slidersArray)
+
   return (
     <Wrapper parent={parent}>
       <TransitionGroup>
@@ -61,7 +61,7 @@ interface IWrapper {
 const Wrapper = styled.div<IWrapper>`
   position: relative;
   width: 80rem;
-  height: 25rem;
+  height: 22rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -76,13 +76,8 @@ const Center = styled.div`
 
 const Change = styled.div`
   width: 47rem;
-  height: 5rem;
+  height: 4rem;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: 1.2rem;
-  justify-content: space-around;
-  align-content: center;
   position: absolute;
   top: 70%;
   left: 20%;

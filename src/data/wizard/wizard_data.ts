@@ -1,10 +1,7 @@
-import { createIncomeArray } from "data/wizard/income_data"
-import { createSavingsArray } from "data/wizard/savings_data"
-import { createPropertyArray, createDebtArray } from "data/wizard/netWorth_data"
 import { IOnboard } from "types/component_types"
-import { createStream, newIncomeStream, newSavingsStream, newPropertyStream, newDebtStream } from "services/ui_functions"
+import { createStream, newIncomeStream, newSavingsStream, newPropertyStream, newDebtStream } from "services/create_functions"
 
-import {addInstanceArray} from "services/wizard_functions"
+import { addInstanceArray, savingsAccountsArray } from "services/wizard_functions"
 
 export const onboard_data = (state: any, set: any, progress: number, remove: any) => {
   const { user_reducer, main_reducer, ui_reducer } = state
@@ -25,9 +22,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
       reducer: "ui_reducer",
       id: "progress",
       label: "continue",
-      onClick() {
-        set("progress", "ui_reducer", 1)
-      },
+      onClick: () => set("progress", "ui_reducer", 1),
     },
     {
       //Question 2: FIRST NAME
@@ -125,9 +120,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
       value: 3,
       reducer: "user_reducer",
       title: "How many children?",
-      onClick: function (number) {
-        set(`child${number}BirthYear`, "user_reducer", 2000)
-      },
+      onClick: number => set(`child${number}BirthYear`, "user_reducer", 2000),
     })
   }
 
@@ -152,15 +145,6 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
   //  ------ADD TO INCOME STREAMS TO ARRAY
   // Here need to map through all the income streams and add them to the primary wizardArray.
   addInstanceArray(main_reducer, "user1Income", remove, set, state, "income", wizardArray)
-  // Object.values(main_reducer)
-  //   .filter((d: any) => d.id.includes("user1Income"))
-  //   .map((instance: any) => {
-  //     //looks at all the income streams listed in the main reducer
-  //     const incomeData = createIncomeArray(instance, set, state, remove, "onboard") //creates an wizardArray for each income incomeStream, enabling the user to change individual details in the wizard
-  //     return incomeData.wizardArray.map(
-  //       (d: any) => wizardArray.push(d) //maps through the wizardArray and pushes the contents to the main wizardArray that controls the wizard
-  //     )
-  //   })
 
   //Question 6: ADD SPOUSE'S INCOME TO CHART?
   if (maritalStatus === "married" || maritalStatus === "common-law") {
@@ -173,163 +157,45 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
       option2: "no",
       reducer: "ui_reducer",
       title: "Would you like to add your spouses income?",
-      onClick: function () {
-        createStream(colorIndex, incomeStream, set, "income", "user2")
-      },
-      onClick2(id) {
-        remove(id)
-      },
+      onClick: () => createStream(colorIndex, incomeStream, set, "income", "user2"),
     })
-    // ------ADD SPOUSE'S INCOME STREAMS TO ARRAY
-    //Here need to map through all the income streams and add them to the primary wizardArray.
-    Object.values(main_reducer)
-      .filter((d: any) => d.id.includes("user2Income"))
-      .map((instance: any) => {
-        //looks at all the income streams listed in the main reducer
-        const incomeData = createIncomeArray(instance, set, state, remove, "onboard") //creates an wizardArray for each income incomeStream, enabling the user to change individual details in the wizard
-        return incomeData.wizardArray.map((d: any, i: number) => {
-          //maps through the wizardArray and pushes the contents to the main wizardArray that controls the wizard
-          wizardArray.push(d)
-        })
-      })
   }
+  // ------ADD SPOUSE'S INCOME STREAMS TO ARRAY
+  //Here need to map through all the income streams and add them to the primary wizardArray.
+  addInstanceArray(main_reducer, "user2Income", remove, set, state, "income", wizardArray)
 
   // ASK IF THEY HAVE INVESTMENTS
   wizardArray.push({
-    array: [
-      {
-        label: "tax free savings account",
-        subTitle: "for tax-free investing",
-        reg: "TFSA",
-        info:
-          "The TFSa enables you to  avoid taxes on the gains you make. If you invest $100 right now and it becomes $1000 by the time you retire, that $900 you'll have earned is tax-free. You can also take money out any time you want. There is no penalty to withdraw - and if you do, the amount is added to how much you can contribute the following year.",
-      },
-      {
-        label: "registered retirement savings",
-        subTitle: "for investing towards retirement",
-        reg: "RRSP",
-        info:
-          "A popular retirement account designed to help Canadians save for retirement. The money you contribute to your RRSP is “pre-tax.” That means that you can subtract the amount you contribute from your income and pay less in income taxes. If you made $60,000 and you contributed $5,000 to your RRSP, you will pay tax on only $55,000 of income.",
-      },
-      {
-        label: "personal, nopersonalistered",
-        subTitle: "",
-        reg: "Personal",
-        info:
-          "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
-      },
-      {
-        label: "Locked in Retirement Account",
-        subTitle: "for funds from former employers",
-        reg: "LIRA",
-        info:
-          "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
-      },
-      {
-        label: "Pension",
-        subTitle: "for funds from former employers",
-        reg: "Pension",
-        info:
-          "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
-      },
-      {
-        label: "RESP",
-        subTitle: "for children's education",
-        reg: "RESP",
-        info:
-          "A popular savings account for parents or family members to save money for their children's education. With an RESP, the government will match your contributions and anything you earn through investing is earned tax-free. As always, there are rules and limitations.",
-      },
-      { label: "none", reg: "none" },
-    ],
+    array: savingsAccountsArray,
     ask: "We'll use this info to see how much income in retirement your investments will provide",
     component: "PickMultipleOptions",
     id: "progress",
     user: "user1",
     reducer: "ui_reducer",
     title: maritalStatus === "married" ? `Does ${user1Name} have investments?` : "Do you have investments?",
-    onClick: function (reg) {
-      createStream(colorIndex, newSavingsStream(reg, +user1BirthYear + 65), set, `savings`, "user1")
-    },
+    onClick: reg => createStream(colorIndex, newSavingsStream(reg, +user1BirthYear + 65), set, `savings`, "user1"),
   })
+  //  ------ADD TO SAVINGS STREAMS TO ARRAY
+  //  Here need to map through all the savings streams and add them to the primary wizardArray.
 
-  // //  ------ADD TO SAVINGS STREAMS TO ARRAY
-  // // Here need to map through all the savings streams and add them to the primary wizardArray.
-  Object.values(main_reducer)
-    .filter((d: any) => d.id.includes("user1Savings"))
-    .map((instance: any) => {
-      //looks at all the savings streams listed in the main reducer
-      const savingsData = createSavingsArray(instance, set, state, remove) //creates an wizardArray for each savings savingsStream, enabling the user to change individual details in the wizard
-      return savingsData.wizardArray.map((d: any, i: number) => {
-        //maps through the wizardArray and pushes the contents to the main wizardArray that controls the wizard
-        wizardArray.push(d)
-      })
-    })
+  addInstanceArray(main_reducer, "user1Savings", remove, set, state, "savings", wizardArray)
 
   // ------ ASK IF THEIR SPOUSE HAS INVESTMENTS
   if (maritalStatus === "married" || maritalStatus === "common-law") {
     wizardArray.push({
-      array: [
-        {
-          label: "tax free savings account",
-          reg: "TFSA",
-          info:
-            "The TFSa enables you to  avoid taxes on the gains you make. If you invest $100 right now and it becomes $1000 by the time you retire, that $900 you'll have earned is tax-free. You can also take money out any time you want. There is no penalty to withdraw - and if you do, the amount is added to how much you can contribute the following year.",
-        },
-        {
-          label: "registered retirement savings",
-          reg: "RRSP",
-          info:
-            "A popular retirement account designed to help Canadians save for retirement. The money you contribute to your RRSP is “pre-tax.” That means that you can subtract the amount you contribute from your income and pay less in income taxes. If you made $60,000 and you contributed $5,000 to your RRSP, you will pay tax on only $55,000 of income.",
-        },
-        {
-          label: "personal, nopersonalistered",
-          subTitle: "",
-          reg: "personal",
-          info:
-            "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
-        },
-        {
-          label: "Locked in Retirement Account",
-          reg: "LIRA",
-          info:
-            "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
-        },
-        {
-          label: "Pension",
-          reg: "Pension",
-          info:
-            "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
-        },
-        {
-          label: "RESP",
-          reg: "RESP",
-          info:
-            "A popular savings account for parents or family members to save money for their children's education. With an RESP, the government will match your contributions and anything you earn through investing is earned tax-free. As always, there are rules and limitations.",
-        },
-        { label: "none", reg: "none" },
-      ],
+      array: savingsAccountsArray,
       ask: "We'll use this info to see how much income in retirement your investments will provide",
       component: "PickMultipleOptions",
       id: "progress",
       user: "user2",
       reducer: "ui_reducer",
       title: `Does ${user2Name}  have investments?`,
-      onClick: function (reg) {
-        createStream(colorIndex, newSavingsStream(reg, +user1BirthYear + 55), set, `savings`, "user2")
-      },
+      onClick: reg => createStream(colorIndex, newSavingsStream(reg, +user1BirthYear + 65), set, `savings`, "user2"),
     })
     // ------ADD TO SPOUSE'S INCOME STREAMS TO ARRAY
     //Here need to map through all the spouse streams and add them to the primary wizardArray.
-    Object.values(main_reducer)
-      .filter((d: any) => d.id.includes("user2Savings"))
-      .map((instance: any) => {
-        //looks at all the spouse streams listed in the main reducer
-        const savingsData = createSavingsArray(instance, set, state, remove) //creates an wizardArray for each savings savingsStream, enabling the user to change individual details in the wizard
-        savingsData.wizardArray.map((d: any, i: number) => {
-          //maps through the wizardArray and pushes the contents to the main wizardArray that controls the wizard
-          wizardArray.push(d)
-        })
-      })
+
+    addInstanceArray(main_reducer, "user1Savings", remove, set, state, "savings", wizardArray)
   }
 
   wizardArray.push({
@@ -340,26 +206,12 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     option2: "no",
     reducer: "user_reducer",
     title: "Do you own the home you live in, or any property?",
-    onClick: function () {
-      createStream(colorIndex, propertyStream, set, "property", "user1")
-    },
-    onClick2(id) {
-      remove(id)
-    },
+    onClick: () => createStream(colorIndex, propertyStream, set, "property", "user1"),
   })
 
   if (ownHome) {
-    //------ADD PROPERTRY ARRAY TO MAIN ARRAY.
-    Object.values(main_reducer)
-      .filter((d: any) => d.id.includes("Property"))
-      .map((instance: any) => {
-        //looks at all the spouse streams listed in the main reducer to find those related to property
-        const propertyData = createPropertyArray(instance, set, state, remove) //creates an wizardArray for each savings savingsStream, enabling the user to change individual details in the wizard
-        propertyData.wizardArray.map((d: any, i: number) => {
-          //maps through the wizardArray and pushes the contents to the main wizardArray that controls the wizard
-          wizardArray.push(d)
-        })
-      })
+    //------ADD PROPERTY ARRAY TO MAIN ARRAY.
+    addInstanceArray(main_reducer, "Property", remove, set, state, "property", wizardArray)
   }
 
   wizardArray.push({
@@ -370,26 +222,12 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     option2: "no",
     reducer: "user_reducer",
     title: "Do you have any unsecured debt?",
-    onClick: function () {
-      createStream(colorIndex, newDebtStream(), set, "debt", "user1")
-    },
-    onClick2(id) {
-      remove(id)
-    },
+    onClick: () => createStream(colorIndex, newDebtStream(), set, "debt", "user1")
   })
 
   if (hasUnsecuredDebt) {
-    //------ADD PROPERTRY ARRAY TO MAIN ARRAY.
-    Object.values(main_reducer)
-      .filter((d: any) => d.id.includes("Debt"))
-      .map((instance: any) => {
-        //looks at all the spouse streams listed in the main reducer to find those related to property
-        const debtData = createDebtArray(instance, set, state, remove) //creates an wizardArray for each savings savingsStream, enabling the user to change individual details in the wizard
-        debtData.wizardArray.map((d: any, i: number) => {
-          //maps through the wizardArray and pushes the contents to the main wizardArray that controls the wizard
-          wizardArray.push(d)
-        })
-      })
+    //------ADD Unsecured debt ARRAY TO MAIN ARRAY.
+    addInstanceArray(main_reducer, "Debt", remove, set, state, "debt", wizardArray)
   }
 
   return {

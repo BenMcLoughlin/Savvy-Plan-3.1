@@ -1,5 +1,5 @@
 import { IIncomeStream } from "types/reducer_types"
-import { createStream, addPeriodToIncomeStream, newIncomeStream } from "services/ui_functions"
+import { createStream, addPeriodToIncomeStream, newIncomeStream } from "services/create_functions"
 import _ from "lodash"
 
 /**

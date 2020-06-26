@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { ColorSelect, Dropdown, EditTitle, ScrollCircles, Slider } from "HOC/connectRedux_HOC"
 import { Exit } from "components/buttons/Exit"
 import { AddButton } from "components/buttons/AddButton"
-import { addPeriodToIncomeStream } from "services/ui_functions"
+import { addPeriodToIncomeStream } from "services/create_functions"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 import { Trash2 } from "@styled-icons/feather/Trash2"
 

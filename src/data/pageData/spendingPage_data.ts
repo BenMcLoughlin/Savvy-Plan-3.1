@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { newIncomeStream, createStream } from "services/ui_functions"
+import { newIncomeStream, createStream } from "services/create_functions"
 
 interface IData {
   chart: string
@@ -16,7 +16,7 @@ export const spendingPage_data = (state: any, set: any): any => {
     page: "spending",
     chart: "SpendingChart",
     userEditForm: "EditIncome",
-    addButtonLabel: "Add Income Stream",
+    addButtonLabel: "Add Expense Stream",
     userName,
     user2Name,
     chartNavOptions: ["tfsa", "rrsp", "nopersonal", "all accounts"],

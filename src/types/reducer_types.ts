@@ -11,6 +11,7 @@ export interface IUiState {
   selectedUser: string
   selectedAccount: string
   newStream: boolean
+  selectedTransaction: string
 }
 
 export interface IUserState {
@@ -79,30 +80,30 @@ export interface IInstance {
 // }
 
 export interface IIncomeStream {
-  color?:string 
+  color?: string
   id?: string
   name: string
   owner?: string
   periods: number
-  period0StartYear: number 
-  period0Value: number 
+  period0StartYear: number
+  period0Value: number
   period0EndYear
   reg: string
-  taxable:boolean
+  taxable: boolean
   [key: string]: any
 }
 
 export interface ISavingsStream {
-  color?:string 
+  color?: string
   id?: string
   name: string
   owner?: string
   periods: number
-  period0StartYear: number 
-  period0Value: number 
+  period0StartYear: number
+  period0Value: number
   period0EndYear: number
   reg: string
-  taxable:boolean
+  taxable: boolean
   [key: string]: any
 }
 
@@ -150,6 +151,5 @@ export interface IDebtStream {
   name: string
   owner?: string
 }
-
 
 export type streamType = IIncomeStream | IPropertyStream | IDebtStream | ISavingsStream

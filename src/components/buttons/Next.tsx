@@ -13,7 +13,6 @@ interface IProps {
 
 export const Next: FC<IProps> = ({ props, state, set, setDirection, value }) => {
   
-  console.log(props);
   const { id, childId, reducer, type } = props //props are pulled from data even though this button is not being passed props through the map function
 
   const subject = reducer === "main_reducer" ? state[reducer][id][childId] : state[reducer][id] //we need to check the value to see if its valid, if its the main reducer then the value is nested by one

@@ -4,8 +4,8 @@ import * as components from "HOC/connectRedux_HOC"
 import { Comment } from "components/cards/Comment"
 import { ProgressBar, Next, Back, OnboardWizard } from "HOC/connectRedux_HOC"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
-import { onboard_data } from "data/wizard/wizard_data"
 import { Redirect } from "react-router-dom"
+import { Exit } from "components/buttons/Exit"
 
 interface IProps {
   state: any
@@ -40,20 +40,26 @@ export const Onboard: FC<IProps> = ({ data, remove, state, set }) => {
             <h4>{wizardArray[progress].ask}</h4>
           </Text>
         </>
-      ) : null}
+      ) : (
+        <Exit
+          onClick={() => {
+            set("selectedId", "ui_reducer", "")
+            set("newStrem", "ui_reducer", "false")
+          }}
+        />
+      )}
       <Content>
         <TransitionGroup>
           {wizardArray.map(
             (d: any, i: number) =>
               i === progress && (
-                <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
+                <CSSTransition key={i} timeout={900} classNames={`transition-${direction}`}>
                   <OnboardWizard {...d} />
                 </CSSTransition>
               )
           )}
         </TransitionGroup>
       </Content>
-
       {wizardArray[progress].chart ? (
         <Chart>
           {renderChart(wizardArray[progress].chart)}

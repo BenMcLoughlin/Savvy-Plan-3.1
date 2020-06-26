@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import styled from "styled-components"
 import { Exit } from "components/buttons/Exit"
-import { TripleSliderSelector } from "HOC/connectRedux_HOC"
+import { TripleSliderSelector, DualSelect } from "HOC/connectRedux_HOC"
 import { ColorSelect, EditTitle } from "HOC/connectRedux_HOC"
 import { Trash2 } from "@styled-icons/feather/Trash2"
 import _ from "lodash"
@@ -9,17 +9,21 @@ import _ from "lodash"
 interface ISliderProps {
   editPeriod: any
   set: (id: string, reducer: string, value: any, childId?: string) => void
-  remove: (id: string) => void
+  remove: (id: string) => void,
+
 }
 
 export const EditPanel: FC<ISliderProps> = ({ editPeriod, remove, set }) => {
-  const id = "incomeDummy"
+  const id = "savingsDummy"
+
   return (
     <Wrapper>
       <Header>
         <ColorSelect id={id} reducer={"main_reducer"} childId={"color"} />
         <EditTitle id={id} reducer={"main_reducer"} childId={"name"} />
-
+        {
+          editPeriod.dualSelectorProps && <DualSelect {...editPeriod.dualSelectorProps}/>
+        }
         <Exit onClick={() => set("selectedId", "ui_reducer", "")} />
       </Header>
       <Center>
@@ -72,7 +76,7 @@ const TrashIcon = styled(Trash2)`
 const Center = styled.div`
   display: flex;
   position: absolute;
-  top: 4rem;
+  top: 5rem;
 `
 const BottomRight = styled.div`
   position: absolute;
