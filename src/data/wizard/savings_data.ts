@@ -11,20 +11,8 @@ export const createSavingsArray = (instance: any, set: any, state: any, remove: 
   const birthYear = owner === "user1" ? user1BirthYear : user2BirthYear
 
   const savingsStream = newSavingsStream(selectedAccount.toLowerCase(), 2020)
-
+console.log(parent);
   const wizardArray: any = [
-    {
-      array: ["TFSA", "RRSP", "Personal", "RESP", "LIRA"], //wizardArray of options shown in component
-      ask: "We want to ensure our planning process is inclusive.",
-      component: "PickSingleOption", //this component allows the user to choose one of a number of options
-      id: "selectedAccount",
-      reducer: "ui_reducer", //reducer we want the information stored in
-      title: "What kind of account is it?",
-      onClick: d => {
-        set(id, "main_reducer", d, "reg")
-        set("selectedAccount", "ui_reducer", d)
-      },
-    },
     {
       ask: "Just an approximation of the current value is helpful. ",
       bottomLabel: `in my ${reg.toUpperCase()}`,
@@ -38,7 +26,25 @@ export const createSavingsArray = (instance: any, set: any, state: any, remove: 
       reducer: "main_reducer",
       title: `How much do you currently have in your ${reg.toUpperCase()}?`,
     },
-    {
+  ]
+  
+
+  if (parent != "onboard") {
+    wizardArray.unshift({
+      array: ["TFSA", "RRSP", "Personal", "RESP", "LIRA"], //wizardArray of options shown in component
+      ask: "We want to ensure our planning process is inclusive.",
+      component: "PickSingleOption", //this component allows the user to choose one of a number of options
+      id: "selectedAccount",
+      reducer: "ui_reducer", //reducer we want the information stored in
+      title: "What kind of account is it?",
+      onClick: d => {
+        set(id, "main_reducer", d, "reg")
+        set("selectedAccount", "ui_reducer", d)
+      },
+    })
+  }
+  if (parent != "onboard") {
+    wizardArray.unshift(    {
       ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
       chart: parent === "onboard" ? "IncomeChart" : null,
       component: "DualSelect",
@@ -46,14 +52,14 @@ export const createSavingsArray = (instance: any, set: any, state: any, remove: 
       option1: "yes",
       option2: "no",
       reducer: "ui_reducer",
-      title: "Would you like to add another income source?",
+      title: "Would you like to add another Savings Account?",
       onClick1: () => createStream(colorIndex, savingsStream, set, "income", owner),
       onClick2: () => {
         set("newStream", "ui_reducer", false)
         set("selectedId", "ui_reducer", false)
       },
-    },
-  ]
+    },)
+  }
 
   /** This is the data required to build a component that renders three range bars, a scroll bar and an add button. It is a base object that has an array of other objects attached to it.
    *these other objects are created by mapping through the period numbers on the instance and adding new periods.

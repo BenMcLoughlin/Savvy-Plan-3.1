@@ -4,7 +4,7 @@ import { createStream, newPropertyStream, newDebtStream } from "services/create_
  * createPropertyArray() returns an array of objects that each represent a deatil about their property such as its value and mortgage.
  *  */
 
-export const createPropertyArray = (instance, set: any, state: any, remove: any) => {
+export const createPropertyArray = (instance, set: any, state: any, remove: any, parent) => {
   const { id, owner } = instance
 
   const { maritalStatus } = state.user_reducer

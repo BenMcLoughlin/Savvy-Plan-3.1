@@ -144,7 +144,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
 
   //  ------ADD TO INCOME STREAMS TO ARRAY
   // Here need to map through all the income streams and add them to the primary wizardArray.
-  addInstanceArray(main_reducer, "user1Income", remove, set, state, "income", wizardArray)
+  addInstanceArray(main_reducer, "user1Income", "onboard", remove, set, state, "income", wizardArray)
 
   //Question 6: ADD SPOUSE'S INCOME TO CHART?
   if (maritalStatus === "married" || maritalStatus === "common-law") {
@@ -163,7 +163,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
   }
   // ------ADD SPOUSE'S INCOME STREAMS TO ARRAY
   //Here need to map through all the income streams and add them to the primary wizardArray.
-  addInstanceArray(main_reducer, "user2Income", remove, set, state, "income", wizardArray)
+  addInstanceArray(main_reducer, "user2Income", "onboard", remove, set, state, "income", wizardArray)
 
   // ASK IF THEY HAVE INVESTMENTS
   wizardArray.push({
@@ -179,7 +179,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
   //  ------ADD TO SAVINGS STREAMS TO ARRAY
   //  Here need to map through all the savings streams and add them to the primary wizardArray.
 
-  addInstanceArray(main_reducer, "user1Savings", remove, set, state, "savings", wizardArray)
+  addInstanceArray(main_reducer, "user1Savings", "onboard", remove, set, state, "savings", wizardArray)
 
   // ------ ASK IF THEIR SPOUSE HAS INVESTMENTS
   if (maritalStatus === "married" || maritalStatus === "common-law") {
@@ -196,7 +196,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     // ------ADD TO SPOUSE'S INCOME STREAMS TO ARRAY
     //Here need to map through all the spouse streams and add them to the primary wizardArray.
 
-    addInstanceArray(main_reducer, "user1Savings", remove, set, state, "savings", wizardArray)
+    addInstanceArray(main_reducer, "user2Savings",  "onboard", remove, set, state, "savings", wizardArray)
   }
 
   wizardArray.push({
@@ -213,7 +213,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
 
   if (ownHome) {
     //------ADD PROPERTY ARRAY TO MAIN ARRAY.
-    addInstanceArray(main_reducer, "Property", remove, set, state, "property", wizardArray)
+    addInstanceArray(main_reducer, "Property", "onboard", remove, set, state, "property", wizardArray)
   }
 
   wizardArray.push({
@@ -230,7 +230,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
 
   if (hasUnsecuredDebt) {
     //------ADD Unsecured debt ARRAY TO MAIN ARRAY.
-    addInstanceArray(main_reducer, "Debt", remove, set, state, "debt", wizardArray)
+    addInstanceArray(main_reducer, "Debt",  "onboard", remove, set, state, "debt", wizardArray)
   }
 
   return {
