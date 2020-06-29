@@ -4,7 +4,8 @@ import styled from "styled-components"
 interface IProps {
   childId?: string
   id: string
-  onClick?: () => void
+  onClick1: () => void
+  onClick2: () => void
   reducer: string
   option1: string | number
   option2: string | number
@@ -12,24 +13,22 @@ interface IProps {
   set: (id: string, reducer: string, value: any, childId?: any) => void
 }
 
-export const DualSelect: FC<IProps> = ({ childId, id, onClick, reducer, state, set, option1, option2 }) => {
+export const DualSelect: FC<IProps> = ({ childId, id, onClick1, onClick2, reducer, state, set, option1, option2 }) => {
   const [clickFired, fireClick] = useState<boolean>(false) //we need to know if a button has been clicked
 
-  const selected = childId ? state[reducer][id][childId] : state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
-
-  const { selectedId } = state.ui_reducer
+  const selected = state.ui_reducer.selectedDualSelectOption
 
   return (
     <Wrapper>
       <Option
         onClick={() => {
           //the onclick is used to create new objects, for instance, do you own a house? "yes", then it creates a house object
-          if (onClick && !clickFired) {
+          if (onClick1 && !clickFired) {
             //but we can't have objects created with every click
-            onClick() //creates the new object
+            onClick1() //creates the new object
             fireClick(true) //then ensures that clicking again whon't make a new one
           }
-          set(id, reducer, true, childId ? childId : null) //sets in the reducer a boolean value that tells the wizard how to proceed, eg "do you have a house?", then the house details will be added to the wizard
+          set("selectedDualSelectOption", "ui_reducer", true) //sets in the reducer a boolean value that tells the wizard how to proceed, eg "do you have a house?", then the house details will be added to the wizard
         }}
         selected={selected}
       >
@@ -37,9 +36,8 @@ export const DualSelect: FC<IProps> = ({ childId, id, onClick, reducer, state, s
       </Option>
       <Option
         onClick={() => {
-          set(id, reducer, false, childId ? childId : null)
-          set("newStream", "ui_reducer", false)
-          set("selectedId", "ui_reducer", false)
+          onClick2()
+          set("selectedDualSelectOption", "ui_reducer", false)
           if (clickFired) {
             fireClick(false)
           } //if the user added a stream by clicking yes then clicks no, this removes that stream
@@ -58,12 +56,13 @@ export const DualSelect: FC<IProps> = ({ childId, id, onClick, reducer, state, s
 
 const Wrapper = styled.div`
   display: inline-flex;
-  height: 4rem;
-  background-color: rgb(230, 228, 227);
+  height: 3rem;
+  background-color: ${props => props.theme.color.lightGrey};
   box-shadow: rgba(64, 62, 61, 0.05) 0px 3px 10px 0px;
   margin: 0px;
   padding: 0px;
   border-radius: 25px;
+
 `
 interface OProps {
   selected: boolean
@@ -87,12 +86,13 @@ const Option = styled.div<OProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${props => props.theme.fontSize.smallMedium};
+  font-size: ${props => props.theme.fontSize.small};
+  font-weight: bold;
 `
 const Pill = styled.div<PProps>`
         position: absolute;
         min-width: 16rem;
-        height: 4rem;
+        height: 3rem;
         background-color: ${props => props.theme.color.primary};
         transform: ${props => (props.selected ? "translate(0,0)" : "translateX(100%)")};
         transition: all .3s ease;

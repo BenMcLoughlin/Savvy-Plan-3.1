@@ -41,12 +41,38 @@ export const App = ({ remove, state, set }) => {
 //---------------------------STYLES-------------------------------------------//
 
 const Wrapper = styled.div`
-  min-height: 120vh;
+  min-height: 90vh;
   min-width: 100vh;
 `
 const Content = styled.div`
-  background: rgb(255, 255, 255);
-  background: radial-gradient(circle, rgba(255, 255, 255, 1) -20%, rgba(226, 226, 226, 1) 350%);
+background: #FFFFFF;
+background: -webkit-radial-gradient(center, #FFFFFF, #F3F3F2);
+background: -moz-radial-gradient(center, #FFFFFF, #F3F3F2);
+background: radial-gradient(ellipse at center, #FFFFFF, #F3F3F2);
   height: 90rem;
   width: 100%;
 `
+//background: radial-gradient(circle, rgba(227, 229, 230, 1) -20%, rgba(226, 226, 226, 1) 350%);
+
+// GREEN
+// background: #FFFFFF;
+// background: -webkit-linear-gradient(left, #FFFFFF, #D3DAD8);
+// background: -moz-linear-gradient(left, #FFFFFF, #D3DAD8);
+// background: linear-gradient(to right, #FFFFFF, #D3DAD8);
+
+// GREY
+// background: -webkit-radial-gradient(top left, #FFFFFF, #DDDCDC);
+// background: -moz-radial-gradient(top left, #FFFFFF, #DDDCDC);
+// background: radial-gradient(to bottom right, #FFFFFF, #DDDCDC);
+
+//GREY GREEN LINEAR
+// background: #FFFFFF;
+// background: -webkit-linear-gradient(left, #FFFFFF, #E8ECEB);
+// background: -moz-linear-gradient(left, #FFFFFF, #E8ECEB);
+// background: linear-gradient(to right, #FFFFFF, #E8ECEB);
+
+//GREY RADIAL
+// background: #FFFFFF;
+// background: -webkit-radial-gradient(center, #FFFFFF, #F3F3F2);
+// background: -moz-radial-gradient(center, #FFFFFF, #F3F3F2);
+// background: radial-gradient(ellipse at center, #FFFFFF, #F3F3F2);

@@ -6,7 +6,7 @@ interface IData {
 }
 
 export const savingsPage_data = (state: any, set: any): any => {
-  const { selectedId, colorIndex, selectedAccount, selectedUser, newStream } = state.ui_reducer
+  const { selectedId, colorIndex, selectedAccount, selectedUser, newStream, selectedTransaction } = state.ui_reducer
 
   const { userName, user2Name } = state.user_reducer
 
@@ -63,56 +63,62 @@ export const savingsPage_data = (state: any, set: any): any => {
       reducer: "main_reducer",
       title: `Lets gather some details about your ${instance.reg} contributions`,
       addLabel: `Add a period when these contributions change`,
-      dualSelectorProps:    {
+      dualSelectorProps: {
         ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
         component: "DualSelect",
         id: "selectedTransaction",
-        option1: "contributions",
-        option2: "withdrawals",
+        option1: "contribute",
+        option2: "withdraw",
         reducer: "ui_reducer",
         title: "Would you like to add another income source?",
+        onClick1: () => set("selectedTransaction", "ui_reducer", "contribute"),
+        onClick2: () => set("selectedTransaction", "ui_reducer", "withdraw"),
       },
     }
 
+
     const slidersArray = _.range(periods + 1).map((d: any, i: number) => {
-      return {
-        component: "MultiSliders",
-        num: 3,
-        slider1: {
-          bottomLabel: `at age ${instance[`period${i}StartYear`] - birthYear}`, //eg "at age 26"
-          childId: `period${i}StartYear`, //the value being changed
-          id, //id of the instance
-          max: 2080, //max year
-          min: i === 0 ? 2020 : instance[`period${i - 1}EndYear`], //if its the first one then just 2020, otherwise its the period priors last year
-          step: 1,
-          topLabel: i === 0 ? "From" : "then in", //for the first one we want to say "starting in" but after they add changes we want it to say "then in"
-          reducer: "main_reducer",
-          type: "year",
-        },
-        slider2: {
-          bottomLabel: "per year",
-          childId: `period${i}Value`,
-          id,
-          max: instance.reg === "tfsa" ? 6000 : 25000, //tfsa has a max contribution per year of 6000
-          min: 0,
-          step: 100,
-          topLabel: i === 0 ? "I aim to contribute" : "I might contribute",
-          reducer: "main_reducer",
-          type: "currency",
-        },
-        slider3: {
-          bottomLabel: `at age ${instance[`period${i}EndYear`] - birthYear}`,
-          childId: `period${i}EndYear`,
-          id,
-          max: 2080,
-          min: instance[`period${i}StartYear`],
-          step: 1,
-          topLabel: "Until ",
-          reducer: "main_reducer",
-          type: "year",
-        },
-      }
-    })
+    return {
+      component: "MultiSliders",
+      num: 3,
+      slider1: {
+        bottomLabel: `at age ${instance[`period${i}StartYear`] - birthYear}`, //eg "at age 26"
+        childId: `period${i}StartYear`, //the value being changed
+        id, //id of the instance
+        max: 2080, //max year
+        min: i === 0 ? 2020 : instance[`period${i - 1}EndYear`], //if its the first one then just 2020, otherwise its the period priors last year
+        step: 1,
+        topLabel: i === 0 ? "From" : "then in", //for the first one we want to say "starting in" but after they add changes we want it to say "then in"
+        reducer: "main_reducer",
+        type: "year",
+      },
+      slider2: {
+        bottomLabel: "per year",
+        childId: `period${i}Value`,
+        id,
+        max: instance.reg === "tfsa" ? 6000 : 25000, //tfsa has a max contribution per year of 6000
+        min: 0,
+        step: 100,
+        topLabel: `I aim to ${selectedTransaction}`,
+        reducer: "main_reducer",
+        type: "currency",
+      },
+      slider3: {
+        bottomLabel: `at age ${instance[`period${i}EndYear`] - birthYear}`,
+        childId: `period${i}EndYear`,
+        id,
+        max: 2080,
+        min: instance[`period${i}StartYear`],
+        step: 1,
+        topLabel: "Until ",
+        reducer: "main_reducer",
+        type: "year",
+      },
+    }
+  })
+
+
+
 
     return {
       //add the edit details to the final data object

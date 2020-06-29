@@ -1,14 +1,16 @@
 import { IUiState } from "types/reducer_types"
+import { stubTrue } from "lodash"
 
 const initialState: IUiState = {
   change: false,
   selectedId: "",
   colorIndex: 0,
   videoUrl: "",
-  progress: 8,
+  progress: 0,
   selectedPage: "income",
   selectedAccount: "tfsa",
   selectedUser: "user1",
+  selectedDualSelectOption: true,
   selectedTransaction: "contribution",
   newStream: false,
 }

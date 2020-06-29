@@ -76,10 +76,13 @@ export const addPeriodToIncomeStream = (instance: any, period: number, selectedI
   set(selectedId, "main_reducer", 3000, `period${period + 1}Value`)
 }
 export const addPeriodToStream = (instance: any, period: number, selectedId: any, set: (id: string, reducer: string, value: any, childId?: string) => void): void => {
+ 
+  const startingValue = instance[`period${period}Value`]
+ 
   set(selectedId, "main_reducer", period + 1, "periods")
   set(selectedId, "main_reducer", instance[`period${period}EndYear`], `period${period + 1}StartYear`)
   set(selectedId, "main_reducer", +instance[`period${period}EndYear`] + 5, `period${period + 1}EndYear`)
-  set(selectedId, "main_reducer", 3000, `period${period + 1}Value`)
+  set(selectedId, "main_reducer", startingValue, `period${period + 1}Value`)
 }
 
 export const createStream = (colorIndex: number, newIncomeStream: streamType, set: (id: string, reducer: string, value: any, childId?: string) => void, streamType: string, owner: any): void => {

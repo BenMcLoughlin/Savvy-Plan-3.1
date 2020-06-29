@@ -17,8 +17,9 @@ interface ISliderProps {
 }
 
 export const Slider: FC<ISliderProps> = ({ childId, id, min, topLabel, bottomLabel, reducer, type, state, max, set, step }) => {
+  // const value = func1(state)
   const value = childId ? state[reducer][id][childId] : state[reducer][id]
-
+  
   return (
     <Wrapper>
       <Label>{topLabel}</Label>

@@ -15,7 +15,7 @@ interface ICoreProps {
   title: string
   spouse?: boolean
   onClick?: (string: any) => void
-  onClick2?: (id: string) => void
+
   location?: string
 }
 
@@ -31,6 +31,8 @@ export interface IPickMultipleOptions extends ICoreProps {
 export interface IDualSelect extends ICoreProps {
   option1: string | number
   option2: string | number
+  onClick1?: (id: string) => void
+  onClick2?: (id: string) => void
 }
 
 export interface IMultiSliders extends ICoreProps {

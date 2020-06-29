@@ -57,8 +57,10 @@ export const createIncomeArray = (instance: IIncomeStream, set: any, state: any,
       option2: "no",
       reducer: "ui_reducer",
       title: "Would you like to add another income source?",
-      onClick: function () {
-        createStream(colorIndex, incomeStream, set, "income", owner)
+      onClick1: () =>  createStream(colorIndex, incomeStream, set, "income", owner),
+      onClick2: () => {
+        set("newStream", "ui_reducer", false)
+        set("selectedId", "ui_reducer", false)
       },
     },
   ]

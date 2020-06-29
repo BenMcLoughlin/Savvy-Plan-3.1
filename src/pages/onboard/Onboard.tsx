@@ -53,7 +53,7 @@ export const Onboard: FC<IProps> = ({ data, remove, state, set }) => {
           {wizardArray.map(
             (d: any, i: number) =>
               i === progress && (
-                <CSSTransition key={i} timeout={900} classNames={`transition-${direction}`}>
+                <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
                   <OnboardWizard {...d} />
                 </CSSTransition>
               )

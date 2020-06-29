@@ -157,7 +157,8 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
       option2: "no",
       reducer: "ui_reducer",
       title: "Would you like to add your spouses income?",
-      onClick: () => createStream(colorIndex, incomeStream, set, "income", "user2"),
+      onClick1: () => createStream(colorIndex, incomeStream, set, "income", "user2"),
+      onClick2: () => null,
     })
   }
   // ------ADD SPOUSE'S INCOME STREAMS TO ARRAY
@@ -206,7 +207,8 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     option2: "no",
     reducer: "user_reducer",
     title: "Do you own the home you live in, or any property?",
-    onClick: () => createStream(colorIndex, propertyStream, set, "property", "user1"),
+    onClick1: () => createStream(colorIndex, propertyStream, set, "property", "user1"),
+    onClick2: () => null,
   })
 
   if (ownHome) {
@@ -222,7 +224,8 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     option2: "no",
     reducer: "user_reducer",
     title: "Do you have any unsecured debt?",
-    onClick: () => createStream(colorIndex, newDebtStream(), set, "debt", "user1")
+    onClick1: () => createStream(colorIndex, newDebtStream(), set, "debt", "user1"),
+    onClick2: () => null,
   })
 
   if (hasUnsecuredDebt) {

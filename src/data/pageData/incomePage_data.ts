@@ -74,6 +74,7 @@ export const incomePage_data = (state: any, set: any, parent: string): any => {
         component: "MultiSliders",
         num: 3,
         slider1: {
+         // func1: function(state){ return state.periods[i]},
           bottomLabel: `at age ${instance[`period${i}StartYear`] - birthYear}`, //eg "at age 26"
           childId: `period${i}StartYear`, //the value being changed
           id, //id of the instance selected in the ui_reducer

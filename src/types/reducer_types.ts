@@ -12,6 +12,7 @@ export interface IUiState {
   selectedAccount: string
   newStream: boolean
   selectedTransaction: string
+  selectedDualSelectOption: boolean
 }
 
 export interface IUserState {

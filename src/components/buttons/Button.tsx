@@ -4,10 +4,9 @@ import styled from "styled-components"
 export interface IButton {
   label: string
   onClick: () => void
-  set: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
-export const Button: FC<IButton> = ({ label, onClick, set }) => <Wrapper onClick={() => onClick()}>{label}</Wrapper>
+export const Button: FC<IButton> = ({ label, onClick }) => <Wrapper onClick={() => onClick()}>{label}</Wrapper>
 
 //---------------------------STYLES-------------------------------------------//
 
