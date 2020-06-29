@@ -8,7 +8,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
 
   const { maritalStatus, hasChildren, user1BirthYear, user1Name, user2Name, ownHome, hasUnsecuredDebt } = user_reducer
 
-  const { colorIndex } = ui_reducer
+  const { colorIndex}   = ui_reducer
 
   const incomeStream = newIncomeStream(+user1BirthYear + 18, +user1BirthYear + 40)
   const propertyStream = newPropertyStream()
@@ -19,8 +19,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
       component: "Button",
       subTitle: "In order to build your plan we'll need some details about your situation.",
       title: "Lets build you a financial Plan",
-      reducer: "ui_reducer",
-      id: "progress",
+      valid: true, 
       label: "continue",
       onClick: () => set("progress", "ui_reducer", 1),
     },
@@ -34,6 +33,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
       title: "What's your first Name?", // the question the user sees above the text input
       placeholder: "Name", // placeholder
       type: "text",
+      valid: user_reducer.user1Name.length > 1, 
     },
     {
       //Question 3: BIRTH YEAR
@@ -196,7 +196,7 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
     // ------ADD TO SPOUSE'S INCOME STREAMS TO ARRAY
     //Here need to map through all the spouse streams and add them to the primary wizardArray.
 
-    addInstanceArray(main_reducer, "user2Savings",  "onboard", remove, set, state, "savings", wizardArray)
+    addInstanceArray(main_reducer, "user2Savings", "onboard", remove, set, state, "savings", wizardArray)
   }
 
   wizardArray.push({
@@ -230,11 +230,20 @@ export const onboard_data = (state: any, set: any, progress: number, remove: any
 
   if (hasUnsecuredDebt) {
     //------ADD Unsecured debt ARRAY TO MAIN ARRAY.
-    addInstanceArray(main_reducer, "Debt",  "onboard", remove, set, state, "debt", wizardArray)
+    addInstanceArray(main_reducer, "Debt", "onboard", remove, set, state, "debt", wizardArray)
   }
 
   return {
     wizardType: "onboard",
     wizardArray,
+    nextProps: {
+      onClick: (setDirection, valid) => {
+        setDirection("forward")
+        if (valid) {
+          set("progress", "ui_reducer", progress+1)
+        }
+      },
+      valid: wizardArray[progress].valid,
+    },
   }
 }

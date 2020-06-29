@@ -29,7 +29,7 @@ export const Onboard: FC<IProps> = ({ data, remove, state, set }) => {
     const Chart = components[chart] //each page renders a unique chart, its name is provided by the props in string format. connectRedux_HOC holds all components so here it finds the chart to be rendered
     return <Chart {...data} />
   }
-
+console.log(data);
   return (
     <Wrapper>
       {wizardType === "onboard" ? (
@@ -67,7 +67,7 @@ export const Onboard: FC<IProps> = ({ data, remove, state, set }) => {
         </Chart>
       ) : null}
       <Back onClick={() => set("progress", "ui_reducer", progress > 0 ? progress - 1 : 1)} setDirection={setDirection} />
-      <Next props={wizardArray[progress]} value={progress < length ? progress + 1 : length} setDirection={setDirection} progress={progress} />
+      <Next {...data.nextProps} setDirection={setDirection}/>
     </Wrapper>
   )
 }

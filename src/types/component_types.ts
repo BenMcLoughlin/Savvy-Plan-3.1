@@ -15,7 +15,7 @@ interface ICoreProps {
   title: string
   spouse?: boolean
   onClick?: (string: any) => void
-
+  valid?: boolean
   location?: string
 }
 

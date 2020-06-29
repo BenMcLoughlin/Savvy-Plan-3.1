@@ -13,8 +13,19 @@ interface IData {
 
 export const onboardPage_data = (state: any, set: any): any => {
 
-  const data = {
+  const {ui_reducer, main_reducer, user_reducer} = state
 
+  const {progress} = ui_reducer
+
+  const data = {
+    nextProps: {
+      onClick: (setDirection, valid) => {
+        setDirection("forward")
+        if (valid) {
+          set("progress", "ui_reducer", progress+1)
+        }
+      },
+    },
   }
 
   return data
