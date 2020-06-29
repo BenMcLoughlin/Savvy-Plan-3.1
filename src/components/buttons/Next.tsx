@@ -16,11 +16,11 @@ export const Next: FC<IProps> = ({ onClick, setDirection, valid}) => {
         console.log('hello enter was pressed');
         onClick(setDirection, valid)
       }
-      if (valid) {
+      //  if (valid) {
       window.addEventListener("keydown", pressEnter)
-      return () => window.removeEventListener("keydown", pressEnter)
-    }
-  }}, [])
+   //   return () => window.removeEventListener("keydown", pressEnter)
+  //  }
+  }}, [valid])
 
   return (
     <Wrapper>
