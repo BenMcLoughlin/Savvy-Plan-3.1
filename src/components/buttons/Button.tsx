@@ -3,10 +3,10 @@ import styled from "styled-components"
 
 export interface IButton {
   label: string
-  onClick: () => void
+  handleChange: () => void
 }
 
-export const Button: FC<IButton> = ({ label, onClick }) => <Wrapper onClick={() => onClick()}>{label}</Wrapper>
+export const Button: FC<IButton> = ({ label,  handleChange}) => <Wrapper onClick={() => handleChange()}>{label}</Wrapper>
 
 //---------------------------STYLES-------------------------------------------//
 

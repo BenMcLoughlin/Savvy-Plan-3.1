@@ -1,32 +1,26 @@
 import React, { FC, useState } from "react"
 import styled from "styled-components"
-import { MultiSliders } from "HOC/connectRedux_HOC"
-import { ScrollCircles } from "HOC/connectRedux_HOC"
-import { AddPrompt } from "components/buttons/AddPrompt"
+import { AddPrompt, MultiSliders, ScrollCircles } from "components"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 import { addPeriodToStream } from "services/create_functions"
 import _ from "lodash"
-import { isNullOrUndefined } from "util"
 
 interface ISliderProps {
   addLabel: string
-  id: string
   num: number
-  periods: any
+  periods: number
   slidersArray: any
-  set: (id: string, reducer: string, value: any, childId?: string) => void
-  state: any
-  parent: string
+  handleChange: () => void
 }
 
-export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, id, parent, periods, slidersArray, state, set }) => {
-  const instance = state.main_reducer[id]
+export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, handleChange, slidersArray }) => {
+
   const [position, setPosition] = useState<number>(0)
 
   const [direction, setDirection] = useState<string>("forward")
 
   return (
-    <Wrapper parent={parent}>
+    <Wrapper>
       <TransitionGroup>
         {slidersArray.map(
           (d, i) =>
@@ -42,11 +36,11 @@ export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, id, parent, p
       <Change>
         <ScrollCircles periods={periods + 1} setPosition={setPosition} setDirection={setDirection} position={position} />
         <AddPrompt
-          onClick={() => {
-            addPeriodToStream(instance, periods, id, set)
+          handleChange={() => {
+            handleChange()
             setPosition(periods + 1)
           }}
-          label={"Add a period where it changed"}
+          label={addLabel}
         />
       </Change>
     </Wrapper>
@@ -55,10 +49,7 @@ export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, id, parent, p
 
 //-----------------------------------------------style-----------------------------------------------//
 
-interface IWrapper {
-  parent: string
-}
-const Wrapper = styled.div<IWrapper>`
+const Wrapper = styled.div`
   position: relative;
   width: 80rem;
   height: 22rem;

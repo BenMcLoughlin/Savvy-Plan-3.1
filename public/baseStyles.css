@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 body {
-  font-family: 'Muli', sans-serif;
+  font-family: "Muli", sans-serif;
   color: #707070;
 }
 
@@ -121,15 +121,18 @@ h4 {
 @keyframes fadeInRight {
   0% {
     opacity: 0;
-    transform: translateX(40%);
+    transform: translate3d(20%, 0, 0);
+  }
+
+  30% {
+    opacity: 0;
+    transform: translate3d(20%, 0, 0);
   }
   100% {
     opacity: 1;
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 }
-
-
 
 @keyframes fadeInLeft {
   0% {
@@ -165,8 +168,6 @@ h4 {
 .transition-forward-enter-active {
   animation-name: fadeInRight;
   animation-duration: 1s;
-
-  
 }
 .transition-back-enter-active {
   animation-name: fadeInLeft;
@@ -175,11 +176,11 @@ h4 {
 .transition-forward-exit-active,
 .transition-back-exit-active {
   animation-name: fadeOut;
-  animation-duration: 1s;
+  animation-duration: 1.1s;
 }
 
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }

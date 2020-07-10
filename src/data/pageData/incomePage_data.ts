@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { newIncomeStream, createStream } from "services/create_functions"
+import { newIncomeStream, createStream, addPeriodToStream } from "services/create_functions"
 
 /**
  * incomePage_data receives state and provides all the information needed to render the <Display> component. It has the name of the chart that needs to be rendered. The details for the info card
@@ -8,6 +8,7 @@ import { newIncomeStream, createStream } from "services/create_functions"
  * */
 
 export const incomePage_data = (state: any, set: any, parent: string): any => {
+  
   const { selectedId, colorIndex, selectedUser, newStream } = state.ui_reducer
 
   const { user1BirthYear, user1Name, user2Name } = state.user_reducer
@@ -17,7 +18,7 @@ export const incomePage_data = (state: any, set: any, parent: string): any => {
   const data = {
     page: "income",
     chart: "IncomeChart", //determines the chart that will be rendered
-    userEditForm: "EditPanel", //tells <Display> which edit component to use
+    editPanel: "EditPanel", //tells <Display> which edit component to use
     user1Name,
     user2Name,
     addButtonLabel: "Add Income Stream", //Label next to the plus button
@@ -59,52 +60,50 @@ export const incomePage_data = (state: any, set: any, parent: string): any => {
     const birthYear = owner === "user1" ? +user1BirthYear : +user2BirthYear
 
     const editPeriod = {
-      ask: "Its hard to predict future income. But by doing this you can see how they it impact your financial plan",
+      ask: "Its hard to predict future contributions. But by doing this you can see how they will impact your financial plan",
       component: "TripleSliderSelector", //very special advanced component tailored for this type of object
-      periods: periods,
-      id,
-      childId: "period0StartYear",
-      reducer: "main_reducer",
+      periods,
+      valid: true,
+      addLabel: "Add a period where it changed",
       title: `Tell us about your ${instance.name} income`,
-      addLabel: `Add a period where it changed`,
+      handleChange: () => addPeriodToStream(instance, periods, id, set),
     }
 
     const slidersArray = _.range(periods + 1).map((d: any, i: number) => {
+      let past = currentYear > instance[`period${i}StartYear`]
+
       return {
         component: "MultiSliders",
         num: 3,
+        parent,
         slider1: {
-         // func1: function(state){ return state.periods[i]},
           bottomLabel: `at age ${instance[`period${i}StartYear`] - birthYear}`, //eg "at age 26"
-          childId: `period${i}StartYear`, //the value being changed
-          id, //id of the instance selected in the ui_reducer
           max: 2080,
           min: i === 0 ? birthYear + 17 : instance[`period${i - 1}EndYear`], //if its the first one then just 2020, otherwise its the period priors last year
           step: 1,
           topLabel: i === 0 ? "Starting in" : "then in", //for the first one we want to say "starting in" but after they add changes we want it to say "then in"
-          reducer: "main_reducer",
           type: "year",
+          value: instance[`period${i}StartYear`],
+          handleChange: (value: number) => set(id, "main_reducer", value, `period${i}StartYear`),
         },
         slider2: {
           bottomLabel: `before tax per year`,
-          childId: `period${i}Value`, //`contributionValue${i}`,
-          id,
           max: 250000,
           min: 0,
           step: 1000,
-          topLabel: i === 0 ? "I earned" : "I might earn",
-          reducer: "main_reducer",
+          topLabel: past ? "I earned" : "I might earn",
+          value: instance[`period${i}Value`],
+          handleChange: (value: number) => set(id, "main_reducer", value, `period${i}Value`),
         },
         slider3: {
           bottomLabel: `at age ${instance[`period${i}EndYear`] - birthYear}`,
-          childId: `period${i}EndYear`,
-          id,
           max: 2080,
           min: instance[`period${i}StartYear`],
           step: 1,
           topLabel: "Until ",
-          reducer: "main_reducer",
           type: "year",
+          value: instance[`period${i}EndYear`],
+          handleChange: (value: number) => set(id, "main_reducer", value, `period${i}EndYear`),
         },
       }
     })

@@ -4,48 +4,28 @@ import { ArrowLeftS } from "@styled-icons/remix-line"
 
 interface IProps {
   array?: any
-  reducer: string
-  state: any
-  user: string
-  id: string
+  arrayOfSelected: any, 
   set: (id: string, reducer: string, value: any, childId: string) => void
   remove: (id: string) => void
-  textInput?: boolean
-  onClick: (value: string) => void
+  handleChange: (selected:any, value: string) => void
+  value
 }
 
-export const PickMultipleOptions: FC<IProps> = ({ array, id, onClick, reducer, state, set, textInput, user, remove }) => {
-  const { main_reducer } = state
+export const PickMultipleOptions: FC<IProps> = ({ array, arrayOfSelected,  handleChange, value}) => {
 
   const [info, showInfo] = useState<string>("")
-
-  const arrayOfAccounts = Object.values(main_reducer).filter((d: any) => d.id.includes(`${user}Savings`))
 
   return (
     <Wrapper>
       {array &&
         array.map((d: any) => {
-          const selected = arrayOfAccounts.filter((v: any) => v.reg === d.reg).length > 0
+          const selected = arrayOfSelected ?  arrayOfSelected.filter((v: any) => v.reg === d.reg.toLowerCase()).length > 0 : false
+
           return (
             <Square key={d.label} selected={selected}>
               <Text
                 selected={selected}
-                onClick={() => {
-                  if (!selected && d.label !== "none") {
-                    // check if the item doesnt already exist, or its not none, and will then create a new income st
-                    onClick(d.reg)
-                  } //checks if there is no currently selected version, if so it adds a new one, prevents adding mulitple with many clicks
-                  if (selected) {
-                    //the user needs to be able to remove the new object if they click on it again enabling them to onClick2 the account they added.
-                    const selectedInstance: any = Object.values(main_reducer).find((b: any) => b.reg === d.reg) //searches the main reducer to find the matching object to be removed
-                    remove(selectedInstance.id) //removes it from the main reducer
-                  }
-                  if (d.label === "none") {
-                    //the user needs to be able to remove the new object if they click on it again enabling them to onClick2 the account they added.
-                    const selectedInstances: any = Object.values(main_reducer).filter((b: any) => b.id.includes("savings")) //searches the main reducer to find the matching object to be removed
-                    selectedInstances.map(instance => remove(instance.id))
-                  }
-                }}
+                onClick={() => handleChange(selected, d)}
               >
                 <Circle />
                 <CenterCircle selected={selected} />
@@ -162,14 +142,11 @@ const Circle = styled.div`
   left: 1.2rem;
 `
 const CenterCircle = styled.div<SProps>`
-  height: 1.2rem;
-  width: 1.2rem;
-  font-size: 1.4rem;
-  font-weight: 800;
-  cursor: pointer;
+  height: 1.1rem;
+  width: 1.1rem;
   border-radius: 50%;
   background: white;
   position: absolute;
-  top: 1.42rem;
-  left: 1.6rem;
+  top: 1.4rem;
+  left: 1.65rem;
 `

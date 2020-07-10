@@ -15,7 +15,7 @@ export const taxesPage_data = (state: any, set: any): any => {
   const data = {
     page: "taxes",
     chart: "TaxesChart",
-    userEditForm: "EditIncome",
+    editPanel: "editPanel",
     addButtonLabel: "Add Income Stream",
     userName,
     user2Name,

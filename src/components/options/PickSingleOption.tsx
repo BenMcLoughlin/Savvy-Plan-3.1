@@ -3,33 +3,25 @@ import styled from "styled-components"
 
 interface IProps {
   array?: string[]
-  childId?: any
-  id: string
-  onClick?: (d) => void
-  reducer: string
-  state: any
-  set: (id: string, reducer: string, value: any, childId: any) => void
+  handleChange: (d) => void
   textInput?: boolean
+  value: string
 }
 
-export const PickSingleOption: FC<IProps> = ({ array, childId, onClick, id, reducer, state, set, textInput }) => {
-  const value = childId ? state[reducer][id][childId] : state[reducer][id]
-  const { user_reducer } = state
+export const PickSingleOption: FC<IProps> = ({ array, handleChange, textInput, value }) => {
 
+  
   return (
     <Wrapper>
       {array &&
         array.map((d: string, i: number) => {
           return (
-            <Square key={i} selected={d.toLowerCase() === value} onClick={() => {
-              if (onClick) onClick(d.toLowerCase())
-              else(set(id, reducer, d.toLowerCase(), childId))
-              }}>
+            <Square key={i} selected={d.toLowerCase() === value} onClick={() => handleChange(d)}>
               {d}
             </Square>
           )
         })}
-      {textInput && <Input onChange={e => set("other", reducer, e.target.value, "")} value={user_reducer.other}></Input>}
+      {textInput && <Input onChange={e => handleChange(e)}></Input>}
     </Wrapper>
   )
 }

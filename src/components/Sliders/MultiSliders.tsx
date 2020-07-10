@@ -1,9 +1,10 @@
-import React, { FC } from "react"
+import React, { useState, useEffect, FC } from "react"
 import styled from "styled-components"
-import { Slider } from "HOC/connectRedux_HOC"
+import { Slider } from "components"
 import _ from "lodash"
 
 interface ISliderProps {
+  state: any
   props: any
   num: number
 }
@@ -11,11 +12,28 @@ interface ISliderProps {
 export const MultiSliders: FC<ISliderProps> = props => {
   const { num } = props //the num tells the component how many sliders to render
 
+  const [selectedFocus, setSelectedFocus] = useState<number>(0)
+
+  // useEffect(() => {
+  //   const pressTab = (event: KeyboardEvent) => {
+  //     if (event.key === "Tab") {
+  //       console.log('fired');
+  //       console.log(selectedFocus);
+  //         setSelectedFocus(selectedFocus+1)
+  //     }
+  //   }
+
+  //    window.addEventListener("keydown", pressTab)
+  //   return () => window.removeEventListener("keydown", pressTab)
+  // }, [])
+
+
+  
   return (
     <Wrapper>
-      {_.range(1, num + 1).map(d => {
+      {_.range(1, num + 1).map((d, i:number) => {
         //creates an array of numbers from 1 to the number which we map through to render sliders
-        return <Slider {...props[`slider${d}`]} />
+        return <Slider {...props[`slider${d}`]} selectedFocus={i === selectedFocus}/>
       })}
     </Wrapper>
   )

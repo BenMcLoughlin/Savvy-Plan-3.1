@@ -3,21 +3,22 @@ import styled from "styled-components"
 import { ArrowLeftS } from "@styled-icons/remix-line"
 
 interface IProps {
-  set: (id: string, reducer: string, value: any, childId?: string) => void
   setDirection: (direction: string) => void
-  onClick: () => void
+  handleChange: () => void
 }
 
-export const Back: FC<IProps> = ({ set, setDirection, onClick }) => {
+export const Back: FC<IProps> = ({ setDirection, handleChange}) => {
+
   return (
     <ArrowLeft
       onClick={() => {
         setDirection("back")
-        onClick()
+        handleChange()
       }}
     />
   )
 }
+
 
 //---------------------------STYLES-------------------------------------------//
 

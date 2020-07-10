@@ -2,17 +2,14 @@ import React, { FC, useState } from "react"
 import styled from "styled-components"
 
 interface IProps {
-  childId: any
-  id: string
-  reducer: string
-  state: any
-  set: (id: string, reducer: string, value: any, childId: any) => void
+  handleChange(value: string): void
+  value: string
 }
 
-export const ColorSelect: FC<IProps> = ({ childId, id, reducer, state, set }) => {
+export const ColorSelect: FC<IProps> = ({ handleChange, value }) => {
   const [open, toggleOpen] = useState<boolean>(false)
 
-  const selectedColor = state[reducer][id][childId]
+  const selectedColor = value
   const colors = ["#c9d0cc", "#7f7f7f", "#536D7A", "#4BB9D0", "#324755", "#ffd152", "#8CB8B7", "#3B7B8E", "#485056", "#F29278", "#F07655", "#4F9190"]
 
   return (
@@ -25,7 +22,7 @@ export const ColorSelect: FC<IProps> = ({ childId, id, reducer, state, set }) =>
               <Square
                 selected={false}
                 onClick={() => {
-                  set(id, reducer, d, childId)
+                  handleChange(d)
                   toggleOpen(false)
                 }}
               >

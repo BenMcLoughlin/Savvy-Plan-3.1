@@ -1,21 +1,25 @@
-import * as arrayCreators from "data/wizard"
+import * as createQuestionArray from "data/questions"
 import _ from "lodash"
 
-export const addInstanceArray = (main_reducer,  query, parent,remove, set, state, streamType, wizardArray) => {
-  const createArray = arrayCreators[`create${_.startCase(streamType)}Array`]
+const convertObjectIntoArray = object => Object.values(object)
+const filterArrayToMatchQuery = (array, query) => array.filter((d: any) => d.id.includes(query))
 
-  Object.values(main_reducer)
-    .filter((d: any) => d.id.includes(query))
-    .map((instance: any) => {
-      //looks at all the income streams listed in the main reducer
-      const incomeData = createArray(instance, set, state, remove, parent) //creates an wizardArray for each income incomeStream, enabling the user to change individual details in the wizard
-      return incomeData.wizardArray.map((d: any, i: number) => {
-        //maps through the wizardArray and pushes the contents to the main wizardArray that controls the wizard
-        wizardArray.push(d)
-      })
+export const insertQuestionArray = (query, parent, remove, set, state, streamType, mainQuestionsArray) => {
+  const streamQuestionsArray = createQuestionArray[`${streamType}Questions`] //match the function that creates the array with the query, eg "incomeQuestions"
+
+  const stateAsArray = convertObjectIntoArray(state.main_reducer)
+
+  const stateTrimmedToQueryStreams = filterArrayToMatchQuery(stateAsArray, query) //matches all "user2Income" streams
+
+  stateTrimmedToQueryStreams.map(stream => {
+    const arrayOfStreamQuestions = streamQuestionsArray(stream, set, state, remove, parent) //creates a question array for each stream
+    const addStreamQuestionsToMainArray = arrayOfStreamQuestions.questions.map(question => {
+      //maps through the questions and pushes the contents to the main questions array
+      mainQuestionsArray.push(question)
     })
+    return addStreamQuestionsToMainArray
+  })
 }
-
 
 export const savingsAccountsArray = [
   {
@@ -56,3 +60,31 @@ export const savingsAccountsArray = [
   },
   { label: "none", reg: "none" },
 ]
+
+export const nextButtonProps = (progress, questions, state, set) => {
+  return {
+    handleChange: (setDirection, valid) => {
+      setDirection("forward")
+      if (valid) {
+        set("progress", "ui_reducer", progress + 1)
+      }
+    },
+    valid: questions[progress].valid,
+    state,
+  }
+}
+
+export const exitButtonProps = set => {
+  return {
+    handleChange: () => {
+      set("selectedId", "ui_reducer", "")
+      set("newStrem", "ui_reducer", "false")
+    },
+  }
+}
+
+export const backButtonProps = (progress, set) => {
+  return {
+    handleChange: () => set("progress", "ui_reducer", progress > 0 ? progress - 1 : 1),
+  }
+}

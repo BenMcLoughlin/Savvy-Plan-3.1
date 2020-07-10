@@ -1,12 +1,11 @@
-import React, { FC} from "react"
+import React, { FC } from "react"
 import styled from "styled-components"
 
 interface IProps {
-  id: string
-  childId?: string
-  reducer: string
-  state: any
-  set: (id: string, reducer: string, value: any, childId?: string) => void
+  user1Name: string
+  user2Name: string
+  handleChange: (value: string) => void
+  value: string
 }
 
 /**
@@ -14,16 +13,18 @@ interface IProps {
  * a value to navigate between pages. The Nav is visible non matter which page is rendered.
  *  */
 
-export const TripleSelector: FC<IProps> = ({ childId, id, reducer, state, set }) => {
-  const selected = childId ? state[reducer][id][childId] : state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
+export const TripleSelector: FC<IProps> = ({ handleChange, value, user1Name, user2Name }) => {
+  const selected = value
 
   const options = ["user1", "combined", "user2"]
 
   return (
     <Wrapper>
       {options.map((d, i) => (
-        <Option onClick={() => set(id, reducer, d, childId)} selected={selected ? selected === d : i === 0}> {/*when it first loads selected is empty, so we set the first value to being selected*/}
-          {d !== "combined" ? state.user_reducer[`${d}Name`] : "combined"} {/*we need to display the name, but use user1 or user2 behind the scenes */}
+        <Option onClick={() => handleChange(d)} selected={selected ? selected === d : i === 0}>
+          {" "}
+          {/*when it first loads selected is empty, so we set the first value to being selected*/}
+          {d === "user1" ? user1Name : d === "user2" ? user2Name : "combined"} {/*we need to display the name, but use user1 or user2 behind the scenes */}
         </Option>
       ))}
       <Pill selected={selected} options={options}></Pill>

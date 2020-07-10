@@ -2,10 +2,9 @@ import React, { FC} from "react"
 import styled from "styled-components"
 
 interface IProps {
-  id: string
-  reducer: string
-  state: any
-  set: (id: string, reducer: string, value: any, childId: string) => void
+  handleChange: (value) => void
+  value: string
+  options: string[]
 }
 
 /**
@@ -13,19 +12,19 @@ interface IProps {
  * a value to navigate between pages. The Nav is visible non matter which page is rendered.
  *  */
 
-export const SideNav: FC<IProps> = ({ id, reducer, state, set }) => {
-  const selected = state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
+export const SideNav: FC<IProps> = ({ handleChange, options, value}) => {
+ // const selected = state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
 
-  const options = ["income", "savings", "taxes", "spending", "networth"]
+  // const options = ["income", "savings", "taxes", "spending", "networth"]
 
   return (
     <Wrapper>
       {options.map((d, i) => (
-        <Option key={i} onClick={() => set(id, reducer, d, "")} selected={selected === d}>
+        <Option key={i} onClick={() => handleChange(d)} selected={value === d}>
           {d}
         </Option>
       ))}
-      <Pill selected={selected} options={options}></Pill>
+      <Pill selected={value} options={options}></Pill>
     </Wrapper>
   )
 }

@@ -3,14 +3,14 @@ import styled from "styled-components"
 import { AddButton } from "components/buttons/AddButton"
 
 interface IProps {
-  onClick(): void
+  handleChange(): void
   label: string
 }
 
-export const AddPrompt: FC<IProps> = ({ onClick, label }) => {
+export const AddPrompt: FC<IProps> = ({ handleChange, label }) => {
   return (
     <Wrapper>
-      <AddButton onClick={onClick} />
+      <AddButton handleChange={handleChange} />
       <P>{label}</P>
     </Wrapper>
   )

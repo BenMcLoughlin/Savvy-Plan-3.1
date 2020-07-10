@@ -2,29 +2,31 @@ import React, { FC, useEffect } from "react"
 import styled from "styled-components"
 
 interface IProps {
-  id: string
-  reducer: string
-  state: any
+  // id: string
+  // reducer: string
+  // state: any
   options: string[]
-  set: (id: string, reducer: string, value: any, childId?: string) => void
+  handleChange: (value) => void
+  value: string
+  // set: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
 /**
  * The <ChartNavr> component enables the user to display different subjects in the chart. FOr instance their TFSA savings plan, then swith to RRSP.
  *  */
 
-export const ChartNav: FC<IProps> = ({ id, options, reducer, state, set }) => {
-  const selected = state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
- 
-  const {length} = options
+export const ChartNav: FC<IProps> = ({ handleChange, options, value }) => {
+  // const selected = state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
+
+  const { length } = options
   return (
     <Wrapper length={length}>
       {options.map(d => (
-        <Option onClick={() => set(id, reducer, d)} selected={selected === d}>
+        <Option onClick={() => handleChange(d)} selected={value === d}>
           {d}
         </Option>
       ))}
-      <Pill selected={selected} options={options}></Pill>
+      <Pill selected={value} options={options}></Pill>
     </Wrapper>
   )
 }

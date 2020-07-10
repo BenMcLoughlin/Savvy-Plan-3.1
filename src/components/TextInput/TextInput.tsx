@@ -3,27 +3,20 @@ import styled from "styled-components"
 import _ from "lodash"
 
 interface IProps {
-  id: string
-  childId?: string
+  handleChange: (value: string | number) => null
   label: string
   placeholder?: string
-  reducer: string
-  state: any
-  set: (id: string, reducer: string, value: any, childId?: string) => void
-  textInput?: boolean
   type: string
+  valid: boolean
+  value: string
 }
 
-export const TextInput: FC<IProps> = ({ id, childId, label, placeholder, reducer, state, set, type }) => {
-  const subject = state[reducer][id]
-
-  const valid = subject.toString().length === 4 && +subject > 1930 && +subject < 2095
-  
+export const TextInput: FC<IProps> = ({ handleChange, label, placeholder, type, valid, value }) => {
   return (
     <Wrapper>
       <Label>{_.startCase(label)}</Label>
-      <Input placeholder={placeholder} type={type === "year" ? "number" : "text"} step={1} onChange={e => set(id, reducer, e.target.value, childId)} />
-      {type === "year" && subject.length === 4 && !valid && <Text>Please Enter a valid year eg. 1990</Text>}
+      <Input autoFocus={true} placeholder={placeholder} type={type === "year" ? "number" : "text"} step={1} onChange={e => handleChange(e.target.value)} />
+      {type === "year" && !valid && value.length === 4 && <Text>Please Enter a valid year eg. 1990</Text>}
     </Wrapper>
   )
 }

@@ -2,10 +2,10 @@ import React, { FC } from "react"
 import styled from "styled-components"
 
 interface IProps {
-  onClick(): void
+  handleChange(): void
 }
 
-export const AddButton: FC<IProps> = ({ onClick }) => <Add onClick={onClick} />
+export const AddButton: FC<IProps> = ({ handleChange }) => <Add onClick={handleChange} />
 
 
 const Add = styled.div`

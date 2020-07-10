@@ -4,32 +4,25 @@ import _ from "lodash"
 import { AddButton } from "components/buttons/AddButton"
 
 interface IProps {
-  id: string
-  reducer: string
   value: number
-  state: any
-  set: (id: string, reducer: string, value: any, childId: string) => void
-  onClick?: (value: number) => void
+  handleChange: any
 }
 
-export const PickNumber: FC<IProps> = ({ id, onClick, value, reducer, state, set }) => {
-  const selected = state[reducer][id]
-  const [topNumber, setTopNumber] = useState<number>(value)
+export const PickNumber: FC<IProps> = ({ handleChange, value }) => {
+
+  const [topNumber, setTopNumber] = useState<number>(4)
 
   return (
     <Wrapper>
-      {_.range(1, topNumber).map(d => (
-        <Number selected={selected === d} onClick={() => set(id, reducer, d, "")}>
-          {d}
+      {_.range(1, topNumber).map(number => (
+        <Number selected={number === value} onClick={() => handleChange(number)}>
+          {number}
         </Number>
       ))}
       <AddWrapper>
         <AddButton
-          onClick={() => {
+          handleChange={() => {
             setTopNumber(topNumber + 1)
-            if (onClick) {
-              onClick(topNumber)
-            }
           }}
         />
       </AddWrapper>

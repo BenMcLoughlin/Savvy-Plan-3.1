@@ -2,11 +2,11 @@ import React, { FC } from 'react'
 import styled from 'styled-components'
 
 interface IProps {
-  onClick(): void
+  handleChange(): void
 }
 
-export const Exit: FC<IProps> = ({ onClick }) => {
-  return <Cross onClick={onClick} />
+export const Exit: FC<IProps> = ({ handleChange }) => {
+  return <Cross onClick={handleChange} />
 }
 
 const Cross = styled.div`

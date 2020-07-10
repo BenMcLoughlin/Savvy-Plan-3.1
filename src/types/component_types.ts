@@ -1,38 +1,35 @@
 import { TreducerID } from "types/reducer_types"
+import { AnyARecord } from "dns"
 
 type Icomponents = "DualSelect" | "Button" | "PickMultipleOptions" | "PickNumber" | "PickSingleOption" | "Slider" | "TextInput" | "TwoSliders" | ""
 type Ireducers = "main_reducer" | "ui_reducer" | "user_reducer"
 
-interface ICoreProps {
+export interface ICoreProps {
   ask?: string
   chart?: string
   component: Icomponents
   comment?: string
-  childId?: string
-  id?: TreducerID
-  reducer?: Ireducers
   subTitle?: string
   title: string
-  spouse?: boolean
-  onClick?: (string: any) => void
   valid?: boolean
-  location?: string
+  handleChange: any
+  label?: string
 }
 
 export interface IButton extends ICoreProps {
-  label?: string
+  
 }
 
 export interface IPickMultipleOptions extends ICoreProps {
   array: any
   user: string
+  arrayOfSelected: any
 }
 
 export interface IDualSelect extends ICoreProps {
   option1: string | number
   option2: string | number
-  onClick1?: (id: string) => void
-  onClick2?: (id: string) => void
+  handleChange2?: any
 }
 
 export interface IMultiSliders extends ICoreProps {
@@ -78,4 +75,4 @@ export interface ITextInput extends ICoreProps {
   type: string
 }
 
-export type IOnboard = IButton | IMultiSliders | IPickMultipleOptions | IDualSelect | ITwoSliders | ITextInput | IPickNumber | IPickSingleOption | ISlider
+export type IComponents = IButton | IMultiSliders | IPickMultipleOptions | IDualSelect | ITwoSliders | ITextInput | IPickNumber | IPickSingleOption | ISlider

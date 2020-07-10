@@ -4,27 +4,31 @@ import { ArrowRightCircle } from "@styled-icons/remix-fill/ArrowRightCircle"
 
 interface IProps {
   setDirection: (value: string) => void
-  onClick: (setDirection: any, valid: boolean) => null
+  handleChange: (setDirection: any, valid: boolean) => void
   valid: boolean
+  state: any
 }
 
-export const Next: FC<IProps> = ({ onClick, setDirection, valid}) => {
+export const Next: FC<IProps> = ({ handleChange, setDirection, valid, state }) => {
 
   useEffect(() => {
     const pressEnter = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
-        console.log('hello enter was pressed');
-        onClick(setDirection, valid)
+        console.log('fired');
+          handleChange(setDirection, valid)
       }
-      //  if (valid) {
+    }
+    if (valid) {
       window.addEventListener("keydown", pressEnter)
-   //   return () => window.removeEventListener("keydown", pressEnter)
-  //  }
-  }}, [valid])
+      return () => window.removeEventListener("keydown", pressEnter)
+    }
+  }, [state])
 
   return (
     <Wrapper>
-      <ArrowRight valid={valid} onClick={() => onClick(setDirection, valid)} />
+      <ArrowRight valid={valid} onClick={() => {
+        setDirection("forward")
+        handleChange(setDirection, valid)}} />
       {valid && <p>Press Enter</p>}
     </Wrapper>
   )
@@ -35,7 +39,7 @@ export const Next: FC<IProps> = ({ onClick, setDirection, valid}) => {
 const Wrapper = styled.div`
   position: absolute;
   top: 45%;
-  right: 4%;
+  right: 8%;
 `
 
 interface ArrowProps {

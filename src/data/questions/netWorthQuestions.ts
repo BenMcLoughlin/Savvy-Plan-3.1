@@ -1,41 +1,41 @@
 import { createStream, newPropertyStream, newDebtStream } from "services/create_functions"
 
 /**
- * createPropertyArray() returns an array of objects that each represent a deatil about their property such as its value and mortgage.
+ * propertyQuestions() returns an array of objects that each represent a deatil about their property such as its value and mortgage.
  *  */
 
-export const createPropertyArray = (instance, set: any, state: any, remove: any, parent) => {
+export const propertyQuestions = (instance, set: any, state: any, remove: any, parent) => {
   const { id, owner } = instance
 
-  const { maritalStatus } = state.user_reducer
+  const { maritalStatus, user1Name, user2Name } = state.user_reducer
   const { colorIndex } = state.ui_reducer
   const propertyStream = newPropertyStream()
 
-  const wizardArray: any = [
+  const questions: any = [
     {
       ask: 'Examples could be Primary Residence, home, rental property or the address".',
       component: "TextInput",
-      childId: "name",
-      id,
       label: "Property Name",
       reducer: "main_reducer",
       title: "What should we call this property?",
-      placeholder: "",
       type: "text",
+      valid: instance.name.length > 1,
+      handleChange: (value: string) => set(id, "main_reducer", value, "name"),
     },
     {
       array: ["Primary Residence", "Vacation Property", "Rental Property", "Business", "Other"], // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
       ask: "The type of property can have different tax consequences.",
       component: "PickSingleOption",
-      childId: "reg",
-      id,
       reducer: "main_reducer",
       title: "What kind of property is it?",
       textInput: true,
+      valid: instance.reg.length > 1,
+      value: instance.reg,
+      handleChange: (value: string) => set(id, "main_reducer", value.toLowerCase(), "reg"),
     },
   ]
   if (maritalStatus === "married" || maritalStatus === "common law") {
-    wizardArray.push({
+    questions.push({
       ask: "We'll use this information in the tax section.",
       component: "TripleSelector",
       childId: "owner",
@@ -43,50 +43,53 @@ export const createPropertyArray = (instance, set: any, state: any, remove: any,
       reducer: "main_reducer",
       title: "Who's name is it under?",
       textInput: true,
+      valid: true,
+      value: instance.owner,
+      user1Name,
+      user2Name,
+      handleChange: (value: string) => set(id, "main_reducer", value.toLowerCase(), "owner"),
     })
   }
 
-  wizardArray.push({
+  questions.push({
     ask: "We'll add it to the charts. If you plan to buy property in the future we can add that too.",
     component: "MultiSliders",
     num: 3,
     id,
     childId: "purchaseYear",
     reducer: "main_reducer",
+    valid: true,
     title: "Tell us about the value of the house",
     slider1: {
       bottomLabel: "year",
-      childId: "purchaseYear",
-      id,
-      max: 2080,
+      max: 2030,
       min: 1990,
       step: 1,
       topLabel: "I bought it in ",
-      reducer: "main_reducer",
       type: "year",
+      value: instance[`purchaseYear`],
+      handleChange: (value: number) => set(id, "main_reducer", value, `purchaseYear`),
     },
     slider2: {
       bottomLabel: "purchase price",
-      childId: "purchasePrice",
-      id,
       max: 1500000,
-      min: 0,
+      min: 100000,
       step: 5000,
       topLabel: "For About ",
-      reducer: "main_reducer",
+      value: instance[`purchasePrice`],
+      handleChange: (value: number) => set(id, "main_reducer", value, `purchasePrice`),
     },
     slider3: {
       bottomLabel: "current value",
-      childId: "currentValue",
-      id,
       max: 1500000,
-      min: 0,
+      min: 100000,
       step: 5000,
       topLabel: "And now its worth ",
-      reducer: "main_reducer",
+      value: instance[`currentValue`],
+      handleChange: (value: number) => set(id, "main_reducer", value, `currentValue`),
     },
   })
-  wizardArray.push({
+  questions.push({
     ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
     component: "DualSelect",
     id,
@@ -94,52 +97,58 @@ export const createPropertyArray = (instance, set: any, state: any, remove: any,
     option1: "yes",
     option2: "no",
     reducer: "main_reducer",
+    value: instance.hasMortgage,
+    valid: true,
     title: "Do you have a mortgage on this property?",
+    handleChange: () => {
+      set(id, "main_reducer", true, "hasMortgage")
+    },
+    handleChange2: () => {
+      set(id, "main_reducer", false, "hasMortgage")
+    },
   })
 
   if (instance["hasMortgage"]) {
-    wizardArray.push({
+    questions.push({
       ask: "We can add the debt to your networth and show you how it will play out in your plan.",
       component: "MultiSliders",
       num: 3,
       id,
       childId: "purchaseYear",
+      valid: true,
       reducer: "main_reducer",
       title: `We need some mortgage details for ${instance.name}`,
       slider1: {
         bottomLabel: "on the balance",
-        childId: "mortgageBalance",
-        id,
         max: 1000000,
         min: 0,
         step: 1000,
         topLabel: "I currently owe",
-        reducer: "main_reducer",
+        value: instance[`mortgageBalance`],
+        handleChange: (value: number) => set(id, "main_reducer", value, `mortgageBalance`),
       },
       slider2: {
         bottomLabel: "mortgage rate",
-        childId: "mortgageRate",
-        id,
         max: 5,
         min: 0,
         step: 0.1,
         topLabel: "With a rate of",
-        reducer: "main_reducer",
         type: "percentage",
+        value: instance[`mortgageRate`],
+        handleChange: (value: number) => set(id, "main_reducer", value, `mortgageRate`),
       },
       slider3: {
         bottomLabel: "Years Remaining ",
-        childId: "mortgageAmortization",
-        id,
         max: 35,
         min: 0,
         step: 1,
         topLabel: "And have",
-        reducer: "main_reducer",
+        value: instance[`mortgageAmortization`],
+        handleChange: (value: number) => set(id, "main_reducer", value, `mortgageAmortization`),
       },
     })
   }
-  wizardArray.push({
+  questions.push({
     ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
     component: "DualSelect",
     id: "change",
@@ -147,119 +156,125 @@ export const createPropertyArray = (instance, set: any, state: any, remove: any,
     option2: "no",
     reducer: "ui_reducer",
     title: "Would you like to add another property to the chart?",
-    onClick: function () {
+    value: state.ui_reducer.dualSelectValue,
+    valid: true,
+    handleChange: () => {
+      set("dualSelectValue", "ui_reducer", true)
       createStream(colorIndex, propertyStream, set, "property", owner)
     },
-    onClick2(id) {
-      remove(id)
+    handleChange2: (streamCreated: boolean) => {
+      set("dualSelectValue", "ui_reducer", false)
+      if (streamCreated) remove(id)
     },
   })
   return {
-    wizardType: "property",
-    wizardArray,
+    questionsType: "property",
+    questions,
   }
 }
 
-export const createDebtArray = (instance, set: any, state: any, remove: any) => {
+export const debtQuestions = (instance, set: any, state: any, remove: any) => {
+  const { ui_reducer } = state
+
   const { id, owner } = instance
 
-  const { maritalStatus } = state.user_reducer
-  const { colorIndex } = state.ui_reducer
-  const propertyStream = newPropertyStream()
+  const { maritalStatus, user1Name, user2Name } = state.user_reducer
+  const { colorIndex } = ui_reducer
 
-  const wizardArray: any = [
+  const questions: any = [
     {
       ask: 'Examples could be Primary Residence, home, rental property or the address".',
       component: "TextInput",
-      childId: "name",
-      id,
       label: "Debt Name",
-      reducer: "main_reducer",
       title: "What should we call this debt?",
       placeholder: "",
       type: "text",
+      valid: instance.name.length > 2,
+      value: instance.name,
+      handleChange: (value: string) => set(id, "main_reducer", value, "name"),
     },
     {
       array: ["Credit Card", "Student Loan", "Line of Credit", "Business loan", "Other"], // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
       ask: "The type of property can have different tax consequences.",
       component: "PickSingleOption",
-      childId: "reg",
-      id,
-      reducer: "main_reducer",
+      valid: instance.reg.length > 2,
+      value: instance.reg,
       title: "What kind of unsecured debt is it?",
       textInput: true,
+      handleChange: (value: string) => set(id, "main_reducer", value.toLowerCase(), "reg"),
     },
   ]
   if (maritalStatus === "married" || maritalStatus === "common law") {
-    wizardArray.push({
+    questions.push({
       ask: "We'll use this information in the tax section.",
       component: "TripleSelector",
-      childId: "owner",
-      id,
-      reducer: "main_reducer",
+      user1Name,
+      user2Name,
+      valid: true,
       title: "Who's name is it under?",
       textInput: true,
+      handleChange: (value: number) => set(id, "main_reducer", value, "owner"),
     })
   }
-  wizardArray.push({
+  questions.push({
     ask: "We'll add it to the charts. If you plan to buy property in the future we can add that too.",
     component: "MultiSliders",
     num: 3,
     id,
-    childId: "balance",
-    reducer: "main_reducer",
     title: "Tell us about the debt",
+    valid: true,
     slider1: {
       bottomLabel: "on the balance",
-      childId: "balance",
-      id,
       max: 100000,
       min: 0,
       step: 100,
       topLabel: "I carry about ",
-      reducer: "main_reducer",
+      value: instance.balance,
+      handleChange: (value: number) => set(id, "main_reducer", value, `balance`),
     },
     slider2: {
       bottomLabel: "per year",
-      childId: "rate",
-      id,
       max: 30,
       min: 0,
       step: 1,
       topLabel: "My Interest rate is",
-      reducer: "main_reducer",
       type: "percentage",
+      value: instance.rate,
+      handleChange: (value: number) => set(id, "main_reducer", value, `rate`),
     },
     slider3: {
       bottomLabel: "per month",
-      childId: "payment",
-      id,
       max: 10000,
       min: 0,
       step: 100,
       topLabel: "I make payments of ",
-      reducer: "main_reducer",
+      value: instance.payment,
+      handleChange: (value: number) => set(id, "main_reducer", value, `payment`),
     },
   })
 
-  wizardArray.push({
+  questions.push({
     ask: "The more debt streams you add the better an idea you'll get of your finanical position and the long term impact of the debt.",
     component: "DualSelect",
     id: "change",
+    value: ui_reducer.dualSelectValue,
     option1: "yes",
+    valid: true,
     option2: "no",
     reducer: "ui_reducer",
     title: "Would you like to add any other debt to the plan?",
-    onClick: function () {
+    handleChange: () => {
+      set("dualSelectValue", "ui_reducer", true)
       createStream(colorIndex, newDebtStream(), set, "debt", owner)
     },
-    onClick2(id) {
-      remove(id)
+    handleChange2: () => {
+      set("newStream", "ui_reducer", false)
+      set("dualSelectValue", "ui_reducer", false)
     },
   })
 
   return {
-    wizardType: "debt",
-    wizardArray,
+    questionsType: "debt",
+    questions,
   }
 }

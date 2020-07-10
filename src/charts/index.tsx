@@ -1,15 +1,7 @@
+import { set } from "../redux/actions"
+import { IAppState } from "types/reducer_types"
 import { compose } from "redux"
 import { connect } from "react-redux"
-import { set, remove } from "../redux/actions"
-import { IAppState } from "types/reducer_types"
-
-//Pages
-import { Questions as _Onboard } from "containers/Questions"
-import { Layout as _Layout } from "containers/Layout"
-import { Display as _Display } from "containers/Display"
-import { App as _App } from "App"
-
-//CHARTS
 
 import { IncomeChart as _IncomeChart } from "charts/IncomeChart"
 import { SavingsChart as _SavingsChart } from "charts/SavingsChart"
@@ -18,17 +10,6 @@ import { TaxesChart as _TaxesChart } from "charts/TaxesChart"
 import { SpendingChart as _SpendingChart } from "charts/SpendingChart"
 
 const mapStateToProps = (state: IAppState) => ({ state })
-
-export const Display = compose(connect(mapStateToProps, { set, remove }))(_Display)
-
-export const App = compose(connect(mapStateToProps, { set, remove }))(_App)
-
-export const Layout = compose(connect(mapStateToProps, { set }))(_Layout)
-
-
-//SMART CONNECTED PAGES
-export const Questions = compose(connect(mapStateToProps, { set, remove }))(_Onboard)
-
 
 export const IncomeChart = compose(connect(mapStateToProps, { set }))(_IncomeChart)
 /**

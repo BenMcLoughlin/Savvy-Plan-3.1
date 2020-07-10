@@ -1,6 +1,7 @@
 import React, { FC } from "react"
 import styled from "styled-components"
-import { SideNav, Display } from "HOC/connectRedux_HOC"
+import { Display } from "HOC/connectRedux_HOC"
+import { SideNav } from "components"
 import * as PageData from "data/pageData"
 
 interface IProps {
@@ -17,10 +18,10 @@ export const Layout: FC<IProps> = ({ state, set }) => {
     <Wrapper>
       <Title>Your Financial Plan</Title>
       <Nav>
-        <SideNav id={"selectedPage"} reducer={"ui_reducer"} />
+        <SideNav handleChange={value => set("selectedPage", "ui_reducer", value)} value={selectedPage} options={["income", "savings", "taxes", "spending", "networth"]} />
       </Nav>
       <Content>
-      <Display data={data(state, set)} /> {/*Display is the main page that shows all the info, it renders the data based on the selectedPage in the ui_reducder */}
+        <Display data={data(state, set)} /> {/*Display is the main page that shows all the info, it renders the data based on the selectedPage in the ui_reducder */}
       </Content>
     </Wrapper>
   )

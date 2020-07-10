@@ -5,7 +5,7 @@ interface IProps {
       
 }
 
-export const Layout: FC<IProps> = ({}) => {
+export const MultipleTextInput: FC<IProps> = ({}) => {
 
   return (
     <Wrapper>

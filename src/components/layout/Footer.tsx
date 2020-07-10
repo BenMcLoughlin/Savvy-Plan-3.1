@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { TwitterWithCircle, FacebookWithCircle, InstagramWithCircle } from '@styled-icons/entypo-social'
 
-export default function Header() {
+export const Footer = () => {
   return (
     <Wrapper>
       <Icons>

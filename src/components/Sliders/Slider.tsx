@@ -1,40 +1,48 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import styled from "styled-components"
 
 interface ISliderProps {
   bottomLabel: string
-  childId?: any
   max: number
   min: number
   step: number
-  id: string
-  reducer: string
   topLabel: string
   title: string
   type?: string
-  state: any
-  set: (id: string, reducer: string, value: any, childId?: any) => void
+  handleChange: any
+  value: number
+  selectedFocus?: boolean
 }
 
-export const Slider: FC<ISliderProps> = ({ childId, id, min, topLabel, bottomLabel, reducer, type, state, max, set, step }) => {
-  // const value = func1(state)
-  const value = childId ? state[reducer][id][childId] : state[reducer][id]
-  
+export const Slider: FC<ISliderProps> = ({ min, handleChange, topLabel, bottomLabel, type, max, selectedFocus, step, value}) => {
+
+  const [focus, setFocus] = useState(false)
+
   return (
     <Wrapper>
       <Label>{topLabel}</Label>
       <Value
         type="text"
+        autoFocus = {selectedFocus ? selectedFocus : false}
+        onFocus={e => {
+          e.target.select()
+          setFocus(true)
+        }}
+        onBlur={() => setFocus(false)}
         autoComplete="off"
-        onChange={e => set(id, reducer, e.target.value, childId)}
-        value={type === "percentage" ? `${value}%` : type === "year" ? value : value.toLocaleString()}
+        onChange={e => {
+          const value = e.target.value.replace(",", "").replace("%", "")
+          handleChange( +value)}
+        }
+        value={type === "percentage" && !focus ? `${value}%` : type === "year" ? value : value.toLocaleString()}
       />
       <RangeBar
         type="range"
-        onChange={e => set(id, reducer, +e.target.value, childId)}
+        onChange={e => handleChange(+e.target.value)}
         value={value}
         max={max}
         min={min}
+        tabIndex="-1"
         step={step}
         percentage={`${((value - min) / (max - min)) * 100}%`} //the percentage is used to set the linear gradient, haveing two colors on either side of the selector circle thumb
       />
@@ -42,6 +50,51 @@ export const Slider: FC<ISliderProps> = ({ childId, id, min, topLabel, bottomLab
     </Wrapper>
   )
 }
+
+{/* <Wrapper>
+<Label>{topLabel}</Label>
+<Value
+  autoFocus={selectedFocus ? selectedFocus : false}
+  autoComplete="off"
+  onFocus={e => {
+    e.target.select()
+    setFocus(true)
+  }}
+  onBlur={() => setFocus(false)}
+  onChange={e =>  handleChange(e.target.value.toLocaleString())}
+  value={type === "percentage" && !focus ? `${value}%` : type === "year" ? value : value.toLocaleString() }
+/> */}
+
+
+//WORKS WITHOUT % DEALT WITH
+{/* <Wrapper>
+<Label>{topLabel}</Label>
+<Value
+  type="text"
+  autoFocus = {selectedFocus ? selectedFocus : false}
+  onFocus={e => {
+    e.target.select()
+    setFocus(true)
+  }}
+  onBlur={() => setFocus(false)}
+  autoComplete="off"
+  onChange={e => {
+    const value = e.target.value.replace(",", "")
+    handleChange(+value)}}
+  value={type === "percentage" ? `${value}%` : type === "year" ? value : value.toLocaleString()}
+/>
+<RangeBar
+  type="range"
+  onChange={e => handleChange(+e.target.value)}
+  value={value}
+  max={max}
+  min={min}
+  tabIndex="-1"
+  step={step}
+  percentage={`${((value - min) / (max - min)) * 100}%`} //the percentage is used to set the linear gradient, haveing two colors on either side of the selector circle thumb
+/>
+<Label style={{ marginTop: "-1.4rem" }}>{bottomLabel}</Label>
+</Wrapper> */}
 
 //-----------------------------------------------style-----------------------------------------------//
 
@@ -64,6 +117,7 @@ const Label = styled.div`
 `
 interface IRange {
   percentage: string
+  tabIndex: any
 }
 
 const RangeBar = styled.input<IRange>`

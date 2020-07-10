@@ -1,30 +1,27 @@
 import React, { FC } from "react"
 import styled from "styled-components"
 import { Exit } from "components/buttons/Exit"
-import { TripleSliderSelector, DualSelect } from "HOC/connectRedux_HOC"
-import { ColorSelect, EditTitle } from "HOC/connectRedux_HOC"
+import { TripleSliderSelector, DualSelect, ColorSelect, EditTitle } from "components"
 import { Trash2 } from "@styled-icons/feather/Trash2"
 import _ from "lodash"
 
 interface ISliderProps {
   editPeriod: any
   set: (id: string, reducer: string, value: any, childId?: string) => void
-  remove: (id: string) => void,
-
+  remove: (id: string) => void
+  state: any
 }
 
-export const EditPanel: FC<ISliderProps> = ({ editPeriod, remove, set }) => {
+export const EditPanel: FC<ISliderProps> = ({ editPeriod, remove, set, state }) => {
   const id = "savingsDummy"
 
   return (
     <Wrapper>
       <Header>
-        <ColorSelect id={id} reducer={"main_reducer"} childId={"color"} />
-        <EditTitle id={id} reducer={"main_reducer"} childId={"name"} />
-        {
-          editPeriod.dualSelectorProps && <DualSelect {...editPeriod.dualSelectorProps}/>
-        }
-        <Exit onClick={() => set("selectedId", "ui_reducer", "")} />
+        {/* <ColorSelect handleChange={(value: string) => set(id, "main_reducer", value, "color")} value={state.main_reducer[id].color} /> */}
+        {/* <EditTitle id={id} reducer={"main_reducer"} childId={"name"} />  */}
+        {editPeriod.dualSelectorProps && <DualSelect {...editPeriod.dualSelectorProps} />}
+        <Exit handleChange={() => set("selectedId", "ui_reducer", "")} />
       </Header>
       <Center>
         <TripleSliderSelector {...editPeriod} />
@@ -41,6 +38,7 @@ export const EditPanel: FC<ISliderProps> = ({ editPeriod, remove, set }) => {
     </Wrapper>
   )
 }
+
 
 //-----------------------------------------------style-----------------------------------------------//
 

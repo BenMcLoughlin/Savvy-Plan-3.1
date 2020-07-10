@@ -1,6 +1,6 @@
 import React, { FC } from "react"
 import styled from "styled-components"
-import { ChartNav } from "HOC/connectRedux_HOC"
+import { ChartNav } from "components"
 
 interface IProps {
   state: any
@@ -12,7 +12,7 @@ export const IncomeChart: FC<IProps> = ({ state, set }) => {
     <Wrapper>
       <Img alt="#" src={require("assets/lifetimeIncome.png")} style={{ height: "20rem" }} onClick={() => set("selectedId", "ui_reducer", "incomeDummy")} />
       <ChartNavWrapper>
-        <ChartNav options={["before tax", "after tax"]} id={"selectedAccount"} reducer={"ui_reducer"} />
+        <ChartNav options={["before tax", "after tax"]} handleChange={(value) => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount}/>
       </ChartNavWrapper>
     </Wrapper>
   )

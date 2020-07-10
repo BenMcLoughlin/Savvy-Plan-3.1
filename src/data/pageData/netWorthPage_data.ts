@@ -15,7 +15,7 @@ export const networthPage_data = (state: any, set: any): any => {
   const data = {
     page: "networth",
     chart: "NetWorthChart",
-    userEditForm: "EditIncome",
+    editPanel: "editPanel",
     addButtonLabel: "Add Asset or a liability",
     userName,
     user2Name,
@@ -38,7 +38,7 @@ export const networthPage_data = (state: any, set: any): any => {
       },
     ],
     createStream: function () {
-      set("newInstance", 'ui_reducer', true)
+      set("newInstance", "ui_reducer", true)
       createStream(colorIndex, incomeStream, set, "income", selectedUser)
     },
   }

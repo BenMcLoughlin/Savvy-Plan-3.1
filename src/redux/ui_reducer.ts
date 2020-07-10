@@ -10,7 +10,7 @@ const initialState: IUiState = {
   selectedPage: "income",
   selectedAccount: "tfsa",
   selectedUser: "user1",
-  selectedDualSelectOption: true,
+  dualSelectValue: true,
   selectedTransaction: "contribution",
   newStream: false,
 }

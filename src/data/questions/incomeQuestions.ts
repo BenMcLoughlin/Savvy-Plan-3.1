@@ -1,5 +1,6 @@
 import { IIncomeStream } from "types/reducer_types"
-import { createStream, addPeriodToIncomeStream, newIncomeStream } from "services/create_functions"
+import { createStream, addPeriodToStream, newIncomeStream } from "services/create_functions"
+import { ageAtSelectedYear } from "services/ui_functions"
 import _ from "lodash"
 
 /**
@@ -9,58 +10,64 @@ import _ from "lodash"
  * add as many periods as they like to the array by incrementing the "periods" number. This array is then spliced into the main wizard array.
  *  */
 
-export const createIncomeArray = (instance: IIncomeStream, set: any, state: any, remove: any, parent: string) => {
+export const incomeQuestions = (instance: IIncomeStream, set: any, state: any, remove: any, parent: string) => {
   const { periods, id, owner } = instance
 
+  const { ui_reducer } = state
   const currentYear = new Date().getFullYear() //the text needs to be able to refer to the income being earned in the past or in the future, so we will use this to test that
 
   const { user1BirthYear, user2BirthYear } = state.user_reducer
 
   const birthYear = owner === "user1" ? +user1BirthYear : +user2BirthYear
 
-  const { colorIndex } = state.ui_reducer
+  const { colorIndex, progress } = state.ui_reducer
 
   const incomeStream = newIncomeStream(+user1BirthYear + 18, +user1BirthYear + 40)
 
-  const wizardArray: any = [
+
+  const questions: any = [
     //INTRO USER QUESTIONS
     {
       ask: 'Examples could be if you work as an Engineer, you could say "Engineering". Or name if after the employer that pays you, like "Wal Mart".',
       component: "TextInput",
-      childId: "name",
-      chart: parent === "onboard" ? "IncomeChart" : null,
-      id,
+      chart: parent === "Questions" ? "IncomeChart" : null,
       label: "Source of Income",
-      reducer: "main_reducer",
       title: "Where does this income come from?",
       placeholder: "Income Name",
       type: "text",
+      valid: true,
+      handleChange: (value: string) => set(id, "main_reducer", value, "name"),
     },
     {
       //QUESTION 1 - Type of income
       array: ["Regular Employment", "Business Income", "Investment Income", "Rental Income"], // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
       ask: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
-      chart: parent === "onboard" ? "IncomeChart" : null,
+      chart: parent === "Questions" ? "IncomeChart" : null,
       component: "PickSingleOption",
-      childId: "reg",
-      id,
-      reducer: "main_reducer",
       title: "What kind of income is it?",
       textInput: true,
+      valid: instance.reg.length > 1,
+      value: instance.reg,
+      handleChange: (value: string) => set(id, "main_reducer", value.toLowerCase(), "reg"),
     },
     {
       ask: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
-      chart: parent === "onboard" ? "IncomeChart" : null,
+      chart: parent === "Questions" ? "IncomeChart" : null,
       component: "DualSelect",
-      id: "selectedUser",
       option1: "yes",
       option2: "no",
-      reducer: "ui_reducer",
+      value: ui_reducer.dualSelectValue,
+      valid: true,
       title: "Would you like to add another income source?",
-      onClick1: () =>  createStream(colorIndex, incomeStream, set, "income", owner),
-      onClick2: () => {
+      handleChange: () => {
+        set("dualSelectValue", "ui_reducer", true)
+        createStream(colorIndex, incomeStream, set, "income", owner)
+      },
+      handleChange2: () => {
         set("newStream", "ui_reducer", false)
         set("selectedId", "ui_reducer", false)
+        if (parent === "display") set("progress", "ui_reducer", 0)
+        set("dualSelectValue", "ui_reducer", false)
       },
     },
   ]
@@ -72,60 +79,58 @@ export const createIncomeArray = (instance: IIncomeStream, set: any, state: any,
   const editPeriod = {
     ask: "Its hard to predict future contributions. But by doing this you can see how they will impact your financial plan",
     component: "TripleSliderSelector", //very special advanced component tailored for this type of object
-    periods: periods,
-    id,
-    childId: "period0StartYear",
-    reducer: "main_reducer",
+    periods,
+    valid: true,
+    addLabel: "Add a period where it changed",
     title: `Tell us about your ${instance.name} income`,
-    addLabel: `Add a period when your income changed.`,
+    handleChange: () => addPeriodToStream(instance, periods, id, set),
   }
 
   const slidersArray = _.range(periods + 1).map((d: any, i: number) => {
+    const startYear = instance[`period${i}StartYear`]
+    const endYear = instance[`period${i}EndYear`]
+
     let past = currentYear > instance[`period${i}StartYear`]
 
     return {
       component: "MultiSliders",
       num: 3,
-      parent, 
       slider1: {
-        bottomLabel: `at age ${instance[`period${i}StartYear`] - birthYear}`, //eg "at age 26"
-        childId: `period${i}StartYear`, //the value being changed
-        id, //id of the instance selected in the ui_reducer
+        bottomLabel: `at age ${ageAtSelectedYear(startYear, birthYear)}`, //eg "at age 26"
         max: 2080,
         min: i === 0 ? birthYear + 17 : instance[`period${i - 1}EndYear`], //if its the first one then just 2020, otherwise its the period priors last year
         step: 1,
         topLabel: i === 0 ? "Starting in" : "then in", //for the first one we want to say "starting in" but after they add changes we want it to say "then in"
-        reducer: "main_reducer",
         type: "year",
+        value: startYear,
+        handleChange: (value: number) => set(id, "main_reducer", value, `period${i}StartYear`),
       },
       slider2: {
         bottomLabel: `before tax per year`,
-        childId: `period${i}Value`, //`contributionValue${i}`,
-        id,
         max: 250000,
         min: 0,
         step: 1000,
         topLabel: past ? "I earned" : "I might earn",
-        reducer: "main_reducer",
+        value: instance[`period${i}Value`],
+        handleChange: (value: number) => set(id, "main_reducer", value, `period${i}Value`),
       },
       slider3: {
-        bottomLabel: `at age ${instance[`period${i}EndYear`] - birthYear}`,
-        childId: `period${i}EndYear`,
-        id,
+        bottomLabel: `at age ${ageAtSelectedYear(endYear, birthYear)}`, //eg "at age 26"
         max: 2080,
-        min: instance[`period${i}StartYear`],
+        min: startYear,
         step: 1,
         topLabel: "Until ",
-        reducer: "main_reducer",
         type: "year",
+        value: endYear,
+        handleChange: (value: number) => set(id, "main_reducer", value, `period${i}EndYear`),
       },
     }
   })
 
-  wizardArray.splice(2, 0, { ...editPeriod, slidersArray })
+  questions.splice(2, 0, { ...editPeriod, slidersArray })
 
   return {
-    wizardType: "income",
-    wizardArray,
+    questionsType: "income",
+    questions,
   }
 }

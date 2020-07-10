@@ -2,52 +2,44 @@ import React, { FC, useState } from "react"
 import styled from "styled-components"
 
 interface IProps {
-  childId?: string
-  id: string
-  onClick1: () => void
-  onClick2: () => void
-  reducer: string
+  handleChange: () => void
+  handleChange2: (clickFired: boolean) => void
   option1: string | number
   option2: string | number
-  state: any
-  set: (id: string, reducer: string, value: any, childId?: any) => void
+  value: boolean
 }
 
-export const DualSelect: FC<IProps> = ({ childId, id, onClick1, onClick2, reducer, state, set, option1, option2 }) => {
+export const DualSelect: FC<IProps> = ({ handleChange, handleChange2, option1, option2, value }) => {
   const [clickFired, fireClick] = useState<boolean>(false) //we need to know if a button has been clicked
-
-  const selected = state.ui_reducer.selectedDualSelectOption
 
   return (
     <Wrapper>
       <Option
         onClick={() => {
           //the onclick is used to create new objects, for instance, do you own a house? "yes", then it creates a house object
-          if (onClick1 && !clickFired) {
+          if (handleChange && !clickFired) {
             //but we can't have objects created with every click
-            onClick1() //creates the new object
+            handleChange() //creates the new object
             fireClick(true) //then ensures that clicking again whon't make a new one
           }
-          set("selectedDualSelectOption", "ui_reducer", true) //sets in the reducer a boolean value that tells the wizard how to proceed, eg "do you have a house?", then the house details will be added to the wizard
         }}
-        selected={selected}
+        selected={value}
       >
         {option1}
       </Option>
       <Option
         onClick={() => {
-          onClick2()
-          set("selectedDualSelectOption", "ui_reducer", false)
+          handleChange2(clickFired)
           if (clickFired) {
             fireClick(false)
           } //if the user added a stream by clicking yes then clicks no, this removes that stream
         }}
-        selected={!selected} //when the page first loads it sets both colors to grey but I want the initial color or the bar to be white
+        selected={!value} //when the page first loads it sets both colors to grey but I want the initial color or the bar to be white
       >
         {" "}
         {option2}
       </Option>
-      <Pill selected={selected} option1={option1}></Pill>
+      <Pill selected={value} option1={option1}></Pill>
     </Wrapper>
   )
 }
@@ -62,13 +54,12 @@ const Wrapper = styled.div`
   margin: 0px;
   padding: 0px;
   border-radius: 25px;
-
 `
 interface OProps {
   selected: boolean
 }
 interface PProps {
-  selected: string
+  selected: boolean
   option1: string | number
 }
 
