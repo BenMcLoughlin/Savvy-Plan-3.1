@@ -1,7 +1,9 @@
 import { instance } from "types/reducer_types"
 import { colorArray } from "styles/color_data"
-import { Ireg, Iowner, streamType } from "types/variable_types"
+import { reg, owner, streamType } from "types/variable_types"
 import _ from "lodash"
+import * as I from "types"
+
 /**
  * newIncomeStream is a function that creates a new income instance. An instance represents income for a certain period. Eg. Wal mart Income from 2009 - 2020.
  * It is different than other instances in the same stream because the value is different. Eg. the user may have made less money for the first 5 years of employment, then more later.
@@ -112,7 +114,7 @@ const newStream = streamType => {
   }
 }
 
-export const createStream = (colorIndex: number, set: (id: string, reducer: string, value: any, childId?: string) => void, streamType: streamType, reg: Ireg, owner: Iowner): void => {
+export const createStream = (colorIndex: number, set: I.set, streamType: I.streamType, reg: I.reg, owner: I.owner): void => {
   let stream1 = newStream(streamType)
 
   //This creates a new Income Instance, such as from ages 18-22

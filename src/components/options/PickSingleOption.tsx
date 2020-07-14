@@ -1,5 +1,6 @@
 import React, { FC } from "react"
 import styled from "styled-components"
+import _ from "lodash"
 
 interface IProps {
   optionArray?: string[]
@@ -9,14 +10,12 @@ interface IProps {
 }
 
 export const PickSingleOption: FC<IProps> = ({ optionArray, handleChange, textInput, value }) => {
-
-  
   return (
     <Wrapper>
       {optionArray &&
         optionArray.map((d: string, i: number) => {
           return (
-            <Square key={i} selected={d.toLowerCase() === value} onClick={() => handleChange(d)}>
+            <Square key={i} selected={d.toLowerCase() === value} onClick={() => handleChange(d)} id={`${_.camelCase(d)}`}>
               {d}
             </Square>
           )

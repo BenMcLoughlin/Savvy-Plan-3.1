@@ -28,7 +28,9 @@ export const Next: FC<IProps> = ({ handleChange, setDirection, valid, state }) =
     <Wrapper>
       <ArrowRight valid={valid} onClick={() => {
         setDirection("forward")
-        handleChange(setDirection, valid)}} />
+        handleChange(setDirection, valid)}}
+        id="nextButton"
+        />
       {valid && <p>Press Enter</p>}
     </Wrapper>
   )

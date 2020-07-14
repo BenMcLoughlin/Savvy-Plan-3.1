@@ -6,7 +6,7 @@ export interface IButton {
   handleChange: () => void
 }
 
-export const Button: FC<IButton> = ({ label,  handleChange}) => <Wrapper onClick={() => handleChange()}>{label}</Wrapper>
+export const Button: FC<IButton> = ({ label,  handleChange}) => <Wrapper onClick={() => handleChange()} id="button">{label}</Wrapper>
 
 //---------------------------STYLES-------------------------------------------//
 

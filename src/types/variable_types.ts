@@ -1,5 +1,4 @@
-
-export type Ireg =
+export type reg =
   | "employment"
   | "business Income"
   | "Investment Income"
@@ -21,7 +20,7 @@ export type Ireg =
   | "RESP"
   | ""
 
-export type Iowner = "user1" | "user2"
+export type owner = "user1" | "user2"
 
 export type streamType = "income" | "savings" | "property" | "spending" | "debt"
 

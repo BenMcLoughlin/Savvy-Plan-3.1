@@ -8,7 +8,7 @@ interface IProps {
 export const LandingPage: FC<IProps> = () => {
 
   return (
-    <Wrapper>
+    <Wrapper id="App-title">
       LANDING PAGE
     </Wrapper>
   );

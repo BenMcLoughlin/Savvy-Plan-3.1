@@ -1,5 +1,6 @@
 import root_reducer from "redux/root_reducer"
 import { Action } from "redux"
+import * as I from "types"
 
 export interface IUiState {
   change: boolean
@@ -41,11 +42,11 @@ export interface IUserState {
   user2OasStartAge: number
 }
 
-export interface IMainState {
+export interface main_reducer {
   [key: string]: instance
 }
 
-export type TreducerID = keyof IUserState | keyof IUiState | keyof IMainState
+export type TreducerID = keyof IUserState | keyof IUiState | keyof main_reducer
 
 export interface Iset extends Action {
   type: string
@@ -61,7 +62,7 @@ export interface IinstanceCore {
   id: string
   name: string
   periods: any
-  owner: "user1" | "user2"
+  owner: I.owner
   reg: string
 }
 

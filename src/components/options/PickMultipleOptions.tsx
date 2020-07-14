@@ -22,10 +22,11 @@ export const PickMultipleOptions: FC<IProps> = ({ optionArray, arrayOfSelected, 
           const selected = arrayOfSelected ?  arrayOfSelected.filter((v: any) => v.reg === d.reg.toLowerCase()).length > 0 : false
 
           return (
-            <Square key={d.label} selected={selected}>
+            <Square key={d.label} selected={selected} >
               <Text
                 selected={selected}
                 onClick={() => handleChange(selected, d)}
+                id={`${d.reg.toLowerCase()}`}
               >
                 <Circle />
                 <CenterCircle selected={selected} />

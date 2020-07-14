@@ -1,5 +1,6 @@
 import { IComponents } from "types/component_types"
 import { createStream } from "services/create_functions"
+import * as I from "types"
 
 import { insertQuestionArray, savingsAccountsArray } from "services/questions/question_functions"
 
@@ -104,7 +105,7 @@ export const onboardPage_data = (state: any, set: any, progress: number, remove:
     component: "PickSingleOption",
     question: "Do you have children?",
     textInput: false,
-    valid: hasChildren.length > 1,
+    valid: true,
     value: hasChildren,
     handleChange: (value: string) => set("hasChildren", "user_reducer", value),
   })
@@ -185,15 +186,16 @@ export const onboardPage_data = (state: any, set: any, progress: number, remove:
     handleChange: (selected, d: any) => {
       if (!selected && d.label !== "none") {
         // check if the item doesnt already exist, or its not none, and will then create a new income st
-        createStream(colorIndex, set, `savings`, "employment", "user1")
+        createStream(colorIndex, set, `savings`,  d.reg.toLowerCase(), "user1")
       } //checks if there is no currently selected version, if so it adds a new one, prevents adding mulitple with many clicks
       if (selected) {
-        //the user needs to be able to remove the new object if they click on it again enabling them to onClick2 the account they added.
+        //the user needs to be able to remove the new object if they click on it again enabling them to remove the account they added.
         const selectedInstance: any = Object.values(main_reducer).find((b: any) => b.reg === d.reg.toLowerCase()) //searches the main reducer to find the matching object to be removed
         remove(selectedInstance.id) //removes it from the main reducer
+        set("selectedId", "ui_reducer", "")
       }
       if (d.label === "none") {
-        //the user needs to be able to remove the new object if they click on it again enabling them to onClick2 the account they added.
+        //the user needs to be able to remove the new object if they click on it again enabling them to remove all accounts added
         const selectedInstances: any = Object.values(main_reducer).filter((b: any) => b.id.includes("user1Savings")) //searches the main reducer to find the matching object to be removed
         selectedInstances.map(instance => remove(instance.id))
         set("selectedId", "ui_reducer", "")
@@ -219,12 +221,13 @@ export const onboardPage_data = (state: any, set: any, progress: number, remove:
       handleChange: (selected, d: any) => {
         if (!selected && d.label !== "none") {
           // check if the item doesnt already exist, or its not none, and will then create a new income st
-          createStream(colorIndex, set, `savings`, d, "user2")
+          createStream(colorIndex, set, `savings`, d.reg.toLowerCase(), "user2")
         } //checks if there is no currently selected version, if so it adds a new one, prevents adding mulitple with many clicks
         if (selected) {
           //the user needs to be able to remove the new object if they click on it again enabling them to onClick2 the account they added.
           const selectedInstance: any = Object.values(main_reducer).find((b: any) => b.reg === d.reg.toLowerCase()) //searches the main reducer to find the matching object to be removed
           remove(selectedInstance.id) //removes it from the main reducer
+          set("selectedId", "ui_reducer", "")
         }
         if (d.label === "none") {
           //the user needs to be able to remove the new object if they click on it again enabling them to onClick2 the account they added.

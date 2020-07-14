@@ -13,9 +13,9 @@ interface IProps {
 
 export const TextInput: FC<IProps> = ({ handleChange, label, placeholder, type, valid, value }) => {
   return (
-    <Wrapper>
+    <Wrapper >
       <Label>{_.startCase(label)}</Label>
-      <Input autoFocus={true} placeholder={placeholder} type={type === "year" ? "number" : "text"} step={1} onChange={e => handleChange(e.target.value)} />
+      <Input autoFocus={true} placeholder={placeholder} type={type === "year" ? "number" : "text"} step={1} onChange={e => handleChange(e.target.value)} id="textInput"/>
       {type === "year" && !valid && value.length === 4 && <Text>Please Enter a valid year eg. 1990</Text>}
     </Wrapper>
   )

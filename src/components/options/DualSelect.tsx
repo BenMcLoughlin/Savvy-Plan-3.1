@@ -24,6 +24,7 @@ export const DualSelect: FC<IProps> = ({ handleChange, handleChange2, option1, o
           }
         }}
         selected={value}
+        id="yes"
       >
         {option1}
       </Option>
@@ -35,7 +36,8 @@ export const DualSelect: FC<IProps> = ({ handleChange, handleChange2, option1, o
           } //if the user added a stream by clicking yes then clicks no, this removes that stream
         }}
         selected={!value} //when the page first loads it sets both colors to grey but I want the initial color or the bar to be white
-      >
+        id="no"
+     >
         {" "}
         {option2}
       </Option>
