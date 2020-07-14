@@ -13,8 +13,6 @@ export const incomePage_data = (state: any, set: any, parent: string): any => {
 
   const { user1BirthYear, user1Name, user2Name } = state.user_reducer
 
-  const incomeStream = newIncomeStream(+user1BirthYear + 18, +user1BirthYear + 40)
-
   const data = {
     page: "income",
     chart: "IncomeChart", //determines the chart that will be rendered
@@ -43,7 +41,7 @@ export const incomePage_data = (state: any, set: any, parent: string): any => {
     ],
     createStream: function () {
       //when the user clicks "Add new Stream" this function creates a new income stream and sets the id in the ui_reducer to it is displayed
-      createStream(colorIndex, incomeStream, set, "income", selectedUser)
+      createStream(colorIndex, set, "income", "employment", selectedUser)
       set("newStream", "ui_reducer", true)
     },
   }

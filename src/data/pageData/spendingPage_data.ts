@@ -10,8 +10,6 @@ export const spendingPage_data = (state: any, set: any): any => {
 
   const { user1BirthYear, userName, user2Name } = state.user_reducer
 
-  const incomeStream = newIncomeStream(+user1BirthYear + 18, +user1BirthYear + 40)
-
   const data = {
     page: "spending",
     chart: "SpendingChart",
@@ -39,7 +37,7 @@ export const spendingPage_data = (state: any, set: any): any => {
       },
     ],
     createStream: function () {
-      createStream(colorIndex, incomeStream, set, selectedAccount, selectedUser)
+      createStream(colorIndex,  set, selectedAccount, "employment", selectedUser)
     },
   }
 

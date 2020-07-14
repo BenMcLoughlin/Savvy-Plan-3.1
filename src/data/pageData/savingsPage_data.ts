@@ -10,8 +10,6 @@ export const savingsPage_data = (state: any, set: any): any => {
 
   const { userName, user2Name } = state.user_reducer
 
-  const savingsStream = newSavingsStream(selectedAccount.toLowerCase(), 2020)
-
   const data = {
     page: "savings",
     chart: "SavingsChart",
@@ -40,7 +38,7 @@ export const savingsPage_data = (state: any, set: any): any => {
     ],
     createStream: function () {
       //when the user clicks "Add new Stream" this function creates a new income stream and sets the id in the ui_reducer to it is displayed along with setting new stream to be true so it knows to edit a new stream
-      createStream(colorIndex, savingsStream, set, "savings", selectedUser)
+      createStream(colorIndex, set, "savings", "employment", selectedUser)
       set("newStream", "ui_reducer", true)
       set("progress", "ui_reducer", 0)
     },

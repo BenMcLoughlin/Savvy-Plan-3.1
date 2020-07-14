@@ -7,7 +7,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group"
 import { Redirect } from "react-router-dom"
 import { Exit } from "components/buttons/Exit"
 import { matchThenShowComponent } from "services/display_functions"
-import { nextButtonProps, exitButtonProps, backButtonProps } from "services/question_functions"
+import { nextButtonProps, exitButtonProps, backButtonProps } from "services/questions/question_functions"
 
 interface IProps {
   state: any
@@ -20,7 +20,7 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
 
   const [direction, setDirection] = useState<string>("forward")
 
-  const { questionsType, questions } = data
+  const { streamType, questions } = data
 
   const { length } = questions
 
@@ -32,12 +32,12 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
 
   return (
     <Wrapper>
-      {questionsType === "Onboarding" ? (
+      {streamType === "Onboarding" ? (
         <>
           <ProgressBar length={length} progress={progress} />
           <Text>
             {progress > 0 ? <h3 style={{ fontWeight: "bold" }}>Why we Ask</h3> : null}
-            <h4>{questions[progress].ask}</h4>
+            <h4>{questions[progress].explanation}</h4>
           </Text>
         </>
       ) : (
@@ -51,7 +51,7 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
               <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
                 <Question>
                   <Header>
-                    <H2>{data.title}</H2>
+                    <H2>{data.question}</H2>
                     <h3>{data.subTitle}</h3>
                   </Header>
                   {/* <Content>{renderComponent(data.component, data)}</Content> */}

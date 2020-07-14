@@ -5,12 +5,12 @@ type Icomponents = "DualSelect" | "Button" | "PickMultipleOptions" | "PickNumber
 type Ireducers = "main_reducer" | "ui_reducer" | "user_reducer"
 
 export interface ICoreProps {
-  ask?: string
+  explanation?: string
   chart?: string
   component: Icomponents
   comment?: string
   subTitle?: string
-  title: string
+  question: string
   valid?: boolean
   handleChange: any
   label?: string
@@ -21,7 +21,7 @@ export interface IButton extends ICoreProps {
 }
 
 export interface IPickMultipleOptions extends ICoreProps {
-  array: any
+  optionArray: any
   user: string
   arrayOfSelected: any
 }
@@ -40,18 +40,18 @@ export interface IPickNumber extends ICoreProps {
 }
 
 export interface IPickSingleOption extends ICoreProps {
-  array: any
+  optionArray: any
   textInput: boolean
 }
 
 export interface ISlider extends ICoreProps {
-  ask: string
+  explanation: string
   bottomLabel?: string
   max: number
   min?: number
   step: number
   topLabel: string
-  title: string
+  question: string
   type?: string
 }
 

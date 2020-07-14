@@ -42,7 +42,7 @@ export interface IUserState {
 }
 
 export interface IMainState {
-  [key: string]: IInstance | IIncomeStream
+  [key: string]: instance
 }
 
 export type TreducerID = keyof IUserState | keyof IUiState | keyof IMainState
@@ -54,103 +54,53 @@ export interface Iset extends Action {
   value: any
 }
 
-export type IAppState = ReturnType<typeof root_reducer>
+export type appState = ReturnType<typeof root_reducer>
 
-export interface IInstance {
+export interface IinstanceCore {
   color: string
-  year1: number
-  reg: string
-  owner: string
-  stream: string
-  year2: number
   id: string
-  value: string | number | boolean
-}
-
-// export interface IIncomeStream {
-//   color?: string
-//   id?: string
-//   reg: string
-//   name: string
-//   owner: string
-//   periods: number
-//   taxable: boolean
-//   year0: number
-//   value0: number
-//   [key: string]: any
-// }
-
-export interface IIncomeStream {
-  color?: string
-  id?: string
   name: string
-  owner?: string
-  periods: number
-  period0StartYear: number
-  period0Value: number
-  period0EndYear
+  periods: any
+  owner: "user1" | "user2"
   reg: string
-  taxable: boolean
-  [key: string]: any
 }
 
-export interface ISavingsStream {
-  color?: string
-  id?: string
-  name: string
-  owner?: string
+export interface IincomeStream extends IinstanceCore {
   periods: number
   period0StartYear: number
   period0Value: number
   period0EndYear: number
-  reg: string
   taxable: boolean
   [key: string]: any
 }
 
-// export interface ISavingsStream {
-//   color?: string
-//   contribution0: number
-//   contributionPeriods: number
-//   contributionYear0: number
-//   currentValue: number
-//   id?: string
-//   reg: string
-//   name: string
-//   owner: string
-//   taxable: boolean
-//   withdrawal0: number
-//   withdrawalPeriods: number
-//   withdrawalYear0: number
-//   [key: string]: any
-// }
+export interface IsavingsStream extends IinstanceCore {
+  periods: number
+  period0StartYear: number
+  period0Value: number
+  period0EndYear: number
+  taxable: boolean
+  [key: string]: any
+}
 
-export interface IPropertyStream {
-  color?: string
+export interface IpropertyStream extends IinstanceCore {
   currentValue: number
-  hasMortgage: string
+  hasMortgage: "yes" | "no"
   mortgageRate: number
   mortgageBalance: number
   mortgageAmortization: number
   mortgageStartYear: number
-  name: string
-  owner?: string
   purchasePrice: number
   purchaseYear: number
-  reg: string
   taxable: boolean
   sellYear: number
 }
-export interface IDebtStream {
-  color?: string
-  id?: string
+
+export interface debtStream extends IinstanceCore {
   rate: number
-  reg: string
   balance: number
   amortization: number
   payment: number
-  name: string
-  owner?: string
 }
 
-export type streamType = IIncomeStream | IPropertyStream | IDebtStream | ISavingsStream
+export type instance = IincomeStream | IpropertyStream | debtStream | IsavingsStream

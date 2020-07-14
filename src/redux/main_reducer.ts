@@ -2,32 +2,33 @@ import _ from "lodash"
 import { IMainState } from "types/reducer_types"
 
 const initialState = {
-  incomeDummy: {
-    name: "My Dummy Income",
-    id: "incomeDummy",
-    color: "red",
-    periods: 0,
-    period0StartYear: 2010,
-    period0Value: 20000,
-    period0EndYear: 2020,
-    reg: "employment Income",
-    taxable: true,
-  },
-  savingsDummy: {
-    name:"",
-    periods:0,
-    id: "savingsDummy",
-    currentValue:27000,
-    period0StartYear:2034,
-    period0Value:4800,
-    period0EndYear:2046,
-    reg:"tfsa",
-    taxable:true,
-    color:"#72929B",
-    owner:"user1",
-    streamType:"savings",
-    personal:"reg",
-  }
+  // incomeDummy: {
+  //   name: "My Dummy Income",
+  //   id: "incomeDummy",
+  //   color: "red",
+  //   periods: 0,
+  //   period0StartYear: 2010,
+  //   owner:"user1",
+  //   period0Value: 20000,
+  //   period0EndYear: 2020,
+  //   reg: "employment Income",
+  //   taxable: true,
+  // },
+  // savingsDummy: {
+  //   name:"",
+  //   periods:0,
+  //   id: "savingsDummy",
+  //   currentValue:27000,
+  //   period0StartYear:2034,
+  //   period0Value:4800,
+  //   period0EndYear:2046,
+  //   reg:"tfsa",
+  //   taxable:true,
+  //   color:"#72929B",
+  //   owner:"user1",
+  //   streamType:"savings",
+  //   personal:"reg",
+  // }
 }
 
 export const main_reducer = (state: IMainState = initialState, action: any) => {

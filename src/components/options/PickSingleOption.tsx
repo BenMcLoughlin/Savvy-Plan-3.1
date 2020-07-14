@@ -2,19 +2,19 @@ import React, { FC } from "react"
 import styled from "styled-components"
 
 interface IProps {
-  array?: string[]
+  optionArray?: string[]
   handleChange: (d) => void
   textInput?: boolean
   value: string
 }
 
-export const PickSingleOption: FC<IProps> = ({ array, handleChange, textInput, value }) => {
+export const PickSingleOption: FC<IProps> = ({ optionArray, handleChange, textInput, value }) => {
 
   
   return (
     <Wrapper>
-      {array &&
-        array.map((d: string, i: number) => {
+      {optionArray &&
+        optionArray.map((d: string, i: number) => {
           return (
             <Square key={i} selected={d.toLowerCase() === value} onClick={() => handleChange(d)}>
               {d}

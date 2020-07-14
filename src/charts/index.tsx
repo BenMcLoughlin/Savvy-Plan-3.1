@@ -1,5 +1,5 @@
 import { set } from "../redux/actions"
-import { IAppState } from "types/reducer_types"
+import { appState } from "types/reducer_types"
 import { compose } from "redux"
 import { connect } from "react-redux"
 
@@ -9,7 +9,7 @@ import { NetWorthChart as _NetWorthChart } from "charts/NetWorthChart"
 import { TaxesChart as _TaxesChart } from "charts/TaxesChart"
 import { SpendingChart as _SpendingChart } from "charts/SpendingChart"
 
-const mapStateToProps = (state: IAppState) => ({ state })
+const mapStateToProps = (state: appState) => ({ state })
 
 export const IncomeChart = compose(connect(mapStateToProps, { set }))(_IncomeChart)
 /**

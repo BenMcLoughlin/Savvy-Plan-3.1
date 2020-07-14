@@ -1,18 +1,21 @@
-import * as createQuestionArray from "data/questions"
+import * as hardData from "data/questions/questions_data"
+import { createStreamQuestionsArray } from "services/questions/createQuestionArray"
 import _ from "lodash"
+import * as I from "types"
 
-const convertObjectIntoArray = object => Object.values(object)
+const convertObjectIntoArray = (object: I.appState) => Object.values(object)
 const filterArrayToMatchQuery = (array, query) => array.filter((d: any) => d.id.includes(query))
 
-export const insertQuestionArray = (query, parent, remove, set, state, streamType, mainQuestionsArray) => {
-  const streamQuestionsArray = createQuestionArray[`${streamType}Questions`] //match the function that creates the array with the query, eg "incomeQuestions"
+export const insertQuestionArray = (query, parent: I.parent, remove: I.remove, set: I.set, state, streamType: I.streamType, mainQuestionsArray) => {
+
+  const questionData = hardData[`${streamType}Data`]  //match the function that creates the array with the query, eg "incomeQuestions"
 
   const stateAsArray = convertObjectIntoArray(state.main_reducer)
 
   const stateTrimmedToQueryStreams = filterArrayToMatchQuery(stateAsArray, query) //matches all "user2Income" streams
 
   stateTrimmedToQueryStreams.map(stream => {
-    const arrayOfStreamQuestions = streamQuestionsArray(stream, set, state, remove, parent) //creates a question array for each stream
+    const arrayOfStreamQuestions = createStreamQuestionsArray(questionData, stream, set, state, remove, "onboard")//creates a question array for each stream
     const addStreamQuestionsToMainArray = arrayOfStreamQuestions.questions.map(question => {
       //maps through the questions and pushes the contents to the main questions array
       mainQuestionsArray.push(question)
