@@ -8,11 +8,17 @@ interface IProps {
 }
 
 export const IncomeChart: FC<IProps> = ({ state, set }) => {
+  //THIS IS JUST A PLACEHODLER FUNCTION FOR NOW
+  const instance: any = Object.values(state.main_reducer).filter((d: any) => d.id.includes("Income"))[0]
+
+
   return (
     <Wrapper>
-      <Img alt="#" src={require("assets/lifetimeIncome.png")} style={{ height: "20rem" }} onClick={() => set("selectedId", "ui_reducer", "user1Income_307342")} />
+      <Img alt="#" src={require("assets/lifetimeIncome.png")} style={{ height: "20rem" }} onClick={() => {
+        if (instance) set("selectedId", "ui_reducer", instance.id)
+       }} />
       <ChartNavWrapper>
-        <ChartNav options={["before tax", "after tax"]} handleChange={(value) => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount}/>
+        <ChartNav options={["before tax", "after tax"]} handleChange={value => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount} />
       </ChartNavWrapper>
     </Wrapper>
   )

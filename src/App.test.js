@@ -32,6 +32,7 @@ jest.setTimeout(100000)
 test("h2 loads correctly", async () => {
   const browser = await puppeteer.launch({
     headless: false,
+    //no sandax
     slowMo: 50 // slow down by 250ms
   })
   const page = await browser.newPage()
@@ -338,3 +339,4 @@ test("h2 loads correctly", async () => {
 
 //   await browser.close()
 // })()
+

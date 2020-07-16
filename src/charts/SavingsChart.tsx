@@ -11,10 +11,14 @@ interface IProps {
 
 export const SavingsChart: FC<IProps> = ({ data, state, set }) => {
 
+    //THIS IS JUST A PLACEHODLER FUNCTION FOR NOW
+    const instance: any = Object.values(state.main_reducer).filter((d: any) => d.id.includes("Savings"))[0]
 
   return (
     <Wrapper>
-      <Img alt="#" src={require("assets/savings.png")} style={{ height: "20rem" }} onClick={() => set("selectedId", "ui_reducer",  "savingsDummy")} />
+      <Img alt="#" src={require("assets/savings.png")} style={{ height: "20rem" }} onClick={() => {
+        if (instance) set("selectedId", "ui_reducer", instance.id)
+       }}  />
       <ChartNavWrapper>
       <ChartNav options={["tfsa", "rrsp", "personal", "combined"]} handleChange={(value) => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount}/>
       </ChartNavWrapper>

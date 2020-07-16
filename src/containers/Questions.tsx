@@ -8,11 +8,13 @@ import { Redirect } from "react-router-dom"
 import { Exit } from "components/buttons/Exit"
 import { matchThenShowComponent } from "services/display_functions"
 import { nextButtonProps, exitButtonProps, backButtonProps } from "services/questions/question_functions"
+import * as I from "types"
 
 interface IProps {
-  state: any
+  set: I.set
+  remove: I.remove
+  state: I.appState
   data: any
-  set: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
 export const Questions: FC<IProps> = ({ data, state, set }) => {
@@ -20,6 +22,8 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
 
   const [direction, setDirection] = useState<string>("forward")
 
+  console.log(data);
+  
   const { streamType, questions } = data
 
   const { length } = questions

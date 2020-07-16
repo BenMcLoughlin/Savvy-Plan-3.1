@@ -7,9 +7,15 @@ interface IProps {
 }
 
 export const SpendingChart: FC<IProps> = ({ state, set }) => {
+
+    //THIS IS JUST A PLACEHODLER FUNCTION FOR NOW
+    const instance: any = Object.values(state.main_reducer).filter((d: any) => d.id.includes("Spending"))[0]
+
   return (
     <Wrapper>
-      <Img alt="#" src={require("assets/spending.png")} style={{ height: "20rem" }} onClick={() => set("selectedId", "ui_reducer", "incomeDummy")} />
+      <Img alt="#" src={require("assets/spending.png")} style={{ height: "20rem" }} onClick={() => {
+        if (instance) set("selectedId", "ui_reducer", instance.id)
+       }}  />
     </Wrapper>
   )
 }

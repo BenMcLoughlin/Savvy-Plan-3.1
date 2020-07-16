@@ -1,3 +1,5 @@
+
+
 export const incomeQuestions_data = {
   streamType: "income",
   q1: {
@@ -39,8 +41,8 @@ export const savingsQuestions_data = {
   },
   q2: {
     question: "What kind of account is it?",
-    explanation: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
-    optionArray: ["Regular Employment", "Business Income", "Investment Income", "Rental Income"],
+    explanation: "",
+    optionArray: ["TFSA", "RRSP", "Personal", "LIRA", "Pension", "RESP"],
   },
   q3: {
     question: "",

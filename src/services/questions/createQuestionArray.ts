@@ -5,8 +5,6 @@ import * as I from "types"
 
 export const createStreamQuestionsArray = (data: I.questions, instance: instance, set: I.set, state: I.appState, remove: I.remove, parent: I.parent) => {
 
-  console.log(data);
-  
   const { streamType, q1, q2, q3, qFinal } = data
 
   const { id, owner, reg } = instance
@@ -37,6 +35,21 @@ export const createStreamQuestionsArray = (data: I.questions, instance: instance
     )
   }
 
+  if (streamType === "savings" && parent !== "onboard") {
+  questions.push({
+    //QUESTION 2 - Select registration of the new stream
+    optionArray: q2.optionArray, // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
+    explanation: q2.explanation,
+    component: "PickSingleOption",
+    question: q2.question,
+    textInput: true,
+    valid: reg.length > 1,
+    value: reg,
+    handleChange: (value: string) => set(id, "main_reducer", value.toLowerCase(), "reg"),
+  })
+}
+
+
   if (streamType === "savings") {
     questions.push({
       //SAVINGS QUESTION 1 - Input current value of account
@@ -52,20 +65,6 @@ export const createStreamQuestionsArray = (data: I.questions, instance: instance
       value: instance[`currentValue`],
       valid: true,
       handleChange: (value: string) => set(id, "main_reducer", value, "currentValue"),
-    })
-  }
-
-  if (streamType !== "savings") {
-    questions.push({
-      //QUESTION 2 - Select registration of the new stream
-      optionArray: q2.optionArray, // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
-      explanation: q2.explanation,
-      component: "PickSingleOption",
-      question: q2.question,
-      textInput: true,
-      valid: reg.length > 1,
-      value: reg,
-      handleChange: (value: string) => set(id, "main_reducer", value.toLowerCase(), "reg"),
     })
   }
 
@@ -98,7 +97,7 @@ export const createStreamQuestionsArray = (data: I.questions, instance: instance
   }
 
   //FINAL QUESTION- Ask if they would like to add another
-  if (streamType !== "savings" && parent !== "onboard") {
+  if (parent !== "onboard") {
     questions.push({
       component: "DualSelect",
       explanation: qFinal.explanation,
