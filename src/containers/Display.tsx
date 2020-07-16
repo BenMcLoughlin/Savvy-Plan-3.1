@@ -28,8 +28,6 @@ export const Display: FC<IProps> = ({ data, remove, set, state }) => {
 
   const question_data = questions_data[`${selectedPage}Questions_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
 
-  console.log(question_data);
-
   const instance = state.main_reducer[selectedId]
 
   return (

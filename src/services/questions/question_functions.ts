@@ -38,7 +38,7 @@ export const savingsAccountsArray = [
       "A popular retirement account designed to help Canadians save for retirement. The money you contribute to your RRSP is “pre-tax.” That means that you can subtract the amount you contribute from your income and pay less in income taxes. If you made $60,000 and you contributed $5,000 to your RRSP, you will pay tax on only $55,000 of income.",
   },
   {
-    label: "personal, nopersonalistered",
+    label: "personal",
     reg: "Personal",
     info:
       "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",

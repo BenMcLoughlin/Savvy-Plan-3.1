@@ -5,7 +5,6 @@ import { appState } from "types/reducer_types"
 
 //Pages
 import { Questions as _Onboard } from "containers/Questions"
-import { Layout as _Layout } from "containers/Layout"
 import { Display as _Display } from "containers/Display"
 import { App as _App } from "App"
 
@@ -22,8 +21,6 @@ const mapStateToProps = (state: appState) => ({ state })
 export const Display = compose(connect(mapStateToProps, { set, remove }))(_Display)
 
 export const App = compose(connect(mapStateToProps, { set, remove }))(_App)
-
-export const Layout = compose(connect(mapStateToProps, { set }))(_Layout)
 
 //SMART CONNECTED PAGES
 export const Questions = compose(connect(mapStateToProps, { set, remove }))(_Onboard)

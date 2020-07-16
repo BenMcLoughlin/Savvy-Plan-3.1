@@ -54,7 +54,7 @@ export const spendingPage_data = {
   streamType: "spending",
   chart: "SpendingChart",
   editPanel: "EditPanel", //tells <Display> which edit component to use
-  addButtonLabel: "Add Savings Account",
+  addButtonLabel: "Add Expense",
   infoCards: [
     //information cards providing insights to the user about their income. These will be mapped through and a card rendered.
     {
@@ -127,3 +127,4 @@ export const taxesPage_data = {
     },
   ],
 }
+

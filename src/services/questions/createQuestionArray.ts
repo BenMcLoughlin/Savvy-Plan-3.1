@@ -35,7 +35,7 @@ export const createStreamQuestionsArray = (data: I.questions, instance: instance
     )
   }
 
-  if (streamType === "savings" && parent !== "onboard") {
+  if ((streamType === "savings" && parent !== "onboard") || streamType === "debt") {
   questions.push({
     //QUESTION 2 - Select registration of the new stream
     optionArray: q2.optionArray, // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object

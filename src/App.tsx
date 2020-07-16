@@ -9,7 +9,7 @@ import { LandingPage } from "containers/LandingPage"
 import { BrowserRouter } from "react-router-dom"
 import * as pages_data from "data"
 import { createPage } from "services/pages/createPage"
-
+import { onboardQuestions_data } from "services/questions/onboardQuestions"
 
 export const App = ({ remove, state, set }) => {
   const { progress, selectedPage } = state.ui_reducer
@@ -18,6 +18,10 @@ export const App = ({ remove, state, set }) => {
   const page_data = createPage(newPageData, state, set, "display")
   const onboardData = pages_data.onboardPage_data(state, set, progress, remove)
 
+  const newOnboardData = onboardQuestions_data(pages_data.onboard_data, state, set, progress, remove)
+
+  console.log(newOnboardData);
+  
   return (
     <ThemeProvider theme={theme}>
       <Wrapper>
@@ -25,7 +29,7 @@ export const App = ({ remove, state, set }) => {
         <Content>
           <BrowserRouter>
             <Route exact path="/" component={LandingPage} />
-            <Route path="/onboarding" render={() => <Questions data={onboardData} />} />
+            <Route path="/onboarding" render={() => <Questions data={newOnboardData} />} />
             <Route exact path="/plan" render={() => <Display data={page_data} />} />
           </BrowserRouter>
         </Content>

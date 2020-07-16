@@ -32,7 +32,7 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
   const exitProps = exitButtonProps(set)
   const backProps = backButtonProps(progress, set)
 
-  if (progress === length) return <Redirect to="/plan" />
+  if (progress === length - 1) return <Redirect to="/plan" />
 
   return (
     <Wrapper>
