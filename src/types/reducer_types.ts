@@ -9,7 +9,7 @@ export interface IUiState {
   videoUrl: string
   progress: number
   selectedPage: string
-  selectedUser: string
+  selectedUser: I.owner
   selectedAccount: string
   newStream: boolean
   selectedTransaction: string

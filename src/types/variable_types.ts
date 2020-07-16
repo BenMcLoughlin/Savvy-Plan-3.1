@@ -24,4 +24,6 @@ export type owner = "user1" | "user2"
 
 export type streamType = "income" | "savings" | "property" | "spending" | "debt"
 
+export type chartType = "IncomeChart" | "SavingsChart" | "PropertyChart" | "SpendingChart" | "DebtChart"
+
 export type parent = "onboard" | "display"

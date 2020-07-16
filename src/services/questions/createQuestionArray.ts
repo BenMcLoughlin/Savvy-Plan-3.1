@@ -3,9 +3,10 @@ import { createDebtSliders, createMortgageSliders, createTripleSliders, createPr
 import { instance } from "types/reducer_types"
 import * as I from "types"
 
-export const createStreamQuestionsArray = (data, instance: instance, set: I.set, state: I.appState, remove: I.remove, parent: I.parent) => {
-  console.log(instance)
+export const createStreamQuestionsArray = (data: I.questions, instance: instance, set: I.set, state: I.appState, remove: I.remove, parent: I.parent) => {
 
+  console.log(data);
+  
   const { streamType, q1, q2, q3, qFinal } = data
 
   const { id, owner, reg } = instance
@@ -119,7 +120,6 @@ export const createStreamQuestionsArray = (data, instance: instance, set: I.set,
     })
   }
 
-  console.log("questions", questions)
   return {
     streamType,
     questions,

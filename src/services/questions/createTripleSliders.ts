@@ -67,7 +67,6 @@ export const createTripleSliders = (data, instance: I.instance, set: I.set, stat
 
 export const createPropertySliders = (instance, set) => {
   const { id } = instance
-  console.log(instance)
   const editPeriod = {
     explanation: "We'll add it to the charts. If you plan to buy property in the future we can add that too.",
     component: "MultiSliders",

@@ -1,4 +1,4 @@
-import * as hardData from "data/questions/questions_data"
+import * as hardData from "data/questions_data"
 import { createStreamQuestionsArray } from "services/questions/createQuestionArray"
 import _ from "lodash"
 import * as I from "types"
@@ -8,7 +8,7 @@ const filterArrayToMatchQuery = (array, query) => array.filter((d: any) => d.id.
 
 export const insertQuestionArray = (query, parent: I.parent, remove: I.remove, set: I.set, state, streamType: I.streamType, mainQuestionsArray) => {
 
-  const questionData = hardData[`${streamType}Data`]  //match the function that creates the array with the query, eg "incomeQuestions"
+  const questionData = hardData[`${streamType}Questions_data`]  //match the function that creates the array with the query, eg "incomeQuestions"
 
   const stateAsArray = convertObjectIntoArray(state.main_reducer)
 
@@ -81,7 +81,7 @@ export const exitButtonProps = set => {
   return {
     handleChange: () => {
       set("selectedId", "ui_reducer", "")
-      set("newStrem", "ui_reducer", "false")
+      set("newStream", "ui_reducer", false)
     },
   }
 }

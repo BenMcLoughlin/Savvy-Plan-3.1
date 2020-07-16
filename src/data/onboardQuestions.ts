@@ -289,7 +289,7 @@ export const onboardPage_data = (state: any, set: any, progress: number, remove:
     exitButtonProps: {
       handleChange: () => {
         set("selectedId", "ui_reducer", "")
-        set("newStrem", "ui_reducer", "false")
+        set("newStream", "ui_reducer", false)
       },
     },
     backButtonProps: {

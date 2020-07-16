@@ -10,7 +10,7 @@ interface IProps {
 export const IncomeChart: FC<IProps> = ({ state, set }) => {
   return (
     <Wrapper>
-      <Img alt="#" src={require("assets/lifetimeIncome.png")} style={{ height: "20rem" }} onClick={() => set("selectedId", "ui_reducer", "incomeDummy")} />
+      <Img alt="#" src={require("assets/lifetimeIncome.png")} style={{ height: "20rem" }} onClick={() => set("selectedId", "ui_reducer", "user1Income_307342")} />
       <ChartNavWrapper>
         <ChartNav options={["before tax", "after tax"]} handleChange={(value) => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount}/>
       </ChartNavWrapper>

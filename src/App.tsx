@@ -7,15 +7,16 @@ import { Questions, Display } from "containers"
 import { Route } from "react-router-dom"
 import { LandingPage } from "containers/LandingPage"
 import { BrowserRouter } from "react-router-dom"
-import * as PageData from "data/pageData"
+import * as pages_data from "data"
+import { createPage } from "services/pages/createPage"
 
 
 export const App = ({ remove, state, set }) => {
   const { progress, selectedPage } = state.ui_reducer
 
-  const createPageData = PageData[`${selectedPage}Page_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
-  const data = createPageData(state, set, "plan")
-  const onboardData = PageData.onboardPage_data(state, set, progress, remove)
+  const newPageData = pages_data[`${selectedPage}Page_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
+  const page_data = createPage(newPageData, state, set, "display")
+  const onboardData = pages_data.onboardPage_data(state, set, progress, remove)
 
   return (
     <ThemeProvider theme={theme}>
@@ -25,7 +26,7 @@ export const App = ({ remove, state, set }) => {
           <BrowserRouter>
             <Route exact path="/" component={LandingPage} />
             <Route path="/onboarding" render={() => <Questions data={onboardData} />} />
-            <Route exact path="/plan" render={() => <Display data={data} />} />
+            <Route exact path="/plan" render={() => <Display data={page_data} />} />
           </BrowserRouter>
         </Content>
         <Footer />

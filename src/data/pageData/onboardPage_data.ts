@@ -29,7 +29,7 @@ export const onboardPage_data = (state: any, set: any): any => {
     exitButtonProps: {
       handleChange: () => {
         set("selectedId", "ui_reducer", "")
-        set("newStrem", "ui_reducer", "false")
+        set("newStream", "ui_reducer", false)
       }
   },
     backButtonProps: {

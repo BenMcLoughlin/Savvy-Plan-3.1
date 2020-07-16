@@ -27,11 +27,12 @@ const puppeteer = require("puppeteer")
 //   browser.close()
 // })
 
-jest.setTimeout(70000)
+jest.setTimeout(100000)
 
 test("h2 loads correctly", async () => {
   const browser = await puppeteer.launch({
     headless: false,
+    slowMo: 50 // slow down by 250ms
   })
   const page = await browser.newPage()
 
@@ -74,10 +75,10 @@ test("h2 loads correctly", async () => {
   await page.click("input#textInput") //BirthYear "What's your Birth Year?"
   await page.type("input#textInput", "1989") // Types in spouses birthYear
   await page.click("#nextButton") //next page
-  await page.waitFor(100)
+  await page.waitFor(1000)
 
   //await page.waitForSelector("div #no")
-  await page.click("div #no")
+  await page.click("div#no")
   await page.click("#nextButton") //next page
   await page.waitFor(1000)
 
@@ -161,76 +162,76 @@ test("h2 loads correctly", async () => {
 //   await page.goto("http://localhost:3000/onboarding")
 
 //   //await page.waitForSelector(".sc-fzooss #button")
-//   await page.click(".sc-fzooss #button")
+//   await page.click(".sc-fzooss #button
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector("div #textInput")
-//   await page.click("div #textInput")
+//   await page.click("div #textInput
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector(".sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)")
 //   await page.click(".sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)")
 
 //   //await page.waitForSelector("div #textInput")
-//   await page.click("div #textInput")
+//   await page.click("div #textInput
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector(".sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)")
 //   await page.click(".sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)")
 
 //   //await page.waitForSelector("div #male")
-//   await page.click("div #male")
+//   await page.click("div #male
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector("div #married")
-//   await page.click("div #married")
+//   await page.click("div #married
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector("div #textInput")
-//   await page.click("div #textInput")
+//   await page.click("div #textInput
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector("div #textInput")
-//   await page.click("div #textInput")
+//   await page.click("div #textInput
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector("div #yes")
-//   await page.click("div #yes")
+//   await page.click("div #yes
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector("div > .sc-fzppip > .sc-fzqyvX > .sc-fznLxA > .sc-fznXWL:nth-child(2)")
 //   await page.click("div > .sc-fzppip > .sc-fzqyvX > .sc-fznLxA > .sc-fznXWL:nth-child(2)")
 
 //   //await page.waitForSelector(".sc-fzooss #button")
-//   await page.click(".sc-fzooss #button")
+//   await page.click(".sc-fzooss #button
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector("div #regularEmployment")
-//   await page.click("div #regularEmployment")
+//   await page.click("div #regularEmployment
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .iNiJRO")
-//   await page.click("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .iNiJRO")
+//   await page.click("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .iNiJRO
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector("div #yes")
-//   await page.click("div #yes")
+//   await page.click("div #yes
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector("div #businessIncome")
-//   await page.click("div #businessIncome")
+//   await page.click("div #businessIncome
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .enszQC")
-//   await page.click("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .enszQC")
+//   await page.click("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .enszQC
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(1) > .sc-fzomuh > .sc-fzoVTD")
-//   await page.click(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(1) > .sc-fzomuh > .sc-fzoVTD")
+//   await page.click(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(1) > .sc-fzomuh > .sc-fzoVTD
 //   page.waitFor(1000)
 
 //   //await page.waitForSelector(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(2) > .sc-fzomuh > .sc-fzoVTD")
-//   await page.click(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(2) > .sc-fzomuh > .sc-fzoVTD")
+//   await page.click(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(2) > .sc-fzomuh > .sc-fzoVTD
 //   page.waitFor(1000)
 
 //   await page.goto("http://localhost:3000/onboarding")

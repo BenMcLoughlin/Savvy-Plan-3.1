@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import styled from "styled-components"
 import { Display } from "HOC/connectRedux_HOC"
 import { SideNav } from "components"
-import * as PageData from "data/pageData"
+import * as PageData from "data"
 
 interface IProps {
   state: any

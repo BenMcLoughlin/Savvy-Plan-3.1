@@ -1,10 +1,10 @@
-export const incomeData = {
+export const incomeQuestions_data = {
   streamType: "income",
   q1: {
     question: "Where does this income come from?",
     explanation: 'Examples could be if you work as an Engineer, you could say "Engineering". Or name if after the employer that pays you, like "Wal Mart".',
     label: "Source of Income",
-    textBoxPlaceHolder: "Income Name",
+    placeholder: "Income Name",
   },
   q2: {
     question: "What kind of income is it?",
@@ -22,38 +22,74 @@ export const incomeData = {
   },
   slidersInput: {
     question: "Tell us about this income",
+    explanation: "Knowing your future income helps us determine your pension income",
     topLabelPast: "I earned",
     topLabelFuture: "I hope to earn",
     bottomLabel: "before tax per year",
   },
 }
 
-export const savingsData = {
+export const savingsQuestions_data = {
   streamType: "savings",
   q1: {
     question: "What should we call this account?",
     explanation: "Just an approximation of the current value is helpful. ",
     label: "Source of Income",
-    textBoxPlaceHolder: "Income Name",
+    placeholder: "Income Name",
   },
   q2: {
     question: "What kind of account is it?",
     explanation: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
     optionArray: ["Regular Employment", "Business Income", "Investment Income", "Rental Income"],
   },
+  q3: {
+    question: "",
+    explanation: "",
+  },
   qFinal: {
     question: "Would you like to add another savings account?",
     explanation: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
   },
   slidersInput: {
-    explanation: "We want to know what you estimate your future contributions to be so we can calculate your future value. Ignore your past contributions as they are accounted for in the current value",
+    explanation:
+      "We want to know what you estimate your future contributions to be so we can calculate your future value. Ignore your past contributions as they are accounted for in the current value",
     topLabelPast: "",
     topLabelFuture: "I aim to contribute",
     bottomLabel: "Per Year",
   },
 }
 
-export const propertyData = {
+export const spendingQuestions_data = {
+  streamType: "savings",
+  q1: {
+    question: "What should we call this account?",
+    explanation: "Just an approximation of the current value is helpful. ",
+    label: "Source of Income",
+    placeholder: "Income Name",
+  },
+  q2: {
+    question: "What kind of account is it?",
+    explanation: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
+    optionArray: ["Regular Employment", "Business Income", "Investment Income", "Rental Income"],
+  },
+  q3: {
+    question: "",
+    explanation: "",
+  },
+  qFinal: {
+    question: "Would you like to add another savings account?",
+    explanation: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
+  },
+  slidersInput: {
+    explanation:
+      "We want to know what you estimate your future contributions to be so we can calculate your future value. Ignore your past contributions as they are accounted for in the current value",
+    topLabelPast: "",
+    topLabelFuture: "I aim to contribute",
+    bottomLabel: "Per Year",
+  },
+}
+
+export const propertyQuestions_data = {
   streamType: "property",
   q1: {
     question: "What should we call this property?",
@@ -83,7 +119,7 @@ export const propertyData = {
   },
 }
 
-export const debtData = {
+export const debtQuestions_data = {
   streamType: "debt",
   q1: {
     question: "What should we call this debt?",

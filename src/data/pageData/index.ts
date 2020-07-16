@@ -1,6 +1,0 @@
-export { incomePage_data } from "./incomePage_data"
-export { savingsPage_data } from "./savingsPage_data"
-export { onboardPage_data } from "../questions/onboardQuestions"
-export { taxesPage_data } from "./taxesPage_data"
-export { networthPage_data } from "./netWorthPage_data"
-export { spendingPage_data } from "./spendingPage_data"

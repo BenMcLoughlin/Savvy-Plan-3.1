@@ -6,17 +6,16 @@ import { Questions } from "HOC/connectRedux_HOC"
 import { InfoCard, SideNav, TripleSelector } from "components"
 import { AddPrompt } from "components/buttons/AddPrompt"
 import _ from "lodash"
-import * as hardData from "data/questions/questions_data"
+import * as questions_data from "data/questions_data"
 import { matchThenShowComponent } from "services/display_functions"
-
-//DELETE BELOW
 import { createStreamQuestionsArray } from "services/questions/createQuestionArray"
+import * as I from "types"
 
 interface IProps {
-  set: (id: string, reducer: string, value: any, childId?: string) => void
-  remove: (id) => void
-  state: any
-  data: any
+  set: I.set
+  remove: I.remove
+  state: I.appState
+  data: I.pages
 }
 
 export const Display: FC<IProps> = ({ data, remove, set, state }) => {
@@ -25,17 +24,14 @@ export const Display: FC<IProps> = ({ data, remove, set, state }) => {
   useEffect(() => {
     set("selectedId", "ui_reducer", "") //Sets the id in the ui_reducer to nothing when pages and changed, prevents errors with an edit income box being shown in the savings section etc.
     set("progress", "ui_reducer", 0)
-  }, [data.page])
+  }, [data.streamType])
 
-  const questionData = hardData[`${selectedPage}Data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
+  const question_data = questions_data[`${selectedPage}Questions_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
+
+  console.log(question_data);
 
   const instance = state.main_reducer[selectedId]
 
-  if (instance) {
-    const practiceClass = createStreamQuestionsArray(questionData, instance, set, state, remove, "display")
-    console.log(practiceClass);
-  }
-  
   return (
     <Wrapper>
       <Title>Your Financial Plan</Title>
@@ -50,11 +46,11 @@ export const Display: FC<IProps> = ({ data, remove, set, state }) => {
           ))}
         </InfoCards>
         <Edit>
-           {selectedId && newStream && <Questions data={createStreamQuestionsArray(questionData, instance, set, state, remove, "display")} />} 
+          {selectedId && newStream && <Questions data={createStreamQuestionsArray(question_data, instance, set, state, remove, "display")} />}
           {data.editPeriod && matchThenShowComponent(components, data, data.editPanel)}
           {!selectedId && (
             <Left>
-              <AddPrompt handleChange={() => data.createStream()} label={data.addButtonLabel} />{" "}
+              <AddPrompt handleChange={() => data.createStream()} label={data.addButtonLabel} />
             </Left>
           )}
         </Edit>

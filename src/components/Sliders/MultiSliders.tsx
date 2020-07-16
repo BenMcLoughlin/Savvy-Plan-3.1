@@ -13,21 +13,6 @@ export const MultiSliders: FC<ISliderProps> = props => {
   const { num } = props //the num tells the component how many sliders to render
 
   const [selectedFocus, setSelectedFocus] = useState<number>(0)
-
-  // useEffect(() => {
-  //   const pressTab = (event: KeyboardEvent) => {
-  //     if (event.key === "Tab") {
-  //       console.log('fired');
-  //       console.log(selectedFocus);
-  //         setSelectedFocus(selectedFocus+1)
-  //     }
-  //   }
-
-  //    window.addEventListener("keydown", pressTab)
-  //   return () => window.removeEventListener("keydown", pressTab)
-  // }, [])
-
-
   
   return (
     <Wrapper>

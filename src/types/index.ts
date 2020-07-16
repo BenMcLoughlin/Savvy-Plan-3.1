@@ -1,5 +1,13 @@
 //COMPONENT TYPES
 
+//DATA TYPES
+
+import { pages as _pages } from "./data_types"
+export type pages = _pages
+
+import { questions as _questions } from "./data_types"
+export type questions = _questions
+
 //FUNCTION TYPES
 
 import { set as _set } from "./function_types"
@@ -24,6 +32,9 @@ export type main_reducer = _main_reducer
 
 //VARIABLE TYPES
 
+import { chartType as _chartType } from "./variable_types"
+export type chartType = _chartType
+
 import { owner as _owner } from "./variable_types"
 export type owner = _owner
 
@@ -35,3 +46,5 @@ export type streamType = _streamType
 
 import { reg as _reg } from "./variable_types"
 export type reg = _reg
+
+
