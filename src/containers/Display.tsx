@@ -1,11 +1,9 @@
-import React, { FC, useEffect } from "react"
+import React, { FC } from "react"
 import styled from "styled-components"
 import * as charts from "charts"
 import * as components from "components"
 import { Questions } from "HOC/connectRedux_HOC"
-import { InfoCard, SideNav, TripleSelector } from "components"
-import { AddPrompt } from "components/buttons/AddPrompt"
-import _ from "lodash"
+import { AddPrompt, InfoCard, SideNav, TripleSelector } from "components"
 import * as questions_data from "data/questions_data"
 import { matchThenShowComponent } from "services/display_functions"
 import { createStreamQuestionsArray } from "services/questions/createQuestionArray"
@@ -19,41 +17,39 @@ interface IProps {
 }
 
 export const Display: FC<IProps> = ({ data, remove, set, state }) => {
+
   const { selectedId, newStream, selectedPage } = state.ui_reducer
 
-  useEffect(() => {
-    set("selectedId", "ui_reducer", "") //Sets the id in the ui_reducer to nothing when pages and changed, prevents errors with an edit income box being shown in the savings section etc.
-    set("progress", "ui_reducer", 0)
-  }, [data.streamType])
-
+  const { addPrompt, chart,  editPanel, editPeriod, infoCards, sideNav,tripleSelector } = data
+  
   const question_data = questions_data[`${selectedPage}Questions_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
 
   const instance = state.main_reducer[selectedId]
-
+ 
   return (
     <Wrapper>
       <Title>Your Financial Plan</Title>
       <Nav>
-        <SideNav handleChange={value => set("selectedPage", "ui_reducer", value)} value={selectedPage} options={["income", "savings", "taxes", "spending", "networth"]} />
+        <SideNav {...sideNav} />
       </Nav>
       <Content>
-        <Chart>{matchThenShowComponent(charts, data, data.chart)}</Chart>
+        <Chart>{matchThenShowComponent(charts, data, chart)}</Chart>
         <InfoCards>
-          {data.infoCards.map(d => (
+          {infoCards.map(d => (
             <InfoCard key={d.label} label={d.label} array={d.array} />
           ))}
         </InfoCards>
         <Edit>
           {selectedId && newStream && <Questions data={createStreamQuestionsArray(question_data, instance, set, state, remove, "display")} />}
-          {data.editPeriod && matchThenShowComponent(components, data, data.editPanel)}
+          {editPeriod && matchThenShowComponent(components, data, editPanel)}
           {!selectedId && (
             <Left>
-              <AddPrompt handleChange={() => data.createStream()} label={data.addButtonLabel} />
+              <AddPrompt {...addPrompt} />
             </Left>
           )}
         </Edit>
         <CenterNav>
-          {data.user2Name && <TripleSelector user1Name={"ben"} user2Name={"kelsey"} value={state.ui_reducer.selectedUser} handleChange={d => set("selectedUser", "ui_reducer", d)} />}
+          {tripleSelector.user2Name && <TripleSelector {...tripleSelector}/>}
         </CenterNav>
       </Content>
     </Wrapper>

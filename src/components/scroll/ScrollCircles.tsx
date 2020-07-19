@@ -21,7 +21,7 @@ export const ScrollCircles: FC<IProps> = ({periods, position, setPosition,  setD
         }}
       />
       {_.range(1, periods + 1).map((d, i) => (
-        <Circle selected={i === position} onClick={() => setPosition(i)} />
+        <Circle key={i} selected={i === position} onClick={() => setPosition(i)} />
       ))}
       <ArrowRight
         onClick={() => {

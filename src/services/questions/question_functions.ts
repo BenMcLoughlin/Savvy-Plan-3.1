@@ -1,6 +1,5 @@
 import * as hardData from "data/questions_data"
 import { createStreamQuestionsArray } from "services/questions/createQuestionArray"
-import _ from "lodash"
 import * as I from "types"
 
 const convertObjectIntoArray = (object: I.appState) => Object.values(object)
@@ -16,10 +15,7 @@ export const insertQuestionArray = (query, parent: I.parent, remove: I.remove, s
 
   stateTrimmedToQueryStreams.map(stream => {
     const arrayOfStreamQuestions = createStreamQuestionsArray(questionData, stream, set, state, remove, "onboard")//creates a question array for each stream
-    const addStreamQuestionsToMainArray = arrayOfStreamQuestions.questions.map(question => {
-      //maps through the questions and pushes the contents to the main questions array
-      mainQuestionsArray.push(question)
-    })
+    const addStreamQuestionsToMainArray = arrayOfStreamQuestions.questions.map(question => mainQuestionsArray.push(question))
     return addStreamQuestionsToMainArray
   })
 }

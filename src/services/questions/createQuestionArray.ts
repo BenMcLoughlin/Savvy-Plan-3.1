@@ -1,9 +1,8 @@
-import { createStream, addPeriodToStream } from "services/create_functions"
+import { createStream } from "services/create_functions"
 import { createDebtSliders, createMortgageSliders, createTripleSliders, createPropertySliders } from "services/questions/createTripleSliders"
-import { instance } from "types/reducer_types"
 import * as I from "types"
 
-export const createStreamQuestionsArray = (data: I.questions, instance: instance, set: I.set, state: I.appState, remove: I.remove, parent: I.parent) => {
+export const createStreamQuestionsArray = (data: I.questions, instance: I.instance, set: I.set, state: I.appState, remove: I.remove, parent: I.parent) => {
 
   const { streamType, q1, q2, q3, qFinal } = data
 
@@ -11,11 +10,9 @@ export const createStreamQuestionsArray = (data: I.questions, instance: instance
 
   const { ui_reducer } = state
 
-  const { maritalStatus, user1BirthYear, user2BirthYear, user1Name, user2Name } = state.user_reducer
+  const { maritalStatus, user1Name, user2Name } = state.user_reducer
 
-  const { colorIndex } = state.ui_reducer
-
-  const birthYear = owner === "user1" ? +user1BirthYear : +user2BirthYear
+  const { colorIndex, progress } = state.ui_reducer
 
   const questions: any = []
 
@@ -35,7 +32,7 @@ export const createStreamQuestionsArray = (data: I.questions, instance: instance
     )
   }
 
-  if ((streamType === "savings" && parent !== "onboard") || streamType === "debt") {
+  if ((streamType === "savings" && parent !== "onboard") || streamType === "debt" || streamType === "income") {
   questions.push({
     //QUESTION 2 - Select registration of the new stream
     optionArray: q2.optionArray, // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
@@ -97,7 +94,7 @@ export const createStreamQuestionsArray = (data: I.questions, instance: instance
   }
 
   //FINAL QUESTION- Ask if they would like to add another
-  if (parent !== "onboard") {
+  //if (streamType !== "savings" && parent !== "onboard") {
     questions.push({
       component: "DualSelect",
       explanation: qFinal.explanation,
@@ -117,7 +114,10 @@ export const createStreamQuestionsArray = (data: I.questions, instance: instance
         set("dualSelectValue", "ui_reducer", false)
       },
     })
-  }
+  //}
+    
+  console.log(progress);
+  console.log(questions);
 
   return {
     streamType,

@@ -1,5 +1,4 @@
 import { IUiState } from "types/reducer_types"
-import { stubTrue } from "lodash"
 
 const initialState: IUiState = {
   change: false,

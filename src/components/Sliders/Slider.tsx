@@ -31,8 +31,8 @@ export const Slider: FC<ISliderProps> = ({ min, handleChange, topLabel, bottomLa
         onBlur={() => setFocus(false)}
         autoComplete="off"
         onChange={e => {
-          const value = e.target.value.replace(",", "").replace("%", "")
-          handleChange( +value)}
+          const value =  e.target.value.replace(",", "").replace("%", "")
+          handleChange(type === "percentage" ? value : +value)}
         }
         value={type === "percentage" && !focus ? `${value}%` : type === "year" ? value : value.toLocaleString()}
       />
@@ -50,51 +50,6 @@ export const Slider: FC<ISliderProps> = ({ min, handleChange, topLabel, bottomLa
     </Wrapper>
   )
 }
-
-{/* <Wrapper>
-<Label>{topLabel}</Label>
-<Value
-  autoFocus={selectedFocus ? selectedFocus : false}
-  autoComplete="off"
-  onFocus={e => {
-    e.target.select()
-    setFocus(true)
-  }}
-  onBlur={() => setFocus(false)}
-  onChange={e =>  handleChange(e.target.value.toLocaleString())}
-  value={type === "percentage" && !focus ? `${value}%` : type === "year" ? value : value.toLocaleString() }
-/> */}
-
-
-//WORKS WITHOUT % DEALT WITH
-{/* <Wrapper>
-<Label>{topLabel}</Label>
-<Value
-  type="text"
-  autoFocus = {selectedFocus ? selectedFocus : false}
-  onFocus={e => {
-    e.target.select()
-    setFocus(true)
-  }}
-  onBlur={() => setFocus(false)}
-  autoComplete="off"
-  onChange={e => {
-    const value = e.target.value.replace(",", "")
-    handleChange(+value)}}
-  value={type === "percentage" ? `${value}%` : type === "year" ? value : value.toLocaleString()}
-/>
-<RangeBar
-  type="range"
-  onChange={e => handleChange(+e.target.value)}
-  value={value}
-  max={max}
-  min={min}
-  tabIndex="-1"
-  step={step}
-  percentage={`${((value - min) / (max - min)) * 100}%`} //the percentage is used to set the linear gradient, haveing two colors on either side of the selector circle thumb
-/>
-<Label style={{ marginTop: "-1.4rem" }}>{bottomLabel}</Label>
-</Wrapper> */}
 
 //-----------------------------------------------style-----------------------------------------------//
 

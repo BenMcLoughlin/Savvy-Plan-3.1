@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react"
 import styled from "styled-components"
-import * as charts from "charts"
 import * as components from "components"
 import { ProgressBar, Next, Back } from "components"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
@@ -18,11 +17,10 @@ interface IProps {
 }
 
 export const Questions: FC<IProps> = ({ data, state, set }) => {
+
   const { progress } = state.ui_reducer
 
   const [direction, setDirection] = useState<string>("forward")
-
-  console.log(data);
   
   const { streamType, questions } = data
 
@@ -32,7 +30,7 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
   const exitProps = exitButtonProps(set)
   const backProps = backButtonProps(progress, set)
 
-  if (progress === length - 1) return <Redirect to="/plan" />
+ if (progress === length) return <Redirect to="/plan" />
 
   return (
     <Wrapper>
@@ -47,7 +45,6 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
       ) : (
         <Exit {...exitProps} />
       )}
-
       <TransitionGroup>
         {questions.map(
           (data: any, i: number) =>
@@ -58,7 +55,6 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
                     <H2>{data.question}</H2>
                     <h3>{data.subTitle}</h3>
                   </Header>
-                  {/* <Content>{renderComponent(data.component, data)}</Content> */}
                   <Content>{matchThenShowComponent(components, data, data.component)}</Content>
                 </Question>
               </CSSTransition>
@@ -102,13 +98,6 @@ const Text = styled.div`
   position: absolute;
   left: 10rem;
   top: 25rem;
-`
-
-const Chart = styled.div`
-  position: absolute;
-  top: 42rem;
-  left: 32rem;
-  height: 20rem;
 `
 
 const Header = styled.div`

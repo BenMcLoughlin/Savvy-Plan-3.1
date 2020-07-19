@@ -2,8 +2,6 @@ import React, { FC, useState } from "react"
 import styled from "styled-components"
 import { AddPrompt, MultiSliders, ScrollCircles } from "components"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
-import { addPeriodToStream } from "services/create_functions"
-import _ from "lodash"
 
 interface ISliderProps {
   addLabel: string
@@ -27,7 +25,7 @@ export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, hand
             i === position && (
               <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
                 <Center>
-                  <MultiSliders {...d} />
+                  <MultiSliders key={i} {...d} />
                 </Center>
               </CSSTransition>
             )

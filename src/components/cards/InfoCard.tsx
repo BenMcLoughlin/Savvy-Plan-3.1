@@ -23,8 +23,8 @@ export const InfoCard: FC<IProps> = ({array, label}) => {
           {array.map(
             (d, i) =>
               i === position && (
-                <CSSTransition timeout={1000} classNames={`transition-${direction}`}>
-                  <Text>{array[position]}</Text>
+                <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
+                  <Text key={i}>{array[position]}</Text>
                 </CSSTransition>
               )
           )}
@@ -38,7 +38,7 @@ export const InfoCard: FC<IProps> = ({array, label}) => {
           }}
         />
         {_.range(1, array.length + 1).map((d, i) => (
-          <Circle selected={i === position} onClick={() => setPosition(i)} />
+          <Circle key={i} selected={i === position} onClick={() => setPosition(i)} />
         ))}
         <ArrowRight
           onClick={() => {

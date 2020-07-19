@@ -8,6 +8,9 @@ export type pages = _pages
 import { questions as _questions } from "./data_types"
 export type questions = _questions
 
+import { onboardQuestions as _onboardQuestions } from "./data_types"
+export type onboardQuestions = _onboardQuestions
+
 //FUNCTION TYPES
 
 import { set as _set } from "./function_types"

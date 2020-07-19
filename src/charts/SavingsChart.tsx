@@ -1,7 +1,6 @@
 import React, { FC } from "react"
 import styled from "styled-components"
 import { ChartNav } from "components"
-import { AnyRecord } from "dns"
 
 interface IProps {
   state: any

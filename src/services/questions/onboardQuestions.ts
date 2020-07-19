@@ -1,12 +1,11 @@
-import { IComponents } from "types/component_types"
 import { createStream } from "services/create_functions"
 import * as I from "types"
 
 import { insertQuestionArray, savingsAccountsArray } from "services/questions/question_functions"
 
-export const onboardQuestions_data = (data, state: any, set: any, progress: number, remove: any) => {
+export const onboardQuestions_data = (data: any, state: any, set: any, progress: number, remove: any) => {
   const { user_reducer, main_reducer, ui_reducer } = state
-
+console.log('onboardQuestions_data was fired');
   const { maritalStatus, hasChildren, numberOfChildren,  user1Gender,  user1BirthYear, user2BirthYear, user1Name, user2Name, ownHome, hasUnsecuredDebt } = user_reducer
   // const { selectedId } = user_reducer
 
@@ -163,7 +162,7 @@ export const onboardQuestions_data = (data, state: any, set: any, progress: numb
       if (d.label === "none") {
         //the user needs to be able to remove the new object if they click on it again enabling them to remove all accounts added
         const selectedInstances: any = Object.values(main_reducer).filter((b: any) => b.id.includes("user1Savings")) //searches the main reducer to find the matching object to be removed
-        selectedInstances.map(instance => remove(instance.id))
+        selectedInstances.map((instance: I.instance) => remove(instance.id))
         set("selectedId", "ui_reducer", "")
       }
     },

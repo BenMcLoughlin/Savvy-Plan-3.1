@@ -15,12 +15,6 @@ export const App = ({ remove, state, set }) => {
   const { progress, selectedPage } = state.ui_reducer
 
   const newPageData = pages_data[`${selectedPage}Page_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
-  const page_data = createPage(newPageData, state, set, "display")
-  const onboardData = pages_data.onboardPage_data(state, set, progress, remove)
-
-  const newOnboardData = onboardQuestions_data(pages_data.onboard_data, state, set, progress, remove)
-
-  console.log(newOnboardData);
   
   return (
     <ThemeProvider theme={theme}>
@@ -29,8 +23,8 @@ export const App = ({ remove, state, set }) => {
         <Content>
           <BrowserRouter>
             <Route exact path="/" component={LandingPage} />
-            <Route path="/onboarding" render={() => <Questions data={newOnboardData} />} />
-            <Route exact path="/plan" render={() => <Display data={page_data} />} />
+            <Route path="/onboarding" render={() => <Questions data={onboardQuestions_data(pages_data.onboard_data, state, set, progress, remove)} />} />
+            <Route exact path="/plan" render={() => <Display data={createPage(newPageData, state, set, "display")} />} />
           </BrowserRouter>
         </Content>
         <Footer />

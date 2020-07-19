@@ -21,7 +21,7 @@ export const TripleSelector: FC<IProps> = ({ handleChange, value, user1Name, use
   return (
     <Wrapper>
       {options.map((d, i) => (
-        <Option onClick={() => handleChange(d)} selected={selected ? selected === d : i === 0}>
+        <Option key={i} onClick={() => handleChange(d)} selected={selected ? selected === d : i === 0}>
           {" "}
           {/*when it first loads selected is empty, so we set the first value to being selected*/}
           {d === "user1" ? user1Name : d === "user2" ? user2Name : "combined"} {/*we need to display the name, but use user1 or user2 behind the scenes */}

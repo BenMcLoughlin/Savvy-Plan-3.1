@@ -1,4 +1,3 @@
-import _ from "lodash"
 import { createStream } from "services/create_functions"
 import { createDebtSliders, createMortgageSliders, createTripleSliders, createPropertySliders } from "services/questions/createTripleSliders"
 import * as I from "types"
@@ -10,28 +9,47 @@ import { incomeQuestions_data } from "data/questions_data"
  * <Display> box as dumb as possible.
  * */
 
-export const createPage = (data: I.pages, state: I.appState, set: I.set, parent: I.parent): any => {
-  const { selectedId, colorIndex, selectedUser, newStream } = state.ui_reducer
 
-  const { user1BirthYear, user1Name, user2Name } = state.user_reducer
+export const createPage = (data: I.pages, state: I.appState, set: I.set, parent: I.parent): any => {
+ 
+  const { selectedId, colorIndex, selectedUser, newStream, selectedPage } = state.ui_reducer
+
+  const { user1Name, user2Name } = state.user_reducer
 
   const instance = state.main_reducer[selectedId]
 
   const { streamType, chart, addButtonLabel, infoCards} = data
 
   const pageData = {
-    addButtonLabel,
     editPanel: "EditPanel",
     streamType,
     chart,
     infoCards,
     user1Name,
     user2Name,
-    createStream: function () {
-      //when the user clicks "Add new Stream" this function creates a new stream and sets the id in the ui_reducer to it is displayed
-      createStream(colorIndex, set, streamType, "", selectedUser)
-      set("newStream", "ui_reducer", true)
+    sideNav: {
+      handleChange: value => {
+        set("selectedPage", "ui_reducer", value)
+        set("selectedId", "ui_reducer", "") //Sets the id in the ui_reducer to nothing when pages and changed, prevents errors with an edit income box being shown in the savings section etc.
+        set("progress", "ui_reducer", 0)
+      },
+      value: selectedPage, 
+      options: ["income", "savings", "taxes", "spending", "networth"]
     },
+    addPrompt: {
+      label: addButtonLabel,
+      handleChange: () => {
+        createStream(colorIndex, set, streamType, "", selectedUser)
+        set("progress", "ui_reducer", 0)
+        set("newStream", "ui_reducer", true)
+      }
+    },
+    tripleSelector: {
+      handleChange: d => set("selectedUser", "ui_reducer", d),
+      user1Name,
+      user2Name,
+      value: selectedUser, 
+    }
   }
 
   if (instance && !newStream) {

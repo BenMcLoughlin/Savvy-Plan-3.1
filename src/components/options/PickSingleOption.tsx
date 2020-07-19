@@ -1,6 +1,7 @@
 import React, { FC } from "react"
 import styled from "styled-components"
 import _ from "lodash"
+import * as I from "types"
 
 interface IProps {
   optionArray?: string[]
@@ -20,7 +21,7 @@ export const PickSingleOption: FC<IProps> = ({ optionArray, handleChange, textIn
             </Square>
           )
         })}
-      {textInput && <Input onChange={e => handleChange(e)}></Input>}
+      {textInput && <Input onChange={e => handleChange(e.target.value)}></Input>}
     </Wrapper>
   )
 }
@@ -74,7 +75,7 @@ const Input = styled.input`
   min-height: 5rem;
   border: ${props => props.theme.border.primary};
   border-radius: 3px;
-  color: ${props => props.theme.color.mediumGrey};
+  color: ${props => props.theme.color.darkGrey};
   border-radius: 0 0 10px 10px;
   &:focus {
     outline: none;

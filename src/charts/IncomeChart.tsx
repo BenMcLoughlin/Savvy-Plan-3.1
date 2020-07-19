@@ -15,6 +15,7 @@ export const IncomeChart: FC<IProps> = ({ state, set }) => {
   return (
     <Wrapper>
       <Img alt="#" src={require("assets/lifetimeIncome.png")} style={{ height: "20rem" }} onClick={() => {
+        set("newStream", "ui_reducer", false)
         if (instance) set("selectedId", "ui_reducer", instance.id)
        }} />
       <ChartNavWrapper>

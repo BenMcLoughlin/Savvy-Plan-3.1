@@ -14,7 +14,6 @@ export const Next: FC<IProps> = ({ handleChange, setDirection, valid, state }) =
   useEffect(() => {
     const pressEnter = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
-        console.log('fired');
           handleChange(setDirection, valid)
       }
     }

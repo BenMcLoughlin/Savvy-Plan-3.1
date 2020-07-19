@@ -3,30 +3,30 @@ import styled from "styled-components"
 import { Exit } from "components/buttons/Exit"
 import { TripleSliderSelector, DualSelect, ColorSelect, EditTitle } from "components"
 import { Trash2 } from "@styled-icons/feather/Trash2"
-import _ from "lodash"
+import * as I from "types"
 
 interface ISliderProps {
   editPeriod: any
-  set: (id: string, reducer: string, value: any, childId?: string) => void
-  remove: (id: string) => void
-  state: any
+  set: I.set
+  remove: I.remove
+  state: I.appState
 }
 
 export const EditPanel: FC<ISliderProps> = ({ editPeriod, remove, set, state }) => {
+  
   const id = "savingsDummy"
 
   return (
     <Wrapper>
       <Header>
-        {/* <ColorSelect handleChange={(value: string) => set(id, "main_reducer", value, "color")} value={state.main_reducer[id].color} /> */}
-        {/* <EditTitle id={id} reducer={"main_reducer"} childId={"name"} />  */}
+        {/* <ColorSelect handleChange={(value: string) => set(id, "main_reducer", value, "color")} value={state.main_reducer[id].color} />
+        <EditTitle handleChange={(value: string) => set(id, "main_reducer", value, "name")} />  */}
         {editPeriod.dualSelectorProps && <DualSelect {...editPeriod.dualSelectorProps} />}
         <Exit handleChange={() => set("selectedId", "ui_reducer", "")} />
       </Header>
       <Center>
         <TripleSliderSelector {...editPeriod} />
       </Center>
-
       <BottomRight>
         <TrashIcon
           onClick={() => {

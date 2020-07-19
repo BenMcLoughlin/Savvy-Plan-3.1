@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from "react"
+import React, { useState, FC } from "react"
 import styled from "styled-components"
 import { Slider } from "components"
 import _ from "lodash"
@@ -18,7 +18,7 @@ export const MultiSliders: FC<ISliderProps> = props => {
     <Wrapper>
       {_.range(1, num + 1).map((d, i:number) => {
         //creates an array of numbers from 1 to the number which we map through to render sliders
-        return <Slider {...props[`slider${d}`]} selectedFocus={i === selectedFocus}/>
+        return <Slider key={i} {...props[`slider${d}`]} selectedFocus={i === selectedFocus}/>
       })}
     </Wrapper>
   )

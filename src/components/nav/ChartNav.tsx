@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react"
+import React, { FC } from "react"
 import styled from "styled-components"
 
 interface IProps {
@@ -16,13 +16,12 @@ interface IProps {
  *  */
 
 export const ChartNav: FC<IProps> = ({ handleChange, options, value }) => {
-  // const selected = state[reducer][id] //enters the reducer and grabs the corrosponding value to show if it is selected or not
 
   const { length } = options
   return (
     <Wrapper length={length}>
-      {options.map(d => (
-        <Option onClick={() => handleChange(d)} selected={value === d}>
+      {options.map((d,i) => (
+        <Option key={i} onClick={() => handleChange(d)} selected={value === d}>
           {d}
         </Option>
       ))}

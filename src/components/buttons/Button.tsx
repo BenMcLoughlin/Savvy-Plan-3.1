@@ -22,7 +22,7 @@ const Wrapper = styled.button`
   justify-content: center;
   align-items: center;
   border: none;
-  font-size: 1.5rem;
+  font-size: ${props => props.theme.fontSize.small};
   cursor: pointer;
   outline: none;
   transition: all 0.2s ease-in;

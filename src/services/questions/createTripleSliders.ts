@@ -4,7 +4,7 @@ import _ from "lodash"
 import * as I from "types"
 
 export const createTripleSliders = (data, instance: I.instance, set: I.set, state: I.appState) => {
-  const { streamType } = data
+
   const { id, periods, owner } = instance
 
   const { user1BirthYear, user2BirthYear } = state.user_reducer
