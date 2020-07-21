@@ -9,23 +9,27 @@ interface ISliderProps {
   editPeriod: any
   set: I.set
   remove: I.remove
-  state: I.appState
+  id: string;
+  handleColorChange: (value: string) => void;
+  handleTitleChange: (value: string) => void;
+  colorValue: string;
+  nameValue: string;
 }
 
-export const EditPanel: FC<ISliderProps> = ({ editPeriod, remove, set, state }) => {
+export const EditPanel: FC<ISliderProps> = ({ editPeriod, remove, set}) => {
   
-  const id = "savingsDummy"
+const {id, handleColorChange, handleTitleChange, colorValue, nameValue } = editPeriod
 
   return (
     <Wrapper>
       <Header>
-        {/* <ColorSelect handleChange={(value: string) => set(id, "main_reducer", value, "color")} value={state.main_reducer[id].color} />
-        <EditTitle handleChange={(value: string) => set(id, "main_reducer", value, "name")} />  */}
+         <ColorSelect handleChange={(value: string) => handleColorChange(value)} value={colorValue} />
+        <EditTitle handleChange={(value: string) => handleTitleChange(value)} value={nameValue}/>  
         {editPeriod.dualSelectorProps && <DualSelect {...editPeriod.dualSelectorProps} />}
         <Exit handleChange={() => set("selectedId", "ui_reducer", "")} />
       </Header>
       <Center>
-        <TripleSliderSelector {...editPeriod} />
+        <TripleSliderSelector {...editPeriod.tripleSliders} />
       </Center>
       <BottomRight>
         <TrashIcon

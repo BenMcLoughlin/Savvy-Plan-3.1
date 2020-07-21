@@ -108,6 +108,7 @@ const Header = styled.div`
 `
 const H2 = styled.h2`
   margin-bottom: 2rem;
+  width: 50rem;
 `
 const Question = styled.div`
   display: flex;

@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import styled from "styled-components"
 
 interface IProps {
-  handleChange: (value: string) => null
+  handleChange: (value: string) => void
   value: string
 }
 

@@ -3,12 +3,11 @@ import { createDebtSliders, createMortgageSliders, createTripleSliders, createPr
 import * as I from "types"
 
 export const createStreamQuestionsArray = (data: I.questions, instance: I.instance, set: I.set, state: I.appState, remove: I.remove, parent: I.parent) => {
-
   const { streamType, q1, q2, q3, qFinal } = data
 
   const { id, owner, reg } = instance
 
-  const { ui_reducer } = state
+  const { ui_reducer, main_reducer } = state
 
   const { maritalStatus, user1Name, user2Name } = state.user_reducer
 
@@ -32,28 +31,26 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
     )
   }
 
-  if ((streamType === "savings" && parent !== "onboard") || streamType === "debt" || streamType === "income") {
-  questions.push({
-    //QUESTION 2 - Select registration of the new stream
-    optionArray: q2.optionArray, // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
-    explanation: q2.explanation,
-    component: "PickSingleOption",
-    question: q2.question,
-    textInput: true,
-    valid: reg.length > 1,
-    value: reg,
-    handleChange: (value: string) => set(id, "main_reducer", value.toLowerCase(), "reg"),
-  })
-}
-
-
+  if ( (streamType === "savings" && parent !== "onboard") || streamType === "debt" || streamType === "income" || streamType === "spending") {
+    questions.push({
+      //QUESTION 2 - Select registration of the new stream
+      optionArray: q2.optionArray, // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
+      explanation: q2.explanation,
+      component: "PickSingleOption",
+      question: q2.question,
+      textInput: true,
+      valid: reg.length > 1,
+      value: reg,
+      handleChange: (value: string) => set(id, "main_reducer", value.toLowerCase(), "reg"),
+    })
+  }
   if (streamType === "savings") {
     questions.push({
       //SAVINGS QUESTION 1 - Input current value of account
       ask: "Just an approximation of the current value is helpful. ",
       bottomLabel: `in my ${reg.toUpperCase()}`,
       component: "Slider",
-      max: 120000,
+      max: 300000,
       min: 0,
       step: 1000,
       topLabel: "I have around ",
@@ -94,30 +91,33 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
   }
 
   //FINAL QUESTION- Ask if they would like to add another
-  //if (streamType !== "savings" && parent !== "onboard") {
-    questions.push({
-      component: "DualSelect",
-      explanation: qFinal.explanation,
-      option1: "yes",
-      option2: "no",
-      value: ui_reducer.dualSelectValue,
-      valid: true,
-      question: qFinal.question,
-      handleChange: () => {
-        set("dualSelectValue", "ui_reducer", true)
-        createStream(colorIndex, set, streamType, "", owner)
-      },
-      handleChange2: () => {
-        set("newStream", "ui_reducer", false)
-        set("selectedId", "ui_reducer", false)
-        if (parent === "display") set("progress", "ui_reducer", 0)
-        set("dualSelectValue", "ui_reducer", false)
-      },
-    })
-  //}
-    
-  console.log(progress);
-  console.log(questions);
+
+  if ((streamType === "savings" && parent !== "onboard") || streamType === "income" || streamType === "spending") {
+  questions.push({
+    component: "DualSelect",
+    explanation: qFinal.explanation,
+    option1: "yes",
+    option2: "no",
+    value: ui_reducer.dualSelectValue,
+    valid: true,
+    question: qFinal.question,
+    handleChange: () => {
+      set("dualSelectValue", "ui_reducer", true)
+      createStream(colorIndex, set, streamType, "", owner)
+    },
+    handleChange2: (clickFired: boolean) => {
+      set("newStream", "ui_reducer", false)
+      set("selectedId", "ui_reducer", false)
+      if (parent === "display") set("progress", "ui_reducer", 0)
+      if (clickFired) {
+        const latestValue = Object.values(main_reducer).sort((a, b) => +b.createdAt - +a.createdAt).reverse()[0] //sorts by date to find most recent stream
+       remove(latestValue.id) //removes it
+      }
+      set("dualSelectValue", "ui_reducer", false)
+    },
+  })
+  }
+console.log('questions:', questions)
 
   return {
     streamType,

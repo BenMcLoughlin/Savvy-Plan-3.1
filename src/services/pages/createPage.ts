@@ -1,7 +1,7 @@
 import { createStream } from "services/create_functions"
 import { createDebtSliders, createMortgageSliders, createTripleSliders, createPropertySliders } from "services/questions/createTripleSliders"
 import * as I from "types"
-import { incomeQuestions_data } from "data/questions_data"
+import { incomeQuestions_data, spendingQuestions_data } from "data/questions_data"
 
 /**
  * createPage receives state and provides all the information needed to render the <Display> component. It has the name of the chart that needs to be rendered. The details for the info card
@@ -18,9 +18,11 @@ export const createPage = (data: I.pages, state: I.appState, set: I.set, parent:
 
   const instance = state.main_reducer[selectedId]
 
+
+
   const { streamType, chart, addButtonLabel, infoCards} = data
 
-  const pageData = {
+  let pageData = {
     editPanel: "EditPanel",
     streamType,
     chart,
@@ -39,6 +41,8 @@ export const createPage = (data: I.pages, state: I.appState, set: I.set, parent:
     addPrompt: {
       label: addButtonLabel,
       handleChange: () => {
+        console.log('streamType:', streamType)
+        
         createStream(colorIndex, set, streamType, "", selectedUser)
         set("progress", "ui_reducer", 0)
         set("newStream", "ui_reducer", true)
@@ -49,25 +53,47 @@ export const createPage = (data: I.pages, state: I.appState, set: I.set, parent:
       user1Name,
       user2Name,
       value: selectedUser, 
+    },
+    editPeriod: {
+       //Kept empty because values depend on the selectedId
     }
   }
 
-  if (instance && !newStream) {
+  if (instance) {
+    const {id, name, color} = instance
+
+    const editProps = {
+    id, 
+    handleColorChange: (value: string) => set(id, "main_reducer", value, "color"),
+    handleTitleChange: (value: string) => set(id, "main_reducer", value, "name"),
+    colorValue: color, 
+    nameValue: name, 
+  }
+
+
+   if (instance && !newStream) {
+
+    if (streamType === "spending") {
+      const tripleSliders = createTripleSliders(spendingQuestions_data, instance, set, state)
+      return { ...pageData, editPeriod: {tripleSliders, ...editProps }}
+    }
+
     if (streamType !== "property" && streamType !== "debt") {
-      const editPeriod = createTripleSliders(incomeQuestions_data, instance, set, state)
-      return { ...pageData, editPeriod }
+      const tripleSliders = createTripleSliders(incomeQuestions_data, instance, set, state)
+      return { ...pageData, editPeriod: {tripleSliders, ...editProps }}
     }
 
     if (streamType === "property") {
-      const editPeriod = createPropertySliders(instance, set)
-      return { ...pageData, editPeriod }
+      const tripleSliders = createPropertySliders(instance, set)
+      return { ...pageData, editPeriod: {tripleSliders, ...editProps }}
     }
-
     if (streamType === "debt") {
-      const editPeriod = createDebtSliders(instance, set)
-      return { ...pageData, editPeriod }
+      const tripleSliders = createDebtSliders(instance, set)
+      return { ...pageData, editPeriod: {tripleSliders, ...editProps }}
     }
   }
+
+}
 
   return pageData
 }

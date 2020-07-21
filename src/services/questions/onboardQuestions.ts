@@ -1,11 +1,12 @@
 import { createStream } from "services/create_functions"
 import * as I from "types"
+import _ from "lodash"
 
 import { insertQuestionArray, savingsAccountsArray } from "services/questions/question_functions"
 
 export const onboardQuestions_data = (data: any, state: any, set: any, progress: number, remove: any) => {
   const { user_reducer, main_reducer, ui_reducer } = state
-console.log('onboardQuestions_data was fired');
+
   const { maritalStatus, hasChildren, numberOfChildren,  user1Gender,  user1BirthYear, user2BirthYear, user1Name, user2Name, ownHome, hasUnsecuredDebt } = user_reducer
   // const { selectedId } = user_reducer
 
@@ -91,14 +92,14 @@ console.log('onboardQuestions_data was fired');
         hasChildren === "yes"
           ? "We'd like to estimate your government child benefits."
           : "Just guessing is fine, it will give you an idea of the impact of government benefits on your plan. You can always change it later. ",
-      component: "PickNumber",
+      component: "PickNumberWithText",
       value: numberOfChildren,
+      childValue: numberOfChildren,
       valid: numberOfChildren > 0,
       handleChange: (n: number) => set("numberOfChildren", "user_reducer", n),
+      handleChange2: (value: string, childId: string) => set(`${childId}`, "user_reducer", value),
     })
   }
-
-  // //INCOME SECTION DON"T remove
 
   //Question 6: ADD INCOME TO CHART?
   _questions.push({
@@ -147,7 +148,7 @@ console.log('onboardQuestions_data was fired');
     user: "user1",
     value: ui_reducer.dualSelectValue,
     valid: true,
-    question: maritalStatus === "married" ? `Does ${user1Name} have investments?` : "Do you have investments?",
+    question: maritalStatus === "married" ? `Does ${_.startCase(user1Name)} have investments?` : "Do you have investments?",
     handleChange: (selected, d: any) => {
       if (!selected && d.label !== "none") {
         // check if the item doesnt already exist, or its not none, and will then create a new income st
@@ -183,7 +184,7 @@ console.log('onboardQuestions_data was fired');
       component: "PickMultipleOptions",
       user: "user2",
       valid: true,
-      question: `Does ${user2Name}  have investments?`,
+      question: `Does ${_.startCase(user2Name)}  have investments?`,
       handleChange: (selected, d: any) => {
         if (!selected && d.label !== "none") {
           // check if the item doesnt already exist, or its not none, and will then create a new income st

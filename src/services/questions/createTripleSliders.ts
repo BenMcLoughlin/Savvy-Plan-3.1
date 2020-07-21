@@ -4,8 +4,8 @@ import _ from "lodash"
 import * as I from "types"
 
 export const createTripleSliders = (data, instance: I.instance, set: I.set, state: I.appState) => {
+  const { id, periods, owner, reg, streamType } = instance
 
-  const { id, periods, owner } = instance
 
   const { user1BirthYear, user2BirthYear } = state.user_reducer
 
@@ -43,9 +43,9 @@ export const createTripleSliders = (data, instance: I.instance, set: I.set, stat
       },
       slider2: {
         bottomLabel: data.slidersInput.bottomLabel,
-        max: 250000,
+        max: reg === "tfsa" ? 6000 : reg === "rrsp" ? 30000 : streamType === "spending" ? 4000 : 250000,
         min: 0,
-        step: 1000,
+        step: reg === "tfsa" ? 100 : reg === "rrsp" ? 1000 :  streamType === "spending" ? 10 : 1000,
         topLabel: past ? data.slidersInput.topLabelPast : data.slidersInput.topLabelFuture,
         value: instance[`period${i}Value`],
         handleChange: (value: number) => set(id, "main_reducer", value, `period${i}Value`),
@@ -111,12 +111,12 @@ export const createMortgageSliders = (instance: I.instance, set: I.set) => {
   const { id } = instance
 
   const editPeriod = {
-    explanation:  "We can add the debt to your networth and show you how it will play out in your plan.",
+    explanation: "We can add the debt to your networth and show you how it will play out in your plan.",
     component: "MultiSliders",
     num: 3,
     valid: true,
     addLabel: "Add a period where it changed",
-    question:`We need some mortgage details for ${instance.name}`,
+    question: `We need some mortgage details for ${instance.name}`,
     slider1: {
       bottomLabel: "on the balance",
       max: 1000000,
@@ -150,12 +150,11 @@ export const createMortgageSliders = (instance: I.instance, set: I.set) => {
   return editPeriod
 }
 
-export const createDebtSliders =  (instance: any, set: I.set) => {
-
+export const createDebtSliders = (instance: any, set: I.set) => {
   const { balance, id, payment, rate } = instance
 
   const editPeriod = {
-    explanation:   "We'll add it to the charts. If you plan to buy property in the future we can add that too.",
+    explanation: "We'll add it to the charts. If you plan to buy property in the future we can add that too.",
     component: "MultiSliders",
     num: 3,
     valid: true,
@@ -166,7 +165,7 @@ export const createDebtSliders =  (instance: any, set: I.set) => {
       max: 1000000,
       min: 0,
       step: 1000,
-      topLabel:  "I carry about ",
+      topLabel: "I carry about ",
       value: balance,
       handleChange: (value: number) => set(id, "main_reducer", value, `balance`),
     },

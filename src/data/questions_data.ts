@@ -62,12 +62,11 @@ export const savingsQuestions_data = {
 }
 
 export const spendingQuestions_data = {
-  streamType: "savings",
+  streamType: "spending",
   q1: {
-    question: "What should we call this account?",
+    question: "What should we call this expense?",
     explanation: "Just an approximation of the current value is helpful. ",
-    label: "Source of Income",
-    placeholder: "Income Name",
+    label: "Expense",
   },
   q2: {
     question: "What kind of expense is it?",
@@ -83,11 +82,15 @@ export const spendingQuestions_data = {
     explanation: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
   },
   slidersInput: {
+    question: "Tell us about the expense starting from now then guessing into the future",
     explanation:
       "We want to know what you estimate your future contributions to be so we can calculate your future value. Ignore your past contributions as they are accounted for in the current value",
-    topLabelPast: "",
-    topLabelFuture: "I aim to contribute",
-    bottomLabel: "Per Year",
+    topLabelPast: "I spend about",
+    topLabelFuture: "I think I'll spend",
+    bottomLabel: "Per Month",
+    slider2Max: 4000, 
+    slider2Min: 0, 
+    slider2Step: 10, 
   },
 }
 

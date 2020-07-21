@@ -7,12 +7,12 @@ import * as I from "types"
  * It is different than other instances in the same stream because the value is different. Eg. the user may have made less money for the first 5 years of employment, then more later.
  *  */
 
-export const newIncomeStream = (period0StartYear: number, period0EndYear: number) => ({
+export const newIncomeStream = () => ({
   name: "",
   periods: 0,
-  period0StartYear,
+  period0StartYear: 2015,
   period0Value: 20000,
-  period0EndYear,
+  period0EndYear: 2035,
   taxable: true,
 })
 
@@ -99,10 +99,12 @@ export const addPeriodToStream = (instance: any, period: number, selectedId: any
   set(selectedId, "main_reducer", startingValue, `period${period + 1}Value`)
 }
 
-const newStream = streamType => {
+const newStream = (streamType: I.streamType) => {
   switch (streamType) {
     case "income":
-      return newIncomeStream(2000, 2010)
+      return newIncomeStream()
+    case "spending":
+      return newIncomeStream()
     case "savings":
       return newSavingsStream()
     case "property":
@@ -118,7 +120,8 @@ export const createStream = (colorIndex: number, set: I.set, streamType: I.strea
   //This creates a new Income Instance, such as from ages 18-22
   const id = owner + _.startCase(streamType) + "_" + (Math.random() * 1000000).toFixed() //creates the random ID that is the key to the object, key includes the owner, then the type of instance eg. "Income", then a random number
   const color = colorArray[colorIndex] //ensures that the color of the new stream is unique
-  const stream = { ..._stream, id, color, owner, reg, streamType }
+  const createdAt = new Date().toISOString()
+  const stream = { ..._stream, createdAt, color, id, owner, reg, streamType }
 
   set(id, "main_reducer", stream, "") //This action fires and sets the state in the income reducer creating a new item there,
   set("selectedId", "ui_reducer", id, "") // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box

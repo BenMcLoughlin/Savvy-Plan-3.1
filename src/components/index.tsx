@@ -36,6 +36,7 @@ export { DualSelect } from "./options/DualSelect"
 export { PickMultipleOptions } from "./options/PickMultipleOptions"
 export { PickNumber } from "./options/PickNumber"
 export { PickSingleOption } from "./options/PickSingleOption"
+export { PickNumberWithText } from "./options/PickNumberWithText"
 
 //Scroll
 export { ScrollCircles } from "./scroll/ScrollCircles"

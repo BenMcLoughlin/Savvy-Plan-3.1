@@ -59,11 +59,13 @@ export type appState = ReturnType<typeof root_reducer>
 
 export interface IinstanceCore {
   color: string
+  createdAt: string, 
   id: string
   name: string
   periods: any
   owner: I.owner
   reg: string
+  streamType: string
 }
 
 export interface IincomeStream extends IinstanceCore {
