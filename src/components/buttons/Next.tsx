@@ -21,7 +21,7 @@ export const Next: FC<IProps> = ({ handleChange, setDirection, valid, state }) =
       window.addEventListener("keydown", pressEnter)
       return () => window.removeEventListener("keydown", pressEnter)
     }
-  }, [state])
+  }, [handleChange, setDirection, valid, state])
 
   return (
     <Wrapper>

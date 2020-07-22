@@ -1,13 +1,13 @@
 import { compose } from "redux"
 import { connect } from "react-redux"
 import { set, remove } from "../redux/actions"
-import { state } from "../types/reducer_types"
+import * as I from "types"
 
 //Pages
 import { Questions as _Onboard } from "./Questions"
 import { Display as _Display } from "./Display"
 
-const mapStateToProps = (state: state) => ({
+const mapStateToProps = (state: I.state) => ({
   state,
 })
 

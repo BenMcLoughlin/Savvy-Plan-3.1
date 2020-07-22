@@ -1,7 +1,6 @@
 import React, { FC, useRef, useEffect } from "react"
 import styled from "styled-components"
 import { ChartNav } from "components"
-import * as d3 from "d3"
 import {drawBarChart} from "charts/createChartFunctions/createBarChart"
 
 interface IProps {
@@ -14,7 +13,7 @@ interface IProps {
 
 export const IncomeChart: FC<IProps> = ({ color_selector, income_selector, state, set }) => {
   //THIS IS JUST A PLACEHODLER FUNCTION FOR NOW
-  const instance: any = Object.values(state.main_reducer).filter((d: any) => d.id.includes("Income"))[0]
+
   const inputRef = useRef(null)
   const className = "incomeChart"
   const data = income_selector
@@ -25,7 +24,7 @@ export const IncomeChart: FC<IProps> = ({ color_selector, income_selector, state
       const height = inputRef.current.offsetHeight
       drawBarChart(color_selector, className, data, height, set, state,  width)
     }
- }, [state])
+ }, [color_selector, data, set, state])
 
   return (
     <Wrapper>

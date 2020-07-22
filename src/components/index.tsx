@@ -2,7 +2,7 @@ import { compose } from "redux"
 import { connect } from "react-redux"
 import { set, remove } from "../redux/actions"
 import { EditPanel as _EditPanel } from "./cards/EditPanel"
-import { state } from "../types/reducer_types"
+import * as I from "types"
 
 //Buttons
 export { AddButton } from "./buttons/AddButton"
@@ -52,6 +52,6 @@ export { TextInput } from "./textInput/TextInput"
 
 //Smart Components Connected to Redux
 
-const mapStateToProps = (state: state) => ({ state })
+const mapStateToProps = (state: I.state) => ({ state })
 
 export const EditPanel = compose(connect(mapStateToProps, { set, remove }))(_EditPanel)

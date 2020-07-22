@@ -11,7 +11,7 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
 
   const { maritalStatus, user1Name, user2Name } = state.user_reducer
 
-  const { colorIndex, progress } = state.ui_reducer
+  const { colorIndex } = state.ui_reducer
 
   const questions: any = []
 

@@ -1,7 +1,6 @@
 import React, { FC } from "react"
 import styled from "styled-components"
 import _ from "lodash"
-import * as I from "types"
 
 interface IProps {
   optionArray?: string[]

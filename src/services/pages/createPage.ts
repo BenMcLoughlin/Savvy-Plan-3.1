@@ -1,5 +1,5 @@
 import { createStream } from "services/create_functions"
-import { createDebtSliders, createMortgageSliders, createTripleSliders, createPropertySliders } from "services/questions/createTripleSliders"
+import { createDebtSliders, createTripleSliders, createPropertySliders } from "services/questions/createTripleSliders"
 import * as I from "types"
 import { incomeQuestions_data, spendingQuestions_data } from "data/questions_data"
 

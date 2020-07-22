@@ -1,4 +1,4 @@
-import { ccbRates } from "calculations/income/data/CPP_data"
+//import { ccbRates } from "calculations/income/data/CPP_data"
 
 export const  cppIncome = (state) => {
 
