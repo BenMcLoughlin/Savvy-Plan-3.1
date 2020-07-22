@@ -2,7 +2,7 @@ import { createStream } from "services/create_functions"
 import { createDebtSliders, createMortgageSliders, createTripleSliders, createPropertySliders } from "services/questions/createTripleSliders"
 import * as I from "types"
 
-export const createStreamQuestionsArray = (data: I.questions, instance: I.instance, set: I.set, state: I.appState, remove: I.remove, parent: I.parent) => {
+export const createStreamQuestionsArray = (data: I.questions, instance: I.instance, set: I.set, state: I.state, remove: I.remove, parent: I.parent) => {
   const { streamType, q1, q2, q3, qFinal } = data
 
   const { id, owner, reg } = instance
@@ -31,7 +31,7 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
     )
   }
 
-  if ( (streamType === "savings" && parent !== "onboard") || streamType === "debt" || streamType === "income" || streamType === "spending") {
+  if ((streamType === "savings" && parent !== "onboard") || streamType === "debt" || streamType === "income" || streamType === "spending") {
     questions.push({
       //QUESTION 2 - Select registration of the new stream
       optionArray: q2.optionArray, // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
@@ -93,31 +93,33 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
   //FINAL QUESTION- Ask if they would like to add another
 
   if ((streamType === "savings" && parent !== "onboard") || streamType === "income" || streamType === "spending") {
-  questions.push({
-    component: "DualSelect",
-    explanation: qFinal.explanation,
-    option1: "yes",
-    option2: "no",
-    value: ui_reducer.dualSelectValue,
-    valid: true,
-    question: qFinal.question,
-    handleChange: () => {
-      set("dualSelectValue", "ui_reducer", true)
-      createStream(colorIndex, set, streamType, "", owner)
-    },
-    handleChange2: (clickFired: boolean) => {
-      set("newStream", "ui_reducer", false)
-      set("selectedId", "ui_reducer", false)
-      if (parent === "display") set("progress", "ui_reducer", 0)
-      if (clickFired) {
-        const latestValue = Object.values(main_reducer).sort((a, b) => +b.createdAt - +a.createdAt).reverse()[0] //sorts by date to find most recent stream
-       remove(latestValue.id) //removes it
-      }
-      set("dualSelectValue", "ui_reducer", false)
-    },
-  })
+    questions.push({
+      component: "DualSelect",
+      explanation: qFinal.explanation,
+      option1: "yes",
+      option2: "no",
+      value: ui_reducer.dualSelectValue,
+      valid: true,
+      question: qFinal.question,
+      handleChange: () => {
+        set("dualSelectValue", "ui_reducer", true)
+        createStream(colorIndex, set, streamType, "", owner)
+      },
+      handleChange2: (clickFired: boolean) => {
+        set("newStream", "ui_reducer", false)
+        set("selectedId", "ui_reducer", false)
+        set("selectedPeriod", "ui_reducer", 0)
+        if (parent === "display") set("progress", "ui_reducer", 0)
+        if (clickFired) {
+          const latestValue = Object.values(main_reducer)
+            .sort((a, b) => +b.createdAt - +a.createdAt)
+            .reverse()[0] //sorts by date to find most recent stream
+          remove(latestValue.id) //removes it
+        }
+        set("dualSelectValue", "ui_reducer", false)
+      },
+    })
   }
-console.log('questions:', questions)
 
   return {
     streamType,

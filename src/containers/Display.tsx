@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import styled from "styled-components"
 import * as charts from "charts"
 import * as components from "components"
-import { Questions } from "HOC/connectRedux_HOC"
+import { Questions } from "containers"
 import { AddPrompt, InfoCard, SideNav, TripleSelector } from "components"
 import * as questions_data from "data/questions_data"
 import { matchThenShowComponent } from "services/display_functions"
@@ -12,16 +12,15 @@ import * as I from "types"
 interface IProps {
   set: I.set
   remove: I.remove
-  state: I.appState
+  state: I.state
   data: I.pages
 }
 
 export const Display: FC<IProps> = ({ data, remove, set, state }) => {
-
   const { selectedId, newStream, selectedPage } = state.ui_reducer
 
-  const { addPrompt, chart,  editPanel, infoCards, sideNav,tripleSelector } = data
-  
+  const { addPrompt, chart, editPanel, infoCards, sideNav, tripleSelector } = data
+
   const question_data = questions_data[`${selectedPage}Questions_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
 
   const instance = state.main_reducer[selectedId]
@@ -48,9 +47,7 @@ export const Display: FC<IProps> = ({ data, remove, set, state }) => {
             </Left>
           )}
         </Edit>
-        <CenterNav>
-          {tripleSelector.user2Name && <TripleSelector {...tripleSelector}/>}
-        </CenterNav>
+        <CenterNav>{tripleSelector.user2Name && <TripleSelector {...tripleSelector} />}</CenterNav>
       </Content>
     </Wrapper>
   )

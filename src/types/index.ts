@@ -21,8 +21,8 @@ export type remove = _remove
 
 //REDUCER TYPES
 
-import { appState as _appState } from "./reducer_types"
-export type appState = _appState
+import { state as _appState } from "./reducer_types"
+export type state = _appState
 
 import { debtStream as _debtStream } from "./reducer_types"
 export type debtStream = _debtStream
@@ -44,10 +44,11 @@ export type owner = _owner
 import { parent as _parent } from "./variable_types"
 export type parent = _parent
 
-import { streamType as _streamType } from "./variable_types"
-export type streamType = _streamType
-
 import { reg as _reg } from "./variable_types"
 export type reg = _reg
 
+import { user as _user } from "./variable_types"
+export type user = _user
 
+import { streamType as _streamType } from "./variable_types"
+export type streamType = _streamType

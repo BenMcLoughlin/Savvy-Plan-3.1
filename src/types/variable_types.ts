@@ -22,6 +22,8 @@ export type reg =
 
 export type owner = "user1" | "user2"
 
+export type user = "user1" | "user2" | "combined"
+
 export type streamType = "income" | "savings" | "property" | "spending" | "debt"
 
 export type chartType = "IncomeChart" | "SavingsChart" | "PropertyChart" | "SpendingChart" | "DebtChart"

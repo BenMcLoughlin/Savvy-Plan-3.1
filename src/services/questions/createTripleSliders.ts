@@ -3,9 +3,10 @@ import { addPeriodToStream } from "services/create_functions"
 import _ from "lodash"
 import * as I from "types"
 
-export const createTripleSliders = (data, instance: I.instance, set: I.set, state: I.appState) => {
+export const createTripleSliders = (data, instance: I.instance, set: I.set, state: I.state) => {
   const { id, periods, owner, reg, streamType } = instance
 
+  const { selectedPeriod } = state.ui_reducer
 
   const { user1BirthYear, user2BirthYear } = state.user_reducer
 
@@ -19,10 +20,13 @@ export const createTripleSliders = (data, instance: I.instance, set: I.set, stat
     addLabel: "Add a period where it changed",
     question: data.slidersInput.question,
     handleChange: () => addPeriodToStream(instance, periods, id, set),
+    selectedPeriod,
+    handlePeriodChange: (period: number) => set("selectedPeriod", "ui_reducer", period),
   }
 
   const slidersArray = _.range(periods + 1).map((d: any, i: number) => {
     const startYear = instance[`period${i}StartYear`]
+    const nextPeriodStartYear = instance[`period${i+1}StartYear`]
     const endYear = instance[`period${i}EndYear`]
     const currentYear = new Date().getFullYear() //the text needs to be able to refer to the income being earned in the past or in the future, so we will use this to test that
 
@@ -39,13 +43,14 @@ export const createTripleSliders = (data, instance: I.instance, set: I.set, stat
         topLabel: i === 0 ? "Starting in" : "then in", //for the first one we want to say "starting in" but after they add changes we want it to say "then in"
         type: "year",
         value: startYear,
-        handleChange: (value: number) => set(id, "main_reducer", value, `period${i}StartYear`),
+        handleChange: (value: number) => {
+          set(id, "main_reducer", value, `period${i}StartYear`)},
       },
       slider2: {
         bottomLabel: data.slidersInput.bottomLabel,
         max: reg === "tfsa" ? 6000 : reg === "rrsp" ? 30000 : streamType === "spending" ? 4000 : 250000,
         min: 0,
-        step: reg === "tfsa" ? 100 : reg === "rrsp" ? 1000 :  streamType === "spending" ? 10 : 1000,
+        step: reg === "tfsa" ? 100 : reg === "rrsp" ? 1000 : streamType === "spending" ? 10 : 1000,
         topLabel: past ? data.slidersInput.topLabelPast : data.slidersInput.topLabelFuture,
         value: instance[`period${i}Value`],
         handleChange: (value: number) => set(id, "main_reducer", value, `period${i}Value`),
@@ -58,7 +63,9 @@ export const createTripleSliders = (data, instance: I.instance, set: I.set, stat
         topLabel: "Until ",
         type: "year",
         value: endYear,
-        handleChange: (value: number) => set(id, "main_reducer", value, `period${i}EndYear`),
+        handleChange: (value: number) => { 
+          if(value > nextPeriodStartYear) set(id, "main_reducer", value, `period${i+1}StartYear`)
+          set(id, "main_reducer", value, `period${i}EndYear`)},
       },
     }
   })

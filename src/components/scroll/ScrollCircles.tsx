@@ -6,26 +6,26 @@ import { ArrowLeftS } from '@styled-icons/remix-line'
 interface IProps {
   periods: number
   position: number
-  setPosition: (position: number) => void
+  handleChange: (position: number) => void
   setDirection: (direction: string) => void
 }
 
-export const ScrollCircles: FC<IProps> = ({periods, position, setPosition,  setDirection}) => {
+export const ScrollCircles: FC<IProps> = ({periods, position, handleChange,  setDirection}) => {
 
   return (
     <Wrapper>
       <ArrowLeft
         onClick={() => {
-          setPosition(position > 0 ? position - 1 : 0)
+          handleChange(position > 0 ? position - 1 : 0)
           setDirection('back')
         }}
       />
       {_.range(1, periods + 1).map((d, i) => (
-        <Circle key={i} selected={i === position} onClick={() => setPosition(i)} />
+        <Circle key={i} selected={i === position} onClick={() => handleChange(i)} />
       ))}
       <ArrowRight
         onClick={() => {
-          setPosition(position < periods ? position + 1 : periods - 1)
+          handleChange(position < periods ? position + 1 : periods - 1)
           setDirection('forward')
         }}
       />

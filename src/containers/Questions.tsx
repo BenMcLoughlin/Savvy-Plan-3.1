@@ -12,16 +12,15 @@ import * as I from "types"
 interface IProps {
   set: I.set
   remove: I.remove
-  state: I.appState
+  state: I.state
   data: any
 }
 
 export const Questions: FC<IProps> = ({ data, state, set }) => {
-
   const { progress } = state.ui_reducer
 
   const [direction, setDirection] = useState<string>("forward")
-  
+
   const { streamType, questions } = data
 
   const { length } = questions
@@ -30,7 +29,7 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
   const exitProps = exitButtonProps(set)
   const backProps = backButtonProps(progress, set)
 
- if (progress === length) return <Redirect to="/plan" />
+  if (progress === length) return <Redirect to="/plan" />
 
   return (
     <Wrapper>

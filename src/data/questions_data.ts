@@ -23,7 +23,7 @@ export const incomeQuestions_data = {
     explanation: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
   },
   slidersInput: {
-    question: "Tell us about this income",
+    question: "We need estimates of the past, present and future of this income source.",
     explanation: "Knowing your future income helps us determine your pension income",
     topLabelPast: "I earned",
     topLabelFuture: "I hope to earn",

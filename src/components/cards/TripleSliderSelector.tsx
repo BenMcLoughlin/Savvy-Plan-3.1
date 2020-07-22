@@ -9,12 +9,11 @@ interface ISliderProps {
   periods: number
   slidersArray: any
   handleChange: () => void
+  handlePeriodChange: (value: number) => void
+  selectedPeriod: number
 }
 
-export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, handleChange, slidersArray }) => {
-
-  const [position, setPosition] = useState<number>(0)
-
+export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, handleChange, handlePeriodChange, selectedPeriod, slidersArray }) => {
   const [direction, setDirection] = useState<string>("forward")
 
   return (
@@ -22,7 +21,7 @@ export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, hand
       <TransitionGroup>
         {slidersArray.map(
           (d, i) =>
-            i === position && (
+            i === selectedPeriod && (
               <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
                 <Center>
                   <MultiSliders key={i} {...d} />
@@ -32,11 +31,11 @@ export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, hand
         )}
       </TransitionGroup>
       <Change>
-        <ScrollCircles periods={periods + 1} setPosition={setPosition} setDirection={setDirection} position={position} />
+        <ScrollCircles periods={periods + 1} handleChange={value => handlePeriodChange(value)} setDirection={setDirection} position={selectedPeriod} />
         <AddPrompt
           handleChange={() => {
             handleChange()
-            setPosition(periods + 1)
+            handlePeriodChange(periods + 1)
           }}
           label={addLabel}
         />

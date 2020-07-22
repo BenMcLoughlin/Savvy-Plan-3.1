@@ -10,12 +10,15 @@ import { BrowserRouter } from "react-router-dom"
 import * as pages_data from "data"
 import { createPage } from "services/pages/createPage"
 import { onboardQuestions_data } from "services/questions/onboardQuestions"
+import { connect } from "react-redux"
+import * as I from "types"
+import { set, remove } from "redux/actions"
 
-export const App = ({ remove, state, set }) => {
+const App = ({ remove, state, set }) => {
   const { progress, selectedPage } = state.ui_reducer
 
   const newPageData = pages_data[`${selectedPage}Page_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
-  
+
   return (
     <ThemeProvider theme={theme}>
       <Wrapper>
@@ -32,6 +35,12 @@ export const App = ({ remove, state, set }) => {
     </ThemeProvider>
   )
 }
+
+const mapStateToProps = (state: I.state) => ({
+  state,
+})
+
+export default connect(mapStateToProps, { set, remove })(App)
 
 //---------------------------STYLES-------------------------------------------//
 

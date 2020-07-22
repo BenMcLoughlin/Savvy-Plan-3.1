@@ -114,7 +114,7 @@ const newStream = (streamType: I.streamType) => {
   }
 }
 
-export const createStream = (colorIndex: number, set: I.set, streamType: I.streamType, reg: I.reg, owner: I.owner): void => {
+export const createStream = (colorIndex: number, set: I.set, streamType: I.streamType, reg: I.reg, owner: I.user): void => {
   let _stream = newStream(streamType)
 
   //This creates a new Income Instance, such as from ages 18-22

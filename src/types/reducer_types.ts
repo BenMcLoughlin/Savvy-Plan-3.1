@@ -9,7 +9,8 @@ export interface IUiState {
   videoUrl: string
   progress: number
   selectedPage: string
-  selectedUser: I.owner
+  selectedUser: I.user
+  selectedPeriod: number
   selectedAccount: string
   newStream: boolean
   selectedTransaction: string
@@ -55,11 +56,11 @@ export interface Iset extends Action {
   value: any
 }
 
-export type appState = ReturnType<typeof root_reducer>
+export type state = ReturnType<typeof root_reducer>
 
 export interface IinstanceCore {
   color: string
-  createdAt: string, 
+  createdAt: string
   id: string
   name: string
   periods: any
