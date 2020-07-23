@@ -1,20 +1,15 @@
-
-import {beforePensionIncome} from "calculations/income/support/beforePensionIncome"
+import { beforePensionIncome } from "calculations/income/support/beforePensionIncome"
 // import {ccbIncome, cppIncome, oasIncome } from "calculations/income/government_CCB_CPP_OAS"
 // import {tfsaIncome, rrspIncome } from "calculations/income/savingsIncome"
 
-
-
-export const calculateIncome = (state) => {
-
- const user = state.ui_reducer.selectedUser
+export const calculateIncome = state => {
+  const user = state.ui_reducer.selectedUser
 
   //Step 1. Determine the users Employment Income
 
-    const array = beforePensionIncome(user, state)
- 
+  const array = beforePensionIncome(user, state)
 
-    return array
+  return array
   //Step 2. Determine the users Business Income
 
   //Step 5. Determine if the user has Canada Child Benefit Income
@@ -38,7 +33,4 @@ export const calculateIncome = (state) => {
   //      oasIncome(state)
 
   //Step 10. Combine all Income into one array
-
-
-
 }
