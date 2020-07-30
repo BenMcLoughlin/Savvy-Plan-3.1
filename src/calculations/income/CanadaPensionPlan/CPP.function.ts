@@ -1,17 +1,18 @@
 //This calculation follows this article https://retirehappy.ca/how-to-calculate-your-cpp-retirement-pension/
+// and this article https://retirehappy.ca/enhanced-cpp/
 import { historicYmpe, fiveYearYMPE, YMPE } from "calculations/income/CanadaPensionPlan/CPP.data"
 import { getSAAPE, getFAAPE, adjustCpp, sumArray, sumPensionableEarnings, adjustOas } from "calculations/income/CanadaPensionPlan/CPP.helpers"
-import * as I from "calculations/income/CanadaPensionPlan/CPP.types"
 
+import * as I from 'calculations/income/types'
 
-export const getCpp = (income, user, { user_reducer }) => {
+export const getCpp = (income: I.incomeObject, user: I.owner, { user_reducer }): number => {
 
   const birthYear = user_reducer[`${user}BirthYear`]
   const cppStartAge = user_reducer[`${user}CppStartAge`]
 
-  let APE_array = []
-  let FAAPE_array = []
-  let SAAPE_array = []
+  let APE_array = [] //Adjusted Pensionable earnings, earnings will be adjusted for inflation and placed here
+  let FAAPE_array = [] //first adjusted additional pensionable earnings, this is a top up 
+  let SAAPE_array = [] //second adjusted additional pensionable earnings, between 59k and 69k
 
   const finalCPPAge = cppStartAge < 70 ? cppStartAge : 70
   const contributoryPeriod = finalCPPAge - 18
@@ -23,7 +24,6 @@ export const getCpp = (income, user, { user_reducer }) => {
     const APE = adjustmentRate * fiveYearYMPE
     const FAAPE = year >= 2019 ? getFAAPE(year, APE) : 0
     const SAAPE = year > 2024 ? getSAAPE(UPE) : 0
-
 
     APE_array.push(APE)
     FAAPE_array.push(FAAPE)
@@ -46,7 +46,7 @@ export const getCpp = (income, user, { user_reducer }) => {
 }
 
 
-export const getOas = (user, {user_reducer}) => {
+export const getOas = (user: I.owner, {user_reducer}) => {
  const oasStartAge = user_reducer[`${user}OasStartAge`]
  return adjustOas(7200, oasStartAge)
 }

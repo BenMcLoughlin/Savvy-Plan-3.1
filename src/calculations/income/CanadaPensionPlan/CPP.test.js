@@ -5,14 +5,14 @@ const mockState = {
     user1BirthYear: 1988,
     user1LifeSpan: 95,
     user1CppStartAge: 65,
-    user2BirthYear: 1990,
+    user2BirthYear: 1988,
     user2LifeSpan: 95,
     user2CppStartAge: 65,
     maritalStatus: "married",
   },
   ui_reducer: {
     selectedAccount: "before tax",
-    selectedUser: "user1",
+    selectedUser: "combined",
   },
   main_reducer: {
     //TEST 1 - confirmation documentation found in CPP docs
@@ -39,9 +39,12 @@ const mockState = {
     user2Income_13719: {
       name: "Income",
       periods: 0,
-      period0StartYear: 2010,
-      period0Value: 50000,
-      period0EndYear: 2055,
+      period0StartYear: 2006,
+      period0Value: 30000,
+      period0EndYear: 2033,
+      period1StartYear: 2033,
+      period1Value: 58700,
+      period1EndYear: 2053,
       taxable: true,
       createdAt: "2020-07-29T21:23:30.196Z",
       color: "#72929B",
@@ -53,6 +56,7 @@ const mockState = {
   },
 }
 
-describe("CPP calculation is in line with with Doug", function () {
+describe("CPP calculation is in line with with Dougs", function () {
   it("born 1988, 30k 2006-2020, 58k 2020 - 2037, 90k 2038-2052 should be 17916.78", () => expect(calculateIncome(mockState)[50].user1CppBenefit.toFixed(2)).toEqual("17916.78"))
+  it("born 1988, 30k 2006-2032, 58k 2020 - 2052, 90k 2038-2052 should be 14,266.69 ", () => expect(calculateIncome(mockState)[50].user2CppBenefit.toFixed(2)).toEqual("14266.69"))
 })
