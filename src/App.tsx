@@ -75,8 +75,16 @@ const Content = styled.div`
 // background: -moz-linear-gradient(left, #FFFFFF, #E8ECEB);
 // background: linear-gradient(to right, #FFFFFF, #E8ECEB);
 
+
 //GREY RADIAL
 // background: #FFFFFF;
 // background: -webkit-radial-gradient(center, #FFFFFF, #F3F3F2);
 // background: -moz-radial-gradient(center, #FFFFFF, #F3F3F2);
 // background: radial-gradient(ellipse at center, #FFFFFF, #F3F3F2);
+
+
+//GREY RADIAL SIMILAR TO APPLE
+// background: #FCFAFB;
+// background: -webkit-radial-gradient(top left, #FCFAFB, #E0E2E6);
+// background: -moz-radial-gradient(top left, #FCFAFB, #E0E2E6);
+// background: radial-gradient(to bottom right, #FCFAFB, #E0E2E6);

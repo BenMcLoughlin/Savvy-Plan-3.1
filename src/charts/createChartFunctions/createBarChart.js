@@ -35,7 +35,7 @@ export const drawBarChart = (colors, className, data, height, set, state, width)
   const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
   
-  const stackedKeys = Object.keys(data[15]).filter( d => d !== "age").filter( d => d !== "year")
+  const stackedKeys = Object.keys(data[15]).filter( d => d !== "year")
   
 ;
   const graph = svg
@@ -70,7 +70,7 @@ export const drawBarChart = (colors, className, data, height, set, state, width)
       .range([0, graphWidth])
       .paddingInner(0.2)
       .paddingOuter(0.3)
-      .domain(data.map(item => item.age))
+      .domain(data.map(item => item.year))
 
     const rects = graph.append("g").selectAll("g").data(series)
 
@@ -81,7 +81,7 @@ export const drawBarChart = (colors, className, data, height, set, state, width)
       .data(d => d)
       .enter()
       .append("rect")
-      .attr("x", d => xScale(d.data.age))
+      .attr("x", d => xScale(d.data.year))
       .attr("y", d => yScale(d[1]))
       .merge(rects)
 
@@ -96,7 +96,7 @@ export const drawBarChart = (colors, className, data, height, set, state, width)
       .append("rect")
       .attr("y", d => yScale(d[1]))
       .attr("height", d => (yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0))
-      .attr("x", d => xScale(d.data.age))
+      .attr("x", d => xScale(d.data.year))
       .attr("opacity", (d, i, n) => {
         const name = n[0].parentNode.className.animVal
         return streamName === name && d.data.year >= periodStart && d.data.year < periodEnd ? 0.7 : 1

@@ -1,7 +1,7 @@
 import React, { FC, useRef, useEffect } from "react"
 import styled from "styled-components"
 import { ChartNav } from "components"
-import {drawBarChart} from "charts/createChartFunctions/createBarChart"
+import { drawBarChart } from "charts/createChartFunctions/createBarChart"
 
 interface IProps {
   state: any
@@ -10,32 +10,32 @@ interface IProps {
   set: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
-
 export const IncomeChart: FC<IProps> = ({ color_selector, income_selector, state, set }) => {
-  //THIS IS JUST A PLACEHODLER FUNCTION FOR NOW
 
-  const inputRef = useRef(null)
-  const className = "incomeChart"
+  
+  color_selector = {...color_selector, user1CppBenefit: "#F29278", user2CppBenefit: "#F29278", ccbBenefit: "#536D7A",  user1OasBenefit: "#3B7B8E", user2OasBenefit: "#3B7B8E",}
+
+ const inputRef = useRef(null)
+const className = "incomeChart"
   const data = income_selector
 
-  useEffect(()=> {
+  useEffect(() => {
     if (inputRef && inputRef.current) {
       const width = inputRef.current.offsetWidth
       const height = inputRef.current.offsetHeight
-      drawBarChart(color_selector, className, data, height, set, state,  width)
+      drawBarChart(color_selector, className, data, height, set, state, width)
     }
- }, [color_selector, data, set, state])
+  }, [color_selector, data, set, state])
 
   return (
     <Wrapper>
-      <Canvas className={className} ref={inputRef}/>
+      <Canvas className={className} ref={inputRef} />
       <ChartNavWrapper>
         <ChartNav options={["before tax", "after tax"]} handleChange={value => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount} />
       </ChartNavWrapper>
     </Wrapper>
   )
 }
-
 
 //---------------------------STYLES-------------------------------------------//
 
@@ -47,11 +47,11 @@ const Wrapper = styled.div`
   background: green;
 `
 const Canvas = styled.div`
-        width: 90rem;
-        height: 20rem;
-        position: absolute;
-        top: 12rem;
-        left: -5em;
+  width: 90rem;
+  height: 20rem;
+  position: absolute;
+  top: 12rem;
+  left: -5em;
 `
 
 const ChartNavWrapper = styled.div`

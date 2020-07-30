@@ -33,8 +33,8 @@ export interface IUserState {
   rate2: number
   user1BirthYear: number
   user2BirthYear: number
-  user1CPPStartAge: number
-  user2CPPStartAge: number
+  user1CppStartAge: number
+  user2CppStartAge: number
   user1LifeSpan: number
   user2LifeSpan: number
   user1Name: string
@@ -69,7 +69,7 @@ export interface IinstanceCore {
   streamType: string
 }
 
-export interface IincomeStream extends IinstanceCore {
+export interface incomeStream extends IinstanceCore {
   periods: number
   period0StartYear: number
   period0Value: number
@@ -78,7 +78,7 @@ export interface IincomeStream extends IinstanceCore {
   [key: string]: any
 }
 
-export interface IsavingsStream extends IinstanceCore {
+export interface savingsStream extends IinstanceCore {
   periods: number
   period0StartYear: number
   period0Value: number
@@ -87,7 +87,7 @@ export interface IsavingsStream extends IinstanceCore {
   [key: string]: any
 }
 
-export interface IpropertyStream extends IinstanceCore {
+export interface propertyStream extends IinstanceCore {
   currentValue: number
   hasMortgage: "yes" | "no"
   mortgageRate: number
@@ -107,4 +107,4 @@ export interface debtStream extends IinstanceCore {
   payment: number
 }
 
-export type instance = IincomeStream | IpropertyStream | debtStream | IsavingsStream
+export type instance = incomeStream | propertyStream | debtStream | savingsStream

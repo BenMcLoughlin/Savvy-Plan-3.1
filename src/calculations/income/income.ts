@@ -1,70 +1,45 @@
 import { beforePensionIncome } from "calculations/income/support/beforePensionIncome"
-import { calculateCCB } from "calculations/income/CanadaChildBenefit/CCB.function"
-import _ from "lodash"
+import { getdFirstIncomeStreamsObject, getSecondIncomeStreamsObject } from "calculations/income/create/createIncomeObject"
+import { getIncomeArrayForChart } from "calculations/income/create/createChartArray"
+import { getAfterTaxIncomeStreams } from "calculations/income/tax/tax.function"
+import * as I from "types"
 
-// import {tfsaIncome, rrspIncome } from "calculations/income/savingsIncome"
 
-const convertArrayToObject = (array, key) => {
-  const initialValue = {}
-  return array.reduce((obj, item) => {
-    return {
-      ...obj,
-      [item[key]]: _.omit(item, ["year", "age"]), //ensures that year and age are not included in the income
-    }
-  }, initialValue)
-}
+export const calculateIncome = (state: I.state) => {
 
-export const calculateIncome = state => {
-  const START_TIME = new Date().getTime()
+  const { user1BirthYear, user1LifeSpan, maritalStatus } = state.user_reducer
+  const { selectedAccount } = state.ui_reducer
 
-  const user = state.ui_reducer.selectedUser
-  const { hasChildren } = state.user_reducer
+  let yearFirst = user1BirthYear + 18 // Our chart begins when the youngest of the two users turns 18
+  let yearLast = user1BirthYear + user1LifeSpan //Our chart ends whent the oldest of the users dies
+  let userNumber = [1] //To build a single users income stream we will just use the number 1 in the below for loop, but if they're married we need to do it for both of them
 
-  //Step 1. Determine the users Regular Income
-
-  const regularIncome = beforePensionIncome(user, state)
-
-  const combinedIncome_object = convertArrayToObject(beforePensionIncome("combined", state), "year")
-
-  //Step 2: Determine income when Canada Child Benefit is added
-  let incomeWithCCB = {}
-
-  if (hasChildren === "yes" || hasChildren === "hope to eventually") {
-    incomeWithCCB = calculateCCB(combinedIncome_object, state)
+  if (maritalStatus === "married" || maritalStatus === "commonlaw") {
+    //IF the user is married we need to compare to find the earliest and latest values
+    const { user2BirthYear, user2LifeSpan } = state.user_reducer
+    userNumber = [1, 2]
+    if (user2BirthYear < user1BirthYear) yearFirst = user2BirthYear + 18
+    if (user1LifeSpan < user2LifeSpan) yearLast = user2BirthYear + user2LifeSpan
   }
-console.log('incomeWithCCB:', incomeWithCCB)
-  // const array = []
 
-  // for(let i = 0; i <= 100000000; i++) {
-  //   array.push(i)
-  // }
+  const firstIncomeObject = getdFirstIncomeStreamsObject(state, yearFirst, yearLast, userNumber)
 
-  const END_TIME = new Date().getTime()
-  const function_duration = END_TIME - START_TIME
-  console.log("duration:", function_duration)
+  let secondIncomeObject = getSecondIncomeStreamsObject(firstIncomeObject, state, yearFirst, yearLast, userNumber)
 
-  return regularIncome
-  //Step 2. Determine the users Business Income
+  if (selectedAccount === "afterTax") {
+    secondIncomeObject = getAfterTaxIncomeStreams(firstIncomeObject, state, yearFirst, yearLast, userNumber)
+  }
 
-  //Step 5. Determine if the user has Canada Child Benefit Income
+  const incomeArrayForChart = getIncomeArrayForChart(state, secondIncomeObject)
 
-  //      ccbIncome(state)
 
-  // //Step 6. Determine Users Retirement TFSA Income
 
-  //      tfsaIncome(state)
-
-  // //Step 7. Determine Users Retirement RRSP Income
-
-  //      rrspIncome(state)
-
-  // //Step 8. Determine Users Retirement Canada Pension Plan
-
-  //      cppIncome(state)
-
-  // //Step 9. Determine Users Old Age Security
-
-  //      oasIncome(state)
-
-  //Step 10. Combine all Income into one array
+  return incomeArrayForChart
 }
+
+//Time Test
+// const START_TIME = new Date().getTime()
+// const END_TIME = new Date().getTime()
+//  const function_duration = END_TIME - START_TIME
+// console.log("incomeArrayForChart:", incomeArrayForChart)
+// console.log("duration:", function_duration)
