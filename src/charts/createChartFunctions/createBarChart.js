@@ -10,8 +10,6 @@ export const drawBarChart = (colors, className, data, height, set, state, width)
   const instance = state.main_reducer[selectedId]
   const { selectedPeriod } = state.ui_reducer
 
-
-
   let periodStart = 0
   let periodEnd = 0
   let streamName = ""
@@ -21,11 +19,6 @@ export const drawBarChart = (colors, className, data, height, set, state, width)
       periodStart = instance[`period${selectedPeriod}StartYear`]
       periodEnd = instance[`period${selectedPeriod}EndYear`]
     }
-
-console.log('periodStart:', periodStart)
-console.log('periodEnd:', periodEnd)
-
-
   
 
   const margin = { top: 20, right: 100, bottom: 20, left: 100 }
@@ -40,7 +33,7 @@ console.log('periodEnd:', periodEnd)
   const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
   
-  const stackedKeys = Object.keys(data[15]).filter( d => d !== "age").filter( d => d !== "year")
+  const stackedKeys = Object.keys(data[15]).filter( d => d !== "year")
   
 ;
   const graph = svg
@@ -75,7 +68,7 @@ console.log('periodEnd:', periodEnd)
       .range([0, graphWidth])
       .paddingInner(0.2)
       .paddingOuter(0.3)
-      .domain(data.map(item => item.age))
+      .domain(data.map(item => item.year))
 
     const rects = graph.append("g").selectAll("g").data(series)
 
@@ -86,7 +79,7 @@ console.log('periodEnd:', periodEnd)
       .data(d => d)
       .enter()
       .append("rect")
-      .attr("x", d => xScale(d.data.age))
+      .attr("x", d => xScale(d.data.year))
       .attr("y", d => yScale(d[1]))
       .merge(rects)
 
@@ -101,12 +94,9 @@ console.log('periodEnd:', periodEnd)
       .append("rect")
       .attr("y", d => yScale(d[1]))
       .attr("height", d => (yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0))
-      .attr("x", d => xScale(d.data.age))
+      .attr("x", d => xScale(d.data.year))
       .attr("opacity", (d, i, n) => {
         const name = n[0].parentNode.className.animVal
-        console.log('name:', name)
-        console.log('streamName:', streamName)
-        
         return streamName === name && d.data.year >= periodStart && d.data.year < periodEnd ? 0.7 : 1
       })
       .attr("width", xScale.bandwidth())
@@ -185,8 +175,6 @@ console.log('periodEnd:', periodEnd)
     xAxisGroup.call(xAxis)
     yAxisGroup.call(yAxis)
   }
-
-  console.log(data)
 
   update(data)
 }

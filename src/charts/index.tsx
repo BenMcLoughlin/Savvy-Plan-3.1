@@ -13,6 +13,7 @@ import { TaxesChart as _TaxesChart } from "charts/TaxesChart"
 import { SpendingChart as _SpendingChart } from "charts/SpendingChart"
 
 const mapStateToProps = (state: I.state) => ({
+  state,
   income_selector: income_selector(state),
   color_selector: color_selector(state),
 })

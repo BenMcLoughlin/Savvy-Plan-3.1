@@ -1,36 +1,42 @@
-import { beforePensionIncome } from "calculations/income/support/beforePensionIncome"
-// import {ccbIncome, cppIncome, oasIncome } from "calculations/income/government_CCB_CPP_OAS"
-// import {tfsaIncome, rrspIncome } from "calculations/income/savingsIncome"
+import { getdFirstIncomeStreamsObject, getSecondIncomeStreamsObject } from "calculations/income/create/createIncomeObject"
+import { getIncomeArrayForChart } from "calculations/income/create/createChartArray"
+import { getAfterTaxIncomeStreams } from "calculations/income/tax/tax.function"
+import * as I from 'calculations/income/types'
 
-export const calculateIncome = state => {
-  const user = state.ui_reducer.selectedUser
+export const calculateIncome = (state: I.state) => {
+  const { user1BirthYear, user1LifeSpan, maritalStatus } = state.user_reducer
+  const { selectedAccount } = state.ui_reducer
 
-  //Step 1. Determine the users Employment Income
+  let yearFirst: any = user1BirthYear + 18 // Our chart begins when the youngest of the two users turns 18, if user is single we just use their values
+  let yearLast: any = user1BirthYear + user1LifeSpan //Our chart ends whent the oldest of the users dies,
+  let users = [1] //To build a single users income stream we will just use the number 1 in the below for loop, but if they're married we need to do it for both of them
 
-  const array = beforePensionIncome(user, state)
+  if (maritalStatus === "married" || maritalStatus === "commonlaw") {
+    //IF the user is married we need to compare to find the earliest and latest values
+    const { user2BirthYear, user2LifeSpan } = state.user_reducer
+    users = [1, 2] //this array will be mapped through to create values for both users
+    if (user2BirthYear < user1BirthYear) yearFirst = user2BirthYear + 18
+    if (user1LifeSpan < user2LifeSpan) yearLast = user2BirthYear + user2LifeSpan
+  }
 
-  return array
-  //Step 2. Determine the users Business Income
+  //we begin by building an object with all incoem values the user has inputted, the object has income information for each year, these values are used to calculate pensoins
+  const firstIncomeObject: I.incomeObject = getdFirstIncomeStreamsObject(state, yearFirst, yearLast, users)
 
-  //Step 5. Determine if the user has Canada Child Benefit Income
+  //next we build a second income object and add in pensions, these are based on the first object
+  let secondIncomeObject: I.incomeObject = getSecondIncomeStreamsObject(firstIncomeObject, state, yearFirst, yearLast, users)
 
-  //      ccbIncome(state)
+  // if (selectedAccount === "afterTax") {
+  //   secondIncomeObject = getAfterTaxIncomeStreams(firstIncomeObject, state, yearFirst, yearLast, users)
+  // }
 
-  // //Step 6. Determine Users Retirement TFSA Income
-
-  //      tfsaIncome(state)
-
-  // //Step 7. Determine Users Retirement RRSP Income
-
-  //      rrspIncome(state)
-
-  // //Step 8. Determine Users Retirement Canada Pension Plan
-
-  //      cppIncome(state)
-
-  // //Step 9. Determine Users Old Age Security
-
-  //      oasIncome(state)
-
-  //Step 10. Combine all Income into one array
+  const incomeArrayForChart = getIncomeArrayForChart(state, secondIncomeObject)
+//console.log('incomeArrayForChart:', incomeArrayForChart)
+  return incomeArrayForChart
 }
+
+//Time Test
+// const START_TIME = new Date().getTime()
+// const END_TIME = new Date().getTime()
+//  const function_duration = END_TIME - START_TIME
+// console.log("incomeArrayForChart:", incomeArrayForChart)
+// console.log("duration:", function_duration)
