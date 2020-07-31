@@ -4,8 +4,7 @@ export const getIncomeArrayForChart = ({ui_reducer}, secondIncomeObject) => {
 
 
   const convertObjectToArrayForChart = (object, user) => {
-    return Object.values(object).map(d =>  d[user].incomeStreams
-    )
+    return Object.values(object).map(d =>  d[user].incomeStreams)
   }
 
   const convertObjectToCombinedArrayForChart = (object) => {

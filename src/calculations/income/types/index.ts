@@ -43,3 +43,24 @@ export type incomeObject = {
     user2: userIncome
   }
 }
+
+
+//TAX Types
+
+export type government = "federal" | "britishColumbia"
+
+export interface taxBracket {
+    bot: number
+    top: number
+    rate: number
+    constant: number
+}
+
+export type  basicPersonal = 12298 | 10949
+
+export interface taxes {
+  [key:string]: {
+    basicPersonal: basicPersonal
+    [key:number]: taxBracket
+  }
+}

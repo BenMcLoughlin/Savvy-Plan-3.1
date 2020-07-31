@@ -5,19 +5,21 @@ const mockState = {
     user1BirthYear: 1988,
     user1LifeSpan: 95,
     user1CppStartAge: 65,
+    user1OasStartAge: 65,
     user2BirthYear: 1988,
     user2LifeSpan: 95,
     user2CppStartAge: 65,
+    user2OasStartAge: 65,
     maritalStatus: "married",
   },
   ui_reducer: {
-    selectedAccount: "before tax",
-    selectedUser: "combined",
+    selectedAccount: "afterTax",
+    selectedUser: "user1",
   },
   main_reducer: {
     //TEST 1 - confirmation documentation found in CPP docs
     user1Income_13719: {
-      name: "Income",
+      name: "Wal Mart",
       periods: 0,
       period0StartYear: 2006,
       period0Value: 30000,
@@ -37,7 +39,7 @@ const mockState = {
       streamType: "income",
     },
     user2Income_13719: {
-      name: "Income",
+      name: "Best Buy",
       periods: 0,
       period0StartYear: 2006,
       period0Value: 30000,

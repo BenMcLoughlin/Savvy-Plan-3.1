@@ -2,20 +2,21 @@ import { getYearRange } from "calculations/income/CanadaChildBenefit/CCB.helpers
 import { getCcbBenefit } from "calculations/income/CanadaChildBenefit/CCB.function"
 import { getCpp, getOas } from "calculations/income/CanadaPensionPlan/CPP.function"
 import { getIncomeStreams, sumObjects } from "calculations/income/create/create.helpers"
-import * as I from 'calculations/income/types'
+import * as I from "calculations/income/types"
 
 const getAfterTax = totalIncome => totalIncome
 const getAverageTaxRate = totalIncome => totalIncome
 
 export const getdFirstIncomeStreamsObject = (state: I.state, yearFirst: I.year, yearLast: I.year, users: number[]): I.incomeObject => {
-  
   const income = {} //initialize an empty object which values will be passed into
 
-  for (let year = yearFirst; year <= yearLast; year++) { // loop through year youngest turns 18 to year oldest dies
-    users.map(n => {//for each user we will create an object with their income details
+  for (let year = yearFirst; year <= yearLast; year++) {
+    // loop through year youngest turns 18 to year oldest dies
+    users.map(n => {
+      //for each user we will create an object with their income details
       const incomeStreams = getIncomeStreams(state, `user${n}`, year, "") //creates an object showing all incoem streams, used to sum income
       const incomeStreamsForCpp = getIncomeStreams(state, `user${n}`, year, "getCpp") //ctreates an object of only CPP eligible income
-      const totalIncome = sumObjects(incomeStreams) 
+      const totalIncome = sumObjects(incomeStreams)
       const totalCppIncome = sumObjects(incomeStreamsForCpp)
 
       // const averageTaxRate = getAverageTaxRate(totalIncome)
@@ -48,9 +49,11 @@ export const getSecondIncomeStreamsObject = (income: I.incomeObject, state: I.st
 
     users.map(n => {
       const age = year - user_reducer[`user${n}BirthYear`] //grab the users age to check if CCP should be added
-      let incomeStreams = (income[year] = { //createing a new income streams object where pension incoem will be added
+      let incomeStreams = (income[year] = {
+        //createing a new income streams object where pension incoem will be added
         ...income[year],
-        [`user${n}`]: {// example is user1
+        [`user${n}`]: {
+          // example is user1
           ...income[year][`user${n}`],
           incomeStreams: {
             ...income[year][`user${n}`].incomeStreams,
@@ -65,9 +68,11 @@ export const getSecondIncomeStreamsObject = (income: I.incomeObject, state: I.st
     })
     users.map(n => {
       let incomeStreams = (income[year] = {
-        ...income[year], [`user${n}`]: {
-          ...income[year][`user${n}`], totalIncome: sumObjects(income[year][`user${n}`].incomeStreams) //sums the income
-        }
+        ...income[year],
+        [`user${n}`]: {
+          ...income[year][`user${n}`],
+          totalIncome: sumObjects(income[year][`user${n}`].incomeStreams), //sums the income
+        },
       })
       return incomeStreams
     })

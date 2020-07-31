@@ -1,9 +1,10 @@
 import { getdFirstIncomeStreamsObject, getSecondIncomeStreamsObject } from "calculations/income/create/createIncomeObject"
 import { getIncomeArrayForChart } from "calculations/income/create/createChartArray"
-import { getAfterTaxIncomeStreams } from "calculations/income/tax/tax.function"
-import * as I from 'calculations/income/types'
+import { getAfterTaxStreamsObject } from "calculations/income/tax/tax.function"
+import * as I from "calculations/income/types"
 
 export const calculateIncome = (state: I.state) => {
+  const START_TIME = new Date().getTime()
   const { user1BirthYear, user1LifeSpan, maritalStatus } = state.user_reducer
   const { selectedAccount } = state.ui_reducer
 
@@ -25,12 +26,20 @@ export const calculateIncome = (state: I.state) => {
   //next we build a second income object and add in pensions, these are based on the first object
   let secondIncomeObject: I.incomeObject = getSecondIncomeStreamsObject(firstIncomeObject, state, yearFirst, yearLast, users)
 
-  // if (selectedAccount === "afterTax") {
-  //   secondIncomeObject = getAfterTaxIncomeStreams(firstIncomeObject, state, yearFirst, yearLast, users)
-  // }
+  //console.log('JSON.stringify(secondIncomeObject, null, 4):', JSON.stringify(firstIncomeObject[2006], null, 4))
+  console.log("selectedAccount:", selectedAccount)
+  if (selectedAccount === "after tax") {
+    secondIncomeObject = getAfterTaxStreamsObject(secondIncomeObject, state, yearFirst, yearLast, users)
+  }
 
   const incomeArrayForChart = getIncomeArrayForChart(state, secondIncomeObject)
-//console.log('incomeArrayForChart:', incomeArrayForChart)
+
+  console.log("incomeArrayForChart:", incomeArrayForChart)
+
+  const END_TIME = new Date().getTime()
+  const function_duration = END_TIME - START_TIME
+  console.log("duration:", function_duration)
+
   return incomeArrayForChart
 }
 

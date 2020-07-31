@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export const getThisYearsIncome = (stream, year) => {
   //step 1. Check all periods to see if year falls within the period Start or End
   const value = [0, 1, 2].map((period) => {
@@ -26,7 +28,8 @@ export const getIncomeStreams = ({ main_reducer }, user, year, query) => {
 export const sumObjects = (streams) => {
 
   if (Object.values(streams).length > 0) {
-    return  Object.values(streams).reduce((a:any, n:any) => a + n)
+    const streamsWithoutYear = _.omit(streams, ["year"])
+    return (Object.values(streamsWithoutYear)).reduce((a:any, n:any) => a + n)
   }
 return 0
 } ;

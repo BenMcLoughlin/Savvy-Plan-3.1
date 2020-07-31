@@ -39,5 +39,5 @@ export const getCcbBenefit = (income, kidsBirthYearArray, year) => {
   const adjustedFamilyNetIncome = getAdjustedFamilyNetIncome(income, year);
   const reduction = getReduction(adjustedFamilyNetIncome, kidsBirthYearArray, year);
   const ccb = benefitBeforeReduction - reduction;
-  return ccb;
+  return ccb > 0 ? ccb : 0
 };
