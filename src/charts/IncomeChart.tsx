@@ -4,6 +4,7 @@ import { ChartNav } from "components"
 import { drawBarChart } from "charts/createChartFunctions/createBarChart"
 import * as I from "types"
 
+
 interface IProps {
   state: I.state
   color_selector: any

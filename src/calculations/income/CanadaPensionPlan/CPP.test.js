@@ -13,7 +13,7 @@ const mockState = {
     maritalStatus: "married",
   },
   ui_reducer: {
-    selectedAccount: "afterTax",
+    selectedAccount: "beforeTax",
     selectedUser: "user1",
   },
   main_reducer: {
@@ -59,6 +59,8 @@ const mockState = {
 }
 
 describe("CPP calculation is in line with with Dougs", function () {
-  it("born 1988, 30k 2006-2020, 58k 2020 - 2037, 90k 2038-2052 should be 17916.78", () => expect(calculateIncome(mockState)[50].user1CppBenefit.toFixed(2)).toEqual("17916.78"))
-  it("born 1988, 30k 2006-2032, 58k 2020 - 2052, 90k 2038-2052 should be 14,266.69 ", () => expect(calculateIncome(mockState)[50].user2CppBenefit.toFixed(2)).toEqual("14266.69"))
+  it("born 1988, 30k 2006-2020, 58k 2020 - 2037, 90k 2038-2052 should be 17916.78", () =>
+    expect(calculateIncome(mockState)[2070].user1.beforeTaxIncomeStreams.user1CppBenefit.toFixed(2)).toEqual("17916.78"))
+  it("born 1988, 30k 2006-2032, 58k 2020 - 2052, 90k 2038-2052 should be 14,266.69 ", () =>
+    expect(calculateIncome(mockState)[2070].user2.beforeTaxIncomeStreams.user2CppBenefit.toFixed(2)).toEqual("14266.69"))
 })

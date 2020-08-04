@@ -2,7 +2,7 @@ import { FTR, PTR, taxes } from "calculations/income/tax/tax.data"
 import * as I from "calculations/income/types"
 
 export const getTax = (income: number, government: I.government) => {
-  console.log('income:', income)
+
   const { rate, constant }: any = Object.values(taxes[government]).find((d: any): any => income >= d.bot && income < d.top) //find the object that contains the bracket details the income fits into
   const tax = income * rate - constant
   return tax //return the provincial taxes for that income amount, this is done by mulitplying income by the rate and subtracting the constant
@@ -30,6 +30,7 @@ export const getAfterTaxIncome = (income, federalTaxes, provincialTaxes, federal
 }
 
 export const getTaxRate = (income: number) => {
+
   const federalTaxes = getTax(income, "federal")
   const provincialTaxes = getTax(income, "britishColumbia")
   const federalCredits = getBasicCredits(income, "federal")

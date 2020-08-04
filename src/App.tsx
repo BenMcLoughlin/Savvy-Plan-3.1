@@ -46,7 +46,7 @@ export default connect(mapStateToProps, { set, remove })(App)
 
 const Wrapper = styled.div`
   min-height: 90vh;
-  min-width: 100vh;
+  min-width: 110vh;
 `
 const Content = styled.div`
   background: #ffffff;

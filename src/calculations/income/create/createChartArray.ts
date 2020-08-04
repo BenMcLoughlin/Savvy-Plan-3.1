@@ -1,20 +1,27 @@
-export const getIncomeArrayForChart = ({ui_reducer}, secondIncomeObject) => {
+export const getIncomeArrayForChart = ({ui_reducer}, afterTaxIncomeObject) => {
 
-  const { selectedUser }  = ui_reducer 
-
+  const { selectedUser, selectedAccount }  = ui_reducer 
 
   const convertObjectToArrayForChart = (object, user) => {
-    return Object.values(object).map(d =>  d[user].incomeStreams)
+    if (selectedAccount=== "after tax") {
+     return  Object.values(object).map(d =>  d[user].afterTaxIncomeStreams)
+    }
+   return Object.values(object).map(d =>  d[user].beforeTaxIncomeStreams)
+
   }
 
   const convertObjectToCombinedArrayForChart = (object) => {
-    return Object.values(object).map((d:any) =>  ({...d.user1.incomeStreams, ...d.user2.incomeStreams})
-    )
+
+    if (selectedAccount=== "after tax") {
+      return Object.values(object).map((d:any) =>  ({...d.user1.afterTaxIncomeStreams, ...d.user2.afterTaxIncomeStreams}))
+    }
+return Object.values(object).map((d:any) =>   ({...d.user1.beforeTaxIncomeStreams, ...d.user2.beforeTaxIncomeStreams}))
+
   }
   
   switch(selectedUser) {
-    case('user1'): return convertObjectToArrayForChart(secondIncomeObject, 'user1')
-    case('user2'): return convertObjectToArrayForChart(secondIncomeObject, 'user2')
-    case('combined'): return convertObjectToCombinedArrayForChart(secondIncomeObject)
+    case('user1'): return convertObjectToArrayForChart(afterTaxIncomeObject, 'user1')
+    case('user2'): return convertObjectToArrayForChart(afterTaxIncomeObject, 'user2')
+    case('combined'): return convertObjectToCombinedArrayForChart(afterTaxIncomeObject)
   }
 }

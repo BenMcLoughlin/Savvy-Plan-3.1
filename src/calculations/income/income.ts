@@ -25,23 +25,16 @@ export const calculateIncome = (state: I.state) => {
 
   //next we build a second income object and add in pensions, these are based on the first object
   let secondIncomeObject: I.incomeObject = getSecondIncomeStreamsObject(firstIncomeObject, state, yearFirst, yearLast, users)
-
-  //console.log('JSON.stringify(secondIncomeObject, null, 4):', JSON.stringify(firstIncomeObject[2006], null, 4))
-  console.log("selectedAccount:", selectedAccount)
-  if (selectedAccount === "after tax") {
-    secondIncomeObject = getAfterTaxStreamsObject(secondIncomeObject, state, yearFirst, yearLast, users)
-  }
-
-  const incomeArrayForChart = getIncomeArrayForChart(state, secondIncomeObject)
-
-  console.log("incomeArrayForChart:", incomeArrayForChart)
+  const afterTaxIncomeObject = getAfterTaxStreamsObject(secondIncomeObject, state, yearFirst, yearLast, users)
 
   const END_TIME = new Date().getTime()
   const function_duration = END_TIME - START_TIME
   console.log("duration:", function_duration)
 
-  return incomeArrayForChart
+  return afterTaxIncomeObject
 }
+
+
 
 //Time Test
 // const START_TIME = new Date().getTime()

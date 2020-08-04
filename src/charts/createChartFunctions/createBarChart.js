@@ -1,14 +1,16 @@
 import * as d3 from "d3"
 import _ from "lodash"
+import { getIncomeArrayForChart } from "calculations/income/create/createChartArray"
+import {round, formatName } from "charts/createChartFunctions/chartHelpers"
 
 //      drawBarChart(className, data, height, set, width)
 
-export const drawBarChart = (colors, className, data, height, set, state, width) => {
+export const drawBarChart = (colors, className, incomeObject, height, set, state, width) => {
 
-  const { selectedId } = state.ui_reducer
+  const { selectedId,  selectedPeriod, selectedUser } = state.ui_reducer
+  const { user1BirthYear, user1Name,  user2Name} = state.user_reducer
 
   const instance = state.main_reducer[selectedId]
-  const { selectedPeriod } = state.ui_reducer
 
   let periodStart = 0
   let periodEnd = 0
@@ -25,7 +27,7 @@ export const drawBarChart = (colors, className, data, height, set, state, width)
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
 
-
+const data = getIncomeArrayForChart( state, incomeObject)
 
   d3.select(`.${className} > *`).remove()
   d3.select(`.${className}tooltip`).remove()
@@ -35,7 +37,7 @@ export const drawBarChart = (colors, className, data, height, set, state, width)
   
   const stackedKeys = Object.keys(data[15]).filter( d => d !== "year")
   
-;
+
   const graph = svg
     .append("g")
     .attr("height", graphHeight > 0 ? graphHeight : 0)
@@ -54,11 +56,14 @@ export const drawBarChart = (colors, className, data, height, set, state, width)
     .attr("class", `${className}tooltip`)
     .style("opacity", 0)
     .style("position", "absolute")
-    .style("top", "10rem")
+    .style("top", "-10rem")
     .style("right", "30rem")
 
   const update = data => {
-    const max = d3.max(data, d => Object.values(d).reduce((acc, num) => acc + num)) < 60000 ? 60000 : d3.max(data, d => Object.values(d).reduce((acc, num) => acc + num)) + 1000
+   
+    const beforeTaxIncomeArray = Object.values(incomeObject).map(d => d.user1.beforeTaxIncome + d.user2.beforeTaxIncome)
+
+    const max = d3.max(beforeTaxIncomeArray)
 
     const series = stack(data)
 
@@ -108,7 +113,7 @@ export const drawBarChart = (colors, className, data, height, set, state, width)
       .on("mouseover", (d, i, n) => {
         const name = n[0].parentNode.className.animVal
 
-        const thisColor = colors[d.key]
+        const thisColor = colors[name]
 
         d3.select(n[i]).transition().duration(100).attr("opacity", 0.7).attr("cursor", "pointer")
 
@@ -117,23 +122,43 @@ export const drawBarChart = (colors, className, data, height, set, state, width)
         tooltip.html(
           `
                                           <div class="topHeader">
-                                              <p> ${d.data.age} Yrs Old</p>
+                                              <p> ${d.data.year}</p>
+                                              <p> Age: ${d.data.year - user1BirthYear}</p>
                                           </div>
-                                          <div class="financialOutput">
-                                              <div class="total" style="color: ${thisColor}; ">
-                                                  <h3 class="title">  ${_.startCase(name)} </h3>
-                                                  <p class="value" style="border-bottom: .3px solid #72929B; border-left: .3px solid #72929B;">  
-                                                      ${(Math.round((d[1] - d[0]) / 1000) * 1000) / 1000} 
-                                                      <span> K</span>
-                                                  </p>
-                                              </div>
-                                              <div class="total">
-                                                  <h3 class="title">  Total Income </h3>
-                                                  <p class="value" style="border-left: .3px solid #72929B;">  
-                                                  ${Math.round(Object.values(d.data).reduce((acc, num) => acc + num) / 1000)} 
-                                                      <span> K</span>
-                                                  </p>
-                                              </div>
+                                          <div class="title-row" style="color: ${thisColor}; ">
+                                           ${formatName(name, user1Name,  user2Name)}
+                                          </div>
+                                          <div class="row" style="color: ${thisColor}; ">
+                                            <div class="box">
+                                              <p> Before tax</p>
+                                              <p class="value"> ${
+                                                round(incomeObject[d.data.year].user1.beforeTaxIncomeStreams[name]) ||
+                                                round(incomeObject[d.data.year].user2.beforeTaxIncomeStreams[name])
+                                              } K</p>
+                                            </div>
+                                            <div class="box">
+                                              <p> After tax</p>
+                                              <p class="value"> ${round(incomeObject[d.data.year].user1.afterTaxIncomeStreams[name])} K</p>
+                                            </div>
+                                          </div>
+                                          <div class="title-row">
+                                          Total
+                                          </div>
+                                          <div class="row">
+                                            <div class="box">
+                                              <p> Before tax</p>
+                                              <p class="value"> ${
+                                                selectedUser === "combined" ? round(incomeObject[d.data.year].user1.beforeTaxIncome) +  round(incomeObject[d.data.year].user2.beforeTaxIncome) :
+                                                round(incomeObject[d.data.year][selectedUser].beforeTaxIncome)
+                                              } K</p>
+                                            </div>
+                                            <div class="box">
+                                              <p> After tax</p>
+                                              <p class="value"> ${
+                                                selectedUser === "combined" ? round(incomeObject[d.data.year].user1.afterTaxIncome) +  round(incomeObject[d.data.year].user2.afterTaxIncome) :
+                                                round(incomeObject[d.data.year][selectedUser].afterTaxIncome)
+                                              } K</p>
+                                            </div>
                                           </div>
                                           `
         )
@@ -148,7 +173,7 @@ export const drawBarChart = (colors, className, data, height, set, state, width)
             return streamName === name && d.data.year >= periodStart && d.data.year < periodEnd ? 0.7 : 1
           })
 
-        tooltip.transition().duration(100).style("opacity", 0)
+        tooltip.transition().duration(1500).style("opacity", 0)
       })
       .on("mousemove", function (d) {
         // when mouse moves
@@ -157,8 +182,8 @@ export const drawBarChart = (colors, className, data, height, set, state, width)
           .style("left", d3.event.layerX + 30 + "px") // always 10px to the right of the mouse
       })
 
-    var ticks = [20, 40, 60, 80, 95]
-    var tickLabels = ["Age 20", "Age 40", "Age 60", "Age 80", "Age 95"]
+    var ticks = [2000, 2020, 2040, 2060, 2080]
+    var tickLabels = ["2000 \n Age 20", "Age 40", "Age 60", "Age 80", "Age 95"]
 
     const xAxis = d3
       .axisBottom(xScale)
