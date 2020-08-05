@@ -1,14 +1,10 @@
 import * as d3 from "d3"
 import _ from "lodash"
 import { getIncomeArrayForChart } from "calculations/income/create/createChartArray"
-import {round, formatName } from "charts/createChartFunctions/chartHelpers"
-
-//      drawBarChart(className, data, height, set, width)
-
+import { round, formatName } from "charts/createChartFunctions/chartHelpers"
 export const drawBarChart = (colors, className, incomeObject, height, set, state, width) => {
-
-  const { selectedId,  selectedPeriod, selectedUser } = state.ui_reducer
-  const { user1BirthYear, user1Name,  user2Name} = state.user_reducer
+  const { selectedId, selectedPeriod, selectedUser } = state.ui_reducer
+  const { user1BirthYear, user1Name, user2Name } = state.user_reducer
 
   const instance = state.main_reducer[selectedId]
 
@@ -16,27 +12,24 @@ export const drawBarChart = (colors, className, incomeObject, height, set, state
   let periodEnd = 0
   let streamName = ""
 
-    if (instance) {
-      streamName = instance.name
-      periodStart = instance[`period${selectedPeriod}StartYear`]
-      periodEnd = instance[`period${selectedPeriod}EndYear`]
-    }
-  
+  if (instance) {
+    streamName = instance.name
+    periodStart = instance[`period${selectedPeriod}StartYear`]
+    periodEnd = instance[`period${selectedPeriod}EndYear`]
+  }
 
   const margin = { top: 20, right: 100, bottom: 20, left: 100 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
 
-const data = getIncomeArrayForChart( state, incomeObject)
+  const data = getIncomeArrayForChart(state, incomeObject)
 
   d3.select(`.${className} > *`).remove()
   d3.select(`.${className}tooltip`).remove()
 
   const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
-  
-  const stackedKeys = Object.keys(data[15]).filter( d => d !== "year")
-  
+  const stackedKeys = Object.keys(data[15]).filter(d => d !== "year")
 
   const graph = svg
     .append("g")
@@ -60,10 +53,13 @@ const data = getIncomeArrayForChart( state, incomeObject)
     .style("right", "30rem")
 
   const update = data => {
-   
-    const beforeTaxIncomeArray = Object.values(incomeObject).map(d => d.user1.beforeTaxIncome + d.user2.beforeTaxIncome)
+    const beforeTaxIncomeArray = Object.values(incomeObject).map(d => {
+      if (d.user2.beforeTaxIncome > 0) return d.user2.beforeTaxIncome + d.user1.beforeTaxIncome
+      else return d.user1.beforeTaxIncome
+    })
 
-    const max = d3.max(beforeTaxIncomeArray)
+    console.log("incomeObject):", incomeObject)
+    const max = d3.max(beforeTaxIncomeArray) < 40000 ? 40000 : d3.max(beforeTaxIncomeArray) + 5000
 
     const series = stack(data)
 
@@ -80,25 +76,14 @@ const data = getIncomeArrayForChart( state, incomeObject)
     rects.exit().remove()
 
     rects
-      .selectAll("rect")
-      .data(d => d)
-      .enter()
-      .append("rect")
-      .attr("x", d => xScale(d.data.year))
-      .attr("y", d => yScale(d[1]))
-      .merge(rects)
-
-    rects
       .enter()
       .append("g")
-      .attr("fill", (d, i) => (colors[d.key]))
+      .attr("fill", (d, i) => colors[d.key])
       .attr("class", (d, i) => d.key)
       .selectAll("rect")
       .data(d => d)
       .enter()
       .append("rect")
-      .attr("y", d => yScale(d[1]))
-      .attr("height", d => (yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0))
       .attr("x", d => xScale(d.data.year))
       .attr("opacity", (d, i, n) => {
         const name = n[0].parentNode.className.animVal
@@ -108,13 +93,13 @@ const data = getIncomeArrayForChart( state, incomeObject)
       .on("click", (d, i, n) => {
         const name = n[0].parentNode.className.animVal
         const id = Object.values(state.main_reducer).filter(d => d.name === name)[0]["id"]
-        set('selectedId', 'ui_reducer', id)
+        set("selectedId", "ui_reducer", id)
       })
       .on("mouseover", (d, i, n) => {
         const name = n[0].parentNode.className.animVal
 
         const thisColor = colors[name]
-
+        console.log("selectedUser:", selectedUser)
         d3.select(n[i]).transition().duration(100).attr("opacity", 0.7).attr("cursor", "pointer")
 
         tooltip.transition().duration(200).style("opacity", 1).style("pointer-events", "none")
@@ -126,19 +111,20 @@ const data = getIncomeArrayForChart( state, incomeObject)
                                               <p> Age: ${d.data.year - user1BirthYear}</p>
                                           </div>
                                           <div class="title-row" style="color: ${thisColor}; ">
-                                           ${formatName(name, user1Name,  user2Name)}
+                                           ${formatName(name, user1Name, user2Name)}
                                           </div>
                                           <div class="row" style="color: ${thisColor}; ">
                                             <div class="box">
                                               <p> Before tax</p>
                                               <p class="value"> ${
-                                                round(incomeObject[d.data.year].user1.beforeTaxIncomeStreams[name]) ||
-                                                round(incomeObject[d.data.year].user2.beforeTaxIncomeStreams[name])
+                                                round(incomeObject[d.data.year].user1.beforeTaxIncomeStreams[name]) || round(incomeObject[d.data.year].user2.beforeTaxIncomeStreams[name])
                                               } K</p>
                                             </div>
                                             <div class="box">
                                               <p> After tax</p>
-                                              <p class="value"> ${round(incomeObject[d.data.year].user1.afterTaxIncomeStreams[name])} K</p>
+                                              <p class="value"> ${
+                                                round(incomeObject[d.data.year].user1.afterTaxIncomeStreams[name]) || round(incomeObject[d.data.year].user2.afterTaxIncomeStreams[name])
+                                              } K</p>
                                             </div>
                                           </div>
                                           <div class="title-row">
@@ -148,15 +134,21 @@ const data = getIncomeArrayForChart( state, incomeObject)
                                             <div class="box">
                                               <p> Before tax</p>
                                               <p class="value"> ${
-                                                selectedUser === "combined" ? round(incomeObject[d.data.year].user1.beforeTaxIncome) +  round(incomeObject[d.data.year].user2.beforeTaxIncome) :
-                                                round(incomeObject[d.data.year][selectedUser].beforeTaxIncome)
+                                                selectedUser === "combined"
+                                                  ? round(incomeObject[d.data.year].user1.beforeTaxIncome + incomeObject[d.data.year].user2.beforeTaxIncome)
+                                                  : selectedUser === "user2"
+                                                  ? round(incomeObject[d.data.year].user2.beforeTaxIncome)
+                                                  : round(incomeObject[d.data.year].user1.beforeTaxIncome)
                                               } K</p>
                                             </div>
                                             <div class="box">
                                               <p> After tax</p>
                                               <p class="value"> ${
-                                                selectedUser === "combined" ? round(incomeObject[d.data.year].user1.afterTaxIncome) +  round(incomeObject[d.data.year].user2.afterTaxIncome) :
-                                                round(incomeObject[d.data.year][selectedUser].afterTaxIncome)
+                                                selectedUser === "combined"
+                                                  ? round(incomeObject[d.data.year].user1.afterTaxIncome + incomeObject[d.data.year].user2.afterTaxIncome)
+                                                  : selectedUser === "user2"
+                                                  ? round(incomeObject[d.data.year].user2.afterTaxIncome)
+                                                  : round(incomeObject[d.data.year].user1.afterTaxIncome)
                                               } K</p>
                                             </div>
                                           </div>
@@ -181,6 +173,8 @@ const data = getIncomeArrayForChart( state, incomeObject)
           .style("top", d3.event.layerY - 20 + "px") // always 10px below the cursor
           .style("left", d3.event.layerX + 30 + "px") // always 10px to the right of the mouse
       })
+      .attr("y", d => yScale(d[1]))
+      .attr("height", d => (yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0))
 
     var ticks = [2000, 2020, 2040, 2060, 2080]
     var tickLabels = ["2000 \n Age 20", "Age 40", "Age 60", "Age 80", "Age 95"]

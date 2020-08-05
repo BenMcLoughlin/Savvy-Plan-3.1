@@ -14,15 +14,15 @@ interface IProps {
   remove: I.remove
   state: I.state
   data: any
+  parent: I.parent
 }
 
-export const Questions: FC<IProps> = ({ data, state, set }) => {
+export const Questions: FC<IProps> = ({ data, state, set, parent }) => {
   const { progress } = state.ui_reducer
-
+  console.log("parent:", parent)
   const [direction, setDirection] = useState<string>("forward")
 
   const { streamType, questions } = data
-
   const { length } = questions
 
   const nextProps = nextButtonProps(progress, questions, state, set)
@@ -32,7 +32,7 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
   if (progress === length) return <Redirect to="/plan" />
 
   return (
-    <Wrapper>
+    <Wrapper parent={parent}>
       {streamType === "Onboarding" ? (
         <>
           <ProgressBar length={length} progress={progress} />
@@ -50,10 +50,12 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
             i === progress && (
               <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
                 <Question>
-                  <Header>
+                  {
+                    parent === "onboard" &&                   <Header>
                     <H2>{data.question}</H2>
                     <h3>{data.subTitle}</h3>
                   </Header>
+                  }
                   <Content>{matchThenShowComponent(components, data, data.component)}</Content>
                 </Question>
               </CSSTransition>
@@ -67,18 +69,25 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
           {questions[progress].comment ? <Comment data={questions[progress]} /> : null}
         </Chart>
       ) : null} */}
-      <Back {...backProps} setDirection={setDirection} />
+      { progress > 0 && <Back {...backProps} setDirection={setDirection} /> }
       <Next {...nextProps} setDirection={setDirection} />
     </Wrapper>
   )
 }
 
 //---------------------------STYLES-------------------------------------------//
+interface IWrapper {
+  parent: string
+}
 
-const Wrapper = styled.div`
-  height: 100%;
-  width: 100%;
+const Wrapper = styled.div<IWrapper>`
+  height: 30rem;
+  width: ${props => (props.parent === "display" ? "75rem" : "100%")};
   position: relative;
+  background: ${props => (props.parent === "display" ? "white" : "none")};
+  top: ${props => (props.parent === "display" ? "-2rem" : "0")};
+  z-index: 200;
+
 `
 const Content = styled.div`
   position: relative;
@@ -115,4 +124,5 @@ const Question = styled.div`
   width: 100%;
   flex-direction: column;
   position: absolute;
+  top: 0rem;
 `

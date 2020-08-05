@@ -49,7 +49,7 @@ const Square = styled.div<SProps>`
   display: flex;
   flex-direction: column;
   font-size: 1.6rem;
-  font-weight: 800;
+  font-weight: 600;
   background: ${props => (props.selected ? props.theme.color.primary : "white")};
   border: ${props => props.theme.border.primary};
   cursor: pointer;

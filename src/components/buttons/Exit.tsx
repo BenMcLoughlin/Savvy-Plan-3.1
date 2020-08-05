@@ -24,6 +24,9 @@ const Cross = styled.div`
   margin-right: 1rem;
   margin-top: 0.5rem;
   border-radius: 50%;
+  margin-left: 2rem;
+  margin-top: 2rem;
+  z-index: 200;
   &::before,
   &::after {
     position: absolute;

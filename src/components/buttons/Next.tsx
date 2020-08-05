@@ -39,7 +39,7 @@ export const Next: FC<IProps> = ({ handleChange, setDirection, valid, state }) =
 
 const Wrapper = styled.div`
   position: absolute;
-  top: 45%;
+  top: 18rem;
   right: 8%;
 `
 

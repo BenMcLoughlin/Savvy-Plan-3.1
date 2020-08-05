@@ -39,7 +39,7 @@ export const Display: FC<IProps> = ({ data, remove, set, state }) => {
           ))}
         </InfoCards>
         <Edit>
-          {selectedId && newStream && <Questions data={createStreamQuestionsArray(question_data, instance, set, state, remove, "display")} />}
+          {selectedId && newStream && <Questions data={createStreamQuestionsArray(question_data, instance, set, state, remove, "display")} parent="display"/>}
           {selectedId && !newStream && matchThenShowComponent(components, data, editPanel)}
           {!selectedId && (
             <Left>
@@ -67,9 +67,9 @@ const Chart = styled.div`
 const Content = styled.div`
   height: 100%;
   width: 100%;
-  margin-left: 28rem;
+  margin-left: 30rem;
   display: grid;
-  grid-template-columns: 75rem 35rem;
+  grid-template-columns: 80rem 30rem;
   grid-template-rows: 37rem 30rem;
   grid-template-areas:
     "a b"
@@ -80,7 +80,6 @@ const InfoCards = styled.div`
   grid-area: b;
   height: 50rem;
   margin-top: 6rem;
-  margin-left: 2rem;
   display: flex;
   flex-direction: column;
   flex-wrap: start;

@@ -36,12 +36,17 @@ export const getdFirstIncomeStreamsObject = (state: I.state, yearFirst: I.year, 
 
 export const getSecondIncomeStreamsObject = (income: I.incomeObject, state: I.state, yearFirst: I.year, yearLast: I.year, users: number[]): I.incomeObject => {
   const { user_reducer } = state
+  const {maritalStatus} = user_reducer
 
   const user1CppBenefit = getCpp(income, "user1", state) //we want to calculate the CPP benefit once becuase it is a heavy function
-  const user2CppBenefit = getCpp(income, "user2", state)
   const user1OasBenefit = getOas("user1", state) //same with CCB, these are caluculated and will be added below in the for loop
-  const user2OasBenefit = getOas("user2", state)
+  let user2OasBenefit = 0
+  let user2CppBenefit = 0
 
+  if (maritalStatus === "married") {
+    user2OasBenefit = getOas("user2", state)
+    user2CppBenefit = getCpp(income, "user2", state)
+  }
   const { yearFirstChildBorn, yearLastChildLeaves, kidsBirthYearArray } = getYearRange(state) //these values will be used in CCB calculation but are just grabbed once here
 
   for (let year = yearFirst; year <= yearLast; year++) {
