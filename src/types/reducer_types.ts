@@ -70,6 +70,7 @@ export interface IinstanceCore {
 }
 
 export interface incomeStream extends IinstanceCore {
+  cppEligible: boolean
   periods: number
   period0StartYear: number
   period0Value: number
@@ -80,6 +81,7 @@ export interface incomeStream extends IinstanceCore {
 
 export interface savingsStream extends IinstanceCore {
   periods: number
+  contributionPeriods: number
   period0StartYear: number
   period0Value: number
   period0EndYear: number

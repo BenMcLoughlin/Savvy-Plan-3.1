@@ -14,6 +14,7 @@ export const newIncomeStream = () => ({
   period0Value: 20000,
   period0EndYear: 2035,
   taxable: true,
+  cppEligible: true,
 })
 
 /**
@@ -27,6 +28,10 @@ export const newSavingsStream = () => {
     name: "",
     periods: 0,
     currentValue: 0,
+    contributionPeriods: 0, 
+    contribution0StartYear: thisYear,
+    contribution0Value: 1000,
+    contribution0EndYear: 2040,
     period0StartYear: thisYear,
     period0Value: 1000,
     period0EndYear: 2040,

@@ -19,8 +19,9 @@ const mockState = {
   main_reducer: {
     //TEST 1 - confirmation documentation found in CPP docs
     user1Income_13719: {
+      cppEligible: true,
       name: "Wal Mart",
-      periods: 0,
+      periods: 3,
       period0StartYear: 2006,
       period0Value: 30000,
       period0EndYear: 2021,
@@ -39,8 +40,9 @@ const mockState = {
       streamType: "income",
     },
     user2Income_13719: {
+      cppEligible: true,
       name: "Best Buy",
-      periods: 0,
+      periods: 2,
       period0StartYear: 2006,
       period0Value: 30000,
       period0EndYear: 2033,

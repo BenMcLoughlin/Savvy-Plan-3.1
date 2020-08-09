@@ -46,7 +46,7 @@ const Text = styled.label`
 const Input = styled.input`
   background-color: white;
   font-size: 1.6rem;
-  font-weight: 800;
+  font-weight: 600;
   padding: 1.2rem;
   display: block;
   width: 30rem;

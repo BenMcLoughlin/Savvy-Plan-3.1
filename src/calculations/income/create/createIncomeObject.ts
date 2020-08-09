@@ -10,7 +10,7 @@ const getAverageTaxRate = beforeTaxIncome => beforeTaxIncome
 export const getdFirstIncomeStreamsObject = (state: I.state, yearFirst: I.year, yearLast: I.year, users: number[]): I.incomeObject => {
   const income = {} //initialize an empty object which values will be passed into
 
-  for (let year = yearFirst; year <= yearLast; year++) {
+  for (let year = +yearFirst; year <= +yearLast; year++) {
     // loop through year youngest turns 18 to year oldest dies
     users.map(n => {
       //for each user we will create an object with their income details
@@ -31,6 +31,8 @@ export const getdFirstIncomeStreamsObject = (state: I.state, yearFirst: I.year, 
       })
     })
   }
+
+//console.log('JSON.stringify(income, 4, null):', JSON.stringify(income, null, 4))
   return income
 }
 
@@ -49,7 +51,7 @@ export const getSecondIncomeStreamsObject = (income: I.incomeObject, state: I.st
   }
   const { yearFirstChildBorn, yearLastChildLeaves, kidsBirthYearArray } = getYearRange(state) //these values will be used in CCB calculation but are just grabbed once here
 
-  for (let year = yearFirst; year <= yearLast; year++) {
+  for (let year = +yearFirst; year <= +yearLast; year++) {
     const ccbBenefit = year >= yearFirstChildBorn && year <= yearLastChildLeaves ? getCcbBenefit(income, kidsBirthYearArray, year) : 0 //only want CCB added for eligible years
 
     users.map(n => {

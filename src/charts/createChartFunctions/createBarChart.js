@@ -58,7 +58,6 @@ export const drawBarChart = (colors, className, incomeObject, height, set, state
       else return d.user1.beforeTaxIncome
     })
 
-    console.log("incomeObject):", incomeObject)
     const max = d3.max(beforeTaxIncomeArray) < 40000 ? 40000 : d3.max(beforeTaxIncomeArray) + 5000
 
     const series = stack(data)
@@ -78,7 +77,9 @@ export const drawBarChart = (colors, className, incomeObject, height, set, state
     rects
       .enter()
       .append("g")
-      .attr("fill", (d, i) => colors[d.key])
+      .attr("fill", (d, i) => {
+        console.log('d.key:', d.key)
+        return colors[d.key] })
       .attr("class", (d, i) => d.key)
       .selectAll("rect")
       .data(d => d)

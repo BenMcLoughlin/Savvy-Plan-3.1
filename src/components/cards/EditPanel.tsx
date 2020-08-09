@@ -18,15 +18,15 @@ interface ISliderProps {
 
 export const EditPanel: FC<ISliderProps> = ({ editPeriod, remove, set}) => {
   
-const {id, handleColorChange, handleTitleChange, colorValue, nameValue } = editPeriod
+const {id, handleColorChange, handleTitleChange, handleExit, colorValue, nameValue, newStream } = editPeriod
 
   return (
     <Wrapper>
       <Header>
-         <ColorSelect handleChange={(value: string) => handleColorChange(value)} value={colorValue} />
-        <EditTitle handleChange={(value: string) => handleTitleChange(value)} value={nameValue}/>  
+         <ColorSelect handleChange={(value: string) => handleColorChange(value)} value={colorValue}  />
+        <EditTitle handleChange={(value: string) => handleTitleChange(value)} value={nameValue} selectedFocus={newStream}/>  
         {editPeriod.dualSelectorProps && <DualSelect {...editPeriod.dualSelectorProps} />}
-        <Exit handleChange={() => set("selectedId", "ui_reducer", "")} />
+        <Exit handleChange={() => handleExit()} />
       </Header>
       <Center>
         <TripleSliderSelector {...editPeriod.tripleSliders} />
@@ -56,7 +56,8 @@ const Wrapper = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  margin-top: 1.5rem;
+  margin-top: -2rem;
+  z-index: 200;
 `
 const Header = styled.div`
   height: 4rem;

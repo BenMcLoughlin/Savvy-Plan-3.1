@@ -14,12 +14,10 @@ interface IProps {
   remove: I.remove
   state: I.state
   data: any
-  parent: I.parent
 }
 
-export const Questions: FC<IProps> = ({ data, state, set, parent }) => {
+export const Questions: FC<IProps> = ({ data, state, set }) => {
   const { progress } = state.ui_reducer
-  console.log("parent:", parent)
   const [direction, setDirection] = useState<string>("forward")
 
   const { streamType, questions } = data
@@ -29,10 +27,10 @@ export const Questions: FC<IProps> = ({ data, state, set, parent }) => {
   const exitProps = exitButtonProps(set)
   const backProps = backButtonProps(progress, set)
 
-  if (progress === length) return <Redirect to="/plan" />
+  if (progress === length -2) return <Redirect to="/plan" />
 
   return (
-    <Wrapper parent={parent}>
+    <Wrapper >
       {streamType === "Onboarding" ? (
         <>
           <ProgressBar length={length} progress={progress} />
@@ -50,12 +48,10 @@ export const Questions: FC<IProps> = ({ data, state, set, parent }) => {
             i === progress && (
               <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
                 <Question>
-                  {
-                    parent === "onboard" &&                   <Header>
+                  <Header>
                     <H2>{data.question}</H2>
                     <h3>{data.subTitle}</h3>
                   </Header>
-                  }
                   <Content>{matchThenShowComponent(components, data, data.component)}</Content>
                 </Question>
               </CSSTransition>
@@ -76,18 +72,12 @@ export const Questions: FC<IProps> = ({ data, state, set, parent }) => {
 }
 
 //---------------------------STYLES-------------------------------------------//
-interface IWrapper {
-  parent: string
-}
 
-const Wrapper = styled.div<IWrapper>`
+
+const Wrapper = styled.div`
   height: 30rem;
-  width: ${props => (props.parent === "display" ? "75rem" : "100%")};
+  width: 100%;
   position: relative;
-  background: ${props => (props.parent === "display" ? "white" : "none")};
-  top: ${props => (props.parent === "display" ? "-2rem" : "0")};
-  z-index: 200;
-
 `
 const Content = styled.div`
   position: relative;

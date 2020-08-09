@@ -67,7 +67,7 @@ const Input = styled.input`
   background-color: white;
   ${props => props.theme.color.darkGrey}
   font-size: 1.6rem;
-  font-weight: 800;
+  font-weight: 400;
   padding: 1.2rem;
   display: block;
   width: 100%;

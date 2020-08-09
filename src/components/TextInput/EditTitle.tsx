@@ -3,14 +3,15 @@ import styled from "styled-components"
 
 interface IProps {
   handleChange: (value: string) => void
-  value: string
+  value: string,
+  selectedFocus?: boolean
 }
 
-export const EditTitle: FC<IProps> = ({ handleChange,  value }) => {
+export const EditTitle: FC<IProps> = ({ handleChange,  selectedFocus, value }) => {
 
   return (
     <Wrapper>
-      <Input value={value} onChange={e => handleChange(e.target.value)} />
+      <Input value={value} onChange={e => handleChange(e.target.value)}  autoFocus = {selectedFocus ? selectedFocus : false}/>
     </Wrapper>
   )
 }

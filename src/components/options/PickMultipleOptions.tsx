@@ -14,7 +14,7 @@ interface IProps {
 export const PickMultipleOptions: FC<IProps> = ({ optionArray, arrayOfSelected,  handleChange, value}) => {
 
   const [info, showInfo] = useState<string>("")
-
+console.log('arrayOfSelected:', arrayOfSelected)
   return (
     <Wrapper>
       {optionArray &&
@@ -127,7 +127,7 @@ const Arrow = styled(ArrowLeftS)<IInfo>`
 const Title = styled.div`
   margin-left: 3rem;
   font-size: 1.4rem;
-  font-weight: 800;
+  font-weight: 600;
   cursor: pointer;
 `
 const Circle = styled.div`
@@ -148,6 +148,6 @@ const CenterCircle = styled.div<SProps>`
   border-radius: 50%;
   background: white;
   position: absolute;
-  top: 1.4rem;
-  left: 1.65rem;
+  top: 1.42rem;
+  left: 1.67rem;
 `

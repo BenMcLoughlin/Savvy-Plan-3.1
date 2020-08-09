@@ -3,7 +3,7 @@ import { ccbRates } from "calculations/income/CanadaChildBenefit/CCB.data"
 import { adjustByCraIndex } from "calculations/income/data/CRAIndexRates_data"
 import * as I from "calculations/income/CanadaChildBenefit/CCB.types"
 
-export const getAdjustedFamilyNetIncome = (income, year) => income[year].user1.totalIncome + income[year].user2.totalIncome;
+export const getAdjustedFamilyNetIncome = (income, year) => income[year].user1.beforeTaxIncome + income[year].user2.beforeTaxIncome;
 
 export const getBenefitBeforeReduction = (kidsBirthYearArray, year) => {
   //find ages of children at this given year
@@ -39,5 +39,6 @@ export const getCcbBenefit = (income, kidsBirthYearArray, year) => {
   const adjustedFamilyNetIncome = getAdjustedFamilyNetIncome(income, year);
   const reduction = getReduction(adjustedFamilyNetIncome, kidsBirthYearArray, year);
   const ccb = benefitBeforeReduction - reduction;
+console.log('adjustedFamilyNetIncome:', adjustedFamilyNetIncome)
   return ccb > 0 ? ccb : 0
 };

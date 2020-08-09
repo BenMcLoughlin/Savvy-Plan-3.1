@@ -17,13 +17,9 @@ interface IProps {
 }
 
 export const Display: FC<IProps> = ({ data, remove, set, state }) => {
-  const { selectedId, newStream, selectedPage } = state.ui_reducer
+  const { selectedId, selectedPage } = state.ui_reducer
 
   const { addPrompt, chart, editPanel, infoCards, sideNav, tripleSelector } = data
-
-  const question_data = questions_data[`${selectedPage}Questions_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
-
-  const instance = state.main_reducer[selectedId]
 
   return (
     <Wrapper>
@@ -39,9 +35,9 @@ export const Display: FC<IProps> = ({ data, remove, set, state }) => {
           ))}
         </InfoCards>
         <Edit>
-          {selectedId && newStream && <Questions data={createStreamQuestionsArray(question_data, instance, set, state, remove, "display")} parent="display"/>}
-          {selectedId && !newStream && matchThenShowComponent(components, data, editPanel)}
-          {!selectedId && (
+          {selectedId ? (
+            matchThenShowComponent(components, data, editPanel)
+          ) : (
             <Left>
               <AddPrompt {...addPrompt} />
             </Left>

@@ -21,11 +21,7 @@ const Cross = styled.div`
   cursor: pointer;
   border: 1px solid ${props => props.theme.color.darkGrey};
   transform: rotate(-45deg);
-  margin-right: 1rem;
-  margin-top: 0.5rem;
   border-radius: 50%;
-  margin-left: 2rem;
-  margin-top: 2rem;
   z-index: 200;
   &::before,
   &::after {

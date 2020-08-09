@@ -17,7 +17,9 @@ export const getCpp = (income: I.incomeObject, user: I.owner, { user_reducer }):
   const finalCPPAge = cppStartAge < 70 ? cppStartAge : 70
   const contributoryPeriod = finalCPPAge - 18
 
-  for (let year = birthYear + 18; year < birthYear + finalCPPAge; year++) {
+  const APE_object = {}
+  for (let year = +birthYear + 18; year < +birthYear + finalCPPAge; year++) {
+
     const UPE = income[year][user].totalCppIncome
     const adjustmentFactor = UPE / historicYmpe[year] || UPE / YMPE
     const adjustmentRate = adjustmentFactor >= 1 ? 1 : adjustmentFactor
@@ -25,10 +27,18 @@ export const getCpp = (income: I.incomeObject, user: I.owner, { user_reducer }):
     const FAAPE = year >= 2019 ? getFAAPE(year, APE) : 0
     const SAAPE = year > 2024 ? getSAAPE(UPE) : 0
 
+    APE_object[year] = {
+      UPE, 
+      APE,
+      SAAPE
+    }
+
     APE_array.push(APE)
     FAAPE_array.push(FAAPE)
     SAAPE_array.push(SAAPE)
   }
+
+  //console.log('JSON.stringify(APE_object,null,4):', JSON.stringify(APE_object,null,4))
 
   const TAPE = sumPensionableEarnings(APE_array, contributoryPeriod)
 

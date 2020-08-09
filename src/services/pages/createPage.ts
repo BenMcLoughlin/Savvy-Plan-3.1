@@ -13,7 +13,6 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
   const { selectedId, colorIndex, selectedUser, newStream, selectedPage } = state.ui_reducer
 
   const { user1Name, user2Name } = state.user_reducer
-
   const instance = state.main_reducer[selectedId]
 
   const { streamType, chart, addButtonLabel, infoCards } = data
@@ -62,15 +61,17 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
       handleTitleChange: (value: string) => set(id, "main_reducer", value, "name"),
       handlePeriodChange: (value: string) => set("selectedPeriod", "ui_reducer", value),
       handleExit: () =>  {
+        console.log('ello:')
         set("newStream", "ui_reducer", false)
         set("selectedId", "ui_reducer", false)
         set("selectedPeriod", "ui_reducer", 0)
       },
       colorValue: color,
       nameValue: name,
+      newStream,
     }
 
-    if (instance && !newStream) {
+    if (instance ) {
       if (streamType === "spending") {
         const tripleSliders = createTripleSliders(spendingQuestions_data, instance, set, state)
         return { ...pageData, editPeriod: { tripleSliders, ...editProps } }

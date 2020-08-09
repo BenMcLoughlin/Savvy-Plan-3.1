@@ -26,7 +26,7 @@ const App = ({ remove, state, set }) => {
         <Content>
           <BrowserRouter>
             <Route exact path="/" component={LandingPage} />
-            <Route path="/onboarding" render={() => <Questions data={onboardQuestions_data(pages_data.onboard_data, state, set, progress, remove)} parent="onboard"/>} />
+            <Route path="/onboarding" render={() => <Questions data={onboardQuestions_data(pages_data.onboard_data, state, set, progress, remove)} />} />
             <Route exact path="/plan" render={() => <Display data={createPage(newPageData, state, set, "display")} />} />
           </BrowserRouter>
         </Content>
