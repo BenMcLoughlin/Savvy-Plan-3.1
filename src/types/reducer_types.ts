@@ -18,8 +18,8 @@ export interface IUiState {
 }
 
 export interface IUserState {
-  child1BirthYear?: number
-  child2BirthYear?: number
+  child1BirthYear?:  number
+  child2BirthYear?:  number
   changeAssumptions: string
   numberOfChildren: number
   gender: string
@@ -72,9 +72,9 @@ export interface IinstanceCore {
 export interface incomeStream extends IinstanceCore {
   cppEligible: boolean
   periods: number
-  period0StartYear: number
+  period0StartYear: I.year
   period0Value: number
-  period0EndYear: number
+  period0EndYear: I.year
   taxable: boolean
   [key: string]: any
 }
@@ -82,9 +82,9 @@ export interface incomeStream extends IinstanceCore {
 export interface savingsStream extends IinstanceCore {
   periods: number
   contributionPeriods: number
-  period0StartYear: number
+  period0StartYear: I.year
   period0Value: number
-  period0EndYear: number
+  period0EndYear: I.year
   taxable: boolean
   [key: string]: any
 }
@@ -95,11 +95,11 @@ export interface propertyStream extends IinstanceCore {
   mortgageRate: number
   mortgageBalance: number
   mortgageAmortization: number
-  mortgageStartYear: number
+  mortgageStartYear: I.year
   purchasePrice: number
-  purchaseYear: number
+  purchaseYear: I.year
   taxable: boolean
-  sellYear: number
+  sellYear: I.year
 }
 
 export interface debtStream extends IinstanceCore {

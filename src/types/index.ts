@@ -30,6 +30,9 @@ export type debtStream = _debtStream
 import { instance as _instance } from "./reducer_types"
 export type instance = _instance
 
+import { savingsStream as _savingsStream } from "./reducer_types"
+export type savingsStream = _savingsStream
+
 import { main_reducer as _main_reducer } from "./reducer_types"
 export type main_reducer = _main_reducer
 
@@ -52,3 +55,6 @@ export type user = _user
 
 import { streamType as _streamType } from "./variable_types"
 export type streamType = _streamType
+
+import { year as _year } from "./variable_types"
+export type year = _year

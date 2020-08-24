@@ -1,4 +1,3 @@
-import { FTR, PTR } from "calculations/income/tax/tax.data"
 import { getTaxRate } from "calculations/income/tax/tax.helpers"
 import * as I from "calculations/income/types"
 import _ from "lodash"

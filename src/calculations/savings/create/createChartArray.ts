@@ -1,27 +1,46 @@
-import * as I from 'calculations/income/types'
+import * as I from "calculations/savings/types"
+
+// const targetArrayDesign = [
+//   {
+//     year: 2021,
+//     user1TfsaInterest: 3000,
+//     user1TfsaPrinciple: 4000,
+//     user1RrspInterest: 3000,
+//     user1RrspPrinciple: 4000,
+//   },
+// ]
 
 
-const targetArrayDesign = [
-  {
-    year: 2021, 
-    user1TfsaInterest: 3000, 
-    user1TfsaPrinciple: 4000, 
-    user1RrspInterest: 3000, 
-    user1RrspPrinciple: 4000, 
-  }
-]
-
-export const getSavingsArrayForChart = ({ui_reducer}, savingsObject: I.savingsObject) => {
-
+export const getSavingsArrayForChart = ({ ui_reducer }, savingsObject: I.savingsObject) => {
   //console.log('JSON.stringify(savinsObject, null, 4):', JSON.stringify(savingsObject, null, 4))
-  
-  const { selectedUser, selectedAccount }  = ui_reducer 
 
-  const array = Object.keys(savingsObject)
+  const { selectedUser, selectedAccount } = ui_reducer
+
+  const arrayOfYears = Object.keys(savingsObject)
+
+  const finalArray = []
+
+  arrayOfYears.map(year => {
+    if (selectedAccount === "combined" && selectedUser !== "combined") {
+      finalArray.push({
+        year,
+        [`${selectedUser}totalSavings`]: savingsObject[year][selectedUser].totalSavings,
+      })
+    }
+    else if (selectedAccount === "combined" && selectedUser === "combined") {
+      finalArray.push({
+        year,
+        totalSavings: savingsObject[year].user1.totalSavings,
+      })
+    }
   
-  switch(selectedUser) {
-    // case('user1'): return convertObjectToArrayForChart(savingsObject, 'user1')
-    // case('user2'): return convertObjectToArrayForChart(savingsObject, 'user2')
-    // case('combined'): return convertObjectToCombinedArrayForChart(savingsObject)
-  }
+   else {
+    finalArray.push({
+      year,
+      [`${selectedUser}${selectedAccount}`]: savingsObject[year][selectedUser][selectedAccount].total,
+    })
+   }   
+   return
+  })
+  return finalArray
 }

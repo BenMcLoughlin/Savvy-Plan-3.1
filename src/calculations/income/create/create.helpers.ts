@@ -12,7 +12,7 @@ export const getThisYearsIncome = (stream: I.incomeStream, year: I.year) => {
   return Math.max(...value);
 };
 
-export const getIncomeStreams = ({ main_reducer }, user: I.owner, year: I.year, query) => {
+export const getIncomeStreams = ({ main_reducer }, user: string, year: I.year, query) => {
   const userIncomeStreams_array = Object.values(main_reducer).filter(
     (d:any) => d.streamType === "income" && d.owner === user
   );

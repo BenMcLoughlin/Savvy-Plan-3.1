@@ -1,11 +1,10 @@
 import React from "react"
 import styled from "styled-components"
-import { Header, Footer } from "components"
+import { Header, Footer, Login } from "components"
 import { ThemeProvider } from "styled-components"
 import { theme } from "styles/theme"
-import { Questions, Display } from "containers"
+import { Questions, Display, LandingPage } from "containers"
 import { Route } from "react-router-dom"
-import { LandingPage } from "containers/LandingPage"
 import { BrowserRouter } from "react-router-dom"
 import * as pages_data from "data"
 import { createPage } from "services/pages/createPage"
@@ -22,10 +21,11 @@ const App = ({ remove, state, set }) => {
   return (
     <ThemeProvider theme={theme}>
       <Wrapper>
-        <Header />
         <Content>
           <BrowserRouter>
+            <Header />
             <Route exact path="/" component={LandingPage} />
+            <Route exact path="/login" component={Login} />
             <Route path="/onboarding" render={() => <Questions data={onboardQuestions_data(pages_data.onboard_data, state, set, progress, remove)} />} />
             <Route exact path="/plan" render={() => <Display data={createPage(newPageData, state, set, "display")} />} />
           </BrowserRouter>

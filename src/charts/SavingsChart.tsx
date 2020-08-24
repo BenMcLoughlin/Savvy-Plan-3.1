@@ -1,25 +1,36 @@
-import React, { FC } from "react"
+import React, { FC, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { ChartNav } from "components"
+import { getSavings } from "calculations/savings/savings.function"
+import { drawAreaChart } from "charts/createChartFunctions/createAreaChart"
 
 interface IProps {
   state: any
-  data: any
+  color_selector: any
   set: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
-export const SavingsChart: FC<IProps> = ({ data, state, set }) => {
+export const SavingsChart: FC<IProps> = ({ state, set }) => {
+  //THIS IS JUST A PLACEHODLER FUNCTION FOR NOW
+  const dataObject = getSavings(state)
 
-    //THIS IS JUST A PLACEHODLER FUNCTION FOR NOW
-    const instance: any = Object.values(state.main_reducer).filter((d: any) => d.id.includes("Savings"))[0]
+  const inputRef = useRef(null)
+
+  const className = "savingsChart"
+
+  useEffect(() => {
+    if (inputRef && inputRef.current) {
+      const width = inputRef.current.offsetWidth
+      const height = inputRef.current.offsetHeight
+      drawAreaChart(className, dataObject, height, state, width)
+    }
+  }, [dataObject, set, state])
 
   return (
     <Wrapper>
-      <Img alt="#" src={require("assets/savings.png")} style={{ height: "20rem" }} onClick={() => {
-        if (instance) set("selectedId", "ui_reducer", instance.id)
-       }}  />
+     <Canvas className={className} ref={inputRef} />
       <ChartNavWrapper>
-      <ChartNav options={["tfsa", "rrsp", "personal", "combined"]} handleChange={(value) => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount}/>
+        <ChartNav options={["tfsa", "rrsp", "personal", "combined"]} handleChange={value => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount} />
       </ChartNavWrapper>
     </Wrapper>
   )
@@ -35,10 +46,12 @@ const Wrapper = styled.div`
   position: relative;
 `
 
-const Img = styled.img`
+const Canvas = styled.div`
+  width: 90rem;
   height: 20rem;
-  width: 80rem;
-  cursor: pointer;
+  position: absolute;
+  top: 12rem;
+  left: -5em;
 `
 const ChartNavWrapper = styled.div`
   position: absolute;

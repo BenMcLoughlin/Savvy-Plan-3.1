@@ -1,16 +1,14 @@
 import { getYearRange } from "calculations/income/CanadaChildBenefit/CCB.helpers"
-import { getCcbBenefit } from "calculations/income/CanadaChildBenefit/CCB.function"
+import { getCcb } from "calculations/income/CanadaChildBenefit/CCB.function"
 import { getCpp, getOas } from "calculations/income/CanadaPensionPlan/CPP.function"
 import { getIncomeStreams, sumObjects } from "calculations/income/create/create.helpers"
 import * as I from "calculations/income/types"
 
-const getAfterTax = beforeTaxIncome => beforeTaxIncome
-const getAverageTaxRate = beforeTaxIncome => beforeTaxIncome
 
 export const getdFirstIncomeStreamsObject = (state: I.state, yearFirst: I.year, yearLast: I.year, users: number[]): I.incomeObject => {
   const income = {} //initialize an empty object which values will be passed into
 
-  for (let year = +yearFirst; year <= +yearLast; year++) {
+  for (let year = yearFirst; year <= yearLast; year++) {
     // loop through year youngest turns 18 to year oldest dies
     users.map(n => {
       //for each user we will create an object with their income details
@@ -32,13 +30,13 @@ export const getdFirstIncomeStreamsObject = (state: I.state, yearFirst: I.year, 
     })
   }
 
-//console.log('JSON.stringify(income, 4, null):', JSON.stringify(income, null, 4))
+  //console.log('JSON.stringify(income, 4, null):', JSON.stringify(income, null, 4))
   return income
 }
 
 export const getSecondIncomeStreamsObject = (income: I.incomeObject, state: I.state, yearFirst: I.year, yearLast: I.year, users: number[]): I.incomeObject => {
   const { user_reducer } = state
-  const {maritalStatus} = user_reducer
+  const { maritalStatus } = user_reducer
 
   const user1CppBenefit = getCpp(income, "user1", state) //we want to calculate the CPP benefit once becuase it is a heavy function
   const user1OasBenefit = getOas("user1", state) //same with CCB, these are caluculated and will be added below in the for loop
@@ -51,8 +49,8 @@ export const getSecondIncomeStreamsObject = (income: I.incomeObject, state: I.st
   }
   const { yearFirstChildBorn, yearLastChildLeaves, kidsBirthYearArray } = getYearRange(state) //these values will be used in CCB calculation but are just grabbed once here
 
-  for (let year = +yearFirst; year <= +yearLast; year++) {
-    const ccbBenefit = year >= yearFirstChildBorn && year <= yearLastChildLeaves ? getCcbBenefit(income, kidsBirthYearArray, year) : 0 //only want CCB added for eligible years
+  for (let year: I.year = yearFirst; year <= +yearLast; year++) {
+    const ccbBenefit = year >= yearFirstChildBorn && year <= yearLastChildLeaves ? getCcb(income, kidsBirthYearArray, year) : 0 //only want CCB added for eligible years
 
     users.map(n => {
       const age = year - user_reducer[`user${n}BirthYear`] //grab the users age to check if CCP should be added

@@ -2,11 +2,8 @@ import React, { FC } from "react"
 import styled from "styled-components"
 import * as charts from "charts"
 import * as components from "components"
-import { Questions } from "containers"
 import { AddPrompt, InfoCard, SideNav, TripleSelector } from "components"
-import * as questions_data from "data/questions_data"
 import { matchThenShowComponent } from "services/display_functions"
-import { createStreamQuestionsArray } from "services/questions/createQuestionArray"
 import * as I from "types"
 
 interface IProps {
@@ -17,7 +14,7 @@ interface IProps {
 }
 
 export const Display: FC<IProps> = ({ data, remove, set, state }) => {
-  const { selectedId, selectedPage } = state.ui_reducer
+  const { selectedId } = state.ui_reducer
 
   const { addPrompt, chart, editPanel, infoCards, sideNav, tripleSelector } = data
 
@@ -103,7 +100,7 @@ const Left = styled.h1`
   top: 5rem;
   left: 10rem;
 `
-const Title = styled.h1`
+const Title = styled.h2`
   position: absolute;
   padding: 2rem 0rem 2rem 1rem;
   width: 40rem;

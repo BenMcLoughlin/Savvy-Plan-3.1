@@ -1,14 +1,26 @@
-import React from 'react'
-import styled from 'styled-components'
-import logo from 'assets/logo.svg'
+import React, {FC} from "react"
+import styled from "styled-components"
+import logo from "assets/logo.svg"
+import { HeaderNav, LinkButton } from "components"
+import { Link } from "react-router-dom"
+import * as I from "types"
 
-export const Header = () => {
+interface IProps {
+  set: I.set
+  state: I.state
+}
+
+export const Header: FC<IProps> = ({set, state}) => {
   return (
     <Wrapper>
       <Logo>
         <img src={logo} height="100%" width="100%" alt="logo" />
       </Logo>
-      <Text>Account</Text>
+      <HeaderNav handleChange={() => null} value="about" options={["1"]}></HeaderNav>
+      <Login>
+        <H3 to="/login" onClick={() => set("newUser", "user_reducer", false)}>Log in</H3>
+        <LinkButton link="/login" label="Get Started" handleChange={() => set("newUser", "user_reducer", true)} />
+      </Login>
     </Wrapper>
   )
 }
@@ -26,11 +38,20 @@ const Logo = styled.div`
   height: 7.5rem;
   position: absolute;
 `
-const Text = styled.div`
-  height: 6.5rem;
-  display: flex;
-  align-items: center;
-  font-size: 1.4rem;
+const Login = styled.div`
   position: absolute;
   right: 2rem;
+  top: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 23rem;
+  font-weight: 600;
+`
+const H3 = styled(Link)`
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  color: grey;
+  font-size: 1.6rem;
 `

@@ -1,8 +1,6 @@
 import { IUserState } from "types/reducer_types"
 
 const initialState = {
-  child1BirthYear: 2000,
-  child2BirthYear: 2000,
   changeAssumptions: "",
   hasUnsecuredDebt: false,
   numberOfChildren: 1,

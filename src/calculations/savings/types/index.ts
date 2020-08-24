@@ -1,7 +1,6 @@
 import { state as _appState } from "types/reducer_types"
 export type state = _appState
 
-
 import { year as _year } from "types/variable_types"
 export type year = _year
 
@@ -14,27 +13,25 @@ export type incomeStream = _incomeStream
 import { instance as _instance } from "types/reducer_types"
 export type instance = _instance
 
-
-
 //SAVINGS TYPES
 
-import { isavingstream as _savingsStream } from "types/reducer_types"
+import { savingsStream as _savingsStream } from "types/reducer_types"
 export type savingsStream = _savingsStream
 
-export type transactionType = "contribution" | "withdrawal"
+export type transactionType = "contribution" | "period"
 
 export type account = "rrsp" | "tfsa" | "personal" | "lira" | "pension" | "resp"
 
 type annualUserAccounts = {
-  [key: string]:  annualAccountDetails
+  [key: string]: annualAccountDetails
 }
 
 export type annualAccountDetails = {
- contribution: number
- withdrawal: number
- principle: number
- interest: number
- totalValue: number
+  contribution: number
+  withdrawal: number
+  principle: number
+  total: number
+  totalInterest: number
 }
 
 export type savingsObject = {

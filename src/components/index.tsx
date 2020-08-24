@@ -2,13 +2,19 @@ import { compose } from "redux"
 import { connect } from "react-redux"
 import { set, remove } from "../redux/actions"
 import { EditPanel as _EditPanel } from "./cards/EditPanel"
+import { Header as _Header } from "./layout/Header"
+import { Login as _Login } from "./login/Login"
 import * as I from "types"
+
+
+const mapStateToProps = (state: I.state) => ({ state })
 
 //Buttons
 export { AddButton } from "./buttons/AddButton"
 export { AddPrompt } from "./buttons/AddPrompt"
 export { Back } from "./buttons/Back"
 export { Button } from "./buttons/Button"
+export { LinkButton } from "./buttons/LinkButton"
 export { Exit } from "./buttons/Exit"
 export { Next } from "./buttons/Next"
 
@@ -22,11 +28,15 @@ export { ColorSelect } from "./dropdowns/ColorSelect"
 export { Dropdown } from "./dropdowns/Dropdown"
 
 //layout
-export { Header } from "./layout/Header"
+export const Header = compose(connect(mapStateToProps, { set, remove }))(_Header)
 export { Footer } from "./layout/Footer"
+
+//login
+export const Login = compose(connect(mapStateToProps, { set, remove }))(_Login)
 
 //Nav
 export { ChartNav } from "./nav/ChartNav"
+export { HeaderNav } from "./nav/HeaderNav"
 export { ProgressBar } from "./nav/ProgressBar"
 export { SideNav } from "./nav/SideNav"
 export { TripleSelector } from "./nav/TripleSelector"
@@ -46,12 +56,13 @@ export { MultiSliders } from "./sliders/MultiSliders"
 export { Slider } from "./sliders/Slider"
 
 //Text Input
+
 export { EditTitle } from "./textInput/EditTitle"
 export { MultipleTextInput } from "./textInput/MultipleTextInput"
 export { TextInput } from "./textInput/TextInput"
 
 //Smart Components Connected to Redux
 
-const mapStateToProps = (state: I.state) => ({ state })
 
 export const EditPanel = compose(connect(mapStateToProps, { set, remove }))(_EditPanel)
+

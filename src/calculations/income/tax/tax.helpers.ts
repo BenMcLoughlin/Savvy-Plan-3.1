@@ -1,4 +1,4 @@
-import { FTR, PTR, taxes } from "calculations/income/tax/tax.data"
+import { taxes } from "calculations/income/tax/tax.data"
 import * as I from "calculations/income/types"
 
 export const getTax = (income: number, government: I.government) => {

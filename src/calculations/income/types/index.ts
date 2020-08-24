@@ -31,9 +31,9 @@ type incomeStreams = {
 }
 
 type userIncome = {
-  incomeStreams: incomeStreams
+  beforeTaxIncomeStreams: incomeStreams
   incomeStreamsForCpp: incomeStreams
-  totalIncome: number
+  beforeTaxIncome: number
   totalCppIncome: number
 }
 
@@ -44,23 +44,22 @@ export type incomeObject = {
   }
 }
 
-
 //TAX Types
 
 export type government = "federal" | "britishColumbia"
 
 export interface taxBracket {
-    bot: number
-    top: number
-    rate: number
-    constant: number
+  bot: number
+  top: number
+  rate: number
+  constant: number
 }
 
-export type  basicPersonal = 12298 | 10949
+export type basicPersonal = 12298 | 10949
 
 export interface taxes {
-  [key:string]: {
+  [key: string]: {
     basicPersonal: basicPersonal
-    [key:number]: taxBracket
+    [key: number]: taxBracket
   }
 }

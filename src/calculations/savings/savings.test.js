@@ -1,6 +1,6 @@
-import {getSavings} from "calculations/savings/savings.function"
-import {getValue} from "calculations/savings/create/createSavingsObject"
-import {getSavingsArrayForChart} from "calculations/savings/create/createChartArray"
+import { getSavings } from "calculations/savings/savings.function"
+import { getValue } from "calculations/savings/create/createSavingsObject"
+import { getSavingsArrayForChart } from "calculations/savings/create/createChartArray"
 
 const mockState = {
   user_reducer: {
@@ -15,104 +15,105 @@ const mockState = {
     child1BirthYear: 2014,
     child2BirthYear: 2010,
     hasChildren: "yes",
-    maritalStatus: "single"
+    maritalStatus: "single",
   },
   ui_reducer: {
-    selectedAccoun: "after tax",
+    selectedAccount: "after tax",
+    selectedUser: "user1",
   },
   main_reducer: {
     user1tfsa_10000: {
-      name:"",
-      periods:0,
-      currentValue:10000,
-      contributionPeriods: 3, 
-      contribution0StartYear:2020,
-      contribution0Value:2000,
-      contribution0EndYear:2031,
-      contribution1StartYear:2031,
-      contribution1Value:4000,
-      contribution1EndYear:2042,
-      contribution2StartYear:2042,
-      contribution2Value:6000,
-      contribution2EndYear:2052,
-      period0StartYear:2052,
-      period0Value:26000,
-      period0EndYear:2079,
-      taxable:true,
-      color:"#4BB9D0",
-      id:"user1tfsa_10000",
-      owner:"user1",
-      reg:"tfsa",
-      streamType:"savings",
+      name: "",
+      periods: 0,
+      currentValue: 10000,
+      contributionPeriods: 3,
+      contribution0StartYear: 2020,
+      contribution0Value: 2000,
+      contribution0EndYear: 2031,
+      contribution1StartYear: 2031,
+      contribution1Value: 4000,
+      contribution1EndYear: 2042,
+      contribution2StartYear: 2042,
+      contribution2Value: 6000,
+      contribution2EndYear: 2052,
+      period0StartYear: 2052,
+      period0Value: 26000,
+      period0EndYear: 2079,
+      taxable: true,
+      color: "#4BB9D0",
+      id: "user1tfsa_10000",
+      owner: "user1",
+      reg: "tfsa",
+      streamType: "savings",
     },
     user1rrsp_10001: {
-      name:"",
-      periods:0,
-      currentValue:10000,
-      contributionPeriods: 2, 
-      contribution0StartYear:2020,
-      contribution0Value:2000,
-      contribution0EndYear:2031,
-      contribution1StartYear:2031,
-      contribution1Value:4000,
-      contribution1EndYear:2042,
-      period0StartYear:2040,
-      period0Value:0,
-      period0EndYear:2060,
-      taxable:true,
-      color:"#4BB9D0",
-      id:"user1rrsp_10001",
-      owner:"user1",
-      reg:"rrsp",
-      streamType:"savings",
+      name: "",
+      periods: 0,
+      currentValue: 10000,
+      contributionPeriods: 2,
+      contribution0StartYear: 2020,
+      contribution0Value: 2000,
+      contribution0EndYear: 2031,
+      contribution1StartYear: 2031,
+      contribution1Value: 4000,
+      contribution1EndYear: 2042,
+      period0StartYear: 2040,
+      period0Value: 0,
+      period0EndYear: 2060,
+      taxable: true,
+      color: "#4BB9D0",
+      id: "user1rrsp_10001",
+      owner: "user1",
+      reg: "rrsp",
+      streamType: "savings",
     },
     user1rrsp_10003: {
-      name:"",
-      periods:0,
-      currentValue:10000,
-      contributionPeriods: 2, 
-      contribution0StartYear:2020,
-      contribution0Value:2000,
-      contribution0EndYear:2031,
-      contribution1StartYear:2031,
-      contribution1Value:4000,
-      contribution1EndYear:2042,
-      period0StartYear:2040,
-      period0Value:0,
-      period0EndYear:2060,
-      taxable:true,
-      color:"#4BB9D0",
-      id:"user1rrsp_10001",
-      owner:"user2",
-      reg:"rrsp",
-      streamType:"savings",
+      name: "",
+      periods: 0,
+      currentValue: 10000,
+      contributionPeriods: 2,
+      contribution0StartYear: 2020,
+      contribution0Value: 2000,
+      contribution0EndYear: 2031,
+      contribution1StartYear: 2031,
+      contribution1Value: 4000,
+      contribution1EndYear: 2042,
+      period0StartYear: 2040,
+      period0Value: 0,
+      period0EndYear: 2060,
+      taxable: true,
+      color: "#4BB9D0",
+      id: "user1rrsp_10001",
+      owner: "user2",
+      reg: "rrsp",
+      streamType: "savings",
     },
     user1tfsa_10001: {
-      name:"",
-      periods:0,
-      currentValue:222,
-      contributionPeriods: 2, 
-      contribution0StartYear:2020,
-      contribution0Value:1000,
-      contribution0EndYear:2040,
-      period0StartYear:2020,
-      period0Value:1000,
-      period0EndYear:2040,
-      taxable:true,
-      color:"#4BB9D0",
-      id:"user1Savings_3930",
-      owner:"user2",
-      reg:"tfsa",
-      streamType:"savings",
+      name: "",
+      periods: 0,
+      currentValue: 222,
+      contributionPeriods: 2,
+      contribution0StartYear: 2020,
+      contribution0Value: 1000,
+      contribution0EndYear: 2040,
+      period0StartYear: 2020,
+      period0Value: 1000,
+      period0EndYear: 2040,
+      taxable: true,
+      color: "#4BB9D0",
+      id: "user1Savings_3930",
+      owner: "user2",
+      reg: "tfsa",
+      streamType: "savings",
     },
   },
-};
+}
 
 const mockStream = {
-  name: '',
+  name: "",
   periods: 0,
   currentValue: 10000,
-  contributionPeriods: 3, 
+  contributionPeriods: 3,
   contribution0StartYear: 2020,
   contribution0Value: 2000,
   contribution0EndYear: 2031,
@@ -123,11 +124,11 @@ const mockStream = {
   period0Value: 1000,
   period0EndYear: 2060,
   taxable: true,
-  color: '#4BB9D0',
-  id: 'user1rrsp_10001',
-  owner: 'user1',
-  reg: 'rrsp',
-  streamType: 'savings'
+  color: "#4BB9D0",
+  id: "user1rrsp_10001",
+  owner: "user1",
+  reg: "rrsp",
+  streamType: "savings",
 }
 
 //TEST HELPER FUNCTIONS
@@ -140,18 +141,17 @@ const mockStream = {
 //     expect(getValue("period", mockStream, 2045)).toEqual(1000))
 // })
 
-
 // //test Creation of savings object
 
 // describe("Ensures savings object is accurate", function () {
 //   it("Test 1 - matches time value ", () =>
-//     expect(getSavings(mockState)["2030"]["user1"].tfsa.totalValue.toFixed(2)).toEqual("48926.27"))
+//     expect(getSavings(mockState)["2030"]["user1"].tfsa.total.toFixed(2)).toEqual("48926.27"))
 //   it("Test 2 - matchs time value varying contributions", () =>
-//    expect(getSavings(mockState)["2040"]["user1"].tfsa.totalValue.toFixed(2)).toEqual("140342.68"))
+//    expect(getSavings(mockState)["2040"]["user1"].tfsa.total.toFixed(2)).toEqual("140342.68"))
 //   it("Test 3 - matchs time value varying contributions", () =>
-//    expect(getSavings(mockState)["2051"]["user1"].tfsa.totalValue.toFixed(2)).toEqual("352660.47"))
+//    expect(getSavings(mockState)["2051"]["user1"].tfsa.total.toFixed(2)).toEqual("352660.47"))
 //   it("Test 4 - shows proper amount after withdrawal", () =>
-//    expect(getSavings(mockState)["2052"]["user1"].tfsa.totalValue.toFixed(2)).toEqual("347820.09"))
+//    expect(getSavings(mockState)["2052"]["user1"].tfsa.total.toFixed(2)).toEqual("347820.09"))
 //   it("Test 4 - shows proper amount after withdrawal", () =>
 //    expect(getSavings(mockState)["2052"]["user1"].tfsa.principle.toFixed(2)).toEqual("125973.36"))
 //   it("Test 4 - shows proper amount after withdrawal", () =>
@@ -161,13 +161,25 @@ const mockStream = {
 // }
 // )
 
-
 //test building of savings charts
 
-
-describe("Ensures savings object is accurate", function () {
-  it("Test 1 - matches time value ", () =>
-  expect(getSavingsArrayForChart(mockState, getSavings(mockState))).toEqual("48926.27"))
+const mockStateUser1TFSA = {
+  ...mockState,
+  ui_reducer: {
+    selectedAccount: "tfsa",
+    selectedUser: "user1",
+  },
 }
-)
 
+const mockStateUser1RRSP = {
+  ...mockState,
+  ui_reducer: {
+    selectedAccount: "rrsp",
+    selectedUser: "user1",
+  },
+}
+
+describe("Builds savings array for chart", function () {
+  it("tfsa selection ", () => expect(getSavingsArrayForChart(mockStateUser1TFSA, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: '2026', user1tfsa: 31823.9778896256 }))
+  it("rrsp selection ", () => expect(getSavingsArrayForChart(mockStateUser1RRSP, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: '2026', user1rrsp: 31823.9778896256 }))
+})

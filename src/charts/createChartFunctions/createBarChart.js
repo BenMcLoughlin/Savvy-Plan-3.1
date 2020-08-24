@@ -1,10 +1,12 @@
 import * as d3 from "d3"
-import _ from "lodash"
 import { getIncomeArrayForChart } from "calculations/income/create/createChartArray"
 import { round, formatName } from "charts/createChartFunctions/chartHelpers"
-export const drawBarChart = (colors, className, incomeObject, height, set, state, width) => {
+
+
+export const drawBarChart = (colors, className, dataObject, height, set, state, width) => {
+  
   const { selectedId, selectedPeriod, selectedUser } = state.ui_reducer
-  const { user1BirthYear, user1Name, user2Name } = state.user_reducer
+  const { user1BirthYear, user1Name, user2Name, maritalStatus } = state.user_reducer
 
   const instance = state.main_reducer[selectedId]
 
@@ -22,7 +24,7 @@ export const drawBarChart = (colors, className, incomeObject, height, set, state
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
 
-  const data = getIncomeArrayForChart(state, incomeObject)
+  const data = getIncomeArrayForChart(state, dataObject)
 
   d3.select(`.${className} > *`).remove()
   d3.select(`.${className}tooltip`).remove()
@@ -53,8 +55,9 @@ export const drawBarChart = (colors, className, incomeObject, height, set, state
     .style("right", "30rem")
 
   const update = data => {
-    const beforeTaxIncomeArray = Object.values(incomeObject).map(d => {
-      if (d.user2.beforeTaxIncome > 0) return d.user2.beforeTaxIncome + d.user1.beforeTaxIncome
+
+    const beforeTaxIncomeArray = Object.values(dataObject).map(d => {
+      if (maritalStatus === "married") return d.user2.beforeTaxIncome + d.user1.beforeTaxIncome
       else return d.user1.beforeTaxIncome
     })
 
@@ -118,13 +121,13 @@ export const drawBarChart = (colors, className, incomeObject, height, set, state
                                             <div class="box">
                                               <p> Before tax</p>
                                               <p class="value"> ${
-                                                round(incomeObject[d.data.year].user1.beforeTaxIncomeStreams[name]) || round(incomeObject[d.data.year].user2.beforeTaxIncomeStreams[name])
+                                                round(dataObject[d.data.year].user1.beforeTaxIncomeStreams[name]) || round(dataObject[d.data.year].user2.beforeTaxIncomeStreams[name])
                                               } K</p>
                                             </div>
                                             <div class="box">
                                               <p> After tax</p>
                                               <p class="value"> ${
-                                                round(incomeObject[d.data.year].user1.afterTaxIncomeStreams[name]) || round(incomeObject[d.data.year].user2.afterTaxIncomeStreams[name])
+                                                round(dataObject[d.data.year].user1.afterTaxIncomeStreams[name]) || round(dataObject[d.data.year].user2.afterTaxIncomeStreams[name])
                                               } K</p>
                                             </div>
                                           </div>
@@ -136,20 +139,20 @@ export const drawBarChart = (colors, className, incomeObject, height, set, state
                                               <p> Before tax</p>
                                               <p class="value"> ${
                                                 selectedUser === "combined"
-                                                  ? round(incomeObject[d.data.year].user1.beforeTaxIncome + incomeObject[d.data.year].user2.beforeTaxIncome)
+                                                  ? round(dataObject[d.data.year].user1.beforeTaxIncome + dataObject[d.data.year].user2.beforeTaxIncome)
                                                   : selectedUser === "user2"
-                                                  ? round(incomeObject[d.data.year].user2.beforeTaxIncome)
-                                                  : round(incomeObject[d.data.year].user1.beforeTaxIncome)
+                                                  ? round(dataObject[d.data.year].user2.beforeTaxIncome)
+                                                  : round(dataObject[d.data.year].user1.beforeTaxIncome)
                                               } K</p>
                                             </div>
                                             <div class="box">
                                               <p> After tax</p>
                                               <p class="value"> ${
                                                 selectedUser === "combined"
-                                                  ? round(incomeObject[d.data.year].user1.afterTaxIncome + incomeObject[d.data.year].user2.afterTaxIncome)
+                                                  ? round(dataObject[d.data.year].user1.afterTaxIncome + dataObject[d.data.year].user2.afterTaxIncome)
                                                   : selectedUser === "user2"
-                                                  ? round(incomeObject[d.data.year].user2.afterTaxIncome)
-                                                  : round(incomeObject[d.data.year].user1.afterTaxIncome)
+                                                  ? round(dataObject[d.data.year].user2.afterTaxIncome)
+                                                  : round(dataObject[d.data.year].user1.afterTaxIncome)
                                               } K</p>
                                             </div>
                                           </div>

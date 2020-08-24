@@ -1,10 +1,8 @@
-import * as I from "calculations/savings/types/index.ts"
-import {createSavingsObject} from "calculations/savings/create/createSavingsObject"
-
+import * as I from "calculations/savings/types"
+import { createSavingsObject } from "calculations/savings/create/createSavingsObject"
 
 export const getSavings = (state: I.state): I.savingsObject => {
-  
-  const START_TIME = new Date().getTime() 
+  const START_TIME = new Date().getTime()
 
   const { user1BirthYear, user1LifeSpan, maritalStatus } = state.user_reducer
 
@@ -21,9 +19,8 @@ export const getSavings = (state: I.state): I.savingsObject => {
 
   const savingsObject = createSavingsObject(state, yearFirst, yearLast, users)
 
-  
   const END_TIME = new Date().getTime()
   const function_duration = END_TIME - START_TIME
   console.log("caculateSavings duration:", function_duration)
-  return savingsObject 
+  return savingsObject
 }
