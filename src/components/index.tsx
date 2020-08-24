@@ -52,14 +52,14 @@ export { PickNumberWithText } from "./options/PickNumberWithText"
 export { ScrollCircles } from "./scroll/ScrollCircles"
 
 //Sliders
-export { MultiSliders } from "./sliders/MultiSliders"
-export { Slider } from "./sliders/Slider"
+export { MultiSliders } from "./sliders1/MultiSliders"
+export { Slider } from "./sliders1/Slider"
 
 //Text Input
 
-export { EditTitle } from "./textInput/EditTitle"
-export { MultipleTextInput } from "./textInput/MultipleTextInput"
-export { TextInput } from "./textInput/TextInput"
+export { EditTitle } from "./textInput1/EditTitle"
+export { MultipleTextInput } from "./textInput1/MultipleTextInput"
+export { TextInput } from "./textInput1/TextInput"
 
 //Smart Components Connected to Redux
 
