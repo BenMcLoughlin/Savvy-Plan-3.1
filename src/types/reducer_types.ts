@@ -18,8 +18,8 @@ export interface IUiState {
 }
 
 export interface IUserState {
-  child1BirthYear?:  number
-  child2BirthYear?:  number
+  child1BirthYear?: number
+  child2BirthYear?: number
   changeAssumptions: string
   numberOfChildren: number
   gender: string
@@ -60,6 +60,7 @@ export type state = ReturnType<typeof root_reducer>
 
 export interface IinstanceCore {
   color: string
+  contributePeriods?: number
   createdAt: string
   id: string
   name: string
@@ -81,7 +82,6 @@ export interface incomeStream extends IinstanceCore {
 
 export interface savingsStream extends IinstanceCore {
   periods: number
-  contributionPeriods: number
   period0StartYear: I.year
   period0Value: number
   period0EndYear: I.year
@@ -109,4 +109,4 @@ export interface debtStream extends IinstanceCore {
   payment: number
 }
 
-export type instance = incomeStream | propertyStream | debtStream | savingsStream
+export type instance = incomeStream | propertyStream | savingsStream | debtStream 

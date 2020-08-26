@@ -1,7 +1,7 @@
-// const puppeteer = require("puppeteer")
+const puppeteer = require("puppeteer")
 
-describe("Confirms getChildBenefit is in line with CRA calculations", function () {
-  it("checks 30k lifetime income", () => expect(1).toEqual(1))
+describe("is a dummy test", function () {
+  it("used when other tests commented out", () => expect(1).toEqual(1))
 })
 
 
@@ -34,7 +34,7 @@ describe("Confirms getChildBenefit is in line with CRA calculations", function (
 
 // jest.setTimeout(100000)
 
-// test("h2 loads correctly", async () => {
+// test("Onboarding", async () => {
 //   const browser = await puppeteer.launch({
 //     headless: false,
 //     //no sandax
@@ -158,190 +158,190 @@ describe("Confirms getChildBenefit is in line with CRA calculations", function (
 //   browser.close()
 // })
 
-// // test("h2 loads correctly", async () => {
-// //   const browser = await puppeteer.launch({
-// //     headless: false,
-// //   })
-// //   const page = await browser.newPage()
+// test("h2 loads correctly", async () => {
+//   const browser = await puppeteer.launch({
+//     headless: false,
+//   })
+//   const page = await browser.newPage()
 
-// //   await page.setViewport({ width: 1792, height: 1009 })
-// //   await page.goto("http://localhost:3000/onboarding")
+//   await page.setViewport({ width: 1792, height: 1009 })
+//   await page.goto("http://localhost:3000/onboarding")
 
-// //   //await page.waitForSelector(".sc-fzooss #button")
-// //   await page.click(".sc-fzooss #button
-// //   page.waitFor(1000)
+//   //await page.waitForSelector(".sc-fzooss #button")
+//   await page.click(".sc-fzooss #button
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector("div #textInput")
-// //   await page.click("div #textInput
-// //   page.waitFor(1000)
+//   //await page.waitForSelector("div #textInput")
+//   await page.click("div #textInput
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector(".sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)")
-// //   await page.click(".sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)")
+//   //await page.waitForSelector(".sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)")
+//   await page.click(".sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)")
 
-// //   //await page.waitForSelector("div #textInput")
-// //   await page.click("div #textInput
-// //   page.waitFor(1000)
+//   //await page.waitForSelector("div #textInput")
+//   await page.click("div #textInput
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector(".sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)")
-// //   await page.click(".sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)")
+//   //await page.waitForSelector(".sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)")
+//   await page.click(".sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)")
 
-// //   //await page.waitForSelector("div #male")
-// //   await page.click("div #male
-// //   page.waitFor(1000)
+//   //await page.waitForSelector("div #male")
+//   await page.click("div #male
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector("div #married")
-// //   await page.click("div #married
-// //   page.waitFor(1000)
+//   //await page.waitForSelector("div #married")
+//   await page.click("div #married
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector("div #textInput")
-// //   await page.click("div #textInput
-// //   page.waitFor(1000)
+//   //await page.waitForSelector("div #textInput")
+//   await page.click("div #textInput
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector("div #textInput")
-// //   await page.click("div #textInput
-// //   page.waitFor(1000)
+//   //await page.waitForSelector("div #textInput")
+//   await page.click("div #textInput
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector("div #yes")
-// //   await page.click("div #yes
-// //   page.waitFor(1000)
+//   //await page.waitForSelector("div #yes")
+//   await page.click("div #yes
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector("div > .sc-fzppip > .sc-fzqyvX > .sc-fznLxA > .sc-fznXWL:nth-child(2)")
-// //   await page.click("div > .sc-fzppip > .sc-fzqyvX > .sc-fznLxA > .sc-fznXWL:nth-child(2)")
+//   //await page.waitForSelector("div > .sc-fzppip > .sc-fzqyvX > .sc-fznLxA > .sc-fznXWL:nth-child(2)")
+//   await page.click("div > .sc-fzppip > .sc-fzqyvX > .sc-fznLxA > .sc-fznXWL:nth-child(2)")
 
-// //   //await page.waitForSelector(".sc-fzooss #button")
-// //   await page.click(".sc-fzooss #button
-// //   page.waitFor(1000)
+//   //await page.waitForSelector(".sc-fzooss #button")
+//   await page.click(".sc-fzooss #button
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector("div #regularEmployment")
-// //   await page.click("div #regularEmployment
-// //   page.waitFor(1000)
+//   //await page.waitForSelector("div #regularEmployment")
+//   await page.click("div #regularEmployment
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .iNiJRO")
-// //   await page.click("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .iNiJRO
-// //   page.waitFor(1000)
+//   //await page.waitForSelector("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .iNiJRO")
+//   await page.click("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .iNiJRO
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector("div #yes")
-// //   await page.click("div #yes
-// //   page.waitFor(1000)
+//   //await page.waitForSelector("div #yes")
+//   await page.click("div #yes
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector("div #businessIncome")
-// //   await page.click("div #businessIncome
-// //   page.waitFor(1000)
+//   //await page.waitForSelector("div #businessIncome")
+//   await page.click("div #businessIncome
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .enszQC")
-// //   await page.click("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .enszQC
-// //   page.waitFor(1000)
+//   //await page.waitForSelector("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .enszQC")
+//   await page.click("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .enszQC
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(1) > .sc-fzomuh > .sc-fzoVTD")
-// //   await page.click(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(1) > .sc-fzomuh > .sc-fzoVTD
-// //   page.waitFor(1000)
+//   //await page.waitForSelector(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(1) > .sc-fzomuh > .sc-fzoVTD")
+//   await page.click(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(1) > .sc-fzomuh > .sc-fzoVTD
+//   page.waitFor(1000)
 
-// //   //await page.waitForSelector(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(2) > .sc-fzomuh > .sc-fzoVTD")
-// //   await page.click(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(2) > .sc-fzomuh > .sc-fzoVTD
-// //   page.waitFor(1000)
+//   //await page.waitForSelector(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(2) > .sc-fzomuh > .sc-fzoVTD")
+//   await page.click(".sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(2) > .sc-fzomuh > .sc-fzoVTD
+//   page.waitFor(1000)
 
-// //   await page.goto("http://localhost:3000/onboarding")
+//   await page.goto("http://localhost:3000/onboarding")
 
-// //   browser.close()
-// // })
+//   browser.close()
+// })
 
-// //<div class="sc-fznAgC krGuRN">yes</div>
-// // const puppeteer = require('puppeteer');
-// // (async () => {
-// //   const browser = await puppeteer.launch()
-// //   const page = await browser.newPage()
+//<div class="sc-fznAgC krGuRN">yes</div>
+// const puppeteer = require('puppeteer');
+// (async () => {
+//   const browser = await puppeteer.launch()
+//   const page = await browser.newPage()
 
-// //   await page.goto('http://localhost:3001/onboarding')
+//   await page.goto('http://localhost:3001/onboarding')
 
-// //   await page.setViewport({ width: 1231, height: 1009 })
+//   await page.setViewport({ width: 1231, height: 1009 })
 
-// //   //await page.waitForSelector('.sc-fzooss #button')
-// //   await page.click('.sc-fzooss #button')
+//   //await page.waitForSelector('.sc-fzooss #button')
+//   await page.click('.sc-fzooss #button')
 
-// //   //await page.waitForSelector('.sc-fzooss #button')
-// //   await page.click('.sc-fzooss #button')
+//   //await page.waitForSelector('.sc-fzooss #button')
+//   await page.click('.sc-fzooss #button')
 
-// //   //await page.waitForSelector('div #textInput')
-// //   await page.click('div #textInput')
+//   //await page.waitForSelector('div #textInput')
+//   await page.click('div #textInput')
 
-// //   //await page.waitForSelector('.sc-pReKu #nextButton')
-// //   await page.click('.sc-pReKu #nextButton')
+//   //await page.waitForSelector('.sc-pReKu #nextButton')
+//   await page.click('.sc-pReKu #nextButton')
 
-// //   //await page.waitForSelector('div #textInput')
-// //   await page.click('div #textInput')
+//   //await page.waitForSelector('div #textInput')
+//   await page.click('div #textInput')
 
-// //   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
-// //   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
 
-// //   //await page.waitForSelector('div #female')
-// //   await page.click('div #female')
+//   //await page.waitForSelector('div #female')
+//   await page.click('div #female')
 
-// //   //await page.waitForSelector('div #male')
-// //   await page.click('div #male')
+//   //await page.waitForSelector('div #male')
+//   await page.click('div #male')
 
-// //   //await page.waitForSelector('div #married')
-// //   await page.click('div #married')
+//   //await page.waitForSelector('div #married')
+//   await page.click('div #married')
 
-// //   //await page.waitForSelector('div #textInput')
-// //   await page.click('div #textInput')
+//   //await page.waitForSelector('div #textInput')
+//   await page.click('div #textInput')
 
-// //   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
-// //   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
 
-// //   //await page.waitForSelector('div #textInput')
-// //   await page.click('div #textInput')
+//   //await page.waitForSelector('div #textInput')
+//   await page.click('div #textInput')
 
-// //   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
-// //   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
 
-// //   //await page.waitForSelector('div #no')
-// //   await page.click('div #no')
+//   //await page.waitForSelector('div #no')
+//   await page.click('div #no')
 
-// //   //await page.waitForSelector('div #yes')
-// //   await page.click('div #yes')
+//   //await page.waitForSelector('div #yes')
+//   await page.click('div #yes')
 
-// //   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
-// //   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
 
-// //   //await page.waitForSelector('div > .sc-fzppip > .sc-fzqyvX > .sc-fznLxA > .sc-fznXWL:nth-child(2)')
-// //   await page.click('div > .sc-fzppip > .sc-fzqyvX > .sc-fznLxA > .sc-fznXWL:nth-child(2)')
+//   //await page.waitForSelector('div > .sc-fzppip > .sc-fzqyvX > .sc-fznLxA > .sc-fznXWL:nth-child(2)')
+//   await page.click('div > .sc-fzppip > .sc-fzqyvX > .sc-fznLxA > .sc-fznXWL:nth-child(2)')
 
-// //   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
-// //   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
 
-// //   //await page.waitForSelector('.sc-fzooss #button')
-// //   await page.click('.sc-fzooss #button')
+//   //await page.waitForSelector('.sc-fzooss #button')
+//   await page.click('.sc-fzooss #button')
 
-// //   //await page.waitForSelector('div #textInput')
-// //   await page.click('div #textInput')
+//   //await page.waitForSelector('div #textInput')
+//   await page.click('div #textInput')
 
-// //   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
-// //   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
 
-// //   //await page.waitForSelector('div #regularEmployment')
-// //   await page.click('div #regularEmployment')
+//   //await page.waitForSelector('div #regularEmployment')
+//   await page.click('div #regularEmployment')
 
-// //   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
-// //   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
 
-// //   //await page.waitForSelector('div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue:nth-child(2) > .sc-fzqOul')
-// //   await page.click('div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue:nth-child(2) > .sc-fzqOul')
+//   //await page.waitForSelector('div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue:nth-child(2) > .sc-fzqOul')
+//   await page.click('div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue:nth-child(2) > .sc-fzqOul')
 
-// //   //await page.waitForSelector('div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue:nth-child(3) > .sc-fzqOul')
-// //   await page.click('div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue:nth-child(3) > .sc-fzqOul')
+//   //await page.waitForSelector('div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue:nth-child(3) > .sc-fzqOul')
+//   await page.click('div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue:nth-child(3) > .sc-fzqOul')
 
-// //   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
-// //   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
 
-// //   //await page.waitForSelector('div > .sc-fzppip > .sc-fzqyvX > .sc-fzpkqZ > .gbhuJq')
-// //   await page.click('div > .sc-fzppip > .sc-fzqyvX > .sc-fzpkqZ > .gbhuJq')
+//   //await page.waitForSelector('div > .sc-fzppip > .sc-fzqyvX > .sc-fzpkqZ > .gbhuJq')
+//   await page.click('div > .sc-fzppip > .sc-fzqyvX > .sc-fzpkqZ > .gbhuJq')
 
-// //   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
-// //   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   //await page.waitForSelector('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
+//   await page.click('.sc-pZaHX > .sc-fzooss > .sc-fzpans > #nextButton > path:nth-child(2)')
 
-// //   //await page.waitForSelector('.sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(1) > .sc-fzomuh > .sc-fzoVTD')
-// //   await page.click('.sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(1) > .sc-fzomuh > .sc-fzoVTD')
+//   //await page.waitForSelector('.sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(1) > .sc-fzomuh > .sc-fzoVTD')
+//   await page.click('.sc-fzqyvX > .sc-fzoaKM > .sc-fzqAui:nth-child(1) > .sc-fzomuh > .sc-fzoVTD')
 
-// //   await browser.close()
-// // })()
+//   await browser.close()
+// })()
 

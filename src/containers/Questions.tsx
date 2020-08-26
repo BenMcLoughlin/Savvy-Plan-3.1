@@ -19,7 +19,6 @@ interface IProps {
 export const Questions: FC<IProps> = ({ data, state, set }) => {
   const { progress } = state.ui_reducer
   const [direction, setDirection] = useState<string>("forward")
-
   const { streamType, questions } = data
   const { length } = questions
 

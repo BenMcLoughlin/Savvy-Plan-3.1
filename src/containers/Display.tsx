@@ -104,7 +104,7 @@ const Title = styled.h2`
   position: absolute;
   padding: 2rem 0rem 2rem 1rem;
   width: 40rem;
-  margin-left: 4rem;
+  margin-left: 9rem;
 `
 const Nav = styled.div`
   position: absolute;

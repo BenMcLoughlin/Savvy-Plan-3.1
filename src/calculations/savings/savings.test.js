@@ -26,16 +26,16 @@ const mockState = {
       name: "",
       periods: 0,
       currentValue: 10000,
-      contributionPeriods: 3,
-      contribution0StartYear: 2020,
-      contribution0Value: 2000,
-      contribution0EndYear: 2031,
-      contribution1StartYear: 2031,
-      contribution1Value: 4000,
-      contribution1EndYear: 2042,
-      contribution2StartYear: 2042,
-      contribution2Value: 6000,
-      contribution2EndYear: 2052,
+      contributePeriods: 3,
+      contribute0StartYear: 2020,
+      contribute0Value: 2000,
+      contribute0EndYear: 2031,
+      contribute1StartYear: 2031,
+      contribute1Value: 4000,
+      contribute1EndYear: 2042,
+      contribute2StartYear: 2042,
+      contribute2Value: 6000,
+      contribute2EndYear: 2052,
       period0StartYear: 2052,
       period0Value: 26000,
       period0EndYear: 2079,
@@ -50,13 +50,13 @@ const mockState = {
       name: "",
       periods: 0,
       currentValue: 10000,
-      contributionPeriods: 2,
-      contribution0StartYear: 2020,
-      contribution0Value: 2000,
-      contribution0EndYear: 2031,
-      contribution1StartYear: 2031,
-      contribution1Value: 4000,
-      contribution1EndYear: 2042,
+      contributePeriods: 2,
+      contribute0StartYear: 2020,
+      contribute0Value: 2000,
+      contribute0EndYear: 2031,
+      contribute1StartYear: 2031,
+      contribute1Value: 4000,
+      contribute1EndYear: 2042,
       period0StartYear: 2040,
       period0Value: 0,
       period0EndYear: 2060,
@@ -71,13 +71,13 @@ const mockState = {
       name: "",
       periods: 0,
       currentValue: 10000,
-      contributionPeriods: 2,
-      contribution0StartYear: 2020,
-      contribution0Value: 2000,
-      contribution0EndYear: 2031,
-      contribution1StartYear: 2031,
-      contribution1Value: 4000,
-      contribution1EndYear: 2042,
+      contributePeriods: 2,
+      contribute0StartYear: 2020,
+      contribute0Value: 2000,
+      contribute0EndYear: 2031,
+      contribute1StartYear: 2031,
+      contribute1Value: 4000,
+      contribute1EndYear: 2042,
       period0StartYear: 2040,
       period0Value: 0,
       period0EndYear: 2060,
@@ -92,10 +92,10 @@ const mockState = {
       name: "",
       periods: 0,
       currentValue: 222,
-      contributionPeriods: 2,
-      contribution0StartYear: 2020,
-      contribution0Value: 1000,
-      contribution0EndYear: 2040,
+      contributePeriods: 2,
+      contribute0StartYear: 2020,
+      contribute0Value: 1000,
+      contribute0EndYear: 2040,
       period0StartYear: 2020,
       period0Value: 1000,
       period0EndYear: 2040,
@@ -113,13 +113,13 @@ const mockStream = {
   name: "",
   periods: 0,
   currentValue: 10000,
-  contributionPeriods: 3,
-  contribution0StartYear: 2020,
-  contribution0Value: 2000,
-  contribution0EndYear: 2031,
-  contribution1StartYear: 2031,
-  contribution1Value: 4000,
-  contribution1EndYear: 2042,
+  contributePeriods: 3,
+  contribute0StartYear: 2020,
+  contribute0Value: 2000,
+  contribute0EndYear: 2031,
+  contribute1StartYear: 2031,
+  contribute1Value: 4000,
+  contribute1EndYear: 2042,
   period0StartYear: 2040,
   period0Value: 1000,
   period0EndYear: 2060,
@@ -135,8 +135,8 @@ const mockStream = {
 
 // //GetValue
 // describe("Ensures savings object is accurate", function () {
-//   it("Can search stream to return the contribution for that period", () =>
-//     expect(getValue("contribution", mockStream, 2030)).toEqual(2000))
+//   it("Can search stream to return the contribute for that period", () =>
+//     expect(getValue("contribute", mockStream, 2030)).toEqual(2000))
 //   it("Can search stream to return the withdrawal for that period", () =>
 //     expect(getValue("period", mockStream, 2045)).toEqual(1000))
 // })
@@ -146,9 +146,9 @@ const mockStream = {
 // describe("Ensures savings object is accurate", function () {
 //   it("Test 1 - matches time value ", () =>
 //     expect(getSavings(mockState)["2030"]["user1"].tfsa.total.toFixed(2)).toEqual("48926.27"))
-//   it("Test 2 - matchs time value varying contributions", () =>
+//   it("Test 2 - matchs time value varying contributes", () =>
 //    expect(getSavings(mockState)["2040"]["user1"].tfsa.total.toFixed(2)).toEqual("140342.68"))
-//   it("Test 3 - matchs time value varying contributions", () =>
+//   it("Test 3 - matchs time value varying contributes", () =>
 //    expect(getSavings(mockState)["2051"]["user1"].tfsa.total.toFixed(2)).toEqual("352660.47"))
 //   it("Test 4 - shows proper amount after withdrawal", () =>
 //    expect(getSavings(mockState)["2052"]["user1"].tfsa.total.toFixed(2)).toEqual("347820.09"))
@@ -180,6 +180,6 @@ const mockStateUser1RRSP = {
 }
 
 describe("Builds savings array for chart", function () {
-  it("tfsa selection ", () => expect(getSavingsArrayForChart(mockStateUser1TFSA, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: '2026', user1tfsa: 31823.9778896256 }))
-  it("rrsp selection ", () => expect(getSavingsArrayForChart(mockStateUser1RRSP, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: '2026', user1rrsp: 31823.9778896256 }))
+  it("tfsa selection ", () => expect(getSavingsArrayForChart(mockStateUser1TFSA, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: "2026", user1tfsa: 31823.9778896256 }))
+  //it("rrsp selection ", () => expect(getSavingsArrayForChart(mockStateUser1RRSP, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: '2026', user1rrsp: 31823.9778896256 }))
 })

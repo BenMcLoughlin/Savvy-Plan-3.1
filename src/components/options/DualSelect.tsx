@@ -11,7 +11,6 @@ interface IProps {
 
 export const DualSelect: FC<IProps> = ({ handleChange, handleChange2, option1, option2, value }) => {
   const [clickFired, fireClick] = useState<boolean>(false) //we need to know if a button has been clicked
-
   return (
     <Wrapper>
       <Option

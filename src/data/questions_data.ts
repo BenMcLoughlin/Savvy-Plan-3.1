@@ -1,5 +1,3 @@
-
-
 export const incomeQuestions_data = {
   streamType: "income",
   q1: {
@@ -54,9 +52,16 @@ export const savingsQuestions_data = {
   },
   slidersInput: {
     explanation:
-      "We want to know what you estimate your future contributions to be so we can calculate your future value. Ignore your past contributions as they are accounted for in the current value",
+      "We want to know what you estimate your future contributes to be so we can calculate your future value. Ignore your past contributes as they are accounted for in the current value",
     topLabelPast: "",
     topLabelFuture: "I aim to contribute",
+    bottomLabel: "Per Year",
+  },
+  slidersInputWithdraw: {
+    explanation:
+      "We want to know what you estimate your future contributes to be so we can calculate your future value. Ignore your past contributes as they are accounted for in the current value",
+    topLabelPast: "",
+    topLabelFuture: "I aim to withdraw",
     bottomLabel: "Per Year",
   },
 }
@@ -84,13 +89,13 @@ export const spendingQuestions_data = {
   slidersInput: {
     question: "Tell us about the expense starting from now then guessing into the future",
     explanation:
-      "We want to know what you estimate your future contributions to be so we can calculate your future value. Ignore your past contributions as they are accounted for in the current value",
+      "We want to know what you estimate your future contributes to be so we can calculate your future value. Ignore your past contributes as they are accounted for in the current value",
     topLabelPast: "I spend about",
     topLabelFuture: "I think I'll spend",
     bottomLabel: "Per Month",
-    slider2Max: 4000, 
-    slider2Min: 0, 
-    slider2Step: 10, 
+    slider2Max: 4000,
+    slider2Min: 0,
+    slider2Step: 10,
   },
 }
 
@@ -151,7 +156,6 @@ export const debtQuestions_data = {
     bottomLabel: "banana",
   },
 }
-
 
 export const onboard_data = {
   intro: {

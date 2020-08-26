@@ -1,7 +1,7 @@
 import { createStream } from "services/create_functions"
-import { createDebtSliders, createTripleSliders, createPropertySliders } from "services/questions/createTripleSliders"
+import { createDebtSliders, createTripleSliders, createPropertySliders, createSavingsSliders } from "services/questions/createTripleSliders"
 import * as I from "types"
-import { incomeQuestions_data, spendingQuestions_data } from "data/questions_data"
+import { incomeQuestions_data, spendingQuestions_data, savingsQuestions_data } from "data/questions_data"
 
 /**
  * createPage receives state and provides all the information needed to render the <Display> component. It has the name of the chart that needs to be rendered. The details for the info card
@@ -9,8 +9,8 @@ import { incomeQuestions_data, spendingQuestions_data } from "data/questions_dat
  * <Display> box as dumb as possible.
  * */
 
-export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.parent): any => {
-  const { selectedId, colorIndex, selectedUser, newStream, selectedPage } = state.ui_reducer
+export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.parent, remove): any => {
+  const { selectedId, colorIndex, selectedUser, newStream, selectedPage, dualSelectValue, selectedAccount } = state.ui_reducer
 
   const { user1Name, user2Name } = state.user_reducer
   const instance = state.main_reducer[selectedId]
@@ -36,7 +36,7 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
     addPrompt: {
       label: addButtonLabel,
       handleChange: () => {
-        createStream(colorIndex, set, streamType, "", selectedUser)
+        createStream(colorIndex, set, streamType, "", selectedUser, state) //creates a new stream and places it in the reducer, a switch statement on streamType determines what kind of stream
         set("progress", "ui_reducer", 0)
         set("newStream", "ui_reducer", true)
       },
@@ -53,15 +53,18 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
   }
 
   if (instance) {
-    const { id, name, color } = instance
+    const { id, name, color, periods, contributePeriods } = instance
 
     const editProps = {
       id,
       handleColorChange: (value: string) => set(id, "main_reducer", value, "color"),
       handleTitleChange: (value: string) => set(id, "main_reducer", value, "name"),
       handlePeriodChange: (value: string) => set("selectedPeriod", "ui_reducer", value),
+      handleDelete: () => {
+        set("selectedId", "ui_reducer", "", "") // sets the seleted ID in the reducer to nothing so the box will no longer show                                                                                                         // determines which income instance to show within the edit box
+        remove(id)
+      },
       handleExit: () =>  {
-        console.log('ello:')
         set("newStream", "ui_reducer", false)
         set("selectedId", "ui_reducer", false)
         set("selectedPeriod", "ui_reducer", 0)
@@ -69,6 +72,28 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
       colorValue: color,
       nameValue: name,
       newStream,
+      dualSelectorProps: {
+        option1: "contribute",
+        option2: "withdraw",
+        value: dualSelectValue,
+        handleChange: () => {
+          set("selectedPeriod", "ui_reducer", contributePeriods)
+          set("dualSelectValue", "ui_reducer", true)},
+        handleChange2: () => {
+          set("selectedPeriod", "ui_reducer", periods)
+          set("dualSelectValue", "ui_reducer", false)
+        },
+      },
+      dropdownProps: {
+        optionArray: ['tfsa', 'rrsp', 'personal', 'resp'], 
+        label: "account",
+        handleChange: option => {
+          set("selectedAccount", "ui_reducer", option)
+          set(selectedId, "main_reducer", option, "reg")
+        },
+        selectedValue: selectedAccount
+      },
+      selectedPage
     }
 
     if (instance ) {
@@ -77,8 +102,12 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
         return { ...pageData, editPeriod: { tripleSliders, ...editProps } }
       }
 
-      if (streamType !== "property" && streamType !== "debt") {
+      if (streamType === "income") {
         const tripleSliders = createTripleSliders(incomeQuestions_data, instance, set, state)
+        return { ...pageData, editPeriod: { tripleSliders, ...editProps } }
+      }
+      if (streamType === "savings") {
+        const tripleSliders = createSavingsSliders(savingsQuestions_data, instance, set, state)
         return { ...pageData, editPeriod: { tripleSliders, ...editProps } }
       }
 

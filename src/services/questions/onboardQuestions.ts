@@ -108,7 +108,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
     valid: user_reducer.numberOfChildren > 0,
     handleChange: () => {
       set("progress", "ui_reducer", progress + 1)
-      createStream(colorIndex, set, "income", "employment", "user1")
+      createStream(colorIndex, set, "income", "employment", "user1", state)
     },
   })
 
@@ -127,7 +127,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
       valid: true,
       handleChange: () => {
         set("dualSelectValue", "ui_reducer", true)
-        createStream(colorIndex, set, "income", "employment", "user2")
+        createStream(colorIndex, set, "income", "employment", "user2", state)
       },
       handleChange2: () => {
         set("selectedId", "ui_reducer", false)
@@ -152,7 +152,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
     handleChange: (selected, d: any) => {
       if (!selected && d.label !== "none") {
         // check if the item doesnt already exist, or its not none, and will then create a new income st
-        createStream(colorIndex, set, `savings`,  d.reg.toLowerCase(), "user1")
+        createStream(colorIndex, set, `savings`,  d.reg.toLowerCase(), "user1", state)
       } //checks if there is no currently selected version, if so it adds a new one, prevents adding mulitple with many clicks
       if (selected) {
         //the user needs to be able to remove the new object if they click on it again enabling them to remove the account they added.
@@ -188,7 +188,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
       handleChange: (selected, d: any) => {
         if (!selected && d.label !== "none") {
           // check if the item doesnt already exist, or its not none, and will then create a new income st
-          createStream(colorIndex, set, `savings`, d.reg.toLowerCase(), "user2")
+          createStream(colorIndex, set, `savings`, d.reg.toLowerCase(), "user2", state)
         } //checks if there is no currently selected version, if so it adds a new one, prevents adding mulitple with many clicks
         if (selected) {
           //the user needs to be able to remove the new object if they click on it again enabling them to onClick2 the account they added.
@@ -219,7 +219,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
     handleChange: () => {
       set("dualSelectValue", "ui_reducer", true)
       set("ownHome", "user_reducer", true)
-      createStream(colorIndex, set, "property", "employment", "user1")
+      createStream(colorIndex, set, "property", "employment", "user1", state)
     },
     handleChange2: () => set("dualSelectValue", "ui_reducer", false),
   })
@@ -238,7 +238,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
     value: user_reducer.hasUnsecuredDebt,
     handleChange: () => {
       set("hasUnsecuredDebt", "user_reducer", true)
-      createStream(colorIndex,  set, "debt", "Credit Card", "user1")
+      createStream(colorIndex,  set, "debt", "Credit Card", "user1", state)
     },
     handleChange2: () => set("hasUnsecuredDebt", "user_reducer", false),
   })
@@ -257,7 +257,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
     value: user_reducer.hasUnsecuredDebt,
     handleChange: () => {
       set("hasUnsecuredDebt", "user_reducer", true)
-      createStream(colorIndex,  set, "debt", "Credit Card", "user1")
+      createStream(colorIndex,  set, "debt", "Credit Card", "user1", state)
     },
     handleChange2: () => set("hasUnsecuredDebt", "user_reducer", false),
   })
@@ -271,7 +271,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
     value: user_reducer.hasUnsecuredDebt,
     handleChange: () => {
       set("hasUnsecuredDebt", "user_reducer", true)
-      createStream(colorIndex,  set, "debt", "Credit Card", "user1")
+      createStream(colorIndex,  set, "debt", "Credit Card", "user1", state)
     },
     handleChange2: () => set("hasUnsecuredDebt", "user_reducer", false),
   })

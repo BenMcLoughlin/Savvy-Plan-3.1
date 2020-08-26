@@ -5,10 +5,8 @@ import { getCacheKey } from "calculations/helpers/caching"
 
 var cachecgetIncome = (function () {
   var cache = {}
-
   function f(state: I.state) {
     const cacheKey = getCacheKey(state, "Income")
-
     if (cacheKey in cache) {
       return cache[cacheKey]
     } else {
@@ -29,7 +27,7 @@ var cachecgetIncome = (function () {
 
       //we begin by building an object with all incoem values the user has inputted, the object has income information for each year, these values are used to calculate pensoins
       const firstIncomeObject: I.incomeObject = getdFirstIncomeStreamsObject(state, yearFirst, yearLast, users)
-      //console.log('JSON.stringify(secondIncomeObject, null, 4):', JSON.stringify(firstIncomeObject, null, 4))
+     // console.log('JSON.stringify(secondIncomeObject, null, 4):', JSON.stringify(firstIncomeObject, null, 4))
       //next we build a second income object and add in pensions, these are based on the first object
       let secondIncomeObject: I.incomeObject = getSecondIncomeStreamsObject(firstIncomeObject, state, yearFirst, yearLast, users)
       //console.log('JSON.stringify(secondIncomeObject, null, 4):', JSON.stringify(secondIncomeObject, null, 4))

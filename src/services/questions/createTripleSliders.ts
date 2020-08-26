@@ -1,5 +1,6 @@
 import { ageAtSelectedYear } from "services/ui_functions"
-import { addPeriodToStream } from "services/create_functions"
+import { addPeriodToSavingsStream } from "services/create_functions"
+import { round } from "services/ui_functions"
 import _ from "lodash"
 import * as I from "types"
 
@@ -19,14 +20,14 @@ export const createTripleSliders = (data, instance: I.instance, set: I.set, stat
     valid: true,
     addLabel: "Add a period where it changed",
     question: data.slidersInput.question,
-    handleChange: () => addPeriodToStream(instance, periods, id, set),
+    handleChange: () => addPeriodToSavingsStream(state, set),
     selectedPeriod,
     handlePeriodChange: (period: number) => set("selectedPeriod", "ui_reducer", period),
   }
 
   const slidersArray = _.range(periods + 1).map((d: any, i: number) => {
     const startYear = instance[`period${i}StartYear`]
-    const nextPeriodStartYear = instance[`period${i+1}StartYear`]
+    const nextPeriodStartYear = instance[`period${i + 1}StartYear`]
     const endYear = instance[`period${i}EndYear`]
     const currentYear = new Date().getFullYear() //the text needs to be able to refer to the income being earned in the past or in the future, so we will use this to test that
 
@@ -44,7 +45,8 @@ export const createTripleSliders = (data, instance: I.instance, set: I.set, stat
         type: "year",
         value: startYear,
         handleChange: (value: number) => {
-          set(id, "main_reducer", value, `period${i}StartYear`)},
+          set(id, "main_reducer", value, `period${i}StartYear`)
+        },
       },
       slider2: {
         bottomLabel: data.slidersInput.bottomLabel,
@@ -63,9 +65,10 @@ export const createTripleSliders = (data, instance: I.instance, set: I.set, stat
         topLabel: "Until ",
         type: "year",
         value: endYear,
-        handleChange: (value: number) => { 
-          if(value > nextPeriodStartYear) set(id, "main_reducer", value, `period${i+1}StartYear`)
-          set(id, "main_reducer", value, `period${i}EndYear`)},
+        handleChange: (value: number) => {
+          if (value > nextPeriodStartYear) set(id, "main_reducer", value, `period${i + 1}StartYear`)
+          set(id, "main_reducer", value, `period${i}EndYear`)
+        },
       },
     }
   })
@@ -198,4 +201,87 @@ export const createDebtSliders = (instance: any, set: I.set) => {
   }
 
   return editPeriod
+}
+
+export const createSavingsSliders = (data, instance: I.instance, set: I.set, state: I.state) => {
+  const { contributePeriods, id, periods, owner, reg, streamType } = instance
+
+  const { selectedPeriod, dualSelectValue } = state.ui_reducer
+
+  const { user1BirthYear, user2BirthYear } = state.user_reducer
+
+  const birthYear = owner === "user1" ? +user1BirthYear : +user2BirthYear
+
+  const contributeIsSelected = dualSelectValue
+
+  const transaction = contributeIsSelected ? "contribute" : "period"
+
+  const transactionPeriods = contributeIsSelected ? contributePeriods : periods
+
+  const editPeriod = {
+    explanation: data.slidersInput.explanation,
+    component: "TripleSliderSelector", //very special advanced component tailored for this type of object
+    periods: transactionPeriods,
+    valid: true,
+    addLabel: "Add a period where it changed",
+    question: data.slidersInput.question,
+    handleChange: () => addPeriodToSavingsStream(state, set),
+    selectedPeriod,
+    handlePeriodChange: (period: number) => set("selectedPeriod", "ui_reducer", period),
+  }
+
+  const slidersArray = _.range(transactionPeriods + 1).map((d: any, i: number) => {
+    const startYear = instance[`${transaction}${i}StartYear`]
+    const nextPeriodStartYear = instance[`${transaction}${i + 1}StartYear`]
+    const endYear = instance[`${transaction}${i}EndYear`]
+    const currentYear = new Date().getFullYear() //the text needs to be able to refer to the income being earned in the past or in the future, so we will use this to test that
+
+    let past = currentYear > instance[`${transaction}${i}StartYear`]
+
+    return {
+      component: "MultiSliders",
+      num: 3,
+      slider1: {
+        bottomLabel: `at age ${ageAtSelectedYear(startYear, birthYear)}`, //eg "at age 26"
+        max: 2080,
+        min: new Date().getFullYear(), //if its the first one then just 2020, otherwise its the ${transaction} priors last year
+        step: 1,
+        topLabel: i === 0 ? "Starting in" : "then in", //for the first one we want to say "starting in" but after they add changes we want it to say "then in"
+        type: "year",
+        value: startYear,
+        handleChange: (value: number) => {
+          set(id, "main_reducer", value, `${transaction}${i}StartYear`)
+        },
+      },
+      slider2: {
+        bottomLabel: `per year, $${round(instance[`${transaction}${i}Value`] / 12).toLocaleString()} per month`,
+        max: contributeIsSelected ? (reg === "tfsa" ? 6000 : reg === "rrsp" ? 40000 : 10000) : 100000,
+        min: 0,
+        step: reg === "tfsa" ? 100 : reg === "rrsp" ? 1000 : streamType === "spending" ? 10 : 1000,
+        topLabel: contributeIsSelected
+          ? past
+            ? data.slidersInput.topLabelPast
+            : data.slidersInput.topLabelFuture
+          : past
+          ? data.slidersInputWithdraw.topLabelPast
+          : data.slidersInputWithdraw.topLabelFuture,
+        value: instance[`${transaction}${i}Value`],
+        handleChange: (value: number) => set(id, "main_reducer", value, `${transaction}${i}Value`),
+      },
+      slider3: {
+        bottomLabel: `at age ${ageAtSelectedYear(endYear, birthYear)}`, //eg "at age 26"
+        max: 2090,
+        min: startYear,
+        step: 1,
+        topLabel: "Until ",
+        type: "year",
+        value: endYear,
+        handleChange: (value: number) => {
+          if (value > nextPeriodStartYear) set(id, "main_reducer", value, `${transaction}${i + 1}StartYear`)
+          set(id, "main_reducer", value, `${transaction}${i}EndYear`)
+        },
+      },
+    }
+  })
+  return { ...editPeriod, slidersArray }
 }

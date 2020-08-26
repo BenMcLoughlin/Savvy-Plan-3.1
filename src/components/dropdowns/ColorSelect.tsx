@@ -45,6 +45,7 @@ const Wrapper = styled.div`
   justify-content: center;
   cursor: pointer;
   position: relative;
+  margin-left: 3rem;
 `
 
 interface IColor {

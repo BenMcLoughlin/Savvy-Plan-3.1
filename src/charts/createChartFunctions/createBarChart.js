@@ -81,7 +81,6 @@ export const drawBarChart = (colors, className, dataObject, height, set, state, 
       .enter()
       .append("g")
       .attr("fill", (d, i) => {
-        console.log('d.key:', d.key)
         return colors[d.key] })
       .attr("class", (d, i) => d.key)
       .selectAll("rect")
@@ -103,7 +102,6 @@ export const drawBarChart = (colors, className, dataObject, height, set, state, 
         const name = n[0].parentNode.className.animVal
 
         const thisColor = colors[name]
-        console.log("selectedUser:", selectedUser)
         d3.select(n[i]).transition().duration(100).attr("opacity", 0.7).attr("cursor", "pointer")
 
         tooltip.transition().duration(200).style("opacity", 1).style("pointer-events", "none")
@@ -180,8 +178,8 @@ export const drawBarChart = (colors, className, dataObject, height, set, state, 
       .attr("y", d => yScale(d[1]))
       .attr("height", d => (yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0))
 
-    var ticks = [2000, 2020, 2040, 2060, 2080]
-    var tickLabels = ["2000 \n Age 20", "Age 40", "Age 60", "Age 80", "Age 95"]
+      var ticks = [ 2020, 2040, 2060]
+      var tickLabels = ["2020", "2040", "2060"]
 
     const xAxis = d3
       .axisBottom(xScale)

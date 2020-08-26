@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { ArrowLeftS } from "@styled-icons/remix-line"
 
 interface IProps {
-  setDirection: (direction: string) => void
+  setDirection?: (direction: string) => void
   handleChange: () => void
 }
 
@@ -12,7 +12,7 @@ export const Back: FC<IProps> = ({ setDirection, handleChange}) => {
   return (
     <ArrowLeft
       onClick={() => {
-        setDirection("back")
+        if (setDirection) {setDirection("back")}
         handleChange()
       }}
     />

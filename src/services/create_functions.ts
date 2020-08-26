@@ -7,7 +7,7 @@ import * as I from "types"
  * It is different than other instances in the same stream because the value is different. Eg. the user may have made less money for the first 5 years of employment, then more later.
  *  */
 
-export const newIncomeStream = () => ({
+export const newIncomeStream = (birthYear) => ({
   name: "",
   periods: 0,
   period0StartYear: 2015,
@@ -21,20 +21,20 @@ export const newIncomeStream = () => ({
  * newSavingsStream creates a new Savings Account object which contains all the details pertaining to a property
  *  */
 
-export const newSavingsStream = () => {
+export const newSavingsStream = (birthYear) => {
   const thisYear = new Date().getFullYear()
 
   return {
     name: "",
     periods: 0,
     currentValue: 0,
-    contributionPeriods: 0, 
-    contribution0StartYear: thisYear,
-    contribution0Value: 1000,
-    contribution0EndYear: 2040,
-    period0StartYear: thisYear,
+    contributePeriods: 0,
+    contribute0StartYear: thisYear,
+    contribute0Value: 1000,
+    contribute0EndYear: 2040,
+    period0StartYear: +birthYear + 65, //period is actually withdrawl, because we want overlap with income we use the same name
     period0Value: 1000,
-    period0EndYear: 2040,
+    period0EndYear: +birthYear + 95,
     taxable: true,
   }
 }
@@ -43,7 +43,7 @@ export const newSavingsStream = () => {
  * newPropertyStream creates a new property object which contains all the details pertaining to a property
  *  */
 
-export const newPropertyStream = () => ({
+export const newPropertyStream = (birthYear) => ({
   currentValue: 300000,
   hasMortgage: "no",
   mortgageRate: 3,
@@ -61,7 +61,7 @@ export const newPropertyStream = () => ({
  * newDebtStream creates a new debt object which contains all the details pertaining to a debt
  *  */
 
-export const newDebtStream = () => ({
+export const newDebtStream = (birthYear) => ({
   rate: 10,
   balance: 2000,
   amortization: 40,
@@ -74,7 +74,7 @@ export const newDebtStream = () => ({
  * newDebtStream creates a new debt object which contains all the details pertaining to a debt
  *  */
 
-export const createNewStream = () => ({
+export const createNewStream = (birthYear) => ({
   rate: 10,
   balance: 2000,
   amortization: 40,
@@ -95,32 +95,45 @@ export const addPeriodToIncomeStream = (instance: any, period: number, selectedI
   set(selectedId, "main_reducer", +instance[`period${period}EndYear`] + 3, `period${period + 1}EndYear`)
   set(selectedId, "main_reducer", 3000, `period${period + 1}Value`)
 }
-export const addPeriodToStream = (instance: any, period: number, selectedId: any, set: (id: string, reducer: string, value: any, childId?: string) => void): void => {
-  const startingValue = instance[`period${period}Value`]
+export const addPeriodToSavingsStream = (state: I.state, set: (id: string, reducer: string, value: any, childId?: string) => void): void => {
+  const { selectedId, dualSelectValue } = state.ui_reducer
+  const instance = state.main_reducer[selectedId]
 
-  set(selectedId, "main_reducer", period + 1, "periods")
-  set(selectedId, "main_reducer", instance[`period${period}EndYear`], `period${period + 1}StartYear`)
-  set(selectedId, "main_reducer", +instance[`period${period}EndYear`] + 5, `period${period + 1}EndYear`)
-  set(selectedId, "main_reducer", startingValue, `period${period + 1}Value`)
+  const { periods, contributePeriods } = instance
+
+  const contributeIsSelected = dualSelectValue
+
+  const transactionPeriods = contributeIsSelected ? contributePeriods : periods
+
+  const transaction = instance.streamType === "savings" && contributeIsSelected ? "contribute" : "period"
+
+  const startingValue = instance[`${transaction}${transactionPeriods}Value`]
+
+  set(selectedId, "main_reducer", transactionPeriods + 1, contributeIsSelected ? "contributePeriods" : "periods")
+  set(selectedId, "main_reducer", instance[`${transaction}${transactionPeriods}EndYear`], `${transaction}${transactionPeriods + 1}StartYear`)
+  set(selectedId, "main_reducer", +instance[`${transaction}${transactionPeriods}EndYear`] + 5, `${transaction}${transactionPeriods + 1}EndYear`)
+  set(selectedId, "main_reducer", startingValue, `${transaction}${transactionPeriods + 1}Value`)
 }
 
-const newStream = (streamType: I.streamType) => {
+const newStream = (streamType: I.streamType, birthYear: I.year) => {
   switch (streamType) {
     case "income":
-      return newIncomeStream()
+      return newIncomeStream(birthYear)
     case "spending":
-      return newIncomeStream()
+      return newIncomeStream(birthYear)
     case "savings":
-      return newSavingsStream()
+      return newSavingsStream(birthYear)
     case "property":
-      return newPropertyStream()
+      return newPropertyStream(birthYear)
     case "debt":
-      return newDebtStream()
+      return newDebtStream(birthYear)
   }
 }
 
-export const createStream = (colorIndex: number, set: I.set, streamType: I.streamType, reg: I.reg, owner: I.user): void => {
-  let _stream = newStream(streamType)
+export const createStream = (colorIndex: number, set: I.set, streamType: I.streamType, reg: I.reg, owner: I.user, state: I.state): void => {
+  const birthYear = state.user_reducer[`${owner}BirthYear`]
+  
+  let _stream = newStream(streamType, birthYear)
 
   //This creates a new Income Instance, such as from ages 18-22
   const id = owner + _.startCase(streamType) + "_" + (Math.random() * 1000000).toFixed() //creates the random ID that is the key to the object, key includes the owner, then the type of instance eg. "Income", then a random number

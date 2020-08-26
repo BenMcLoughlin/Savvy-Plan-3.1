@@ -1,5 +1,5 @@
 import { createStream } from "services/create_functions"
-import { createDebtSliders, createMortgageSliders, createTripleSliders, createPropertySliders } from "services/questions/createTripleSliders"
+import { createDebtSliders, createMortgageSliders, createTripleSliders, createPropertySliders, createSavingsSliders } from "services/questions/createTripleSliders"
 import * as I from "types"
 
 export const createStreamQuestionsArray = (data: I.questions, instance: I.instance, set: I.set, state: I.state, remove: I.remove, parent: I.parent) => {
@@ -77,7 +77,11 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
     })
   }
 
-  if (streamType !== "property" && streamType !== "debt") {
+  if (streamType === "savings") {
+    questions.push(createSavingsSliders(data, instance, set, state))
+  }
+
+  if (streamType === "income") {
     questions.push(createTripleSliders(data, instance, set, state))
   }
 
@@ -103,7 +107,7 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
       question: qFinal.question,
       handleChange: () => {
         set("dualSelectValue", "ui_reducer", true)
-        createStream(colorIndex, set, streamType, "", owner)
+        createStream(colorIndex, set, streamType, "", owner, state)
       },
       handleChange2: (clickFired: boolean) => {
         set("newStream", "ui_reducer", false)

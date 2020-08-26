@@ -37,10 +37,12 @@ export const getSavingsArrayForChart = ({ ui_reducer }, savingsObject: I.savings
    else {
     finalArray.push({
       year,
-      [`${selectedUser}${selectedAccount}`]: savingsObject[year][selectedUser][selectedAccount].total,
+      [`${selectedUser}${selectedAccount}`]: savingsObject[year][selectedUser][selectedAccount].total > 0 ? savingsObject[year][selectedUser][selectedAccount].total : 0,
     })
    }   
    return
   })
+console.log('finalArray:', finalArray)
+  
   return finalArray
 }

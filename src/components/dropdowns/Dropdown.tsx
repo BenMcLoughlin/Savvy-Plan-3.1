@@ -2,35 +2,29 @@ import React, { FC, useState } from "react"
 import styled from "styled-components"
 
 interface IProps {
-  array: string[]
-  childId: any
-  id: string
+  optionArray: string[]
   label: string
-  reducer: string
-  state: any
-  set: (id: string, reducer: string, value: any, childId: any) => void
+  handleChange: (option) => void
+  selectedValue: string
 }
 
-export const Dropdown: FC<IProps> = ({ array, childId, id, label, reducer, state, set }) => {
+export const Dropdown: FC<IProps> = ({ optionArray, handleChange, label, selectedValue }) => {
   const [open, toggleOpen] = useState<boolean>(false)
-  const selectedValue = state[reducer][id][childId]
-
   return (
     <Wrapper>
       <Input onChange={e => e} type="text" autoComplete="off" value={selectedValue} onClick={() => toggleOpen(!open)}></Input>
-      <Label>{label}: </Label>
       {open && (
         <DropDown>
-          {array.map((d: string) => {
+          {optionArray.map((option: string) => {
             return (
               <Square
                 selected={false}
                 onClick={() => {
-                  set(id, reducer, d, childId)
+                  handleChange(option)
                   toggleOpen(false)
                 }}
               >
-                {d}
+                {option}
               </Square>
             )
           })}
@@ -43,26 +37,27 @@ export const Dropdown: FC<IProps> = ({ array, childId, id, label, reducer, state
 //---------------------------STYLES-------------------------------------------//
 
 const Wrapper = styled.div`
-  height: 3.5rem;
+  height: 3rem;
   width: 22rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: relative;
   right: 1rem;
 `
 
 const Input = styled.input`
-  height: 3.5rem;
+  height: 3rem;
   padding-left: 1.5rem;
-  width: 18rem;
+  width: 12rem;
   outline: none;
-  background: none;
+  background-color: ${props => props.theme.color.primary};
   color: white;
   border: none;
   font-size: 1.4rem;
   cursor: pointer;
   position: relative;
+  text-transform: uppercase;
   border-radius: 15px;
   &:focus {
     background: ${props => props.theme.color.darkGrey};
@@ -71,9 +66,9 @@ const Input = styled.input`
 
 const DropDown = styled.div`
   position: absolute;
-  width: 16rem;
-  top: 3.5rem;
-  left: 3.2rem;
+  width: 11rem;
+  top: 3rem;
+  left: 5.6rem;
   background: none;
   z-index: 250;
   overflow: hidden;
@@ -89,14 +84,15 @@ interface ISquare {
 const Square = styled.div<ISquare>`
   width: 100%;
   padding: 0.4rem;
-  height: 4.2rem;
+  height: 3rem;
   display: flex;
   align-content: center;
   padding-left: 1rem;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   background-color: ${props => props.theme.color.darkGrey};
   color: white;
   border: 0.5px solid #e0dedd;
+  text-transform: uppercase;
   cursor: pointer;
   &:hover {
     background: ${props => props.theme.color.darkGrey};
@@ -115,5 +111,6 @@ const Label = styled.div`
   font-size: 1.4rem;
   position: absolute;
   top: 0.64rem;
+  background: grey;
   left: -2rem;
 `

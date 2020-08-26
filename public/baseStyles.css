@@ -232,3 +232,7 @@ input[type="number"]::-webkit-outer-spin-button {
 .value {
   font-weight: 700;
 }
+
+.chart {
+  background: yellow;
+}

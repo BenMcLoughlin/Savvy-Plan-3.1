@@ -17,7 +17,7 @@ export const incomePage_data = {
       label: "action steps",
       array: [
         "Focus on contributing to your RRSP in the years 2024 - 2029",
-        "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribution room is ",
+        "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribute room is ",
         "Since your spouse earns considerably less you'll want to look into setting up a spousal RRSP",
       ],
     },
@@ -43,7 +43,7 @@ export const savingsPage_data = {
       label: "action steps",
       array: [
         "Focus on contributing to your RRSP in the years 2024 - 2029",
-        "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribution room is ",
+        "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribute room is ",
         "Since your spouse earns considerably less you'll want to look into setting up a spousal RRSP",
       ],
     },
@@ -69,7 +69,7 @@ export const spendingPage_data = {
       label: "action steps",
       array: [
         "Focus on contributing to your RRSP in the years 2024 - 2029",
-        "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribution room is ",
+        "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribute room is ",
         "Since your spouse earns considerably less you'll want to look into setting up a spousal RRSP",
       ],
     },
@@ -95,7 +95,7 @@ export const networthPage_data = {
       label: "action steps",
       array: [
         "Focus on contributing to your RRSP in the years 2024 - 2029",
-        "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribution room is ",
+        "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribute room is ",
         "Since your spouse earns considerably less you'll want to look into setting up a spousal RRSP",
       ],
     },
@@ -121,10 +121,9 @@ export const taxesPage_data = {
       label: "action steps",
       array: [
         "Focus on contributing to your RRSP in the years 2024 - 2029",
-        "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribution room is ",
+        "Ensure you have a Canada Revenue Agency my service account set up so you can see what your TFSA and RRSP contribute room is ",
         "Since your spouse earns considerably less you'll want to look into setting up a spousal RRSP",
       ],
     },
   ],
 }
-

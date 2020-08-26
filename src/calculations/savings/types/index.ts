@@ -18,7 +18,7 @@ export type instance = _instance
 import { savingsStream as _savingsStream } from "types/reducer_types"
 export type savingsStream = _savingsStream
 
-export type transactionType = "contribution" | "period"
+export type transactionType = "contribute" | "period"
 
 export type account = "rrsp" | "tfsa" | "personal" | "lira" | "pension" | "resp"
 
@@ -27,7 +27,7 @@ type annualUserAccounts = {
 }
 
 export type annualAccountDetails = {
-  contribution: number
+  contribute: number
   withdrawal: number
   principle: number
   total: number

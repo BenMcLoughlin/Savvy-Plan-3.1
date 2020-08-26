@@ -54,7 +54,7 @@ export const savingsAccountsArray = [
     label: "RESP",
     reg: "RESP",
     info:
-      "A popular savings account for parents or family members to save money for their children's education. With an RESP, the government will match your contributions and anything you earn through investing is earned tax-free. As always, there are rules and limitations.",
+      "A popular savings account for parents or family members to save money for their children's education. With an RESP, the government will match your contributes and anything you earn through investing is earned tax-free. As always, there are rules and limitations.",
   },
   { label: "none", reg: "none" },
 ]

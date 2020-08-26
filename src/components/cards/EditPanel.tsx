@@ -1,48 +1,47 @@
 import React, { FC } from "react"
 import styled from "styled-components"
 import { Exit } from "components/buttons/Exit"
-import { TripleSliderSelector, DualSelect, ColorSelect, EditTitle } from "components"
+import { Back, TripleSliderSelector, DualSelect, ColorSelect, EditTitle, Dropdown } from "components"
 import { Trash2 } from "@styled-icons/feather/Trash2"
 import * as I from "types"
 
 interface ISliderProps {
   editPeriod: any
-  set: I.set
-  remove: I.remove
-  id: string;
-  handleColorChange: (value: string) => void;
-  handleTitleChange: (value: string) => void;
-  colorValue: string;
-  nameValue: string;
+  id: string
+  colorValue: string
+  nameValue: string
 }
 
-export const EditPanel: FC<ISliderProps> = ({ editPeriod, remove, set}) => {
-  
-const {id, handleColorChange, handleTitleChange, handleExit, colorValue, nameValue, newStream } = editPeriod
+export const EditPanel: FC<ISliderProps> = ({ editPeriod }) => {
+  const { handleColorChange, handleTitleChange, handleDelete, handleExit, colorValue, nameValue, newStream, selectedPage } = editPeriod
 
   return (
     <Wrapper>
       <Header>
-         <ColorSelect handleChange={(value: string) => handleColorChange(value)} value={colorValue}  />
-        <EditTitle handleChange={(value: string) => handleTitleChange(value)} value={nameValue} selectedFocus={newStream}/>  
-        {editPeriod.dualSelectorProps && <DualSelect {...editPeriod.dualSelectorProps} />}
+        <BackWrapper>
+          <Back handleChange={() => handleExit()} />
+        </BackWrapper>
+        <ColorSelect handleChange={(value: string) => handleColorChange(value)} value={colorValue} />
+        {selectedPage === "savings" ? (
+          <>
+            {" "}
+            <DualSelect {...editPeriod.dualSelectorProps} />
+            <Dropdown {...editPeriod.dropdownProps} />{" "}
+          </>
+        ) : (
+          <EditTitle handleChange={(value: string) => handleTitleChange(value)} value={nameValue} selectedFocus={newStream} />
+        )}
         <Exit handleChange={() => handleExit()} />
       </Header>
       <Center>
         <TripleSliderSelector {...editPeriod.tripleSliders} />
       </Center>
       <BottomRight>
-        <TrashIcon
-          onClick={() => {
-            set("selectedId", "ui_reducer", "", "") // sets the seleted ID in the reducer to nothing so the box will no longer show                                                                                                         // determines which income instance to show within the edit box
-            remove(id)
-          }}
-        />
+        <TrashIcon onClick={() => handleDelete()} />
       </BottomRight>
     </Wrapper>
   )
 }
-
 
 //-----------------------------------------------style-----------------------------------------------//
 
@@ -65,6 +64,7 @@ const Header = styled.div`
   justify-content: space-between;
   display: flex;
   flex-direction: row;
+  position: relative;
   padding: 0.5rem;
   color: white;
   font-size: ${props => props.theme.fontSize.smallMedium};
@@ -85,4 +85,11 @@ const BottomRight = styled.div`
   position: absolute;
   top: 21rem;
   right: 1rem;
+`
+const BackWrapper = styled.div`
+  height: 3rem;
+  width: 3rem;
+  position: absolute;
+  top: -.7rem;
+  left: -.7rem;
 `

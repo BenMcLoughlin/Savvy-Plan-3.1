@@ -6,7 +6,6 @@ import { Header as _Header } from "./layout/Header"
 import { Login as _Login } from "./login/Login"
 import * as I from "types"
 
-
 const mapStateToProps = (state: I.state) => ({ state })
 
 //Buttons
@@ -52,17 +51,15 @@ export { PickNumberWithText } from "./options/PickNumberWithText"
 export { ScrollCircles } from "./scroll/ScrollCircles"
 
 //Sliders
-export { MultiSliders } from "./sliders1/MultiSliders"
-export { Slider } from "./sliders1/Slider"
+export { MultiSliders } from "./sliders/MultiSliders"
+export { Slider } from "./sliders/Slider"
 
 //Text Input
 
-export { EditTitle } from "./textInput1/EditTitle"
-export { MultipleTextInput } from "./textInput1/MultipleTextInput"
-export { TextInput } from "./textInput1/TextInput"
+export { EditTitle } from "./textInput/EditTitle"
+export { MultipleTextInput } from "./textInput/MultipleTextInput"
+export { TextInput } from "./textInput/TextInput"
 
 //Smart Components Connected to Redux
 
-
 export const EditPanel = compose(connect(mapStateToProps, { set, remove }))(_EditPanel)
-

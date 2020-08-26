@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { ChartNav } from "components"
 import { getSavings } from "calculations/savings/savings.function"
 import { drawAreaChart } from "charts/createChartFunctions/createAreaChart"
+import { getSavingsArrayForChart } from "calculations/savings/create/createChartArray"
 
 interface IProps {
   state: any
@@ -11,19 +12,27 @@ interface IProps {
 }
 
 export const SavingsChart: FC<IProps> = ({ state, set }) => {
-  //THIS IS JUST A PLACEHODLER FUNCTION FOR NOW
+
   const dataObject = getSavings(state)
+
+  const data  = getSavingsArrayForChart(state, dataObject)
+
+  const {selectedUser} = state.ui_reducer
 
   const inputRef = useRef(null)
 
   const className = "savingsChart"
 
+
   useEffect(() => {
+
     if (inputRef && inputRef.current) {
       const width = inputRef.current.offsetWidth
       const height = inputRef.current.offsetHeight
-      drawAreaChart(className, dataObject, height, state, width)
+      drawAreaChart(className, data, height, state, width)
     }
+
+    
   }, [dataObject, set, state])
 
   return (
