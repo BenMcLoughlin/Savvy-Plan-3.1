@@ -1,11 +1,11 @@
 import * as d3 from "d3"
 
-export const drawAreaChart = (className, data, height, state, width) => {
+export const drawAreaChart = (colors, className, data, dataObject, height, set, state, width) => {
   const margin = { top: 20, right: 100, bottom: 10, left: 100 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
   const color = ["year", "#3B7B8E", "#7898a1", "#3B7B8E", " #7898a1", "#7898a1", "#7898a1"]
-
+console.log('data:', data)
   d3.select(`.${className} > *`).remove()
 
   const stackedKeys = Object.keys(data[0])
@@ -29,7 +29,7 @@ export const drawAreaChart = (className, data, height, state, width) => {
   gradient.append("stop").attr("class", "end").attr("offset", "100%").attr("stop-color", "white").attr("stop-opacity", 1)
 
   const update = data => {
-    const d3Max = d3.max(data, d => Object.values(d).reduce((a, n) => +a + +n)) + 500000
+    const d3Max = 500000 //d3.max(data, d => Object.values(d).reduce((a, n) => +a + +n)) + 500000
 
     const area = d3
       .area()

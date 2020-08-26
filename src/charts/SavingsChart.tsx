@@ -3,7 +3,8 @@ import styled from "styled-components"
 import { ChartNav } from "components"
 import { getSavings } from "calculations/savings/savings.function"
 import { drawAreaChart } from "charts/createChartFunctions/createAreaChart"
-import { getSavingsArrayForChart } from "calculations/savings/create/createChartArray"
+import { drawBarChart } from "charts/createChartFunctions/createBarChart"
+import { getSavingsArrayForAreaChart, getSavingsArrayForBarChart } from "calculations/savings/create/createChartArray"
 
 interface IProps {
   state: any
@@ -11,33 +12,37 @@ interface IProps {
   set: (id: string, reducer: string, value: any, childId?: string) => void
 }
 
-export const SavingsChart: FC<IProps> = ({ state, set }) => {
-
+export const SavingsChart: FC<IProps> = ({ color_selector, state, set }) => {
   const dataObject = getSavings(state)
 
-  const data  = getSavingsArrayForChart(state, dataObject)
+  const areaData = getSavingsArrayForAreaChart(state, dataObject)
+  const barData = getSavingsArrayForBarChart(state, dataObject)
 
-  const {selectedUser} = state.ui_reducer
+  color_selector = { ...color_selector, user2rrsp: "#F29278"}
+  
+  const { selectedUser } = state.ui_reducer
 
-  const inputRef = useRef(null)
+  const inputAreaRef = useRef(null)
+  const inputBarRef = useRef(null)
 
-  const className = "savingsChart"
-
+  const areaClassName = "savingsAreaChart"
+  const barClassName = "savingsBarChart"
 
   useEffect(() => {
-
-    if (inputRef && inputRef.current) {
-      const width = inputRef.current.offsetWidth
-      const height = inputRef.current.offsetHeight
-      drawAreaChart(className, data, height, state, width)
+    if (inputAreaRef && inputAreaRef.current) {
+      const areaWidth = inputAreaRef.current.offsetWidth
+      const areaHeight = inputAreaRef.current.offsetHeight
+      const barWidth = inputBarRef.current.offsetWidth
+      const barHeight = inputBarRef.current.offsetHeight
+      drawAreaChart(color_selector, areaClassName, areaData, dataObject, areaHeight, set, state, areaWidth)
+      drawBarChart(color_selector, barClassName, barData, dataObject, barHeight, set, state, barWidth)
     }
-
-    
   }, [dataObject, set, state])
 
   return (
     <Wrapper>
-     <Canvas className={className} ref={inputRef} />
+      <AreaCanvas className={areaClassName} ref={inputAreaRef} />
+      <BarCanvas className={barClassName} ref={inputBarRef} />
       <ChartNavWrapper>
         <ChartNav options={["tfsa", "rrsp", "personal", "combined"]} handleChange={value => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount} />
       </ChartNavWrapper>
@@ -55,11 +60,18 @@ const Wrapper = styled.div`
   position: relative;
 `
 
-const Canvas = styled.div`
+const AreaCanvas = styled.div`
   width: 90rem;
-  height: 20rem;
+  height: 17rem;
   position: absolute;
   top: 12rem;
+  left: -5em;
+`
+const BarCanvas = styled.div`
+  width: 90rem;
+  height: 8rem;
+  position: absolute;
+  top: 24rem;
   left: -5em;
 `
 const ChartNavWrapper = styled.div`

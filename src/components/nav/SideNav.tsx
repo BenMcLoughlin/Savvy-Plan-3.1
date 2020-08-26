@@ -72,7 +72,7 @@ const Pill = styled.div<PProps>`
         position: absolute;
         min-width: 13rem;
         height: 4rem;
-        top: .8rem;
+        top: .6rem;
         left: 1.6rem;
         background-color: #73706E;
         transform: ${props =>

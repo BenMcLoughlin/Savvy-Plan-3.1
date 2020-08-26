@@ -4,7 +4,7 @@ import _ from "lodash"
 
 const emptyAccountData = {
   contribute: 0,
-  withdrawal: 0,
+  withdraw: 0,
   principle: 0,
   totalInterest: 0,
   total: 0,
@@ -24,7 +24,7 @@ export const getValue = (transactionType: I.transactionType, stream: I.savingsSt
 }
 
 export const getAccountDetails = (account: I.account, savingsObject: I.savingsObject, state: I.state, year: number, user: string): I.annualAccountDetails => {
-  const stream: any = Object.values(state.main_reducer).find((d: any) => d.reg === account && d.owner === user) //grab the stream we're working on, eg TFSA with its contribute and withdrawal details
+  const stream: any = Object.values(state.main_reducer).find((d: any) => d.reg === account && d.owner === user) //grab the stream we're working on, eg TFSA with its contribute and withdraw details
 
   if (!stream) return emptyAccountData
 
@@ -32,18 +32,20 @@ export const getAccountDetails = (account: I.account, savingsObject: I.savingsOb
 
   const prior: any = firstYear ? emptyAccountData : savingsObject[year - 1][user][account] //grabs the prior years object which will be used to run this years calculations
 
+  const withdrawAmount = getValue("period", stream, year) //this represents the amount the user has inputed to withdraw, although it might not be available in the account
+
   const contribute = getValue("contribute", stream, year) //checks the current stream to see if contributes have been made this year
-  const withdrawal = getValue("period", stream, year) //checks the current stream to see if withdrawals have been made this year
-  const principlePercentage = firstYear ? 0 : (prior.principle + prior.contribute) / prior.total //when running withdrawals we want to show a mix of totalInterest and principle being withdrawn
-  const principle = firstYear ? stream.currentValue || 0 : prior.principle + prior.contribute - withdrawal * principlePercentage
+  const withdraw = withdrawAmount < prior.total ? withdrawAmount : prior.total //checks the current stream to see if withdraws have been made this year
+  const principlePercentage = firstYear ? 0 : (prior.principle + prior.contribute) / prior.total //when running withdraws we want to show a mix of totalInterest and principle being withdrawn
+  const principle = firstYear ? stream.currentValue || 0 : prior.principle + prior.contribute - withdraw * principlePercentage
   const annualInterest = firstYear ? stream.currentValue * 0.06 : prior.total * 0.06
   const interestPercentage = firstYear ? 0 : prior.totalInterest / prior.total
-  const totalInterest = firstYear ? stream.currentValue * 0.06 : prior.totalInterest + annualInterest - withdrawal * interestPercentage
-  const total = firstYear ? principle + contribute + totalInterest : prior.total + contribute - withdrawal + annualInterest
+  const totalInterest = firstYear ? stream.currentValue * 0.06 : prior.totalInterest + annualInterest - withdraw * interestPercentage
+  const total = firstYear ? principle + contribute + totalInterest : prior.total + contribute - withdraw + annualInterest
 
   return {
     contribute,
-    withdrawal,
+    withdraw,
     principle: principle > 0 ? principle : 0,
     totalInterest: totalInterest > 0 ? totalInterest : 0,
     total,

@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { ChartNav } from "components"
 import { drawBarChart } from "charts/createChartFunctions/createBarChart"
 import * as I from "types"
-
+import { getIncomeArrayForChart } from "calculations/income/create/createChartArray"
 
 interface IProps {
   state: I.state
@@ -13,19 +13,17 @@ interface IProps {
 }
 
 export const IncomeChart: FC<IProps> = ({ color_selector, income_selector, state, set }) => {
+  color_selector = { ...color_selector, user1CppBenefit: "#F29278", user2CppBenefit: "#F29278", ccbBenefit: "#536D7A", user1OasBenefit: "#3B7B8E", user2OasBenefit: "#3B7B8E" }
+  const data = getIncomeArrayForChart(state, income_selector)
 
-  
-  color_selector = {...color_selector, user1CppBenefit: "#F29278", user2CppBenefit: "#F29278", ccbBenefit: "#536D7A",  user1OasBenefit: "#3B7B8E", user2OasBenefit: "#3B7B8E",}
-
- const inputRef = useRef(null)
-const className = "incomeChart"
-  const data = income_selector
+  const inputRef = useRef(null)
+  const className = "incomeChart"
 
   useEffect(() => {
     if (inputRef && inputRef.current) {
       const width = inputRef.current.offsetWidth
       const height = inputRef.current.offsetHeight
-      drawBarChart(color_selector, className, data, height, set, state, width)
+      drawBarChart(color_selector, className, data, income_selector, height, set, state, width)
     }
   }, [color_selector, data, set, state])
 

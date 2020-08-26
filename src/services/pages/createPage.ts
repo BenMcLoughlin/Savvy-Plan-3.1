@@ -36,9 +36,10 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
     addPrompt: {
       label: addButtonLabel,
       handleChange: () => {
-        createStream(colorIndex, set, streamType, "", selectedUser, state) //creates a new stream and places it in the reducer, a switch statement on streamType determines what kind of stream
+        createStream(colorIndex, set, streamType, selectedAccount, selectedUser, state) //creates a new stream and places it in the reducer, a switch statement on streamType determines what kind of stream
         set("progress", "ui_reducer", 0)
         set("newStream", "ui_reducer", true)
+        set("dualSelectValue", "ui_reducer", true) //ensures that the select is set to contribute when opened
       },
     },
     tripleSelector: {
@@ -64,7 +65,7 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
         set("selectedId", "ui_reducer", "", "") // sets the seleted ID in the reducer to nothing so the box will no longer show                                                                                                         // determines which income instance to show within the edit box
         remove(id)
       },
-      handleExit: () =>  {
+      handleExit: () => {
         set("newStream", "ui_reducer", false)
         set("selectedId", "ui_reducer", false)
         set("selectedPeriod", "ui_reducer", 0)
@@ -78,25 +79,26 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
         value: dualSelectValue,
         handleChange: () => {
           set("selectedPeriod", "ui_reducer", contributePeriods)
-          set("dualSelectValue", "ui_reducer", true)},
+          set("dualSelectValue", "ui_reducer", true)
+        },
         handleChange2: () => {
           set("selectedPeriod", "ui_reducer", periods)
           set("dualSelectValue", "ui_reducer", false)
         },
       },
       dropdownProps: {
-        optionArray: ['tfsa', 'rrsp', 'personal', 'resp'], 
+        optionArray: ["tfsa", "rrsp", "personal", "resp"],
         label: "account",
         handleChange: option => {
           set("selectedAccount", "ui_reducer", option)
           set(selectedId, "main_reducer", option, "reg")
         },
-        selectedValue: selectedAccount
+        selectedValue: selectedAccount,
       },
-      selectedPage
+      selectedPage,
     }
 
-    if (instance ) {
+    if (instance) {
       if (streamType === "spending") {
         const tripleSliders = createTripleSliders(spendingQuestions_data, instance, set, state)
         return { ...pageData, editPeriod: { tripleSliders, ...editProps } }

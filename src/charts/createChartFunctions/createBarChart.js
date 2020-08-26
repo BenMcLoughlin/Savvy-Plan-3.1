@@ -1,12 +1,10 @@
 import * as d3 from "d3"
-import { getIncomeArrayForChart } from "calculations/income/create/createChartArray"
-import { round, formatName } from "charts/createChartFunctions/chartHelpers"
+import { savingBarChartTooltip } from "charts/tooltips/tooltip"
+import { getMax } from "charts/createChartFunctions/chartHelpers"
+import * as tooltips from "charts/tooltips/tooltip"
 
-
-export const drawBarChart = (colors, className, dataObject, height, set, state, width) => {
-  
-  const { selectedId, selectedPeriod, selectedUser } = state.ui_reducer
-  const { user1BirthYear, user1Name, user2Name, maritalStatus } = state.user_reducer
+export const drawBarChart = (colors, className, data, dataObject, height, set, state, width) => {
+  const { selectedId, selectedPeriod } = state.ui_reducer
 
   const instance = state.main_reducer[selectedId]
 
@@ -23,8 +21,6 @@ export const drawBarChart = (colors, className, dataObject, height, set, state, 
   const margin = { top: 20, right: 100, bottom: 20, left: 100 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
-
-  const data = getIncomeArrayForChart(state, dataObject)
 
   d3.select(`.${className} > *`).remove()
   d3.select(`.${className}tooltip`).remove()
@@ -56,12 +52,7 @@ export const drawBarChart = (colors, className, dataObject, height, set, state, 
 
   const update = data => {
 
-    const beforeTaxIncomeArray = Object.values(dataObject).map(d => {
-      if (maritalStatus === "married") return d.user2.beforeTaxIncome + d.user1.beforeTaxIncome
-      else return d.user1.beforeTaxIncome
-    })
-
-    const max = d3.max(beforeTaxIncomeArray) < 40000 ? 40000 : d3.max(beforeTaxIncomeArray) + 5000
+    const max = 100000
 
     const series = stack(data)
 
@@ -81,7 +72,9 @@ export const drawBarChart = (colors, className, dataObject, height, set, state, 
       .enter()
       .append("g")
       .attr("fill", (d, i) => {
-        return colors[d.key] })
+        console.log("d.key:", d.key)
+        return colors[d.key]
+      })
       .attr("class", (d, i) => d.key)
       .selectAll("rect")
       .data(d => d)
@@ -99,64 +92,8 @@ export const drawBarChart = (colors, className, dataObject, height, set, state, 
         set("selectedId", "ui_reducer", id)
       })
       .on("mouseover", (d, i, n) => {
-        const name = n[0].parentNode.className.animVal
-
-        const thisColor = colors[name]
-        d3.select(n[i]).transition().duration(100).attr("opacity", 0.7).attr("cursor", "pointer")
-
-        tooltip.transition().duration(200).style("opacity", 1).style("pointer-events", "none")
-
-        tooltip.html(
-          `
-                                          <div class="topHeader">
-                                              <p> ${d.data.year}</p>
-                                              <p> Age: ${d.data.year - user1BirthYear}</p>
-                                          </div>
-                                          <div class="title-row" style="color: ${thisColor}; ">
-                                           ${formatName(name, user1Name, user2Name)}
-                                          </div>
-                                          <div class="row" style="color: ${thisColor}; ">
-                                            <div class="box">
-                                              <p> Before tax</p>
-                                              <p class="value"> ${
-                                                round(dataObject[d.data.year].user1.beforeTaxIncomeStreams[name]) || round(dataObject[d.data.year].user2.beforeTaxIncomeStreams[name])
-                                              } K</p>
-                                            </div>
-                                            <div class="box">
-                                              <p> After tax</p>
-                                              <p class="value"> ${
-                                                round(dataObject[d.data.year].user1.afterTaxIncomeStreams[name]) || round(dataObject[d.data.year].user2.afterTaxIncomeStreams[name])
-                                              } K</p>
-                                            </div>
-                                          </div>
-                                          <div class="title-row">
-                                          Total
-                                          </div>
-                                          <div class="row">
-                                            <div class="box">
-                                              <p> Before tax</p>
-                                              <p class="value"> ${
-                                                selectedUser === "combined"
-                                                  ? round(dataObject[d.data.year].user1.beforeTaxIncome + dataObject[d.data.year].user2.beforeTaxIncome)
-                                                  : selectedUser === "user2"
-                                                  ? round(dataObject[d.data.year].user2.beforeTaxIncome)
-                                                  : round(dataObject[d.data.year].user1.beforeTaxIncome)
-                                              } K</p>
-                                            </div>
-                                            <div class="box">
-                                              <p> After tax</p>
-                                              <p class="value"> ${
-                                                selectedUser === "combined"
-                                                  ? round(dataObject[d.data.year].user1.afterTaxIncome + dataObject[d.data.year].user2.afterTaxIncome)
-                                                  : selectedUser === "user2"
-                                                  ? round(dataObject[d.data.year].user2.afterTaxIncome)
-                                                  : round(dataObject[d.data.year].user1.afterTaxIncome)
-                                              } K</p>
-                                            </div>
-                                          </div>
-                                          `
-        )
-      })
+        const createTooltip = tooltips[className]
+        createTooltip(d, dataObject, i, tooltip, n, state)})
       .on("mouseout", (d, i, n) => {
         d3.select(n[i])
           .transition()
@@ -178,8 +115,8 @@ export const drawBarChart = (colors, className, dataObject, height, set, state, 
       .attr("y", d => yScale(d[1]))
       .attr("height", d => (yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0))
 
-      var ticks = [ 2020, 2040, 2060]
-      var tickLabels = ["2020", "2040", "2060"]
+    var ticks = [2020, 2040, 2060]
+    var tickLabels = ["2020", "2040", "2060"]
 
     const xAxis = d3
       .axisBottom(xScale)

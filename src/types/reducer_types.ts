@@ -11,7 +11,7 @@ export interface IUiState {
   selectedPage: string
   selectedUser: I.user
   selectedPeriod: number
-  selectedAccount: string
+  selectedAccount: I.reg
   newStream: boolean
   selectedTransaction: string
   dualSelectValue: boolean

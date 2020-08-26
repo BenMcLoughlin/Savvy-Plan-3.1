@@ -1,6 +1,6 @@
 import { getSavings } from "calculations/savings/savings.function"
 import { getValue } from "calculations/savings/create/createSavingsObject"
-import { getSavingsArrayForChart } from "calculations/savings/create/createChartArray"
+import { getSavingsArrayForAreaChart } from "calculations/savings/create/createChartArray"
 
 const mockState = {
   user_reducer: {
@@ -137,7 +137,7 @@ const mockStream = {
 // describe("Ensures savings object is accurate", function () {
 //   it("Can search stream to return the contribute for that period", () =>
 //     expect(getValue("contribute", mockStream, 2030)).toEqual(2000))
-//   it("Can search stream to return the withdrawal for that period", () =>
+//   it("Can search stream to return the withdraw for that period", () =>
 //     expect(getValue("period", mockStream, 2045)).toEqual(1000))
 // })
 
@@ -150,13 +150,13 @@ const mockStream = {
 //    expect(getSavings(mockState)["2040"]["user1"].tfsa.total.toFixed(2)).toEqual("140342.68"))
 //   it("Test 3 - matchs time value varying contributes", () =>
 //    expect(getSavings(mockState)["2051"]["user1"].tfsa.total.toFixed(2)).toEqual("352660.47"))
-//   it("Test 4 - shows proper amount after withdrawal", () =>
+//   it("Test 4 - shows proper amount after withdraw", () =>
 //    expect(getSavings(mockState)["2052"]["user1"].tfsa.total.toFixed(2)).toEqual("347820.09"))
-//   it("Test 4 - shows proper amount after withdrawal", () =>
+//   it("Test 4 - shows proper amount after withdraw", () =>
 //    expect(getSavings(mockState)["2052"]["user1"].tfsa.principle.toFixed(2)).toEqual("125973.36"))
-//   it("Test 4 - shows proper amount after withdrawal", () =>
+//   it("Test 4 - shows proper amount after withdraw", () =>
 //    expect(getSavings(mockState)["2052"]["user1"].tfsa.totalInterest.toFixed(2)).toEqual("221846.74"))
-//   it("Test 4 - shows proper amount after withdrawal", () =>
+//   it("Test 4 - shows proper amount after withdraw", () =>
 //    expect(getSavings(mockState)["2077"]["user1"].tfsa.totalInterest.toFixed(2)).toEqual("61755.91"))
 // }
 // )
@@ -180,6 +180,6 @@ const mockStateUser1RRSP = {
 }
 
 describe("Builds savings array for chart", function () {
-  it("tfsa selection ", () => expect(getSavingsArrayForChart(mockStateUser1TFSA, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: "2026", user1tfsa: 31823.9778896256 }))
-  //it("rrsp selection ", () => expect(getSavingsArrayForChart(mockStateUser1RRSP, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: '2026', user1rrsp: 31823.9778896256 }))
+  it("tfsa selection ", () => expect(getSavingsArrayForAreaChart(mockStateUser1TFSA, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: "2026", user1tfsa: 31823.9778896256 }))
+  //it("rrsp selection ", () => expect(getSavingsArrayForAreaChart(mockStateUser1RRSP, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: '2026', user1rrsp: 31823.9778896256 }))
 })

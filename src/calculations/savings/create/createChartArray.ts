@@ -1,18 +1,7 @@
 import * as I from "calculations/savings/types"
 
-// const targetArrayDesign = [
-//   {
-//     year: 2021,
-//     user1TfsaInterest: 3000,
-//     user1TfsaPrinciple: 4000,
-//     user1RrspInterest: 3000,
-//     user1RrspPrinciple: 4000,
-//   },
-// ]
-
-
-export const getSavingsArrayForChart = ({ ui_reducer }, savingsObject: I.savingsObject) => {
-  //console.log('JSON.stringify(savinsObject, null, 4):', JSON.stringify(savingsObject, null, 4))
+export const getSavingsArrayForAreaChart = ({ ui_reducer }, savingsObject: I.savingsObject) => {
+  //console.log("JSON.stringify(savinsObject, null, 4):", JSON.stringify(savingsObject, null, 4))
 
   const { selectedUser, selectedAccount } = ui_reducer
 
@@ -26,23 +15,54 @@ export const getSavingsArrayForChart = ({ ui_reducer }, savingsObject: I.savings
         year,
         [`${selectedUser}totalSavings`]: savingsObject[year][selectedUser].totalSavings,
       })
-    }
-    else if (selectedAccount === "combined" && selectedUser === "combined") {
+    } else if (selectedAccount === "combined" && selectedUser === "combined") {
+      const totalSavings = 10000
       finalArray.push({
         year,
-        totalSavings: savingsObject[year].user1.totalSavings,
+        totalSavings,
+      })
+    } else {
+      finalArray.push({
+        year,
+        [`${selectedUser}${selectedAccount}`]: savingsObject[year][selectedUser][selectedAccount].total > 0 ? savingsObject[year][selectedUser][selectedAccount].total : 0,
       })
     }
-  
-   else {
-    finalArray.push({
-      year,
-      [`${selectedUser}${selectedAccount}`]: savingsObject[year][selectedUser][selectedAccount].total > 0 ? savingsObject[year][selectedUser][selectedAccount].total : 0,
-    })
-   }   
-   return
+    return
   })
-console.log('finalArray:', finalArray)
-  
+  //console.log('finalArray:', finalArray)
+
+  return finalArray
+}
+
+export const getSavingsArrayForBarChart = ({ ui_reducer }, savingsObject: I.savingsObject) => {
+
+  const { selectedUser, selectedAccount } = ui_reducer
+console.log('savingsObject):', savingsObject)
+  const arrayOfYears = Object.keys(savingsObject)
+
+  const finalArray = []
+
+  arrayOfYears.map(year => {
+    if (selectedAccount === "combined" && selectedUser !== "combined") {
+      finalArray.push({
+        year,
+        [`${selectedUser}totalSavings`]: savingsObject[year][selectedUser].totalSavings,
+      })
+    } else if (selectedAccount === "combined" && selectedUser === "combined") {
+      const totalSavings = 10000
+      finalArray.push({
+        year,
+        totalSavings,
+      })
+    } else {
+      finalArray.push({
+        year,
+        [`${selectedUser}${selectedAccount}`]: savingsObject[year][selectedUser][selectedAccount].contribute - savingsObject[year][selectedUser][selectedAccount].withdraw
+      })
+    }
+    return
+  })
+  //console.log('finalArray:', finalArray)
+
   return finalArray
 }

@@ -28,7 +28,7 @@ type annualUserAccounts = {
 
 export type annualAccountDetails = {
   contribute: number
-  withdrawal: number
+  withdraw: number
   principle: number
   total: number
   totalInterest: number
