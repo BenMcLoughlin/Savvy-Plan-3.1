@@ -37,7 +37,6 @@ export const getSavingsArrayForAreaChart = ({ ui_reducer }, savingsObject: I.sav
 export const getSavingsArrayForBarChart = ({ ui_reducer }, savingsObject: I.savingsObject) => {
 
   const { selectedUser, selectedAccount } = ui_reducer
-console.log('savingsObject):', savingsObject)
   const arrayOfYears = Object.keys(savingsObject)
 
   const finalArray = []

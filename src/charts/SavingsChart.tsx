@@ -66,12 +66,13 @@ const AreaCanvas = styled.div`
   position: absolute;
   top: 12rem;
   left: -5em;
+  z-index: 1000;
 `
 const BarCanvas = styled.div`
   width: 90rem;
-  height: 8rem;
+  height: 10rem;
   position: absolute;
-  top: 24rem;
+  top: 24.4rem;
   left: -5em;
 `
 const ChartNavWrapper = styled.div`

@@ -10,7 +10,6 @@ interface IProps {
 
 export const Login: FC<IProps> = ({set, state}) => {
   const {newUser} = state.user_reducer
-console.log(newUser)
   return (
     <Wrapper>
       <TextInput label="email" handleChange={() => null} valid={true} value="hi" type="text" />

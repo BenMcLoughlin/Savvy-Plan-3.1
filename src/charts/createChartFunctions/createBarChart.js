@@ -1,13 +1,13 @@
 import * as d3 from "d3"
 import { savingBarChartTooltip } from "charts/tooltips/tooltip"
-import { getMax } from "charts/createChartFunctions/chartHelpers"
+import { getMax, getMin } from "charts/createChartFunctions/chartHelpers"
 import * as tooltips from "charts/tooltips/tooltip"
 
 export const drawBarChart = (colors, className, data, dataObject, height, set, state, width) => {
   const { selectedId, selectedPeriod } = state.ui_reducer
 
   const instance = state.main_reducer[selectedId]
-
+  const { mouseout } = tooltips
   let periodStart = 0
   let periodEnd = 0
   let streamName = ""
@@ -47,16 +47,18 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
     .attr("class", `${className}tooltip`)
     .style("opacity", 0)
     .style("position", "absolute")
-    .style("top", "-10rem")
+    .style("top", "-100rem")
     .style("right", "30rem")
 
   const update = data => {
-
-    const max = 100000
+    const max = getMax(className, dataObject, state)
+    console.log("max:", max)
+    const min = getMin(className, dataObject, state)
 
     const series = stack(data)
 
-    const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([0, max])
+
+    const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([min, max])
     const xScale = d3
       .scaleBand()
       .range([0, graphWidth])
@@ -68,12 +70,15 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
 
     rects.exit().remove()
 
+
+
     rects
       .enter()
       .append("g")
       .attr("fill", (d, i) => {
-        console.log("d.key:", d.key)
-        return colors[d.key]
+        if (colors[d.key]) {
+          return colors[d.key]
+        } else return "#5E9090"
       })
       .attr("class", (d, i) => d.key)
       .selectAll("rect")
@@ -93,25 +98,10 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       })
       .on("mouseover", (d, i, n) => {
         const createTooltip = tooltips[className]
-        createTooltip(d, dataObject, i, tooltip, n, state)})
-      .on("mouseout", (d, i, n) => {
-        d3.select(n[i])
-          .transition()
-          .duration(100)
-          //.attr("opacity", 1)
-          .attr("opacity", (d, i, n) => {
-            const name = n[0].parentNode.className.animVal
-            return streamName === name && d.data.year >= periodStart && d.data.year < periodEnd ? 0.7 : 1
-          })
-
-        tooltip.transition().duration(1500).style("opacity", 0)
+        createTooltip(d, dataObject, i, tooltip, n, state)
       })
-      .on("mousemove", function (d) {
-        // when mouse moves
-        tooltip
-          .style("top", d3.event.layerY - 20 + "px") // always 10px below the cursor
-          .style("left", d3.event.layerX + 30 + "px") // always 10px to the right of the mouse
-      })
+      .on("mouseout", (d, i, n) => mouseout(i, periodStart, periodEnd, n, streamName, tooltip))
+      .on("mousemove", () => null)
       .attr("y", d => yScale(d[1]))
       .attr("height", d => (yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0))
 
