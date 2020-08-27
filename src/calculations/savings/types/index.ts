@@ -23,7 +23,8 @@ export type transactionType = "contribute" | "period"
 export type account = "rrsp" | "tfsa" | "personal" | "lira" | "pension" | "resp"
 
 type annualUserAccounts = {
-  [key: string]: annualAccountDetails
+  totalSavings: number
+  [key: string]: any
 }
 
 export type annualAccountDetails = {

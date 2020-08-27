@@ -23,7 +23,7 @@ export const savings_selector = createSelector(
 //   //Determines the CPP payment for the user
 //   state,
 //   savings_selector,
-//   savings_selector => getSavingsArrayForAreaChart(state, savings_selector)
+//   savings_selector =>  getSavingsData(state, savings_selector)
 // )
 
 export const color_selector = createSelector(main_reducer, main_reducer => {

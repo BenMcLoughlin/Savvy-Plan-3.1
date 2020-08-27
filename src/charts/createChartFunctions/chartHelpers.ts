@@ -25,22 +25,29 @@ export const formatIncomeName = (name, user1Name, user2Name) => {
 /**
  * used to sum all both the contributions and withdrawals for all accounts and both users in a year. It returns an array that d3.max is applied to creating the maximum value.
  **/
-const getSavingsMinMax = (dataObject, query) => {
+const getSavingsBarMax = (dataObject) => {
   const savingsByYear = Object.values(dataObject)
   const arrayOfContributionAndWithdrawalTotals = savingsByYear.map(year => {
-    const transaction = query === "max" ? "contribute" : "withdraw"
     let total = 0
     Object.values(year).map(user => {
-      Object.values(user).map(account => {
+      Object.values(user).map((account:any) => {
         if (typeof account === "object") {
           //because the account contains a total value it returns undefined if it isn't removed
-          return (total += account[transaction])
+          return total += account.contribute + account.withdraw
         }
       })
     })
     return total
   })
-  return d3.max(arrayOfContributionAndWithdrawalTotals)
+  const max = d3.max(arrayOfContributionAndWithdrawalTotals)
+  return max + 10000
+}
+
+const getSavingsAreaMinMax = (dataObject) => {
+  const savingsByYear = Object.values(dataObject)
+  const arrayOfSavingsTotals = savingsByYear.map((year:any) => year.user1.totalSavings + year.user2.totalSavings )
+  const max = d3.max(arrayOfSavingsTotals)
+  return max + 10000
 }
 
 /**
@@ -59,7 +66,8 @@ export const getMax = (className, dataObject, state) => {
       const max = d3.max(beforeTaxIncomeArray)
       return max > 100000 ? max + 30000 : 100000
     }
-    case "savingsBarChart": return 20000 //getSavingsMinMax(dataObject, "max")
+    case "savingsBarChart": return getSavingsBarMax(dataObject)
+    case "savingsAreaChart": return getSavingsAreaMinMax(dataObject)
 
   return 100000
 }
@@ -72,7 +80,8 @@ export const getMin = (className, dataObject, state) => {
 
   switch (className) {
     case "incomeChart": return 0
-    case "savingsBarChart": return -40000  // -getSavingsMinMax(dataObject, "min")
+    case "savingsBarChart": return -getSavingsBarMax(dataObject)
+    case "savingsAreaChart": return 0//getSavingsAreaMinMax(dataObject)
   }
 
   return 100000

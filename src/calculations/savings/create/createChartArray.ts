@@ -1,67 +1,67 @@
 import * as I from "calculations/savings/types"
 
-export const getSavingsArrayForAreaChart = ({ ui_reducer }, savingsObject: I.savingsObject) => {
+export const getSavingsData = ({ ui_reducer }, savingsObject: I.savingsObject) => {
   //console.log("JSON.stringify(savinsObject, null, 4):", JSON.stringify(savingsObject, null, 4))
 
   const { selectedUser, selectedAccount } = ui_reducer
 
   const arrayOfYears = Object.keys(savingsObject)
 
-  const finalArray = []
+  const areaData = []
+  const barData = []
 
   arrayOfYears.map(year => {
     if (selectedAccount === "combined" && selectedUser !== "combined") {
-      finalArray.push({
+      const totalContribute = savingsObject[year][selectedUser].totalContribute + savingsObject[year][selectedUser].totalContribute
+      const totalWithdraw = savingsObject[year][selectedUser].totalWithdraw + savingsObject[year][selectedUser].totalWithdraw
+
+      areaData.push({
         year,
         [`${selectedUser}totalSavings`]: savingsObject[year][selectedUser].totalSavings,
       })
+      barData.push({
+        year,
+        total: totalContribute - totalWithdraw
+      })
     } else if (selectedAccount === "combined" && selectedUser === "combined") {
-      const totalSavings = 10000
-      finalArray.push({
+      const totalSavings = savingsObject[year].user1.totalSavings + savingsObject[year].user2.totalSavings
+      const totalContribute = savingsObject[year].user1.totalContribute + savingsObject[year].user2.totalContribute
+      const totalWithdraw = savingsObject[year].user1.totalWithdraw + savingsObject[year].user2.totalWithdraw
+      areaData.push({
         year,
         totalSavings,
       })
+      barData.push({
+        year,
+        total: totalContribute - totalWithdraw
+      })
+    } else if (selectedAccount !== "combined" && selectedUser === "combined") {
+      const totalSavings = savingsObject[year].user1[selectedAccount].total + savingsObject[year].user2[selectedAccount].total
+      const totalContribute = savingsObject[year].user1[selectedAccount].contribute + savingsObject[year].user2[selectedAccount].contribute
+      const totalWithdraw = savingsObject[year].user1[selectedAccount].withdraw + savingsObject[year].user2[selectedAccount].withdraw
+      areaData.push({
+        year,
+        totalSavings,
+      })
+      barData.push({
+        year,
+        total: totalContribute - totalWithdraw
+      })
     } else {
-      finalArray.push({
+      areaData.push({
         year,
         [`${selectedUser}${selectedAccount}`]: savingsObject[year][selectedUser][selectedAccount].total > 0 ? savingsObject[year][selectedUser][selectedAccount].total : 0,
       })
-    }
-    return
-  })
-  //console.log('finalArray:', finalArray)
-
-  return finalArray
-}
-
-export const getSavingsArrayForBarChart = ({ ui_reducer }, savingsObject: I.savingsObject) => {
-
-  const { selectedUser, selectedAccount } = ui_reducer
-  const arrayOfYears = Object.keys(savingsObject)
-
-  const finalArray = []
-
-  arrayOfYears.map(year => {
-    if (selectedAccount === "combined" && selectedUser !== "combined") {
-      finalArray.push({
+      barData.push({
         year,
-        [`${selectedUser}totalSavings`]: savingsObject[year][selectedUser].totalSavings,
-      })
-    } else if (selectedAccount === "combined" && selectedUser === "combined") {
-      const totalSavings = 10000
-      finalArray.push({
-        year,
-        totalSavings,
-      })
-    } else {
-      finalArray.push({
-        year,
-        [`${selectedUser}${selectedAccount}`]: savingsObject[year][selectedUser][selectedAccount].contribute - savingsObject[year][selectedUser][selectedAccount].withdraw
+        [`${selectedUser}${selectedAccount}`]: savingsObject[year][selectedUser][selectedAccount].contribute - savingsObject[year][selectedUser][selectedAccount].withdraw,
       })
     }
     return
   })
-  //console.log('finalArray:', finalArray)
 
-  return finalArray
+  return {
+    areaData,
+    barData,
+  }
 }

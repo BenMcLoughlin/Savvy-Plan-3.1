@@ -2,6 +2,7 @@ import * as d3 from "d3"
 import { round, formatIncomeName } from "charts/createChartFunctions/chartHelpers"
 
 export const incomeChart = (d, dataObject, i, tooltip, n, state) => {
+
   const { selectedUser } = state.ui_reducer
   const { user1BirthYear, user1Name, user2Name } = state.ui_reducer
   const name = n[0].parentNode.className.animVal
@@ -129,13 +130,6 @@ export const areaTooltip = (className, d, data, graph, xScale, yScale) => {
   d3.selectAll(`circle`).remove()
   d3.selectAll(`line`).remove()
 
-  graph
-    .append("circle")
-    .attr("className", "point")
-    .attr("r", 5)
-    .attr("cx", xScale(d.year))
-    .attr("cy", yScale(Object.values(d)[1]))
-    .attr("fill", "red")
 
     graph
     .append("line")
@@ -144,10 +138,20 @@ export const areaTooltip = (className, d, data, graph, xScale, yScale) => {
     .attr("y1", 0) //because the name changes we want to grab the second item with the value, I just flipped it to an array to I could get second value
     .attr("y2", 1000) //because the name changes we want to grab the second item with the value, I just flipped it to an array to I could get second value
     .attr("stroke-width", 2)
-    .attr("stroke", "red")
+    .attr("stroke", "#72929B")
     .attr("stroke-dasharray", "5")
     .attr("stroke-linecap", "round")
     .attr('id', 'areaLineRect')
+
+    graph
+    .append("circle")
+    .attr("className", "point")
+    .attr("r", 5)
+    .attr("cx", xScale(d.year))
+    .attr("cy", yScale(Object.values(d)[1]))
+    .attr("fill", "white")
+    .attr("stroke-width", 2)
+    .attr("stroke", "#72929B")
 
   d3.select(`.${className}`)
     .append("div")
@@ -183,4 +187,11 @@ export const removeAreaTooltip = className => {
   d3.selectAll(`line`).remove()
   d3.select(`.${className}tooltip`).remove()
 
+}
+
+
+export const createTooltip = (className) => {
+  d3.selectAll(`.BANANA`).on("mouseover", (d, i, n) => {
+  console.log('BANANA:')
+  })
 }

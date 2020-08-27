@@ -67,6 +67,8 @@ export const createSavingsObject = (state: I.state, yearFirst: number, yearLast:
           rrsp,
           personal,
           totalSavings: tfsa.total + rrsp.total + personal.total,
+          totalContribute: tfsa.contribute + rrsp.contribute + personal.contribute,
+          totalWithdraw: tfsa.withdraw + rrsp.withdraw + personal.withdraw,
         },
       })
     })

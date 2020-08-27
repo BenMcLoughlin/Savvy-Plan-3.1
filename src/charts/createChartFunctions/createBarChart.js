@@ -1,7 +1,8 @@
 import * as d3 from "d3"
 import { savingBarChartTooltip } from "charts/tooltips/tooltip"
 import { getMax, getMin } from "charts/createChartFunctions/chartHelpers"
-import * as tooltips from "charts/tooltips/tooltip"
+import * as tooltips from "charts/tooltips/barTooltip"
+import {createTooltip} from "charts/tooltips/tooltip"
 
 export const drawBarChart = (colors, className, data, dataObject, height, set, state, width) => {
   const { selectedId, selectedPeriod } = state.ui_reducer
@@ -52,11 +53,10 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
 
   const update = data => {
     const max = getMax(className, dataObject, state)
-    console.log("max:", max)
+
     const min = getMin(className, dataObject, state)
 
     const series = stack(data)
-
 
     const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([min, max])
     const xScale = d3
@@ -69,8 +69,6 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
     const rects = graph.append("g").selectAll("g").data(series)
 
     rects.exit().remove()
-
-
 
     rects
       .enter()
@@ -86,6 +84,7 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       .enter()
       .append("rect")
       .attr("x", d => xScale(d.data.year))
+      .attr("class", "BANANA")
       .attr("opacity", (d, i, n) => {
         const name = n[0].parentNode.className.animVal
         return streamName === name && d.data.year >= periodStart && d.data.year < periodEnd ? 0.7 : 1
@@ -96,14 +95,16 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
         const id = Object.values(state.main_reducer).filter(d => d.name === name)[0]["id"]
         set("selectedId", "ui_reducer", id)
       })
-      .on("mouseover", (d, i, n) => {
-        const createTooltip = tooltips[className]
-        createTooltip(d, dataObject, i, tooltip, n, state)
-      })
-      .on("mouseout", (d, i, n) => mouseout(i, periodStart, periodEnd, n, streamName, tooltip))
-      .on("mousemove", () => null)
+      // .on("mouseover", (d, i, n) => {
+      //   const createTooltip = tooltips[className]
+      //   createTooltip(d, dataObject, i, tooltip, n, state)
+      // })
+      // .on("mouseout", (d, i, n) => mouseout(i, periodStart, periodEnd, n, streamName, tooltip))
+      // .on("mousemove", () => null)
       .attr("y", d => yScale(d[1]))
       .attr("height", d => (yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0))
+
+      createTooltip()
 
     var ticks = [2020, 2040, 2060]
     var tickLabels = ["2020", "2040", "2060"]
@@ -120,8 +121,10 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       .ticks("2")
       .tickFormat(d => `${d / 1000}k`)
 
+    //   if(className !== "savingsBarChart") {
     xAxisGroup.call(xAxis)
     yAxisGroup.call(yAxis)
+    //  }
   }
 
   update(data)

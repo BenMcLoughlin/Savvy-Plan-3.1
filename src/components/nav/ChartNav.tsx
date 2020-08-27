@@ -83,7 +83,7 @@ const Pill = styled.div<PProps>`
         height: 2.8rem;
         top: 0rem;
         left: 0rem;
-        background-color: lightGrey;
+        background-color: #73706E;
         transform: ${props =>
           props.selected === props.options[0]
             ? "translate(0rem,0rem)"

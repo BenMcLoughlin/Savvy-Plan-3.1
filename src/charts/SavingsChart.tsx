@@ -4,7 +4,7 @@ import { ChartNav } from "components"
 import { getSavings } from "calculations/savings/savings.function"
 import { drawAreaChart } from "charts/createChartFunctions/createAreaChart"
 import { drawBarChart } from "charts/createChartFunctions/createBarChart"
-import { getSavingsArrayForAreaChart, getSavingsArrayForBarChart } from "calculations/savings/create/createChartArray"
+import { getSavingsData } from "calculations/savings/create/createChartArray"
 
 interface IProps {
   state: any
@@ -15,11 +15,10 @@ interface IProps {
 export const SavingsChart: FC<IProps> = ({ color_selector, state, set }) => {
   const dataObject = getSavings(state)
 
-  const areaData = getSavingsArrayForAreaChart(state, dataObject)
-  const barData = getSavingsArrayForBarChart(state, dataObject)
+  const { areaData, barData } = getSavingsData(state, dataObject)
+  console.log("areaData:", areaData)
+  color_selector = { ...color_selector, user2rrsp: "#F29278" }
 
-  color_selector = { ...color_selector, user2rrsp: "#F29278"}
-  
   const { selectedUser } = state.ui_reducer
 
   const inputAreaRef = useRef(null)
@@ -66,13 +65,12 @@ const AreaCanvas = styled.div`
   position: absolute;
   top: 12rem;
   left: -5em;
-  z-index: 1000;
 `
 const BarCanvas = styled.div`
   width: 90rem;
-  height: 10rem;
+  height: 9rem;
   position: absolute;
-  top: 24.4rem;
+  top: 23.5rem;
   left: -5em;
 `
 const ChartNavWrapper = styled.div`

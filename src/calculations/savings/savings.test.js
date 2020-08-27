@@ -1,6 +1,6 @@
 import { getSavings } from "calculations/savings/savings.function"
 import { getValue } from "calculations/savings/create/createSavingsObject"
-import { getSavingsArrayForAreaChart } from "calculations/savings/create/createChartArray"
+import { getSavingsData } from "calculations/savings/create/createChartArray"
 
 const mockState = {
   user_reducer: {
@@ -180,6 +180,6 @@ const mockStateUser1RRSP = {
 }
 
 describe("Builds savings array for chart", function () {
-  it("tfsa selection ", () => expect(getSavingsArrayForAreaChart(mockStateUser1TFSA, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: "2026", user1tfsa: 31823.9778896256 }))
-  //it("rrsp selection ", () => expect(getSavingsArrayForAreaChart(mockStateUser1RRSP, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: '2026', user1rrsp: 31823.9778896256 }))
+  it("tfsa selection ", () => expect(getSavingsData(mockStateUser1TFSA, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: "2026", user1tfsa: 31823.9778896256 }))
+  //it("rrsp selection ", () => expect( getSavingsData(mockStateUser1RRSP, getSavings(mockStateUser1TFSA))[6]).toEqual({ year: '2026', user1rrsp: 31823.9778896256 }))
 })
