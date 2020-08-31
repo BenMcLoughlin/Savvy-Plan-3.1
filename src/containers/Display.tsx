@@ -56,10 +56,11 @@ const Wrapper = styled.div`
 const Chart = styled.div`
   grid-area: a;
   display: flex;
+  position: relative;
 `
 const Content = styled.div`
-  height: 100%;
-  width: 100%;
+  height: 90rem;
+  width: 90rem;
   margin-left: 30rem;
   display: grid;
   grid-template-columns: 80rem 30rem;

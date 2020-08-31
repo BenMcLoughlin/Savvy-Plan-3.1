@@ -44,18 +44,18 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  background: green;
+  width: 90rem;
+  height: 20rem;
+  margin-top: 14rem;
 `
 const Canvas = styled.div`
   width: 90rem;
   height: 20rem;
   position: absolute;
-  top: 12rem;
-  left: -5em;
 `
 
 const ChartNavWrapper = styled.div`
   position: absolute;
-  top: 10.5rem;
+  top: 0rem;
   left: 4rem;
 `

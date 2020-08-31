@@ -2,8 +2,17 @@ import _ from "lodash"
 import * as d3 from "d3"
 
 export const round = number => {
-  if (number !== undefined) return (Math.round(number / 1000) * 1000) / 1000
+  if (number !== undefined && number <= 1000000) return `${(Math.round(number / 1000) * 1000) / 1000} k`
+  if (number > 1000000) return `${(Math.round(number / 1000) * 1000) / 1000000} m`
   else return null
+}
+export const formatCurrency = number => {
+  if (number < 100000) {
+    return `${number / 1000} `
+  }
+  if (number >= 100000) {
+    return `${number / 1000} K`
+  }
 }
 
 export const formatIncomeName = (name, user1Name, user2Name) => {
@@ -25,15 +34,15 @@ export const formatIncomeName = (name, user1Name, user2Name) => {
 /**
  * used to sum all both the contributions and withdrawals for all accounts and both users in a year. It returns an array that d3.max is applied to creating the maximum value.
  **/
-const getSavingsBarMax = (dataObject) => {
+const getSavingsBarMax = dataObject => {
   const savingsByYear = Object.values(dataObject)
   const arrayOfContributionAndWithdrawalTotals = savingsByYear.map(year => {
     let total = 0
     Object.values(year).map(user => {
-      Object.values(user).map((account:any) => {
+      Object.values(user).map((account: any) => {
         if (typeof account === "object") {
           //because the account contains a total value it returns undefined if it isn't removed
-          return total += account.contribute + account.withdraw
+          return (total += account.contribute + account.withdraw)
         }
       })
     })
@@ -43,9 +52,9 @@ const getSavingsBarMax = (dataObject) => {
   return max + 10000
 }
 
-const getSavingsAreaMinMax = (dataObject) => {
+const getSavingsAreaMinMax = dataObject => {
   const savingsByYear = Object.values(dataObject)
-  const arrayOfSavingsTotals = savingsByYear.map((year:any) => year.user1.totalSavings + year.user2.totalSavings )
+  const arrayOfSavingsTotals = savingsByYear.map((year: any) => year.user1.totalSavings + year.user2.totalSavings)
   const max = d3.max(arrayOfSavingsTotals)
   return max + 10000
 }
@@ -66,27 +75,39 @@ export const getMax = (className, dataObject, state) => {
       const max = d3.max(beforeTaxIncomeArray)
       return max > 100000 ? max + 30000 : 100000
     }
-    case "savingsBarChart": return getSavingsBarMax(dataObject)
-    case "savingsAreaChart": return getSavingsAreaMinMax(dataObject)
+    case "savingsBarChart":
+      return getSavingsBarMax(dataObject)
+    case "savingsAreaChart":
+      return getSavingsAreaMinMax(dataObject) 
 
-  return 100000
+      return 100000
+  }
 }
-}
-
 
 export const getMin = (className, dataObject, state) => {
   const { maritalStatus } = state.user_reducer
   const { selectedAccount } = state.ui_reducer
 
   switch (className) {
-    case "incomeChart": return 0
-    case "savingsBarChart": return -getSavingsBarMax(dataObject)
-    case "savingsAreaChart": return 0//getSavingsAreaMinMax(dataObject)
+    case "incomeChart":
+      return 0
+    case "savingsBarChart":
+      return -getSavingsBarMax(dataObject) 
+    case "savingsAreaChart":
+      return 0 //getSavingsAreaMinMax(dataObject)
   }
 
   return 100000
 }
 
+export const getPeakYear = (dataObject, state) => {
+  const { selectedAccount, selectedUser } = state.ui_reducer
+
+  const dataArray:any = Object.values(dataObject)
+
+  dataArray.sort((a: any, b: any) =>  b.user1.tfsa.total - a.user1.tfsa.total )
+  return dataArray[0]
+}
 //   .reduce((total, currentValue) => {
 //     return total + currentValue.contribute
 // }, 0))

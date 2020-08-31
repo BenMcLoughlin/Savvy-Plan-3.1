@@ -2,7 +2,8 @@ import * as d3 from "d3"
 import { savingBarChartTooltip } from "charts/tooltips/tooltip"
 import { getMax, getMin } from "charts/createChartFunctions/chartHelpers"
 import * as tooltips from "charts/tooltips/barTooltip"
-import {createTooltip} from "charts/tooltips/tooltip"
+import {buildHtml} from "charts/tooltips/tooltip"
+
 
 export const drawBarChart = (colors, className, data, dataObject, height, set, state, width) => {
   const { selectedId, selectedPeriod } = state.ui_reducer
@@ -19,7 +20,7 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
     periodEnd = instance[`period${selectedPeriod}EndYear`]
   }
 
-  const margin = { top: 20, right: 100, bottom: 20, left: 100 }
+  const margin = { top: 30, right: 100, bottom: 20, left: 100 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
 
@@ -42,15 +43,6 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
 
   const stack = d3.stack().keys(stackedKeys).order(d3.stackOrderNone).offset(d3.stackOffsetDiverging)
 
-  const tooltip = d3
-    .select(`.${className}`)
-    .append("div")
-    .attr("class", `${className}tooltip`)
-    .style("opacity", 0)
-    .style("position", "absolute")
-    .style("top", "-100rem")
-    .style("right", "30rem")
-
   const update = data => {
     const max = getMax(className, dataObject, state)
 
@@ -65,10 +57,19 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       .paddingInner(0.2)
       .paddingOuter(0.3)
       .domain(data.map(item => item.year))
-
+    console.log("data:", data)
     const rects = graph.append("g").selectAll("g").data(series)
 
     rects.exit().remove()
+
+    const tooltip = d3
+    .select(`.${className}`)
+    .append("div")
+    .attr("class", `${className}tooltip`)
+    .style("opacity", 1)
+    .style("position", "absolute")
+    .style("top", "-100rem")
+    .style("right", "30rem")
 
     rects
       .enter()
@@ -84,10 +85,9 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       .enter()
       .append("rect")
       .attr("x", d => xScale(d.data.year))
-      .attr("class", "BANANA")
-      .attr("opacity", (d, i, n) => {
+      .attr("class", (d,i,n) => {
         const name = n[0].parentNode.className.animVal
-        return streamName === name && d.data.year >= periodStart && d.data.year < periodEnd ? 0.7 : 1
+        return `${name}`
       })
       .attr("width", xScale.bandwidth())
       .on("click", (d, i, n) => {
@@ -95,16 +95,24 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
         const id = Object.values(state.main_reducer).filter(d => d.name === name)[0]["id"]
         set("selectedId", "ui_reducer", id)
       })
-      // .on("mouseover", (d, i, n) => {
-      //   const createTooltip = tooltips[className]
-      //   createTooltip(d, dataObject, i, tooltip, n, state)
-      // })
-      // .on("mouseout", (d, i, n) => mouseout(i, periodStart, periodEnd, n, streamName, tooltip))
-      // .on("mousemove", () => null)
       .attr("y", d => yScale(d[1]))
       .attr("height", d => (yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0))
+      .style("cursor", "pointer")
+      .on("mouseover", (d, i, n) => {
+        const name = n[0].parentNode.className.animVal
+        const color = colors[name]
+        console.log('color:', color)
+        tooltip.html(() => buildHtml(className, color, d, dataObject, n, state))
+        tooltip.transition().duration(200).style("opacity", 1).style("pointer-events", "none")
+      })
+      .on("mouseout", (d, i, n) => tooltip.transition().duration(1500).style("opacity", 0))
+      .on("mousemove", () => {
+        tooltip
+          .style("top", d3.event.layerY - 20 + "px") // always 10px below the cursor
+          .style("left", d3.event.layerX + 30 + "px") // always 10px to the right of the mouse
+      })
 
-      createTooltip()
+
 
     var ticks = [2020, 2040, 2060]
     var tickLabels = ["2020", "2040", "2060"]
@@ -121,10 +129,8 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       .ticks("2")
       .tickFormat(d => `${d / 1000}k`)
 
-    //   if(className !== "savingsBarChart") {
     xAxisGroup.call(xAxis)
     yAxisGroup.call(yAxis)
-    //  }
   }
 
   update(data)

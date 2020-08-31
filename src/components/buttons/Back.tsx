@@ -28,6 +28,6 @@ const ArrowLeft = styled(ArrowLeftS)`
   color: #c8c7c7;
   cursor: pointer;
   position: absolute;
-  top: 15%;
+  top: 12rem;
   left: 8%;
 `

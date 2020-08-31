@@ -26,45 +26,35 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
   const exitProps = exitButtonProps(set)
   const backProps = backButtonProps(progress, set)
 
-  if (progress === length -2) return <Redirect to="/plan" />
+  if (progress === length - 2) return <Redirect to="/plan" />
 
   return (
-    <Wrapper >
-      {streamType === "Onboarding" ? (
-        <>
-          <ProgressBar length={length} progress={progress} />
-          <Text>
-            {progress > 0 ? <h3 style={{ fontWeight: "bold" }}>Why we Ask</h3> : null}
-            <h4>{questions[progress].explanation}</h4>
-          </Text>
-        </>
-      ) : (
-        <Exit {...exitProps} />
-      )}
+    <Wrapper>
+      <ProgressBar length={length} progress={progress} />
+      <Text>
+        {progress > 0 && <h3 style={{ fontWeight: "bold" }}>Why we Ask</h3>}
+        <h4>{questions[progress].explanation}</h4>
+      </Text>
       <TransitionGroup>
         {questions.map(
           (data: any, i: number) =>
             i === progress && (
               <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
-                <Question>
+                <Content>
                   <Header>
                     <H2>{data.question}</H2>
                     <h3>{data.subTitle}</h3>
                   </Header>
-                  <Content>{matchThenShowComponent(components, data, data.component)}</Content>
-                </Question>
+                  <Component>{matchThenShowComponent(components, data, data.component)}</Component>
+                </Content>
               </CSSTransition>
             )
         )}
       </TransitionGroup>
-      {/* {questions[progress].chart ? (
-        <Chart>
-          {matchThenShowComponent(charts, data, data.chart)}
-          {renderChart(questions[progress].chart)}
-          {questions[progress].comment ? <Comment data={questions[progress]} /> : null}
-        </Chart>
-      ) : null} */}
-      { progress > 0 && <Back {...backProps} setDirection={setDirection} /> }
+      {progress > 0 && <Back {...backProps} setDirection={setDirection} />}
+      {
+        data.questions[progress].component === "chart" && <Chart>{matchThenShowComponent(components, data, data.questions[progress].chart)}</Chart>
+      }
       <Next {...nextProps} setDirection={setDirection} />
     </Wrapper>
   )
@@ -72,19 +62,41 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
 
 //---------------------------STYLES-------------------------------------------//
 
-
 const Wrapper = styled.div`
-  height: 30rem;
+  height: 100%rem;
   width: 100%;
-  position: relative;
-`
-const Content = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  margin-top: 2%;
+`
+
+const Content = styled.div`
+  position: absolute;
+  margin-top: 10rem;
+  margin-left: -40rem;
+  height: 40rem;
+  width: 70rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`
+const Component = styled.div`
+  position: absolute;
+  top: 10rem;
+  left: 0rem;
+  width: 80rem;
+  justify-content: center;
+  display: flex;
+`
+const Chart = styled.div`
+  position: absolute;
+  top: 18rem;
+  left: 45rem;
+  width: 80rem;
+  justify-content: center;
+  display: flex;
 `
 const Text = styled.div`
   height: 20rem;
@@ -98,20 +110,13 @@ const Text = styled.div`
 `
 
 const Header = styled.div`
+  position: absolute;
+  top: 2rem;
+  margin-left: 2rem;
   display: flex;
   flex-direction: column;
-  margin-top: 8%;
-  margin-left: 25%;
 `
 const H2 = styled.h2`
   margin-bottom: 2rem;
-  width: 50rem;
-`
-const Question = styled.div`
-  display: flex;
-  height: 80%;
-  width: 100%;
-  flex-direction: column;
-  position: absolute;
-  top: 0rem;
+  width: 80rem;
 `

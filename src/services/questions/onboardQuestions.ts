@@ -116,6 +116,26 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
   // Here need to map through all the income streams and add them to the primary questions.
   insertQuestionArray("user1Income", "onboard", remove, set, state, "income", _questions)
 
+  _questions.push({
+    data: "user1IncomeChart1",
+    component: "chart",
+    chart: "IncomeChart",
+    valid: true,
+  })
+
+  _questions.push({
+    data: "user1IncomeChart2",
+    component: "chart",
+    chart: "IncomeChart",
+    valid: true,
+  })
+  _questions.push({
+    data: "user1IncomeChart3",
+    component: "chart",
+    chart: "IncomeChart",
+    valid: true,
+  })
+
   //Question 6: ADD SPOUSE'S INCOME TO CHART?
   if (maritalStatus === "married" || maritalStatus === "common-law") {
     _questions.push({
@@ -128,10 +148,12 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
       handleChange: () => {
         set("dualSelectValue", "ui_reducer", true)
         createStream(colorIndex, set, "income", "employment", "user2", state)
+        set("selectedUser", "ui_reducer", "user2")
+        set("selectedAccount", "ui_reducer", "before tax")
       },
       handleChange2: () => {
-        set("selectedId", "ui_reducer", false)
         set("dualSelectValue", "ui_reducer", false)
+        set("selectedId", "ui_reducer", false)
       },
     })
   }
@@ -139,6 +161,19 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
   //Here need to map through all the income streams and add them to the primary questions.
   insertQuestionArray("user2Income", "onboard", remove, set, state, "income", _questions)
 
+  _questions.push({
+    data: "user2IncomeChart1",
+    component: "chart",
+    chart: "IncomeChart",
+    valid: true,
+  })
+
+  _questions.push({
+    data: "user2IncomeChart2",
+    component: "chart",
+    chart: "IncomeChart",
+    valid: true,
+  })
   // ASK IF THEY HAVE INVESTMENTS
   _questions.push({
     data: "user1Savings",

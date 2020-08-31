@@ -7,6 +7,8 @@ import React from "react"
 
 
 export const matchThenShowComponent = (components, data, query) => {
+  if (query === "chart") return null
+
   const Component = components[query] //each page renders a unique chart, its name is provided by the props in string format. connectRedux_HOC holds all components so here it finds the chart to be rendered
   return <Component {...data} />
 } 

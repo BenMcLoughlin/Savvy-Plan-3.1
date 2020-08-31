@@ -11,7 +11,7 @@ export const AddPrompt: FC<IProps> = ({ handleChange, label }) => {
   return (
     <Wrapper>
       <AddButton handleChange={handleChange} />
-      <P>{label}</P>
+      <Div>{label}</Div>
     </Wrapper>
   )
 }
@@ -28,8 +28,8 @@ const Wrapper = styled.div`
   font-weight: bold;
   position: relative;
 `
-const P = styled.p`
+const Div = styled.div`
   position: absolute;
   left: 3.3rem;
-
+  font-size: 1.4rem
 `

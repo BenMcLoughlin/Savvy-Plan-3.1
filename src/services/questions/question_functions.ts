@@ -13,7 +13,7 @@ export const insertQuestionArray = (query, parent: I.parent, remove: I.remove, s
   const stateTrimmedToQueryStreams = filterArrayToMatchQuery(stateAsArray, query) //matches all "user2Income" streams
 
   stateTrimmedToQueryStreams.map(stream => {
-    const arrayOfStreamQuestions = createStreamQuestionsArray(questionData, stream, set, state, remove, "onboard") //creates a question array for each stream
+    const arrayOfStreamQuestions = createStreamQuestionsArray(questionData, stream, set, state, remove) //creates a question array for each stream
     const addStreamQuestionsToMainArray = arrayOfStreamQuestions.questions.map(question => mainQuestionsArray.push(question))
     return addStreamQuestionsToMainArray
   })

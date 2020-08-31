@@ -38,9 +38,9 @@ export const getAccountDetails = (account: I.account, savingsObject: I.savingsOb
   const withdraw = withdrawAmount < prior.total ? withdrawAmount : prior.total //checks the current stream to see if withdraws have been made this year
   const principlePercentage = firstYear ? 0 : (prior.principle + prior.contribute) / prior.total //when running withdraws we want to show a mix of totalInterest and principle being withdrawn
   const principle = firstYear ? stream.currentValue || 0 : prior.principle + prior.contribute - withdraw * principlePercentage
-  const annualInterest = firstYear ? stream.currentValue * 0.06 : prior.total * 0.06
+  const annualInterest = firstYear ? stream.currentValue * 0.04 : prior.total * 0.04
   const interestPercentage = firstYear ? 0 : prior.totalInterest / prior.total
-  const totalInterest = firstYear ? stream.currentValue * 0.06 : prior.totalInterest + annualInterest - withdraw * interestPercentage
+  const totalInterest = firstYear ? stream.currentValue * 0.04 : prior.totalInterest + annualInterest - withdraw * interestPercentage
   const total = firstYear ? principle + contribute + totalInterest : prior.total + contribute - withdraw + annualInterest
 
   return {
@@ -70,6 +70,7 @@ export const createSavingsObject = (state: I.state, yearFirst: number, yearLast:
           totalContribute: tfsa.contribute + rrsp.contribute + personal.contribute,
           totalWithdraw: tfsa.withdraw + rrsp.withdraw + personal.withdraw,
         },
+        year,
       })
     })
   }

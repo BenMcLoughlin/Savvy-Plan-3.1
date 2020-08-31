@@ -225,9 +225,45 @@ export const onboard_data = {
   addUser2Income: {
     explanation:
       "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
-    subTitle: "We'll use this to build a chart showings your income streams and estimate your pension income.",
+    subTitle: "",
     question: "Would you like to add your spouses income?",
     label: "lets go",
+  },
+  user1IncomeChart1: {
+    explanation:
+      "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
+    subTitle: "Each color represents a source of income that we'll call a stream. The goal is to transition the streams from income that you have to work for, to income you don't have to work for such as pension, rental property or savings income. Once all you're streams are from passive sources you no longer have to work.",
+    question: "This chart shows your income for each year",
+  },
+  user1IncomeChart2: {
+    explanation:
+      "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
+    subTitle: "The red stream is our estimate of your Canada Pension Plan. This is based on your earnings over your lifetime, that's why we need you to estimate your income in the past and future. The more you earn the higher it will be.",
+    question: "Canada Pension Plan",
+  },
+  user1IncomeChart3: {
+    explanation:
+      "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
+    subTitle: "The darker bars are your Old Age Security. If you earn too much money in retirement this will be taken away. Our goal is to build a savings plan that keeps you in the lowest tax bracket in retirement so that you can keep your OAS.",
+    question: "Old Age Security",
+  },
+  user2IncomeChart1: {
+    explanation:
+      "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
+    subTitle: "If there are large differences between you and your spouse's income we can calculate tax savings strategies to reduce your taxes",
+    question: "Here we can see your spouses income",
+  },
+  user2IncomeChart2: {
+    explanation:
+      "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
+    subTitle: "If there are large differences between you and your spouse's income we can calculate tax savings strategies to reduce your taxes",
+    question: "Here we can see your spouses income",
+  },
+  user1SavingsChart1: {
+    explanation:
+      "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
+    subTitle: "This chart shows an estimate of your savings account value along with your contributions and withdrawals below. ",
+    question: "Your Savings Plan",
   },
   user2Income: {
     explanation:

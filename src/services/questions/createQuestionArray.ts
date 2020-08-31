@@ -2,7 +2,7 @@ import { createStream } from "services/create_functions"
 import { createDebtSliders, createMortgageSliders, createTripleSliders, createPropertySliders, createSavingsSliders } from "services/questions/createTripleSliders"
 import * as I from "types"
 
-export const createStreamQuestionsArray = (data: I.questions, instance: I.instance, set: I.set, state: I.state, remove: I.remove, parent: I.parent) => {
+export const createStreamQuestionsArray = (data: I.questions, instance: I.instance, set: I.set, state: I.state, remove: I.remove) => {
   const { streamType, q1, q2, q3, qFinal } = data
 
   const { id, owner, reg } = instance
@@ -12,6 +12,8 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
   const { maritalStatus, user1Name, user2Name } = state.user_reducer
 
   const { colorIndex } = state.ui_reducer
+
+  console.log('instance:', instance)
 
   const questions: any = []
 
@@ -31,7 +33,7 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
     )
   }
 
-  if ((streamType === "savings" && parent !== "onboard") || streamType === "debt" || streamType === "income" || streamType === "spending") {
+  if (streamType !== "savings") {
     questions.push({
       //QUESTION 2 - Select registration of the new stream
       optionArray: q2.optionArray, // these values can be selectd by the multi select and will be attached as "reg", for "registration", to the income object
@@ -44,6 +46,7 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
       handleChange: (value: string) => set(id, "main_reducer", value.toLowerCase(), "reg"),
     })
   }
+
   if (streamType === "savings") {
     questions.push({
       //SAVINGS QUESTION 1 - Input current value of account
@@ -58,7 +61,10 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
       selectedFocus: true,
       value: instance[`currentValue`],
       valid: true,
-      handleChange: (value: string) => set(id, "main_reducer", value, "currentValue"),
+      handleChange: (value: string) => {
+        set("dualSelectValue", "ui_reducer", true)
+        set("selectedAccount", "ui_reducer", instance.reg)
+        set(id, "main_reducer", value, "currentValue")},
     })
   }
 
@@ -79,6 +85,13 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
 
   if (streamType === "savings") {
     questions.push(createSavingsSliders(data, instance, set, state))
+    questions.push(createSavingsSliders(data, instance, set, state))
+    questions.push({
+    data: "user1SavingsChart1",
+    component: "chart",
+    chart: "SavingsChart",
+    valid: true,
+    })
   }
 
   if (streamType === "income") {
@@ -96,7 +109,7 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
 
   //FINAL QUESTION- Ask if they would like to add another
 
-  if ((streamType === "savings" && parent !== "onboard") || streamType === "income" || streamType === "spending") {
+  if ( streamType === "income" || streamType === "spending") {
     questions.push({
       component: "DualSelect",
       explanation: qFinal.explanation,
@@ -113,7 +126,6 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
         set("newStream", "ui_reducer", false)
         set("selectedId", "ui_reducer", false)
         set("selectedPeriod", "ui_reducer", 0)
-        if (parent === "display") set("progress", "ui_reducer", 0)
         if (clickFired) {
           const latestValue = Object.values(main_reducer)
             .sort((a, b) => +b.createdAt - +a.createdAt)

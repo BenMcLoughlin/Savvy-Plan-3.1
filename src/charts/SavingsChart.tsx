@@ -16,7 +16,7 @@ export const SavingsChart: FC<IProps> = ({ color_selector, state, set }) => {
   const dataObject = getSavings(state)
 
   const { areaData, barData } = getSavingsData(state, dataObject)
-  console.log("areaData:", areaData)
+
   color_selector = { ...color_selector, user2rrsp: "#F29278" }
 
   const { selectedUser } = state.ui_reducer
@@ -58,24 +58,27 @@ const Wrapper = styled.div`
   width: 70rem;
   position: relative;
 `
-
+const BarCanvas = styled.div`
+  width: 90rem;
+  height: 7rem;
+  position: absolute;
+  top: 27.6rem;
+  left: -5em;
+  z-index: 1;
+`
 const AreaCanvas = styled.div`
   width: 90rem;
-  height: 17rem;
+  height: 19rem;
   position: absolute;
   top: 12rem;
   left: -5em;
+
+
 `
-const BarCanvas = styled.div`
-  width: 90rem;
-  height: 9rem;
-  position: absolute;
-  top: 23.5rem;
-  left: -5em;
-`
+
 const ChartNavWrapper = styled.div`
   position: absolute;
-  top: 10rem;
+  top: 8rem;
   left: 4rem;
 `
 

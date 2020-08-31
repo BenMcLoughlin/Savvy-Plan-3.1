@@ -29,6 +29,8 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
         set("selectedPage", "ui_reducer", value)
         set("selectedId", "ui_reducer", "") //Sets the id in the ui_reducer to nothing when pages and changed, prevents errors with an edit income box being shown in the savings section etc.
         set("progress", "ui_reducer", 0)
+        if (value === "savings") set("selectedAccount", "ui_reducer", "tfsa")
+        if (value === "income") set("selectedAccount", "ui_reducer", "before tax")
       },
       value: selectedPage,
       options: ["income", "savings", "taxes", "spending", "networth"],
