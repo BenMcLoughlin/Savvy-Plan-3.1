@@ -5,20 +5,22 @@ import { ArrowLeftS } from "@styled-icons/remix-line"
 interface IProps {
   setDirection?: (direction: string) => void
   handleChange: () => void
+  backHandleChange?: () => void //this allows a specific instance of the wizard to attach a special handle change when the next button is clicked. Prepares the state for the next
 }
 
-export const Back: FC<IProps> = ({ setDirection, handleChange}) => {
-
+export const Back: FC<IProps> = ({ backHandleChange, setDirection, handleChange }) => {
   return (
     <ArrowLeft
       onClick={() => {
-        if (setDirection) {setDirection("back")}
+        if (setDirection) {
+          setDirection("back")
+        }
+        if (backHandleChange) backHandleChange()
         handleChange()
       }}
     />
   )
 }
-
 
 //---------------------------STYLES-------------------------------------------//
 

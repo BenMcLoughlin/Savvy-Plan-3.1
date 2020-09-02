@@ -6,7 +6,7 @@ import { getCacheKey } from "calculations/helpers/caching"
 var cachecgetIncome = (function () {
   var cache = {}
   function f(state: I.state) {
-    const cacheKey = getCacheKey(state, "Income")
+    const cacheKey = getCacheKey(state, "Income", "Savings")
     if (cacheKey in cache) {
       return cache[cacheKey]
     } else {

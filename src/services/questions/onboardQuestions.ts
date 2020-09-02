@@ -15,7 +15,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
   const _questions: any = [
     {
       data: "intro",
-      component: "Button",
+      component: "null",
       valid: true,
       label: "continue",
       handleChange: () => set("progress", "ui_reducer", 1),
@@ -114,7 +114,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
 
   //  ------ADD TO INCOME STREAMS TO ARRAY
   // Here need to map through all the income streams and add them to the primary questions.
-  insertQuestionArray("user1Income", "onboard", remove, set, state, "income", _questions)
+  insertQuestionArray("user1Income", "user1", remove, set, state, "income", _questions)
 
   _questions.push({
     data: "user1IncomeChart1",
@@ -145,10 +145,11 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
       option2: "no",
       value: ui_reducer.dualSelectValue,
       valid: true,
+      nextHandleChange: () => {
+        set('selectedUser', 'ui_reducer', 'user2')},
       handleChange: () => {
         set("dualSelectValue", "ui_reducer", true)
         createStream(colorIndex, set, "income", "employment", "user2", state)
-        set("selectedUser", "ui_reducer", "user2")
         set("selectedAccount", "ui_reducer", "before tax")
       },
       handleChange2: () => {
@@ -158,7 +159,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
     })
       // ------ADD SPOUSE'S INCOME STREAMS TO ARRAY
   //Here need to map through all the income streams and add them to the primary questions.
-  insertQuestionArray("user2Income", "onboard", remove, set, state, "income", _questions)
+  insertQuestionArray("user2Income", "user2", remove, set, state, "income", _questions)
 
   _questions.push({
     data: "user2IncomeChart1",
@@ -185,6 +186,8 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
     value: ui_reducer.dualSelectValue,
     valid: true,
     question: maritalStatus === "married" ? `Does ${_.startCase(user1Name)} have investments?` : "Do you have investments?",
+    nextHandleChange: () => {
+      set('selectedUser', 'ui_reducer', 'user1')},
     handleChange: (selected, d: any) => {
       if (!selected && d.label !== "none") {
         // check if the item doesnt already exist, or its not none, and will then create a new income st
@@ -208,12 +211,12 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
   //  ------ADD TO SAVINGS STREAMS TO ARRAY
   //  Here need to map through all the savings streams and add them to the primary questions.
 
-  insertQuestionArray("user1Savings", "onboard", remove, set, state, "savings", _questions)
+  insertQuestionArray("user1Savings", "user1", remove, set, state, "savings", _questions)
 
   // ------ ASK IF THEIR SPOUSE HAS INVESTMENTS
   if (maritalStatus === "married" || maritalStatus === "common-law") {
     _questions.push({
-      data: "user1Savings",
+      data: "user2Savings",
       optionArray: savingsAccountsArray,
       arrayOfSelected: Object.values(main_reducer).filter((d: any) => d.id.includes(`user2Savings`)),
       explanation: "We'll use this info to see how much income in retirement your investments will provide",
@@ -221,6 +224,8 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
       user: "user2",
       valid: true,
       question: `Does ${_.startCase(user2Name)}  have investments?`,
+      nextHandleChange: () => {
+        set('selectedUser', 'ui_reducer', 'user2')},
       handleChange: (selected, d: any) => {
         if (!selected && d.label !== "none") {
           // check if the item doesnt already exist, or its not none, and will then create a new income st
@@ -242,8 +247,15 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
     })
     // ------ADD TO SPOUSE'S INCOME STREAMS TO ARRAY
     //Here need to map through all the spouse streams and add them to the primary questions.
-    insertQuestionArray("user2Savings", "onboard", remove, set, state, "savings", _questions)
+    insertQuestionArray("user2Savings", "user2", remove, set, state, "savings", _questions)
   }
+
+  _questions.push({
+    data: "user1IncomeChart4",
+    component: "chart",
+    chart: "IncomeChart",
+    valid: true,
+  })
 
   _questions.push({
     data: "property",
@@ -260,9 +272,10 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
     handleChange2: () => set("dualSelectValue", "ui_reducer", false),
   })
 
+
   if (ownHome) {
     //------ADD PROPERTY ARRAY TO MAIN ARRAY.
-    insertQuestionArray("Property", "onboard", remove, set, state, "property", _questions)
+    insertQuestionArray("Property", "user1", remove, set, state, "property", _questions)
   }
 
   _questions.push({
@@ -281,7 +294,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
 
   if (hasUnsecuredDebt) {
     //------ADD Unsecured debt ARRAY TO MAIN ARRAY.
-    insertQuestionArray("Debt", "onboard", remove, set, state, "debt", _questions)
+    insertQuestionArray("Debt", "user1", remove, set, state, "debt", _questions)
   }
 
   _questions.push({
@@ -315,7 +328,6 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
 
   const questions =  _questions.map(d => ({...d, ...data[d.data]}))
 console.log('questions:', questions)
-
   return {
     streamType: "Onboarding",
     questions,

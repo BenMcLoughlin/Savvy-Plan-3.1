@@ -1,4 +1,4 @@
-import { round, formatIncomeName } from "charts/createChartFunctions/chartHelpers"
+import { round } from "charts/createChartFunctions/chartHelpers"
 
 const wrapper = `
   margin-left: 14rem;
@@ -28,7 +28,7 @@ font-weight: 200;
 
 export const savingsAreaHtml = (d, dataObject, state) => {
   const { selectedUser, selectedAccount } = state.ui_reducer
-  const { user1BirthYear, user1Name, user2Name } = state.user_reducer
+  const { user1BirthYear } = state.user_reducer
   let total = 100
   if (selectedAccount !== "combined" && selectedUser !== "combined" ) total = dataObject[d.year][selectedUser][selectedAccount].total
   if (selectedAccount === "combined" && selectedUser !== "combined") total = dataObject[d.year][selectedUser].totalSavings

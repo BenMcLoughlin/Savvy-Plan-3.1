@@ -14,7 +14,7 @@ export const getThisYearsIncome = (stream: I.incomeStream, year: I.year) => {
 
 export const getIncomeStreams = ({ main_reducer }, user: string, year: I.year, query) => {
   const userIncomeStreams_array = Object.values(main_reducer).filter(
-    (d:any) => d.streamType === "income" && d.owner === user
+    (d:any) => (d.streamType === "income" || d.streamType === "savings")  && d.owner === user
   );
   if (query === "getCpp") userIncomeStreams_array.filter((d: any) => d.cppEligible);
   if (query === "getTaxable") userIncomeStreams_array.filter((d: any) => d.taxable);

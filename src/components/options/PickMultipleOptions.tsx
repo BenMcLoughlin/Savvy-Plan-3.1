@@ -4,30 +4,30 @@ import { ArrowLeftS } from "@styled-icons/remix-line"
 
 interface IProps {
   optionArray?: any
-  arrayOfSelected: any, 
+  arrayOfSelected: any
   set: (id: string, reducer: string, value: any, childId: string) => void
   remove: (id: string) => void
-  handleChange: (selected:any, value: string) => void
+  handleChange: (selected: any, value: string) => void
   value
 }
 
-export const PickMultipleOptions: FC<IProps> = ({ optionArray, arrayOfSelected,  handleChange, value}) => {
-
+export const PickMultipleOptions: FC<IProps> = ({ optionArray, arrayOfSelected, handleChange, value }) => {
   const [info, showInfo] = useState<string>("")
-console.log('arrayOfSelected:', arrayOfSelected)
+
   return (
     <Wrapper>
       {optionArray &&
         optionArray.map((d: any) => {
-          const selected = arrayOfSelected ?  arrayOfSelected.filter((v: any) => v.reg === d.reg.toLowerCase()).length > 0 : false
+          const selected =
+            arrayOfSelected.filter((v: any) => v.reg === d.reg.toLowerCase()).length > 0
+              ? arrayOfSelected.filter((v: any) => v.reg === d.reg.toLowerCase()).length
+              : arrayOfSelected.length < 1 && d.reg === "none"
+              ? true
+              : false
 
           return (
-            <Square key={d.label} selected={selected} >
-              <Text
-                selected={selected}
-                onClick={() => handleChange(selected, d)}
-                id={`${d.reg.toLowerCase()}`}
-              >
+            <Square key={d.label} selected={selected}>
+              <Text selected={selected} onClick={() => handleChange(selected, d)} id={`${d.reg.toLowerCase()}`}>
                 <Circle />
                 <CenterCircle selected={selected} />
                 <Title>{d.label}</Title>

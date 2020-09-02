@@ -1,9 +1,9 @@
 import _ from "lodash"
 
-export const getCacheKey = (state, streamType) => {
+export const getCacheKey = (state, streamType1, streamType2) => {
   let object = {}
   for (var key in state.main_reducer) {
-     if (key.includes(streamType)) {
+     if (key.includes(streamType1) || key.includes(streamType2)) {
        const {periods} = state.main_reducer[key]
        _.range(periods + 1).map( n => {
           object[key] = {...object[key], 

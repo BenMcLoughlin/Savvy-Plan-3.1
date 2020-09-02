@@ -3,7 +3,6 @@ import styled from "styled-components"
 import { Exit } from "components/buttons/Exit"
 import { Back, TripleSliderSelector, DualSelect, ColorSelect, EditTitle, Dropdown } from "components"
 import { Trash2 } from "@styled-icons/feather/Trash2"
-import * as I from "types"
 
 interface ISliderProps {
   editPeriod: any

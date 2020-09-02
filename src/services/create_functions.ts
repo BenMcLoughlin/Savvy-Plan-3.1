@@ -21,11 +21,12 @@ export const newIncomeStream = (birthYear) => ({
  * newSavingsStream creates a new Savings Account object which contains all the details pertaining to a property
  *  */
 
-export const newSavingsStream = (birthYear) => {
+export const newSavingsStream = (birthYear, owner: I.user, reg: I.reg, state: I.state) => {
   const thisYear = new Date().getFullYear()
 
+  const userName = state.user_reducer[`${owner}Name`]
   return {
-    name: "",
+    name: `${userName}'s ${reg}`,
     periods: 0,
     currentValue: 0,
     contributePeriods: 0,
@@ -115,14 +116,14 @@ export const addPeriodToSavingsStream = (state: I.state, set: (id: string, reduc
   set(selectedId, "main_reducer", startingValue, `${transaction}${transactionPeriods + 1}Value`)
 }
 
-const newStream = (streamType: I.streamType, birthYear: I.year) => {
+const newStream = (streamType: I.streamType, birthYear: I.year, owner: I.user, reg: I.reg, state: I.state) => {
   switch (streamType) {
     case "income":
       return newIncomeStream(birthYear)
     case "spending":
       return newIncomeStream(birthYear)
     case "savings":
-      return newSavingsStream(birthYear)
+      return newSavingsStream(birthYear, owner, reg, state)
     case "property":
       return newPropertyStream(birthYear)
     case "debt":
@@ -133,7 +134,7 @@ const newStream = (streamType: I.streamType, birthYear: I.year) => {
 export const createStream = (colorIndex: number, set: I.set, streamType: I.streamType, reg: I.reg, owner: I.user, state: I.state): void => {
   const birthYear = state.user_reducer[`${owner}BirthYear`]
   
-  let _stream = newStream(streamType, birthYear)
+  let _stream = newStream(streamType, birthYear, owner, reg, state)
 
   //This creates a new Income Instance, such as from ages 18-22
   const id = owner + _.startCase(streamType) + "_" + (Math.random() * 1000000).toFixed() //creates the random ID that is the key to the object, key includes the owner, then the type of instance eg. "Income", then a random number

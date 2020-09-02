@@ -159,7 +159,7 @@ export const debtQuestions_data = {
 
 export const onboard_data = {
   intro: {
-    subTitle: "In order to build your plan we'll need some details about your situation.",
+    subTitle: 'Our goal is to answer one question for you, are you ok finanically? \n banaan Our goal is to answer one question for you, are you ok finanically ',
     question: "Lets build you a financial Plan",
     label: "continue",
   },
@@ -247,6 +247,12 @@ export const onboard_data = {
     subTitle: "The darker bars are your Old Age Security. If you earn too much money in retirement this will be taken away. Our goal is to build a savings plan that keeps you in the lowest tax bracket in retirement so that you can keep your OAS.",
     question: "Old Age Security",
   },
+  user1IncomeChart4: {
+    explanation:
+      "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
+    subTitle: "We've added your savings withdrawals to the chart",
+    question: "Income with savings",
+  },
   user2IncomeChart1: {
     explanation:
       "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
@@ -263,7 +269,25 @@ export const onboard_data = {
     explanation:
       "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
     subTitle: "This chart shows an estimate of your savings account value along with your contributions and withdrawals below. ",
-    question: "Your Savings Plan",
+    question: "Your Savings Contributions",
+  },
+  user1SavingsChart2: {
+    explanation:
+      "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
+    subTitle: "This chart shows an estimate of your savings account value along with your contributions and withdrawals below. ",
+    question: "Your Withdrawals",
+  },
+  user2SavingsChart1: {
+    explanation:
+      "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
+    subTitle: "This chart shows an estimate of your savings account value along with your contributions and withdrawals below. ",
+    question: "Your Savings Contributions",
+  },
+  user2SavingsChart2: {
+    explanation:
+      "We want to save you as much as possible in taxes and make sure you get those most out of your government benefits in retirement.  To do so, we need an estimate of your past, current and future earnings. This forms the foundation of our plan. ",
+    subTitle: "This chart shows an estimate of your savings account value along with your contributions and withdrawals below. ",
+    question: "Your Withdrawals",
   },
   user2Income: {
     explanation:

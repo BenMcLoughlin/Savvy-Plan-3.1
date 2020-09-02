@@ -39,12 +39,14 @@ const getSavingsBarMax = dataObject => {
   const arrayOfContributionAndWithdrawalTotals = savingsByYear.map(year => {
     let total = 0
     Object.values(year).map(user => {
-      Object.values(user).map((account: any) => {
+      return Object.values(user).map((account: any) => {
         if (typeof account === "object") {
           //because the account contains a total value it returns undefined if it isn't removed
           return (total += account.contribute + account.withdraw)
         }
-      })
+        return null
+      }
+      )
     })
     return total
   })
@@ -54,7 +56,10 @@ const getSavingsBarMax = dataObject => {
 
 const getSavingsAreaMinMax = dataObject => {
   const savingsByYear = Object.values(dataObject)
-  const arrayOfSavingsTotals = savingsByYear.map((year: any) => year.user1.totalSavings + year.user2.totalSavings)
+  const arrayOfSavingsTotals = savingsByYear.map((year: any) => {
+    if ("user2" in year) return year.user1.totalSavings + year.user2.totalSavings
+    else return year.user1.totalSavings
+  })
   const max = d3.max(arrayOfSavingsTotals)
   return max + 10000
 }
@@ -64,7 +69,6 @@ const getSavingsAreaMinMax = dataObject => {
  **/
 export const getMax = (className, dataObject, state) => {
   const { maritalStatus } = state.user_reducer
-  const { selectedAccount } = state.ui_reducer
 
   switch (className) {
     case "incomeChart": {
@@ -78,21 +82,18 @@ export const getMax = (className, dataObject, state) => {
     case "savingsBarChart":
       return getSavingsBarMax(dataObject)
     case "savingsAreaChart":
-      return getSavingsAreaMinMax(dataObject) 
+      return getSavingsAreaMinMax(dataObject)
 
       return 100000
   }
 }
 
 export const getMin = (className, dataObject, state) => {
-  const { maritalStatus } = state.user_reducer
-  const { selectedAccount } = state.ui_reducer
-
   switch (className) {
     case "incomeChart":
       return 0
     case "savingsBarChart":
-      return -getSavingsBarMax(dataObject) 
+      return -getSavingsBarMax(dataObject)
     case "savingsAreaChart":
       return 0 //getSavingsAreaMinMax(dataObject)
   }
@@ -101,11 +102,10 @@ export const getMin = (className, dataObject, state) => {
 }
 
 export const getPeakYear = (dataObject, state) => {
-  const { selectedAccount, selectedUser } = state.ui_reducer
 
-  const dataArray:any = Object.values(dataObject)
+  const dataArray: any = Object.values(dataObject)
 
-  dataArray.sort((a: any, b: any) =>  b.user1.tfsa.total - a.user1.tfsa.total )
+  dataArray.sort((a: any, b: any) => b.user1.tfsa.total - a.user1.tfsa.total)
   return dataArray[0]
 }
 //   .reduce((total, currentValue) => {

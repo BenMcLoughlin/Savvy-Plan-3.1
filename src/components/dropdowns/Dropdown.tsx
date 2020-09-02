@@ -3,12 +3,11 @@ import styled from "styled-components"
 
 interface IProps {
   optionArray: string[]
-  label: string
   handleChange: (option) => void
   selectedValue: string
 }
 
-export const Dropdown: FC<IProps> = ({ optionArray, handleChange, label, selectedValue }) => {
+export const Dropdown: FC<IProps> = ({ optionArray, handleChange, selectedValue }) => {
   const [open, toggleOpen] = useState<boolean>(false)
   return (
     <Wrapper>

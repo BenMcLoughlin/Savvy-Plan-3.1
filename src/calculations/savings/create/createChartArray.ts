@@ -57,7 +57,7 @@ export const getSavingsData = ({ ui_reducer }, savingsObject: I.savingsObject) =
         [`${selectedUser}${selectedAccount}`]: savingsObject[year][selectedUser][selectedAccount].contribute - savingsObject[year][selectedUser][selectedAccount].withdraw,
       })
     }
-    return
+    return null
   })
 
   return {

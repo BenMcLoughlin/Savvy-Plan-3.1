@@ -10,6 +10,7 @@ interface IProps {
   state: any
   color_selector: any
   set: (id: string, reducer: string, value: any, childId?: string) => void
+  parent?: string
 }
 
 export const SavingsChart: FC<IProps> = ({ color_selector, state, set }) => {
@@ -18,8 +19,6 @@ export const SavingsChart: FC<IProps> = ({ color_selector, state, set }) => {
   const { areaData, barData } = getSavingsData(state, dataObject)
 
   color_selector = { ...color_selector, user2rrsp: "#F29278" }
-
-  const { selectedUser } = state.ui_reducer
 
   const inputAreaRef = useRef(null)
   const inputBarRef = useRef(null)

@@ -2,7 +2,7 @@ import { createStream } from "services/create_functions"
 import { createDebtSliders, createMortgageSliders, createTripleSliders, createPropertySliders, createSavingsSliders } from "services/questions/createTripleSliders"
 import * as I from "types"
 
-export const createStreamQuestionsArray = (data: I.questions, instance: I.instance, set: I.set, state: I.state, remove: I.remove) => {
+export const createStreamQuestionsArray = (data: I.questions, instance: I.instance, set: I.set, state: I.state, remove: I.remove, user: I.user) => {
   const { streamType, q1, q2, q3, qFinal } = data
 
   const { id, owner, reg } = instance
@@ -12,8 +12,6 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
   const { maritalStatus, user1Name, user2Name } = state.user_reducer
 
   const { colorIndex } = state.ui_reducer
-
-  console.log('instance:', instance)
 
   const questions: any = []
 
@@ -61,6 +59,8 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
       selectedFocus: true,
       value: instance[`currentValue`],
       valid: true,
+      nextHandleChange: () => {
+        set('savingsTransaction', 'ui_reducer', 'contribute')},
       handleChange: (value: string) => {
         set("dualSelectValue", "ui_reducer", true)
         set("selectedAccount", "ui_reducer", instance.reg)
@@ -84,13 +84,30 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
   }
 
   if (streamType === "savings") {
-    questions.push(createSavingsSliders(data, instance, set, state))
-    questions.push(createSavingsSliders(data, instance, set, state))
     questions.push({
-    data: "user1SavingsChart1",
+    data: `${user}SavingsChart1`,
     component: "chart",
     chart: "SavingsChart",
     valid: true,
+    nextHandleChange: () => set('savingsTransaction', 'ui_reducer', 'withdraw'),
+    editChart: createSavingsSliders(data, instance, set, state)
+    })
+  }
+
+  if (streamType === "savings") {
+    questions.push({
+    data: `${user}SavingsChart2`,
+    component: "chart",
+    chart: "SavingsChart",
+    valid: true,
+    editChart: createSavingsSliders(data, instance, set, state),
+    backHandleChange: () => {
+      console.log('hellp:')
+      set('savingsTransaction', 'ui_reducer', 'contribute')},
+    nextHandleChange: () => {
+      set('selectedUser', 'ui_reducer', 'user2')
+      set('savingsTransaction', 'ui_reducer', 'contribute')
+    },
     })
   }
 

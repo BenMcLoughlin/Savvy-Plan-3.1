@@ -1,17 +1,5 @@
 import { round, formatIncomeName } from "charts/createChartFunctions/chartHelpers"
 
-const wrapper = `
-width: 29rem;
-height: 20rem;
-background: white;
-z-index: 300;
-border: 1px solid #E6E4E3;
-border-radius: 5px;
-padding: 1rem;
-display: flex;
-flex-direction: column;
-font-size: 1.4rem;
-`
 const topHeader = `
 display: flex;
 justify-content: space-between;
@@ -61,7 +49,6 @@ export const incomeHtml = (d, dataObject, color, n, state) => {
   const name = n[0].parentNode.className.animVal
 
   return `
-  <div style="${wrapper}">
                    <div style="${topHeader}">
                                         <p> ${d.data.year}</p>
                                         <p> Age: ${d.data.year - user1BirthYear}</p>
@@ -108,8 +95,6 @@ export const incomeHtml = (d, dataObject, color, n, state) => {
                                                                  }</p>
                                         </div>
                                     </div>
-</div>
-  
                                     `
 }
 //   ${formatIncomeName(name, user1Name, user2Name)}

@@ -25,7 +25,7 @@ export const IncomeChart: FC<IProps> = ({ color_selector, income_selector, state
       const height = inputRef.current.offsetHeight
       drawBarChart(color_selector, className, data, income_selector, height, set, state, width)
     }
-  }, [color_selector, data, set, state])
+  }, [color_selector, data, income_selector, set, state])
 
   return (
     <Wrapper>

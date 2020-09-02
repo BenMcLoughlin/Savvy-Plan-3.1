@@ -1,5 +1,4 @@
 import * as d3 from "d3"
-import { savingBarChartTooltip } from "charts/tooltips/tooltip"
 import { getMax, getMin } from "charts/createChartFunctions/chartHelpers"
 import * as tooltips from "charts/tooltips/barTooltip"
 import {buildHtml} from "charts/tooltips/tooltip"

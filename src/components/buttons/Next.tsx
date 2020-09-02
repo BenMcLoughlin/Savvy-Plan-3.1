@@ -5,32 +5,37 @@ import { ArrowRightCircle } from "@styled-icons/remix-fill/ArrowRightCircle"
 interface IProps {
   setDirection: (value: string) => void
   handleChange: (setDirection: any, valid: boolean) => void
+  nextHandleChange?: () => void //this allows a specific instance of the wizard to attach a special handle change when the next button is clicked. Prepares the state for the next
   valid: boolean
   state: any
 }
 
-export const Next: FC<IProps> = ({ handleChange, setDirection, valid, state }) => {
-
+export const Next: FC<IProps> = ({ handleChange, nextHandleChange, setDirection, valid, state }) => {
   useEffect(() => {
     const pressEnter = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
-          handleChange(setDirection, valid)
+        handleChange(setDirection, valid)
+        if (nextHandleChange) nextHandleChange()
       }
     }
     if (valid) {
       window.addEventListener("keydown", pressEnter)
       return () => window.removeEventListener("keydown", pressEnter)
     }
-  }, [handleChange, setDirection, valid, state])
+  }, [handleChange, nextHandleChange, setDirection, valid, state])
 
   return (
     <Wrapper>
-      <ArrowRight valid={valid} onClick={() => {
-        setDirection("forward")
-        handleChange(setDirection, valid)}}
+      <ArrowRight
+        valid={valid}
+        onClick={() => {
+          setDirection("forward")
+          handleChange(setDirection, valid)
+          if (nextHandleChange) nextHandleChange()
+        }}
         id="nextButton"
-        />
-      {valid && <p>Press Enter</p>}
+      />
+      {valid && <P>Press Enter</P>}
     </Wrapper>
   )
 }
@@ -51,4 +56,7 @@ const ArrowRight = styled(ArrowRightCircle)<ArrowProps>`
   cursor: ${props => (props.valid ? "pointer" : null)};
   height: 7.2rem;
   width: 7.2rem;
+`
+const P = styled.p`
+  font-size: ${props => props.theme.fontSize.smallMedium}
 `

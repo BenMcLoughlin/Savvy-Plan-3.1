@@ -10,7 +10,7 @@ export const buildHtml = (className, color, d, dataObject, n, state) => {
     case "incomeChart":
       return incomeHtml(d, dataObject, color, n, state)
     case "savingsBarChart":
-      return savingsBarHtml(d, dataObject, state)
+      return savingsBarHtml(d, dataObject, n, state)
     case "savingsAreaChart":
       return savingsAreaHtml(d, dataObject, state)
   }

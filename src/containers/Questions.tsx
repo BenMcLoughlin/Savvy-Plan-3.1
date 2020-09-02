@@ -1,12 +1,11 @@
 import React, { FC, useState } from "react"
 import styled from "styled-components"
 import * as components from "components"
-import { ProgressBar, Next, Back } from "components"
+import { ProgressBar, Next, Back, TripleSliderSelector } from "components"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 import { Redirect } from "react-router-dom"
-import { Exit } from "components/buttons/Exit"
 import { matchThenShowComponent } from "services/display_functions"
-import { nextButtonProps, exitButtonProps, backButtonProps } from "services/questions/question_functions"
+import { nextButtonProps, backButtonProps } from "services/questions/question_functions"
 import * as I from "types"
 
 interface IProps {
@@ -14,18 +13,19 @@ interface IProps {
   remove: I.remove
   state: I.state
   data: any
+  BANANA: any
 }
 
-export const Questions: FC<IProps> = ({ data, state, set }) => {
+export const Questions: FC<IProps> = ({ BANANA, data, state, set }) => {
   const { progress } = state.ui_reducer
   const [direction, setDirection] = useState<string>("forward")
-  const { streamType, questions } = data
+  const { questions } = data
   const { length } = questions
 
   const nextProps = nextButtonProps(progress, questions, state, set)
-  const exitProps = exitButtonProps(set)
   const backProps = backButtonProps(progress, set)
 
+ console.log('data.questions[progress]:', data.questions[progress].editChart)
   if (progress === length - 2) return <Redirect to="/plan" />
 
   return (
@@ -51,11 +51,20 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
             )
         )}
       </TransitionGroup>
-      {progress > 0 && <Back {...backProps} setDirection={setDirection} />}
-      {
-        data.questions[progress].component === "chart" && <Chart>{matchThenShowComponent(components, data, data.questions[progress].chart)}</Chart>
-      }
-      <Next {...nextProps} setDirection={setDirection} />
+      {progress > 0 && <Back {...backProps} setDirection={setDirection} backHandleChange={data.questions[progress].backHandleChange} />}
+      {data.questions[progress].component === "chart" && (
+        <>
+          <Chart>{matchThenShowComponent(components, data, data.questions[progress].chart)}</Chart>
+<PositionPanel>
+  {
+    data.questions[progress].editChart && <TripleSliderSelector {...data.questions[progress].editChart}/>
+  }
+ 
+</PositionPanel>
+
+        </>
+      )}
+      <Next {...nextProps} nextHandleChange={data.questions[progress].nextHandleChange} setDirection={setDirection} />
     </Wrapper>
   )
 }
@@ -119,4 +128,9 @@ const Header = styled.div`
 const H2 = styled.h2`
   margin-bottom: 2rem;
   width: 80rem;
+`
+const PositionPanel = styled.h2`
+  position: absolute;
+  top: 57rem;
+  left: 57rem;
 `
