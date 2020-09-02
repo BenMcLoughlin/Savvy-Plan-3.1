@@ -122,7 +122,7 @@ export const createStreamQuestionsArray = (data: I.questions, instance: I.instan
         set("dualSelectValue", "ui_reducer", true)
         createStream(colorIndex, set, streamType, "", owner, state)
       },
-      handleChange2: (clickFired: boolean) => {
+      handleChange2: (value, clickFired: boolean) => {
         set("newStream", "ui_reducer", false)
         set("selectedId", "ui_reducer", false)
         set("selectedPeriod", "ui_reducer", 0)

@@ -13,7 +13,7 @@ export interface IUiState {
   selectedPeriod: number
   selectedAccount: I.reg
   newStream: boolean
-  selectedTransaction: string
+  savingsTransaction: string
   dualSelectValue: boolean
 }
 
@@ -109,4 +109,4 @@ export interface debtStream extends IinstanceCore {
   payment: number
 }
 
-export type instance = incomeStream | propertyStream | savingsStream | debtStream 
+export type instance = incomeStream | propertyStream | savingsStream | debtStream

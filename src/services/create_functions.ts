@@ -96,20 +96,20 @@ export const addPeriodToIncomeStream = (instance: any, period: number, selectedI
   set(selectedId, "main_reducer", 3000, `period${period + 1}Value`)
 }
 export const addPeriodToSavingsStream = (state: I.state, set: (id: string, reducer: string, value: any, childId?: string) => void): void => {
-  const { selectedId, dualSelectValue } = state.ui_reducer
+  const { selectedId, savingsTransaction } = state.ui_reducer
   const instance = state.main_reducer[selectedId]
 
   const { periods, contributePeriods } = instance
 
-  const contributeIsSelected = dualSelectValue
+  const transactionPeriods = savingsTransaction === "contribute" ? contributePeriods : periods
 
-  const transactionPeriods = contributeIsSelected ? contributePeriods : periods
 
-  const transaction = instance.streamType === "savings" && contributeIsSelected ? "contribute" : "period"
+
+  const transaction = instance.streamType === "savings" && savingsTransaction === "contribute" ? "contribute" : "period"
 
   const startingValue = instance[`${transaction}${transactionPeriods}Value`]
 
-  set(selectedId, "main_reducer", transactionPeriods + 1, contributeIsSelected ? "contributePeriods" : "periods")
+  set(selectedId, "main_reducer", transactionPeriods + 1, savingsTransaction === "contribute" ? "contributePeriods" : "periods")
   set(selectedId, "main_reducer", instance[`${transaction}${transactionPeriods}EndYear`], `${transaction}${transactionPeriods + 1}StartYear`)
   set(selectedId, "main_reducer", +instance[`${transaction}${transactionPeriods}EndYear`] + 5, `${transaction}${transactionPeriods + 1}EndYear`)
   set(selectedId, "main_reducer", startingValue, `${transaction}${transactionPeriods + 1}Value`)

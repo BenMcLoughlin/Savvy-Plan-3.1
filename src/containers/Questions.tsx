@@ -93,7 +93,7 @@ const Component = styled.div`
 const Chart = styled.div`
   position: absolute;
   top: 18rem;
-  left: 45rem;
+  left: 52rem;
   width: 80rem;
   justify-content: center;
   display: flex;

@@ -43,7 +43,7 @@ console.log('hoveredName:', hoveredName)
 
 
 export const createAreaTooltip = (className, dataObject, graph, state, xScale, yScale) => {
-console.log('state:', state)
+
   const peakYear = getPeakYear(dataObject, state)
 
   const tooltip = d3

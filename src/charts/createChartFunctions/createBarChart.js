@@ -57,7 +57,7 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       .paddingInner(0.2)
       .paddingOuter(0.3)
       .domain(data.map(item => item.year))
-    console.log("data:", data)
+
     const rects = graph.append("g").selectAll("g").data(series)
 
     rects.exit().remove()

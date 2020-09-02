@@ -6,12 +6,12 @@ const initialState: IUiState = {
   selectedPeriod: 0,
   colorIndex: 0,
   videoUrl: "",
-  progress: 0,
+  progress: 4,
   selectedPage: "savings",
   selectedAccount: "tfsa",
   selectedUser: "user1",
   dualSelectValue: true,
-  selectedTransaction: "contribute",
+  savingsTransaction: "contribute",
   newStream: false,
 }
 

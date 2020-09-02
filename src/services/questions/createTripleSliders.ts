@@ -206,13 +206,13 @@ export const createDebtSliders = (instance: any, set: I.set) => {
 export const createSavingsSliders = (data, instance: I.instance, set: I.set, state: I.state) => {
   const { contributePeriods, id, periods, owner, reg, streamType } = instance
 
-  const { selectedPeriod, dualSelectValue } = state.ui_reducer
+  const { selectedPeriod, savingsTransaction } = state.ui_reducer
 
   const { user1BirthYear, user2BirthYear } = state.user_reducer
 
   const birthYear = owner === "user1" ? +user1BirthYear : +user2BirthYear
 
-  const contributeIsSelected = dualSelectValue
+  const contributeIsSelected = savingsTransaction === "contribute"
 
   const transaction = contributeIsSelected ? "contribute" : "period"
 

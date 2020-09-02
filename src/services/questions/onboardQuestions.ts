@@ -156,8 +156,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
         set("selectedId", "ui_reducer", false)
       },
     })
-  }
-  // ------ADD SPOUSE'S INCOME STREAMS TO ARRAY
+      // ------ADD SPOUSE'S INCOME STREAMS TO ARRAY
   //Here need to map through all the income streams and add them to the primary questions.
   insertQuestionArray("user2Income", "onboard", remove, set, state, "income", _questions)
 
@@ -174,6 +173,8 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
     chart: "IncomeChart",
     valid: true,
   })
+  }
+
   // ASK IF THEY HAVE INVESTMENTS
   _questions.push({
     data: "user1Savings",
@@ -313,7 +314,7 @@ export const onboardQuestions_data = (data: any, state: any, set: any, progress:
 
 
   const questions =  _questions.map(d => ({...d, ...data[d.data]}))
-
+console.log('questions:', questions)
 
   return {
     streamType: "Onboarding",

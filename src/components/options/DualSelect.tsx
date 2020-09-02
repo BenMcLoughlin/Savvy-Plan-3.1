@@ -2,8 +2,8 @@ import React, { FC, useState } from "react"
 import styled from "styled-components"
 
 interface IProps {
-  handleChange: () => void
-  handleChange2: (clickFired: boolean) => void
+  handleChange: (option1) => void
+  handleChange2: (option2, clickFired) => void
   option1: string | number
   option2: string | number
   value: boolean
@@ -17,8 +17,9 @@ export const DualSelect: FC<IProps> = ({ handleChange, handleChange2, option1, o
         onClick={() => {
           //the onclick is used to create new objects, for instance, do you own a house? "yes", then it creates a house object
           if (handleChange && !clickFired) {
+            console.log("option1:", option1)
             //but we can't have objects created with every click
-            handleChange() //creates the new object
+            handleChange(option1) //creates the new object
             fireClick(true) //then ensures that clicking again whon't make a new one
           }
         }}
@@ -29,14 +30,14 @@ export const DualSelect: FC<IProps> = ({ handleChange, handleChange2, option1, o
       </Option>
       <Option
         onClick={() => {
-          handleChange2(clickFired)
+          handleChange2(option2, clickFired)
           if (clickFired) {
             fireClick(false)
           } //if the user added a stream by clicking yes then clicks no, this removes that stream
         }}
         selected={!value} //when the page first loads it sets both colors to grey but I want the initial color or the bar to be white
         id="no"
-     >
+      >
         {" "}
         {option2}
       </Option>
