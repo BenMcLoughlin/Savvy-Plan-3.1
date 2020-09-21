@@ -10,7 +10,7 @@ const mockState = {
     user2LifeSpan: 95,
     user2CppStartAge: 65,
     user2OasStartAge: 65,
-    maritalStatus: "married",
+    maritalStatus: "single",
     child1BirthYear: 2020,
     child2BirthYear: 2034,
   },
@@ -59,12 +59,32 @@ const mockState = {
       reg: "regular employment",
       streamType: "income",
     },
+    user1Savings_817009: {
+      cppEligible: false,
+      name: "Ben's tfsa",
+      periods: 0,
+      currentValue: 0,
+      contributePeriods: 0,
+      contribute0StartYear: 2020,
+      contribute0Value: 6000,
+      contribute0EndYear: 2040,
+      period0StartYear: 2055,
+      period0Value: 31600,
+      period0EndYear: 2085,
+      taxable: false,
+      createdAt: "2020-09-02T20:43:27.296Z",
+      color: "#72929B",
+      id: "user1Savings_817009",
+      owner: "user1",
+      reg: "tfsa",
+      streamType: "savings",
+    },
   },
 }
 
 describe("CPP calculation is in line with with Dougs", function () {
   it("born 1988, 30k 2006-2020, 58k 2020 - 2037, 90k 2038-2052 should be 17916.78", () =>
-    expect(getIncome(mockState)[2070].user1.beforeTaxIncomeStreams.user1CppBenefit.toFixed(2)).toEqual("17916.78"))
-  it("born 1988, 30k 2006-2032, 58k 2020 - 2052, 90k 2038-2052 should be 14,266.69 ", () =>
-    expect(getIncome(mockState)[2070].user2.beforeTaxIncomeStreams.user2CppBenefit.toFixed(2)).toEqual("14266.69"))
+    expect(getIncome(mockState)[2070].user1.beforeTaxTaxableIncomeStreams.user1CppBenefit.toFixed(2)).toEqual("17916.78"))
+  // it("born 1988, 30k 2006-2032, 58k 2020 - 2052, 90k 2038-2052 should be 14,266.69 ", () =>
+  //   expect(getIncome(mockState)[2070].user2.beforeTaxTaxableIncomeStreams.user2CppBenefit.toFixed(2)).toEqual("14266.69"))
 })

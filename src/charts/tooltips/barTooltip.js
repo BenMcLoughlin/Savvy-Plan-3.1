@@ -2,7 +2,6 @@ import * as d3 from "d3"
 import { round, formatIncomeName } from "charts/createChartFunctions/chartHelpers"
 
 export const incomeChart = (d, dataObject, i, tooltip, n, state) => {
-
   const { selectedUser } = state.ui_reducer
   const { user1BirthYear, user1Name, user2Name } = state.ui_reducer
   const name = n[0].parentNode.className.animVal
@@ -23,7 +22,7 @@ export const incomeChart = (d, dataObject, i, tooltip, n, state) => {
                                       <div class="box">
                                         <p> Before tax</p>
                                         <p class="value"> ${
-                                          round(dataObject[d.data.year].user1.beforeTaxIncomeStreams[name]) || round(dataObject[d.data.year].user2.beforeTaxIncomeStreams[name])
+                                          round(dataObject[d.data.year].user1.beforeTaxTaxableIncomeStreams[name]) || round(dataObject[d.data.year].user2.beforeTaxTaxableIncomeStreams[name])
                                         } K</p>
                                       </div>
                                       <div class="box">

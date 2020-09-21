@@ -60,14 +60,14 @@ export const incomeHtml = (d, dataObject, color, n, state) => {
                                       <div style="${box}">
                                           <p> Before tax</p>
                                           <p style="${value}"> ${
-                                            round(dataObject[d.data.year].user1.beforeTaxIncomeStreams[name]) || round(dataObject[d.data.year].user2.beforeTaxIncomeStreams[name])
-                                          }</p>
+    round(dataObject[d.data.year].user1.beforeTaxTaxableIncomeStreams[name]) || round(dataObject[d.data.year].user2.beforeTaxTaxableIncomeStreams[name])
+  }</p>
                                         </div>
                                         <div style="${box}">
                                           <p> After tax</p>
                                           <p style="${value}"> ${
-                                            round(dataObject[d.data.year].user1.afterTaxIncomeStreams[name]) || round(dataObject[d.data.year].user2.afterTaxIncomeStreams[name])
-                                          }</p>
+    round(dataObject[d.data.year].user1.afterTaxIncomeStreams[name]) || round(dataObject[d.data.year].user2.afterTaxIncomeStreams[name])
+  }</p>
                                         </div>
                                     </div>
                                     <div  style="${titleRow("grey")}">
@@ -77,22 +77,22 @@ export const incomeHtml = (d, dataObject, color, n, state) => {
                                       <div style="${box}">
                                           <p> Before tax</p>
                                           <p style="${value}"> ${
-                                                                   selectedUser === "combined"
-                                                                     ? round(dataObject[d.data.year].user1.beforeTaxIncome + dataObject[d.data.year].user2.beforeTaxIncome)
-                                                                     : selectedUser === "user2"
-                                                                     ? round(dataObject[d.data.year].user2.beforeTaxIncome)
-                                                                     : round(dataObject[d.data.year].user1.beforeTaxIncome)
-                                                                 }</p>
+    selectedUser === "combined"
+      ? round(dataObject[d.data.year].user1.beforeTaxIncome + dataObject[d.data.year].user2.beforeTaxIncome)
+      : selectedUser === "user2"
+      ? round(dataObject[d.data.year].user2.beforeTaxIncome)
+      : round(dataObject[d.data.year].user1.beforeTaxIncome)
+  }</p>
                                         </div>
                                         <div style="${box}">
                                           <p> After tax</p>
                                           <p style="${value}"> ${
-                                                                   selectedUser === "combined"
-                                                                     ? round(dataObject[d.data.year].user1.afterTaxIncome + dataObject[d.data.year].user2.afterTaxIncome)
-                                                                     : selectedUser === "user2"
-                                                                     ? round(dataObject[d.data.year].user2.afterTaxIncome)
-                                                                     : round(dataObject[d.data.year].user1.afterTaxIncome)
-                                                                 }</p>
+    selectedUser === "combined"
+      ? round(dataObject[d.data.year].user1.afterTaxIncome + dataObject[d.data.year].user2.afterTaxIncome)
+      : selectedUser === "user2"
+      ? round(dataObject[d.data.year].user2.afterTaxIncome)
+      : round(dataObject[d.data.year].user1.afterTaxIncome)
+  }</p>
                                         </div>
                                     </div>
                                     `
@@ -111,7 +111,7 @@ export const incomeHtml = (d, dataObject, color, n, state) => {
 //                    <div style="${box}">
 //                        <p> Before tax</p>
 //                        <p style="${value}"> ${
-//                          round(dataObject[d.data.year].user1.beforeTaxIncomeStreams[name]) || round(dataObject[d.data.year].user2.beforeTaxIncomeStreams[name])
+//                          round(dataObject[d.data.year].user1.beforeTaxTaxableIncomeStreams[name]) || round(dataObject[d.data.year].user2.beforeTaxTaxableIncomeStreams[name])
 //                        }</p>
 //                      </div>
 //                      <div style="${box}">

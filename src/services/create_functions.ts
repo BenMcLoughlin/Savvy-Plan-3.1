@@ -26,6 +26,7 @@ export const newSavingsStream = (birthYear, owner: I.user, reg: I.reg, state: I.
 
   const userName = state.user_reducer[`${owner}Name`]
   return {
+    cppEligible: false,
     name: `${userName}'s ${reg}`,
     periods: 0,
     currentValue: 0,
@@ -36,7 +37,7 @@ export const newSavingsStream = (birthYear, owner: I.user, reg: I.reg, state: I.
     period0StartYear: +birthYear + 65, //period is actually withdrawl, because we want overlap with income we use the same name
     period0Value: 1000,
     period0EndYear: +birthYear + 95,
-    taxable: true,
+    taxable: reg === "tfsa" ? false : true,
   }
 }
 

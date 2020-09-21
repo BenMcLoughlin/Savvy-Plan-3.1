@@ -3,15 +3,18 @@ import * as I from "calculations/income/types"
 import _ from "lodash"
 
 export const getAfterTaxStreamsObject = (income: I.incomeObject, state: I.state, yearFirst: I.year, yearLast: I.year, users: number[]): I.incomeObject => {
-
   let afterTaxIncome = { ...income } //make a copy of the entire income object
 
   for (let year = yearFirst; year <= yearLast; year++) {
     users.map(n => {
-      const beforeTaxIncomeStreams = Object.keys(_.omit(income[year][`user${n}`].beforeTaxIncomeStreams, ["year"]))
-      const {beforeTaxIncome} = income[year][`user${n}`]
-      const taxRate = getTaxRate(58700)
-      beforeTaxIncomeStreams.map(
+      const beforeTaxTaxableIncomeStreams = Object.keys(_.omit(income[year][`user${n}`].beforeTaxTaxableIncomeStreams, ["year"]))
+      const nonTaxableIncomeStreams = Object.keys(_.omit(income[year][`user${n}`].nonTaxableIncomeStreams, ["year"]))
+      //console.log('beforeTaxTaxableIncomeStreams:', beforeTaxTaxableIncomeStreams)
+      const { beforeTaxIncome } = income[year][`user${n}`]
+
+      const taxRate = getTaxRate(beforeTaxIncome)
+
+      beforeTaxTaxableIncomeStreams.map(
         stream =>
           (afterTaxIncome = {
             ...afterTaxIncome,
@@ -21,24 +24,52 @@ export const getAfterTaxStreamsObject = (income: I.incomeObject, state: I.state,
                 ...afterTaxIncome[year][`user${n}`],
                 afterTaxIncomeStreams: {
                   ...afterTaxIncome[year][`user${n}`].afterTaxIncomeStreams,
-                  [stream]: income[year][`user${n}`].beforeTaxIncomeStreams[stream] * (1 - taxRate),
+                  [stream]: income[year][`user${n}`].beforeTaxTaxableIncomeStreams[stream] * (1 - taxRate),
                 },
               },
             },
           })
       )
-      afterTaxIncome = {...afterTaxIncome, [year]: {
-        ...afterTaxIncome[year], [`user${n}`]: {
-          ...afterTaxIncome[year][`user${n}`], afterTaxIncome: beforeTaxIncome * (1-taxRate)
-        }
-      }}
-      afterTaxIncome = {...afterTaxIncome, [year]: {
-        ...afterTaxIncome[year], [`user${n}`]: {
-          ...afterTaxIncome[year][`user${n}`], afterTaxIncomeStreams: {
-            ...afterTaxIncome[year][`user${n}`].afterTaxIncomeStreams, year: year
-          }
-        }
-      }}
+
+      nonTaxableIncomeStreams.map(
+        stream =>
+          (afterTaxIncome = {
+            ...afterTaxIncome,
+            [year]: {
+              ...afterTaxIncome[year],
+              [`user${n}`]: {
+                ...afterTaxIncome[year][`user${n}`],
+                afterTaxIncomeStreams: {
+                  ...afterTaxIncome[year][`user${n}`].afterTaxIncomeStreams,
+                  [stream]: income[year][`user${n}`].nonTaxableIncomeStreams[stream],
+                },
+              },
+            },
+          })
+      )
+      afterTaxIncome = {
+        ...afterTaxIncome,
+        [year]: {
+          ...afterTaxIncome[year],
+          [`user${n}`]: {
+            ...afterTaxIncome[year][`user${n}`],
+            afterTaxIncome: beforeTaxIncome * (1 - taxRate),
+          },
+        },
+      }
+      afterTaxIncome = {
+        ...afterTaxIncome,
+        [year]: {
+          ...afterTaxIncome[year],
+          [`user${n}`]: {
+            ...afterTaxIncome[year][`user${n}`],
+            afterTaxIncomeStreams: {
+              ...afterTaxIncome[year][`user${n}`].afterTaxIncomeStreams,
+              year: year,
+            },
+          },
+        },
+      }
     })
   }
 

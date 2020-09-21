@@ -6,6 +6,7 @@
 body {
   font-family: "Mulish", sans-serif;
   color: #707070;
+  letter-spacing: .5px;
 }
 
 @media screen and (min-width: 200px) {
@@ -49,13 +50,31 @@ body {
 }
 @media screen and (min-width: 1500px) {
   html {
-    font-size: 65%;
+    font-size: 70%;
+  }
+}
+
+@media screen and (min-width: 1550px) {
+  html {
+    font-size: 75%;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  html {
+    font-size: 80%;
+  }
+}
+
+@media screen and (min-width: 1650px) {
+  html {
+    font-size: 85%;
   }
 }
 
 @media screen and (min-width: 1700px) {
   html {
-    font-size: 73%;
+    font-size: 90%;
   }
 }
 
@@ -65,7 +84,7 @@ h1 {
   font-weight: 600;
 }
 h2 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 600;
 }
 h3 {

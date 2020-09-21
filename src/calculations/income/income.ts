@@ -1,4 +1,4 @@
-import { getdFirstIncomeStreamsObject, getSecondIncomeStreamsObject } from "calculations/income/create/createIncomeObject"
+import { getFirstIncomeStreamsObject, getSecondIncomeStreamsObject } from "calculations/income/create/createIncomeObject"
 import { getAfterTaxStreamsObject } from "calculations/income/tax/tax.function"
 import * as I from "calculations/income/types"
 import { getCacheKey } from "calculations/helpers/caching"
@@ -26,12 +26,13 @@ var cachecgetIncome = (function () {
       }
 
       //we begin by building an object with all incoem values the user has inputted, the object has income information for each year, these values are used to calculate pensoins
-      const firstIncomeObject: I.incomeObject = getdFirstIncomeStreamsObject(state, yearFirst, yearLast, users)
-     // console.log('JSON.stringify(secondIncomeObject, null, 4):', JSON.stringify(firstIncomeObject, null, 4))
+      const firstIncomeObject: I.incomeObject = getFirstIncomeStreamsObject(state, yearFirst, yearLast, users)
+      // console.log('JSON.stringify(secondIncomeObject, null, 4):', JSON.stringify(firstIncomeObject, null, 4))
       //next we build a second income object and add in pensions, these are based on the first object
       let secondIncomeObject: I.incomeObject = getSecondIncomeStreamsObject(firstIncomeObject, state, yearFirst, yearLast, users)
       //console.log('JSON.stringify(secondIncomeObject, null, 4):', JSON.stringify(secondIncomeObject, null, 4))
       const afterTaxIncomeObject = getAfterTaxStreamsObject(secondIncomeObject, state, yearFirst, yearLast, users)
+      console.log('JSON.stringify(afterTaxIncomeObject, null, 4):', JSON.stringify(afterTaxIncomeObject, null, 4))
       const END_TIME = new Date().getTime()
       const function_duration = END_TIME - START_TIME
       console.log("cachecgetIncome duration:", function_duration)

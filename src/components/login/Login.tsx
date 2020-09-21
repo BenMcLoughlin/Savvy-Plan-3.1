@@ -11,7 +11,10 @@ interface IProps {
 export const Login: FC<IProps> = ({set, state}) => {
   const {newUser} = state.user_reducer
   return (
+    <PageSize>
+            <AngleDiv/>
     <Wrapper>
+
       <TextInput label="email" handleChange={() => null} valid={true} value="hi" type="text" />
       <TextInput label="password" handleChange={() => null} valid={true} value="hi" type="password" />
       {
@@ -21,10 +24,17 @@ export const Login: FC<IProps> = ({set, state}) => {
       <LinkButton label="Sign Up" link="onboarding" handleChange={() => set("newUser", "ui_reducer", false)}/>
       <h4>Forgot password?</h4>
     </Wrapper>
+    </PageSize>
+
   )
 }
 
 //-----------------------------------------------style-----------------------------------------------//
+
+const PageSize = styled.div`
+ height: 100%;
+ width: 100%;
+`
 
 const Wrapper = styled.div`
   position: absolute;
@@ -36,4 +46,20 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+`
+
+const AngleDiv = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 89%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background: #88ADBF;
+  clip-path: polygon(0 0,50% 0,100% 50%,100% 100%,62% 100%,0 33%);
+`
+const Title = styled.div`
+  position: absolute;
+  width: 20rem;
 `

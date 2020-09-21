@@ -12,13 +12,11 @@ export const getThisYearsIncome = (stream: I.incomeStream, year: I.year) => {
   return Math.max(...value);
 };
 
-export const getIncomeStreams = ({ main_reducer }, user: string, year: I.year, query) => {
+export const getIncomeStreams = ({ main_reducer }, user: string, year: I.year, query: string) => {
   const userIncomeStreams_array = Object.values(main_reducer).filter(
     (d:any) => (d.streamType === "income" || d.streamType === "savings")  && d.owner === user
-  );
-  if (query === "getCpp") userIncomeStreams_array.filter((d: any) => d.cppEligible);
-  if (query === "getTaxable") userIncomeStreams_array.filter((d: any) => d.taxable);
-  //console.log('userIncomeStreams_array:', userIncomeStreams_array)
+  ).filter((d:any) => query === "getTaxable" ? d.taxable : query === "getNonTaxable" ? !d.taxable : d.cppEligible );
+
   let incomeStreams = {};
   userIncomeStreams_array.map(
     (stream: any) => (incomeStreams = { ...incomeStreams, [stream.name]: getThisYearsIncome(stream, year) })

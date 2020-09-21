@@ -102,7 +102,7 @@ const Component = styled.div`
 const Chart = styled.div`
   position: absolute;
   top: 18rem;
-  left: 52rem;
+  left: 32rem;
   width: 80rem;
   justify-content: center;
   display: flex;
@@ -132,5 +132,5 @@ const H2 = styled.h2`
 const PositionPanel = styled.h2`
   position: absolute;
   top: 57rem;
-  left: 57rem;
+  left: 32rem;
 `

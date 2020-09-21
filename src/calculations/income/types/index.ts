@@ -31,7 +31,7 @@ type incomeStreams = {
 }
 
 type userIncome = {
-  beforeTaxIncomeStreams: incomeStreams
+  beforeTaxTaxableIncomeStreams: incomeStreams
   incomeStreamsForCpp: incomeStreams
   beforeTaxIncome: number
   totalCppIncome: number
