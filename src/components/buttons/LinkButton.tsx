@@ -20,10 +20,9 @@ const Wrapper = styled(Link)`
   height: 4.2rem;
   min-width: 14rem;
   max-width: 17rem;
-  background: #5e9090;
-  border-radius: 100px;
+  border-radius: 15px;
   box-shadow: 0 1px 2px rgba(0, 0, 0.01, 0.08);
-  color: white;
+  color: ${props => props.theme.color.darkGrey};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,7 +33,5 @@ const Wrapper = styled(Link)`
   transition: all 0.2s ease-in;
   text-transform: capitalize;
   text-decoration: none;
-  &:hover {
-    background: #548181;
-  }
+  ${props => props.theme.neomorph};
 `

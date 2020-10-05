@@ -51,11 +51,12 @@ export const DualSelect: FC<IProps> = ({ handleChange, handleChange2, option1, o
 const Wrapper = styled.div`
   display: inline-flex;
   height: 3rem;
-  background-color: ${props => props.theme.color.lightGrey};
+\
   box-shadow: rgba(64, 62, 61, 0.05) 0px 3px 10px 0px;
   margin: 0px;
   padding: 0px;
   border-radius: 25px;
+  ${props => props.theme.neomorph};
 `
 interface OProps {
   selected: boolean

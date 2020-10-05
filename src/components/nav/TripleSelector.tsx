@@ -59,7 +59,7 @@ const Option = styled.div<OProps>`
   position: relative;
   min-width: 10rem;
   transition: all 2s ease;
-  color: ${props => (props.selected ? props.theme.color.ice : "grey")};
+  color: ${props => props.theme.color.darkGrey};
   text-align: center;
   z-index: 1;
   transition: all 100ms linear 0s;
@@ -79,12 +79,13 @@ const Pill = styled.div<PProps>`
         top: 1rem;
         left: 0rem;
         background-color: #4F9190;
+        ${props => props.theme.neomorph};
         transform: ${props =>
           props.selected === props.options[0]
             ? "translate(0rem,0rem)"
             : props => (props.selected === props.options[1] ? "translate(10rem,0rem)" : props => (props.selected === props.options[2] ? "translate(20rem,0rem)" : null))};
         transition: all .3s ease;
-        border-radius: 25px;
+        border-radius: 15px;
         animation: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) 0s 1 normal forwards running fmdUjs;
 }
 `

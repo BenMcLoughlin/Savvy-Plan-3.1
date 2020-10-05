@@ -15,13 +15,13 @@ export const PickNumberWithText: FC<IProps> = ({ handleChange, handleChange2, va
     <Wrapper>
       <PickNumber handleChange={handleChange} value={value} />
       <TextBoxes>
-        <TransitionGroup>
+        <TransitionGroup1 value={value}>
           {_.range(1, value + 1).map(d => (
             <CSSTransition key={d} timeout={300} classNames={`transition`}>
               <TextInput handleChange={e => handleChange2(e, `child${d}BirthYear`)} type="year" label={`childNumber${d}BirthYear`} valid={true} value={"value"} />
             </CSSTransition>
           ))}
-        </TransitionGroup>
+        </TransitionGroup1>
       </TextBoxes>
     </Wrapper>
   )
@@ -33,15 +33,28 @@ const Wrapper = styled.div`
   height: 50rem;
   width: 40rem;
 `
-const TextBoxes = styled.div`
-  min-height: 60rem;
-  width: 30rem;
-  display: flex;
-  flex-wrap: start;
-  flex-direction: column;
-  position: absolute;
-  top: 8rem;
+interface Props {
+  value: number
+}
 
+const TransitionGroup1 = styled(TransitionGroup)<Props>`
+  display: flex;
+  min-height: 20rem;
+  flex-wrap: wrap;
+  justify-content: start;
+  width:  70rem;
+  transform: ${props => props.value > 1 ? "translate(-10rem,0)" : null};
+  transition: all .3s ease;
+  > * { 
+    margin-top: 2rem;
+    margin-left: 2rem;
+  }
+`
+
+const TextBoxes = styled.div`
+  height: 40rem;
+  width: 90rem;
+  top: 8rem;
   .transition-enter {
     opacity: 0.01;
     transform: translate(0, -10px);
@@ -61,3 +74,5 @@ const TextBoxes = styled.div`
     transition: all 300ms ease-in;
   }
 `
+
+//width: ${props => (props.value < 5 ? "30rem" : "80rem")};

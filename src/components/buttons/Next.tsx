@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from "react"
 import styled from "styled-components"
-import { ArrowRightCircle } from "@styled-icons/remix-fill/ArrowRightCircle"
+import { ArrowIosForwardOutline } from "@styled-icons/evaicons-outline/ArrowIosForwardOutline"
+import { CSSTransition } from "react-transition-group"
 
 interface IProps {
   setDirection: (value: string) => void
@@ -26,37 +27,78 @@ export const Next: FC<IProps> = ({ handleChange, nextHandleChange, setDirection,
 
   return (
     <Wrapper>
-      <ArrowRight
-        valid={valid}
-        onClick={() => {
-          setDirection("forward")
-          handleChange(setDirection, valid)
-          if (nextHandleChange) nextHandleChange()
-        }}
-        id="nextButton"
-      />
-      {valid && <P>Press Enter</P>}
+      <CSSTransition in={valid} mountOnEnter unmountOnExit timeout={700} classNames="fade-in">
+        <Circle valid={valid}>
+          <ArrowRight
+            valid={valid}
+            onClick={() => {
+              setDirection("forward")
+              handleChange(setDirection, valid)
+              if (nextHandleChange) nextHandleChange()
+            }}
+            id="nextButton"
+          />
+          <P>Press Enter</P>
+        </Circle>
+      </CSSTransition>
     </Wrapper>
   )
 }
 
 //---------------------------STYLES-------------------------------------------//
 
+interface validProps {
+  valid: boolean
+}
+
 const Wrapper = styled.div`
   position: absolute;
   top: 18rem;
   right: 8%;
+
+  .fade-in-enter-active {
+
+    opacity: 1;
+    transition: all 800ms;
+  }
+  
+  .fade-in-exit {
+  
+    opacity: 1;
+  }
+  
+  .fade-in-exit-active {
+  
+    opacity: 0;
+    transition: all 800ms;
+  }
+
+
 `
 
-interface ArrowProps {
-  valid: boolean
-}
-const ArrowRight = styled(ArrowRightCircle)<ArrowProps>`
-  color: ${props => (props.valid ? "#9AC0CD" : "#C8C7C7")};
-  cursor: ${props => (props.valid ? "pointer" : null)};
+const Circle = styled.div<validProps>`
+  border-radius: 50%;
+  background: ${props => props.theme.color.background};
+  background: ${props => (props.valid ? props.theme.color.background : "white")};
+  ${props => props.theme.neomorph};
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 7.2rem;
   width: 7.2rem;
 `
+
+interface validProps {
+  valid: boolean
+}
+const ArrowRight = styled(ArrowIosForwardOutline)<validProps>`
+  cursor: ${props => (props.valid ? "pointer" : null)};
+  height: 4.2rem;
+  width: 4.2rem;
+  color: ${props => props.theme.color.darkGrey};
+`
 const P = styled.p`
-  font-size: ${props => props.theme.fontSize.smallMedium}
+  position: absolute;
+  margin-top: 13rem;
+  font-size: ${props => props.theme.fontSize.small};
 `

@@ -32,5 +32,6 @@ const Add = styled.div`
   &::before {
     transform: rotate(90deg);
   }
+  ${props => props.theme.neomorph};
 
 `

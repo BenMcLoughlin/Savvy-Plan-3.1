@@ -55,7 +55,7 @@ interface PProps {
 const Option = styled.div<OProps>`
   position: relative;
   min-width: 16rem;
-  color: ${props => (props.selected ? props.theme.color.ice : "grey")};
+  color: ${props => props.theme.color.darkGrey};
   text-align: center;
   z-index: 1;
   transition: all 100ms linear 0s;
@@ -74,7 +74,7 @@ const Pill = styled.div<PProps>`
         height: 4rem;
         top: .6rem;
         left: 1.6rem;
-        background-color: #73706E;
+        ${props => props.theme.neomorph};
         transform: ${props =>
           props.selected === props.options[0]
             ? "translate(0,0rem)"
@@ -86,7 +86,7 @@ const Pill = styled.div<PProps>`
                         ? "translate(0,10rem)"
                         : props => (props.selected === props.options[3] ? "translate(0,15rem)" : props => (props.selected === props.options[4] ? "translate(0,20rem)" : "translateY(0%)"))};
         transition: all .3s ease;
-        border-radius: 25px;
+        border-radius: 15px;
         animation: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) 0s 1 normal forwards running fmdUjs;
 }
 `

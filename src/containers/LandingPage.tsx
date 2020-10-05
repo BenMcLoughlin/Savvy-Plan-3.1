@@ -4,6 +4,7 @@ import { CSSTransition } from "react-transition-group"
 import { LinkButton } from "components"
 import { set } from "redux/actions"
 import * as I from "types"
+import { SavingsChart } from "charts"
 
 interface IProps {
   set: I.set
@@ -28,6 +29,9 @@ export const LandingPage: FC<IProps> = ({ set }) => {
           </SubTitle>
         </CSSTransition>
       </Title>
+      <Chart>
+        <SavingsChart />
+      </Chart>
     </Wrapper>
   )
 }
@@ -64,4 +68,9 @@ const SubTitle = styled.div`
   display: flex;
   justify-content: space-around;
   flex-direction: column;
+`
+const Chart = styled.div`
+  grid-area: c;
+  display: flex;
+  position: relative;
 `

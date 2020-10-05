@@ -13,9 +13,9 @@ interface IProps {
 
 export const TextInput: FC<IProps> = ({ handleChange, label, placeholder, type, valid, value }) => {
   return (
-    <Wrapper >
+    <Wrapper>
       <Label>{_.startCase(label)}</Label>
-      <Input autoFocus={true} placeholder={placeholder} type={type === "year" ? "number" : "text"} step={1} onChange={e => handleChange(e.target.value)} id="textInput"/>
+      <Input autoFocus={true} placeholder={placeholder} type={type === "year" ? "number" : "text"} step={1} onChange={e => handleChange(e.target.value)} id="textInput" />
       {type === "year" && !valid && value.length === 4 && <Text>Please Enter a valid year eg. 1990</Text>}
     </Wrapper>
   )
@@ -55,8 +55,8 @@ const Input = styled.input`
   height: 9rem;
   border: none;
   border-radius: 5px;
-  color: ${props => props.theme.color.darkGrey};
-  box-shadow: 0 1px 2px rgba(0, 0, 0.01, 0.08);
+  background: ${props => props.theme.color.background};
+  box-shadow: 20px 20px 60px #cfcfcf, -20px -20px 60px #ffffff;
   &:focus {
     outline: none;
     border: 1px solid ${props => props.theme.color.green};

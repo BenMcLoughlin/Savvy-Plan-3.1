@@ -41,9 +41,9 @@ export const SavingsChart: FC<IProps> = ({ color_selector, state, set }) => {
     <Wrapper>
       <AreaCanvas className={areaClassName} ref={inputAreaRef} />
       <BarCanvas className={barClassName} ref={inputBarRef} />
-      <ChartNavWrapper>
+      {/* <ChartNavWrapper>
         <ChartNav options={["tfsa", "rrsp", "personal", "combined"]} handleChange={value => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount} />
-      </ChartNavWrapper>
+      </ChartNavWrapper> */}
     </Wrapper>
   )
 }
@@ -54,25 +54,24 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70rem;
-  position: relative;
+  width: 110rem;
+  height: 23rem;
+  border-radius: 15px;
 `
 const BarCanvas = styled.div`
   width: 90rem;
   height: 7rem;
   position: absolute;
-  top: 27.6rem;
-  left: -5em;
+  top: 14.6rem;
   z-index: 1;
+  left: -4rem;
 `
 const AreaCanvas = styled.div`
   width: 90rem;
-  height: 19rem;
+  height: 15rem;
   position: absolute;
-  top: 12rem;
-  left: -5em;
-
-
+  top: 2rem;
+  left: -1rem;
 `
 
 const ChartNavWrapper = styled.div`

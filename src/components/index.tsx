@@ -30,6 +30,9 @@ export { LinkButton } from "./buttons/LinkButton"
 export { Exit } from "./buttons/Exit"
 export { Next } from "./buttons/Next"
 
+//Displays
+export { IncomeDisplay } from "./displays/IncomeDisplay"
+
 //Cards
 export { Comment } from "./cards/Comment"
 export { InfoCard } from "./cards/InfoCard"
@@ -52,6 +55,7 @@ export { HeaderNav } from "./nav/HeaderNav"
 export { ProgressBar } from "./nav/ProgressBar"
 export { SideNav } from "./nav/SideNav"
 export { TripleSelector } from "./nav/TripleSelector"
+export { ScenarioSelector } from "./nav/ScenarioSelector"
 
 //Options
 export { DualSelect } from "./options/DualSelect"

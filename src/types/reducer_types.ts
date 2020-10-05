@@ -5,6 +5,7 @@ import * as I from "types"
 export interface IUiState {
   change: boolean
   selectedId: string
+  selectedScenario: number
   colorIndex: number
   videoUrl: string
   progress: number

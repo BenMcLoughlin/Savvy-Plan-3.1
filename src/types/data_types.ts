@@ -1,5 +1,5 @@
 import * as I from "types"
-import { StringDecoder } from "string_decoder";
+import { StringDecoder } from "string_decoder"
 
 interface IinfoCards {
   label: "insights" | "action steps"
@@ -12,7 +12,17 @@ interface IsideNav {
   options: I.streamType[]
 }
 
+interface IscenarioNav {
+  handleChange: (value: number) => void
+  value: number
+  options: number[]
+}
+
 interface IaddPrompt {
+  handleChange: () => void
+  label: string
+}
+interface IeditPrompt {
   handleChange: () => void
   label: string
 }
@@ -27,16 +37,18 @@ interface ItripleSelector {
 export interface pages {
   addButtonLabel
   editPeriod: object
-  chart: I.chartType, //determines the chart that will be rendered
+  chart: I.chartType //determines the chart that will be rendered
   editPanel: string //tells <Display> which edit component to use
   streamType: I.streamType
   sideNav: IsideNav
+  scenarioNav: IscenarioNav
   addPrompt: IaddPrompt
+  editPrompt: IeditPrompt
   tripleSelector: ItripleSelector
   infoCards: IinfoCards[]
 }
 
-interface  Iquestion {
+interface Iquestion {
   explanation: string
   label?: string
   optionArray?: string[]

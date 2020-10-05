@@ -19,7 +19,7 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
     periodEnd = instance[`period${selectedPeriod}EndYear`]
   }
 
-  const margin = { top: 30, right: 100, bottom: 20, left: 100 }
+  const margin = { top: 30, right: 100, bottom: 20, left: 140 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
 

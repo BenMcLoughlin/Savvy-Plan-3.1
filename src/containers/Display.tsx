@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import styled from "styled-components"
 import * as charts from "charts"
 import * as components from "components"
-import { AddPrompt, InfoCard, SideNav, TripleSelector } from "components"
+import { AddPrompt, InfoCard, SideNav, TripleSelector, ScenarioSelector, IncomeDisplay } from "components"
 import { matchThenShowComponent } from "services/display_functions"
 import * as I from "types"
 
@@ -16,22 +16,24 @@ interface IProps {
 export const Display: FC<IProps> = ({ data, remove, set, state }) => {
   const { selectedId } = state.ui_reducer
 
-  const { addPrompt, chart, editPanel, infoCards, sideNav, tripleSelector } = data
+  const { addPrompt, chart, editPrompt, editPanel, infoCards, sideNav, scenarioNav, tripleSelector } = data
 
   return (
     <Wrapper>
-      <Title>Your Financial Plan</Title>
+      <ScenarioSelector {...scenarioNav} />
       <Nav>
         <SideNav {...sideNav} />
       </Nav>
       <Content>
+        <IncomeDisplay></IncomeDisplay>
         <Chart>{matchThenShowComponent(charts, data, chart)}</Chart>
         <InfoCards>
-          {infoCards.map(d => (
-            <InfoCard key={d.label} label={d.label} array={d.array} />
-          ))}
+          <AddPrompt {...addPrompt} />
+          <AddPrompt {...editPrompt} />
+          <AddPrompt {...addPrompt} />
+          <AddPrompt {...addPrompt} />
         </InfoCards>
-        <Edit>
+        {/* <Edit>
           {selectedId ? (
             matchThenShowComponent(components, data, editPanel)
           ) : (
@@ -39,7 +41,7 @@ export const Display: FC<IProps> = ({ data, remove, set, state }) => {
               <AddPrompt {...addPrompt} />
             </Left>
           )}
-        </Edit>
+        </Edit> */}
         <CenterNav>{tripleSelector.user2Name && <TripleSelector {...tripleSelector} />}</CenterNav>
       </Content>
     </Wrapper>
@@ -54,17 +56,19 @@ const Wrapper = styled.div`
   position: relative;
 `
 const Chart = styled.div`
-  grid-area: a;
+  grid-area: c;
   display: flex;
   position: relative;
 `
 const Content = styled.div`
   height: 90rem;
   width: 90rem;
+  margin-top: 7rem;
   margin-left: 30rem;
   display: grid;
-  grid-template-columns: 80rem 30rem;
-  grid-template-rows: 37rem 30rem;
+  grid-gap: 2rem;
+  grid-template-columns: 80rem 40rem;
+  grid-template-rows: 15rem 30rem;
   grid-template-areas:
     "a b"
     "c b";
@@ -73,12 +77,15 @@ const Content = styled.div`
 const InfoCards = styled.div`
   grid-area: b;
   height: 50rem;
-  margin-top: 6rem;
+  margin-left: 2rem;
   display: flex;
   flex-direction: column;
   flex-wrap: start;
-  justify-content: space-around;
+> * {
+  margin-top: 3rem;
+}
 `
+
 const Edit = styled.div`
   grid-area: c;
   display: flex;
@@ -91,7 +98,7 @@ const Edit = styled.div`
 `
 const CenterNav = styled.h1`
   position: absolute;
-  top: 35rem;
+  top: 52rem;
   left: 50rem;
   width: 40rem;
   height: 4rem;
@@ -101,15 +108,9 @@ const Left = styled.h1`
   top: 5rem;
   left: 10rem;
 `
-const Title = styled.h2`
-  position: absolute;
-  padding: 2rem 0rem 2rem 1rem;
-  width: 40rem;
-  margin-left: 9rem;
-`
 const Nav = styled.div`
   position: absolute;
-  top: 7rem;
+  top: 14rem;
   left: 3rem;
   width: 30rem;
   height: 70rem;

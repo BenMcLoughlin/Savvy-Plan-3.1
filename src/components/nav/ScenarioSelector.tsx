@@ -9,18 +9,20 @@ interface IProps {
   handleChange: any
 }
 
-export const PickNumber: FC<IProps> = ({ handleChange, value }) => {
+export const ScenarioSelector: FC<IProps> = ({ handleChange, value }) => {
   const [topNumber, setTopNumber] = useState<number>(4)
 
   const optionArray = _.range(1, topNumber)
 
   return (
     <Wrapper value={value} optionArray={optionArray}>
+      <Title>Scenario</Title>
       <TransitionGroup1>
         {optionArray.map(number => (
           <CSSTransition key={number} timeout={300} classNames={`transition`}>
             <Number selected={number === value} onClick={() => handleChange(number)}>
-              {number}
+              0{number}
+              <SelectionTitle>Basic</SelectionTitle>
             </Number>
           </CSSTransition>
         ))}
@@ -70,11 +72,12 @@ const TransitionGroup1 = styled(TransitionGroup)`
 
 const Wrapper = styled.div<PProps>`
   height: 5rem;
-  width: 55rem;
+  width: 35rem;
   display: flex;
-  justify-content: left;
   align-items: center;
   position: relative;
+  top: 5rem;
+  left: 12rem;
 `
 interface NProps {
   selected: boolean
@@ -84,13 +87,27 @@ const Number = styled.div<NProps>`
   height: 5rem;
   width: 5rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: ${props => props.theme.fontSize.smallMedium};
+  font-size: ${props => props.theme.fontSize.small};
   font-weight: bold;
   cursor: pointer;
+  margin-right: 2rem;
   z-index: 1;
 `
+
+const Title = styled.div`
+  font-size: ${props => props.theme.fontSize.small};
+  font-weight: 200;
+  position: absolute;
+  top: -2rem;
+`
+const SelectionTitle = styled.div`
+  font-size: .9rem;
+  font-weight: 200;
+`
+
 const AddWrapper = styled.div`
   height: 5rem;
   width: 5rem;
@@ -105,23 +122,11 @@ const Pill = styled.div<PProps>`
         height: 5rem;
         top: -4ren;
         left: 0rem;
-        border-radius: 50%;
+        border-radius: 10px;
         background: ${props => props.theme.color.background};
         ${props => props.theme.neomorph};
-        transform: ${props => `translate(${(+props.value - 1) * 5}rem, 0)`};
+        transform: ${props => `translate(${(+props.value - 1) * 7}rem, 0)`};
         transition: all .3s ease;
         animation: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) 0s 1 normal forwards running fmdUjs;
 }
 `
-
-// transform: ${props =>
-//   props.selected === props.optionArray[0]
-//     ? "translate(0,0)"
-//     : props =>
-//         props.selected === props.optionArray[1]
-//           ? "translate(5rem,0)"
-//           : props =>
-//               props.selected === props.optionArray[2]
-//                 ? "translate(10rem,0)"
-//                 : props =>
-//                     props.selected === props.optionArray[3] ? "translate(15rem,0)" : props => (props.selected === props.optionArray[4] ? "translate(20rem,0)" : "translateY(0%)")};

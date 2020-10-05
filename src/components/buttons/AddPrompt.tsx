@@ -27,9 +27,12 @@ const Wrapper = styled.div`
   align-items: center;
   font-weight: bold;
   position: relative;
+  ${props => props.theme.neomorph};
+  border-radius: 5px;
+  padding: 1rem;
 `
 const Div = styled.div`
   position: absolute;
-  left: 3.3rem;
+  left: 4.3rem;
   font-size: 1.4rem
 `

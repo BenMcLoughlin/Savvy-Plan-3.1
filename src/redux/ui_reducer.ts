@@ -3,6 +3,7 @@ import { IUiState } from "types/reducer_types"
 const initialState: IUiState = {
   change: false,
   selectedId: "",
+  selectedScenario: 1,
   selectedPeriod: 0,
   colorIndex: 0,
   videoUrl: "",

@@ -10,7 +10,7 @@ import { incomeQuestions_data, spendingQuestions_data, savingsQuestions_data } f
  * */
 
 export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.parent, remove): any => {
-  const { selectedId, colorIndex, selectedUser, newStream, selectedPage, dualSelectValue, selectedAccount } = state.ui_reducer
+  const { selectedId, colorIndex, selectedUser, newStream, selectedPage, dualSelectValue, selectedAccount, selectedScenario } = state.ui_reducer
 
   const { user1Name, user2Name } = state.user_reducer
   const instance = state.main_reducer[selectedId]
@@ -35,8 +35,24 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
       value: selectedPage,
       options: ["income", "savings", "taxes", "spending", "networth"],
     },
+    scenarioNav: {
+      handleChange: value => {
+        set("selectedScenario", "ui_reducer", value)
+      },
+      value: selectedScenario,
+      options: [1,2,3],
+    },
     addPrompt: {
       label: addButtonLabel,
+      handleChange: () => {
+        createStream(colorIndex, set, streamType, selectedAccount, selectedUser, state) //creates a new stream and places it in the reducer, a switch statement on streamType determines what kind of stream
+        set("progress", "ui_reducer", 0)
+        set("newStream", "ui_reducer", true)
+        set("dualSelectValue", "ui_reducer", true) //ensures that the select is set to contribute when opened
+      },
+    },
+    editPrompt: {
+      label: "Edit Income Stream",
       handleChange: () => {
         createStream(colorIndex, set, streamType, selectedAccount, selectedUser, state) //creates a new stream and places it in the reducer, a switch statement on streamType determines what kind of stream
         set("progress", "ui_reducer", 0)

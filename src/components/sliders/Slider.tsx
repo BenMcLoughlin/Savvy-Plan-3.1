@@ -86,6 +86,7 @@ const RangeBar = styled.input<IRange>`
   margin-top: 2rem;
   margin-bottom: 2rem;
   transition: all 1s ease;
+  ${props => props.theme.neomorph};
   background: linear-gradient(90deg, ${props => "#707070 "} ${props => props.percentage}, ${props => "#C8C7C7"} ${props => props.percentage});
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -96,6 +97,7 @@ const RangeBar = styled.input<IRange>`
     border: 0.5px solid #707070;
     border-radius: 50%;
     cursor: pointer;
+    ${props => props.theme.neomorph};
   }
 
   &:active::-webkit-slider-thumb {

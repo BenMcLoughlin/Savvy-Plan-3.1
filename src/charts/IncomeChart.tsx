@@ -4,6 +4,7 @@ import { ChartNav } from "components"
 import { drawBarChart } from "charts/createChartFunctions/createBarChart"
 import * as I from "types"
 import { getIncomeArrayForChart } from "calculations/income/create/createChartArray"
+import { CSSTransition } from "react-transition-group"
 
 interface IProps {
   state: I.state
@@ -30,9 +31,9 @@ export const IncomeChart: FC<IProps> = ({ color_selector, income_selector, state
   return (
     <Wrapper>
       <Canvas className={className} ref={inputRef} />
-      <ChartNavWrapper>
+      {/* <ChartNavWrapper>
         <ChartNav options={["before tax", "after tax"]} handleChange={value => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount} />
-      </ChartNavWrapper>
+      </ChartNavWrapper> */}
     </Wrapper>
   )
 }
@@ -44,9 +45,10 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 90rem;
-  height: 20rem;
-  margin-top: 14rem;
+  width: 110rem;
+  height: 23rem;
+  ${props => props.theme.neomorph};
+  border-radius: 15px;
 `
 const Canvas = styled.div`
   width: 90rem;

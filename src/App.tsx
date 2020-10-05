@@ -26,7 +26,10 @@ const App = ({ remove, state, set }) => {
             <Header />
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/login" component={Login} />
-            <Route path="/onboarding" render={() => <Questions data={onboardQuestions_data(pages_data.onboard_data, state, set, progress, remove)} BANANA={createPage(newPageData, state, set, "display", remove)}/>} />
+            <Route
+              path="/onboarding"
+              render={() => <Questions data={onboardQuestions_data(pages_data.onboard_data, state, set, progress, remove)} BANANA={createPage(newPageData, state, set, "display", remove)} />}
+            />
             <Route exact path="/plan" render={() => <Display data={createPage(newPageData, state, set, "display", remove)} />} />
           </BrowserRouter>
         </Content>
@@ -48,11 +51,13 @@ const Wrapper = styled.div`
   min-height: 90vh;
   min-width: 110vh;
 `
-const Content = styled.div`
-  background: #ffffff;
-  background: -webkit-radial-gradient(center, #ffffff, #f3f3f2);
-  background: -moz-radial-gradient(center, #ffffff, #f3f3f2);
-  background: radial-gradient(ellipse at center, #ffffff, #f3f3f2);
+interface Props {}
+
+const Content = styled.div<Props>`
+  background: #e6e6e6;
+  background: -webkit-linear-gradient(bottom right, #e6e6e6, #ffffff);
+  background: -moz-linear-gradient(bottom right, #e6e6e6, #ffffff);
+  background: linear-gradient(to top left, #e6e6e6, #ffffff);
   height: 90rem;
   width: 100%;
 `
