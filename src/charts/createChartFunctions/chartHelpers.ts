@@ -83,6 +83,8 @@ export const getMax = (className, dataObject, state) => {
       return getSavingsBarMax(dataObject)
     case "savingsAreaChart":
       return getSavingsAreaMinMax(dataObject)
+    case "overviewAreaChart":
+      return getSavingsAreaMinMax(dataObject) + 100000
 
       return 100000
   }
@@ -96,6 +98,8 @@ export const getMin = (className, dataObject, state) => {
       return -getSavingsBarMax(dataObject)
     case "savingsAreaChart":
       return 0 //getSavingsAreaMinMax(dataObject)
+    case "overviewAreaChart":
+      return -getSavingsBarMax(dataObject)
   }
 
   return 100000

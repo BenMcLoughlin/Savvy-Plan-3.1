@@ -50,16 +50,20 @@ export default connect(mapStateToProps, { set, remove })(App)
 const Wrapper = styled.div`
   min-height: 90vh;
   min-width: 110vh;
+  background: yellow;
 `
 interface Props {}
 
 const Content = styled.div<Props>`
-  background: #e6e6e6;
-  background: -webkit-linear-gradient(bottom right, #e6e6e6, #ffffff);
-  background: -moz-linear-gradient(bottom right, #e6e6e6, #ffffff);
-  background: linear-gradient(to top left, #e6e6e6, #ffffff);
-  height: 90rem;
+  background: ${props => props.theme.background}
   width: 100%;
+  width: 100%;
+  min-height: 90rem;
+
+  background: #FFFFFF;
+background: -webkit-linear-gradient(top left, #FFFFFF, #F4F4F3);
+background: -moz-linear-gradient(top left, #FFFFFF, #F4F4F3);
+background: linear-gradient(to bottom right, #FFFFFF, #F4F4F3);
 `
 //background: radial-gradient(circle, rgba(227, 229, 230, 1) -20%, rgba(226, 226, 226, 1) 350%);
 
@@ -85,3 +89,8 @@ const Content = styled.div<Props>`
 // background: -webkit-radial-gradient(center, #FFFFFF, #F3F3F2);
 // background: -moz-radial-gradient(center, #FFFFFF, #F3F3F2);
 // background: radial-gradient(ellipse at center, #FFFFFF, #F3F3F2);
+
+// background: #e6e6e6;
+// background: -webkit-linear-gradient(bottom right, #e6e6e6, #ffffff);
+// background: -moz-linear-gradient(bottom right, #e6e6e6, #ffffff);
+// background: linear-gradient(to top left, #e6e6e6, #ffffff);

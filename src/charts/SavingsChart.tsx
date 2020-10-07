@@ -10,20 +10,25 @@ interface IProps {
   state: any
   color_selector: any
   set: (id: string, reducer: string, value: any, childId?: string) => void
-  parent?: string
+  exampleState: any
 }
 
-export const SavingsChart: FC<IProps> = ({ color_selector, state, set }) => {
+export const SavingsChart: FC<IProps> = ({ color_selector, state, exampleState, set }) => {
+
+  if (exampleState) state = exampleState()
+
   const dataObject = getSavings(state)
 
   const { areaData, barData } = getSavingsData(state, dataObject)
+
+  const {selectedPage } = state.ui_reducer
 
   color_selector = { ...color_selector, user2rrsp: "#F29278" }
 
   const inputAreaRef = useRef(null)
   const inputBarRef = useRef(null)
 
-  const areaClassName = "savingsAreaChart"
+  const areaClassName = `${selectedPage}AreaChart`
   const barClassName = "savingsBarChart"
 
   useEffect(() => {
@@ -54,23 +59,22 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 110rem;
-  height: 23rem;
+  width: 100%;
+  height: 100%;
   border-radius: 15px;
 `
 const BarCanvas = styled.div`
-  width: 90rem;
-  height: 7rem;
+  width: 100%;
+  height: 20%;
   position: absolute;
-  top: 14.6rem;
+  top: 80%;
   z-index: 1;
   left: -4rem;
 `
 const AreaCanvas = styled.div`
-  width: 90rem;
-  height: 15rem;
+  width: 100%;
+  height: 80%;
   position: absolute;
-  top: 2rem;
   left: -1rem;
 `
 

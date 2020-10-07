@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import styled from "styled-components"
 import * as charts from "charts"
 import * as components from "components"
-import { AddPrompt, InfoCard, SideNav, TripleSelector, ScenarioSelector, IncomeDisplay } from "components"
+import { AddPrompt, InfoCard, SideNav, TripleSelector, Selector, IncomeDisplay } from "components"
 import { matchThenShowComponent } from "services/display_functions"
 import * as I from "types"
 
@@ -20,7 +20,7 @@ export const Display: FC<IProps> = ({ data, remove, set, state }) => {
 
   return (
     <Wrapper>
-      <ScenarioSelector {...scenarioNav} />
+      <Selector {...scenarioNav} />
       <Nav>
         <SideNav {...sideNav} />
       </Nav>
@@ -81,9 +81,9 @@ const InfoCards = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: start;
-> * {
-  margin-top: 3rem;
-}
+  > * {
+    margin-top: 3rem;
+  }
 `
 
 const Edit = styled.div`

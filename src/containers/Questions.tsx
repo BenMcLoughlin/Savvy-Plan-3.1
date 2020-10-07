@@ -93,7 +93,7 @@ const Content = styled.div`
 `
 const Component = styled.div`
   position: absolute;
-  top: 10rem;
+  top: 16rem;
   left: 0rem;
   width: 80rem;
   justify-content: center;
@@ -124,6 +124,7 @@ const Header = styled.div`
   margin-left: 2rem;
   display: flex;
   flex-direction: column;
+  padding: 3rem;
 `
 const H2 = styled.h2`
   margin-bottom: 2rem;

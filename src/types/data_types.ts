@@ -15,7 +15,8 @@ interface IsideNav {
 interface IscenarioNav {
   handleChange: (value: number) => void
   value: number
-  options: number[]
+  optionArray: string[]
+  labelArray: string[]
 }
 
 interface IaddPrompt {

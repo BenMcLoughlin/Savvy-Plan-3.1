@@ -5,24 +5,28 @@ import { Link } from "react-router-dom"
 export interface IButton {
   label: string
   link: string
+  danger?: boolean
   handleChange?: () => void
 }
 
-export const LinkButton: FC<IButton> = ({ label, link, handleChange }) => (
-  <Wrapper to={link} id="button" onClick={() => handleChange()}>
+export const LinkButton: FC<IButton> = ({ danger, label, link, handleChange }) => (
+  <Wrapper to={link} id="button" onClick={() => handleChange()} danger={danger}>
     {label}
   </Wrapper>
 )
 
 //---------------------------STYLES-------------------------------------------//
 
-const Wrapper = styled(Link)`
+interface Props {
+  danger?: boolean
+}
+
+const Wrapper = styled(Link)<Props>`
   height: 4.2rem;
   min-width: 14rem;
   max-width: 17rem;
   border-radius: 15px;
   box-shadow: 0 1px 2px rgba(0, 0, 0.01, 0.08);
-  color: ${props => props.theme.color.darkGrey};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,7 +35,9 @@ const Wrapper = styled(Link)`
   cursor: pointer;
   outline: none;
   transition: all 0.2s ease-in;
-  text-transform: capitalize;
-  text-decoration: none;
   ${props => props.theme.neomorph};
+  background: ${props => (props.danger ? "grey" : props.theme.color.background )};
+  color: ${props => props.danger ? "white" : "grey"};
+  text-decoration: none;
+  text-transform: capitalize;
 `

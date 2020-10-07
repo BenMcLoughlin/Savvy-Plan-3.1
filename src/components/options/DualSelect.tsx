@@ -50,7 +50,7 @@ export const DualSelect: FC<IProps> = ({ handleChange, handleChange2, option1, o
 
 const Wrapper = styled.div`
   display: inline-flex;
-  height: 3rem;
+  height: 3.5rem;
 \
   box-shadow: rgba(64, 62, 61, 0.05) 0px 3px 10px 0px;
   margin: 0px;
@@ -85,9 +85,9 @@ const Option = styled.div<OProps>`
 `
 const Pill = styled.div<PProps>`
         position: absolute;
-        min-width: 16rem;
-        height: 3rem;
-        background-color: ${props => props.theme.color.primary};
+        min-width: 17rem;
+        height: 3.5rem;
+        background-color: ${props => props.theme.color.steelBlue};
         transform: ${props => (props.selected ? "translate(0,0)" : "translateX(100%)")};
         transition: all .3s ease;
         border-radius: 25px;

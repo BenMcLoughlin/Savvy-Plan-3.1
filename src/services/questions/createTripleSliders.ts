@@ -1,14 +1,18 @@
 import { ageAtSelectedYear } from "services/ui_functions"
-import { addPeriodToSavingsStream } from "services/create_functions"
+import { addPeriodToSavingsStream, addPeriodToIncomeStream } from "services/create_functions"
 import { round } from "services/ui_functions"
 import _ from "lodash"
 import * as I from "types"
 
 export const createTripleSliders = (data, instance: I.instance, set: I.set, state: I.state) => {
-  const { id, periods, owner, reg, streamType } = instance
+  const { id, periods, owner, reg, streamType, selectedPeriod } = instance
 
-  const { selectedPeriod } = state.ui_reducer
-
+  console.log(console.log('selectedPeriod:', selectedPeriod))
+  const optionArray = _.range(0, periods+1).map(d => round(instance[`period${d}Value`])/1000 +"K")
+  const labelArray = _.range(0, periods+1).map(d => `${instance[`period${d}StartYear`]} - ${instance[`period${d}EndYear`]}`)
+console.log('labelArray:', labelArray)
+console.log(_.range(0, 3))
+  console.log(optionArray)
   const { user1BirthYear, user2BirthYear } = state.user_reducer
 
   const birthYear = owner === "user1" ? +user1BirthYear : +user2BirthYear
@@ -18,11 +22,21 @@ export const createTripleSliders = (data, instance: I.instance, set: I.set, stat
     component: "TripleSliderSelector", //very special advanced component tailored for this type of object
     periods,
     valid: true,
-    addLabel: "Add a period where it changed",
     question: data.slidersInput.question,
-    handleChange: () => addPeriodToSavingsStream(state, set),
     selectedPeriod,
-    handlePeriodChange: (period: number) => set("selectedPeriod", "ui_reducer", period),
+    selectorProps: {
+      title:"Different Earning period",
+      explainer:"Think this income stream might change in the future?  Add a new time period with a different value, ignore inflation.",
+      optionArray,
+      value: selectedPeriod,
+      handleChange: (e) => {
+        set(id, 'main_reducer', e, 'selectedPeriod')
+      },
+      addNew: () => addPeriodToIncomeStream(instance, periods, id, set),
+      labelArray,
+
+    },
+
   }
 
   const slidersArray = _.range(periods + 1).map((d: any, i: number) => {

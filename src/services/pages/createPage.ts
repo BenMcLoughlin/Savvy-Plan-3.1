@@ -2,6 +2,7 @@ import { createStream } from "services/create_functions"
 import { createDebtSliders, createTripleSliders, createPropertySliders, createSavingsSliders } from "services/questions/createTripleSliders"
 import * as I from "types"
 import { incomeQuestions_data, spendingQuestions_data, savingsQuestions_data } from "data/questions_data"
+import _ from "lodash"
 
 /**
  * createPage receives state and provides all the information needed to render the <Display> component. It has the name of the chart that needs to be rendered. The details for the info card
@@ -10,10 +11,13 @@ import { incomeQuestions_data, spendingQuestions_data, savingsQuestions_data } f
  * */
 
 export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.parent, remove): any => {
-  const { selectedId, colorIndex, selectedUser, newStream, selectedPage, dualSelectValue, selectedAccount, selectedScenario } = state.ui_reducer
+  const { selectedId, colorIndex, selectedUser, newStream, selectedPage, dualSelectValue, selectedAccount, selectedScenario, scenarios } = state.ui_reducer
 
   const { user1Name, user2Name } = state.user_reducer
   const instance = state.main_reducer[selectedId]
+
+  const scenarioLabels = _.range(scenarios).map(d => state.ui_reducer[`scenarioLabel${d+1}`])
+  const scenarioOptions = _.range(scenarios).map(d => d < 10 ? `0${d}` : ""+d)
 
   const { streamType, chart, addButtonLabel, infoCards } = data
 
@@ -40,7 +44,15 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
         set("selectedScenario", "ui_reducer", value)
       },
       value: selectedScenario,
-      options: [1,2,3],
+      title: "Scenario",
+      optionArray: scenarioOptions,
+      labelArray: scenarioLabels,
+      addNew: (e) => {
+        set('scenarios', 'ui_reducer', scenarios+1)
+        set(`scenarioLabel${scenarios+1}`, 'ui_reducer', "")
+        set(`selectedScenario`, 'ui_reducer', scenarios)
+
+      }
     },
     addPrompt: {
       label: addButtonLabel,

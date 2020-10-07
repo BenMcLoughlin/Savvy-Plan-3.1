@@ -1,7 +1,8 @@
 import React, { FC, useState } from "react"
 import styled from "styled-components"
-import { AddPrompt, MultiSliders, ScrollCircles } from "components"
+import { AddPrompt, MultiSliders, ScrollCircles, Selector } from "components"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
+import {P} from 'styles/Styled-Components'
 
 interface ISliderProps {
   addLabel: string
@@ -11,9 +12,10 @@ interface ISliderProps {
   handleChange: () => void
   handlePeriodChange: (value: number) => void
   selectedPeriod: number
+  selectorProps: any
 }
 
-export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, handleChange, handlePeriodChange, selectedPeriod, slidersArray }) => {
+export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, handleChange, handlePeriodChange, selectedPeriod, slidersArray, selectorProps }) => {
   const [direction, setDirection] = useState<string>("forward")
 
   return (
@@ -31,14 +33,15 @@ export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, hand
         )}
       </TransitionGroup>
       <Change>
-        <ScrollCircles periods={periods + 1} handleChange={value => handlePeriodChange(value)} setDirection={setDirection} position={selectedPeriod} />
-        <AddPrompt
+        <P fontSize={1.4}>{selectorProps.explainer}</P>
+        <Selector {...selectorProps} />
+        {/* <AddPrompt
           handleChange={() => {
             handleChange()
             handlePeriodChange(periods + 1)
           }}
           label={addLabel}
-        />
+        /> */}
       </Change>
     </Wrapper>
   )
@@ -64,9 +67,12 @@ const Center = styled.div`
 
 const Change = styled.div`
   width: 47rem;
-  height: 4rem;
+  height: 14rem;
   display: flex;
   position: absolute;
-  top: 70%;
+  top: 78%;
   left: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `

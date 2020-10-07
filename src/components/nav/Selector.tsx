@@ -1,28 +1,32 @@
 import React, { FC, useState } from "react"
 import styled from "styled-components"
-import _ from "lodash"
+import _, { StringNullableChain } from "lodash"
 import { AddButton } from "components/buttons/AddButton"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 
 interface IProps {
+  optionArray: string[]
   value: number
   handleChange: any
+  title?: string
+  labelArray?: string[]
+  addNew?: () => null
 }
 
-export const ScenarioSelector: FC<IProps> = ({ handleChange, value }) => {
+export const Selector: FC<IProps> = ({ handleChange, value, addNew, optionArray, title, labelArray }) => {
   const [topNumber, setTopNumber] = useState<number>(4)
-
-  const optionArray = _.range(1, topNumber)
-
+console.log('optionArray:', optionArray)
+console.log('labelArray :', labelArray )
+console.log('value:', value)
   return (
     <Wrapper value={value} optionArray={optionArray}>
-      <Title>Scenario</Title>
+      <Title>{title ? title : null}</Title>
       <TransitionGroup1>
-        {optionArray.map(number => (
-          <CSSTransition key={number} timeout={300} classNames={`transition`}>
-            <Number selected={number === value} onClick={() => handleChange(number)}>
-              0{number}
-              <SelectionTitle>Basic</SelectionTitle>
+        {optionArray.map((option,i) => (
+          <CSSTransition key={i} timeout={300} classNames={`transition`}>
+            <Number selected={i === value} onClick={() => handleChange(i)}>
+              {option}
+              <SelectionTitle>{labelArray[i]}</SelectionTitle>
             </Number>
           </CSSTransition>
         ))}
@@ -30,9 +34,7 @@ export const ScenarioSelector: FC<IProps> = ({ handleChange, value }) => {
 
       <AddWrapper>
         <AddButton
-          handleChange={() => {
-            setTopNumber(topNumber + 1)
-          }}
+          handleChange={() => addNew()}
         />
       </AddWrapper>
       <Pill value={value} optionArray={optionArray} />
@@ -44,12 +46,13 @@ export const ScenarioSelector: FC<IProps> = ({ handleChange, value }) => {
 
 interface PProps {
   value: string | number
-  optionArray: number[]
+  optionArray: string[]
 }
 
 const TransitionGroup1 = styled(TransitionGroup)`
   display: flex;
   flex-direction: row;
+  position: relative;
   .transition-enter {
     opacity: 0.01;
     transform: translate(0, -10px);
@@ -84,8 +87,8 @@ interface NProps {
 }
 
 const Number = styled.div<NProps>`
-  height: 5rem;
-  width: 5rem;
+  height: 7rem;
+  width: 7rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -101,11 +104,14 @@ const Title = styled.div`
   font-size: ${props => props.theme.fontSize.small};
   font-weight: 200;
   position: absolute;
-  top: -2rem;
+  top: -4rem;
 `
 const SelectionTitle = styled.div`
-  font-size: .9rem;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
   font-weight: 200;
+  border-top: 0.4px solid grey;
 `
 
 const AddWrapper = styled.div`
@@ -118,14 +124,14 @@ const AddWrapper = styled.div`
 
 const Pill = styled.div<PProps>`
         position: absolute;
-        min-width: 5rem;
-        height: 5rem;
+        min-width: 7rem;
+        height: 7rem;
         top: -4ren;
         left: 0rem;
         border-radius: 10px;
         background: ${props => props.theme.color.background};
         ${props => props.theme.neomorph};
-        transform: ${props => `translate(${(+props.value - 1) * 7}rem, 0)`};
+        transform: ${props => `translate(${(+props.value) * 9}rem, 0)`};
         transition: all .3s ease;
         animation: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) 0s 1 normal forwards running fmdUjs;
 }

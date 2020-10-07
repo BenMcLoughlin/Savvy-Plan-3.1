@@ -7,13 +7,17 @@ const initialState: IUiState = {
   selectedPeriod: 0,
   colorIndex: 0,
   videoUrl: "",
-  progress: 0,
+  progress: 8,
   selectedPage: "savings",
   selectedAccount: "tfsa",
   selectedUser: "user1",
   dualSelectValue: true,
   savingsTransaction: "contribute",
   newStream: false,
+  scenarios: 3,
+  scenarioLabel1: "basic",
+  scenarioLabel2: "Spender",
+  scenarioLabel3: "Saver",
 }
 
 export function ui_reducer(state: IUiState = initialState, action: any): IUiState {
@@ -24,3 +28,6 @@ export function ui_reducer(state: IUiState = initialState, action: any): IUiStat
       return state
   }
 }
+
+
+

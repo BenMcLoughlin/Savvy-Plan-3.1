@@ -16,7 +16,7 @@ export const theme = {
     salmon: "#F29278",
     darkSalmon: "#F07655",
     white: "#FCFCFC",
-    background: "#e6e6e6",
+    background: "#F4F4F3",
   },
   fontSize: {
     smallest: "1rem",
@@ -32,9 +32,11 @@ export const theme = {
   border: {
     primary: "1px solid #DCDCDC",
   },
-  neomorph: `background: #e6e6e6;
-  box-shadow:  20px 20px 60px #c4c4c4, 
-               -20px -20px 60px #ffffff;`,
+  neomorph: `
+  background: #F4F4F3;
+  box-shadow:  19px 19px 38px #b0b0af, 
+               -19px -19px 38px #ffffff;
+               `,
   flexContent: {
     center: "{display: flex; align-items: center; justify-content:center}",
   },

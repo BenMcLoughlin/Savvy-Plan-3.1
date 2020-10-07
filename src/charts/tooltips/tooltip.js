@@ -2,7 +2,9 @@ import * as d3 from "d3"
 import { incomeHtml } from "charts/tooltips/tooltipHtml/incomeHtml"
 import { savingsBarHtml } from "charts/tooltips/tooltipHtml/savingsBarHtml"
 import { savingsAreaHtml } from "charts/tooltips/tooltipHtml/savingsAreaHtml"
+import { overviewHtml } from "charts/tooltips/tooltipHtml/overviewHtml"
 import { getPeakYear } from "charts/createChartFunctions/chartHelpers"
+
 
 export const buildHtml = (className, color, d, dataObject, n, state) => {
                      
@@ -13,19 +15,21 @@ export const buildHtml = (className, color, d, dataObject, n, state) => {
       return savingsBarHtml(d, dataObject, n, state)
     case "savingsAreaChart":
       return savingsAreaHtml(d, dataObject, state)
+    case "overviewAreaChart":
+      return overviewHtml(d, dataObject, state)
   }
 }
 
 export const createBarTooltip = (className, dataObject, hoveredName, state) => {
-console.log('hoveredName:', hoveredName)
+
   const tooltip = d3
     .select(`.${className}`)
     .append("div")
     .attr("class", `${className}tooltip`)
-    .style("opacity", 1)
+    .style("opacity", 0)
     .style("position", "absolute")
-    .style("top", "-100rem")
-    .style("right", "30rem")
+    .style("top", "-1000rem")
+    .style("right", "300rem")
 
   d3.selectAll(`rect`)
     .on("mouseover", (d, i, n) => {
@@ -52,7 +56,7 @@ export const createAreaTooltip = (className, dataObject, graph, state, xScale, y
     .attr("class", `${className}tooltip`)
     .style("opacity", 1)
     .style("position", "absolute")
-    .style("top", "2rem")
+    .style("top", "5rem")
     .style("left", xScale(peakYear.year) - 60 + "px")
     .html(() => buildHtml(className, null, peakYear, dataObject, null, state))
 
@@ -91,7 +95,7 @@ export const createAreaTooltip = (className, dataObject, graph, state, xScale, y
     })
     .on("mousemove", () => {
       tooltip
-        .style("top", 20 + "px") // always 10px below the cursor
-        .style("left", d3.event.layerX - 150 + "px") // always 10px to the right of the mouse
+        .style("top", 50 + "px") // always 10px below the cursor
+        .style("left", () => d3.event.layerX - 150 > 650 ? '650px' : d3.event.layerX - 150 + "px") // always 10px to the right of the mouse
     })
 }

@@ -21,6 +21,6 @@ export const getSavings = (state: I.state): I.savingsObject => {
   //console.log('JSON.stringify(savingsObject):', JSON.stringify(savingsObject, null, 4))
   const END_TIME = new Date().getTime()
   const function_duration = END_TIME - START_TIME
-  console.log("caculateSavings duration:", function_duration)
+  //console.log("caculateSavings duration:", function_duration)
   return savingsObject
 }

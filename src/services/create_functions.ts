@@ -7,7 +7,7 @@ import * as I from "types"
  * It is different than other instances in the same stream because the value is different. Eg. the user may have made less money for the first 5 years of employment, then more later.
  *  */
 
-export const newIncomeStream = (birthYear) => ({
+export const newIncomeStream = (birthYear, selectedScenario) => ({
   name: "",
   periods: 0,
   period0StartYear: 2015,
@@ -15,6 +15,8 @@ export const newIncomeStream = (birthYear) => ({
   period0EndYear: 2035,
   taxable: true,
   cppEligible: true,
+  selectedPeriod: 0,
+  selectedScenario,
 })
 
 /**
@@ -45,7 +47,7 @@ export const newSavingsStream = (birthYear, owner: I.user, reg: I.reg, state: I.
  * newPropertyStream creates a new property object which contains all the details pertaining to a property
  *  */
 
-export const newPropertyStream = (birthYear) => ({
+export const newPropertyStream = birthYear => ({
   currentValue: 300000,
   hasMortgage: "no",
   mortgageRate: 3,
@@ -63,7 +65,7 @@ export const newPropertyStream = (birthYear) => ({
  * newDebtStream creates a new debt object which contains all the details pertaining to a debt
  *  */
 
-export const newDebtStream = (birthYear) => ({
+export const newDebtStream = birthYear => ({
   rate: 10,
   balance: 2000,
   amortization: 40,
@@ -76,7 +78,7 @@ export const newDebtStream = (birthYear) => ({
  * newDebtStream creates a new debt object which contains all the details pertaining to a debt
  *  */
 
-export const createNewStream = (birthYear) => ({
+export const createNewStream = birthYear => ({
   rate: 10,
   balance: 2000,
   amortization: 40,
@@ -93,9 +95,10 @@ export const createNewStream = (birthYear) => ({
 
 export const addPeriodToIncomeStream = (instance: any, period: number, selectedId: any, set: (id: string, reducer: string, value: any, childId?: string) => void): void => {
   set(selectedId, "main_reducer", period + 1, "periods")
-  set(selectedId, "main_reducer", +instance[`period${period}StartYear`] + 3, `period${period + 1}StartYear`)
+  set("selectedPeriod", "ui_reducer", period + 1)
+  set(selectedId, "main_reducer", +instance[`period${period}EndYear`], `period${period + 1}StartYear`)
   set(selectedId, "main_reducer", +instance[`period${period}EndYear`] + 3, `period${period + 1}EndYear`)
-  set(selectedId, "main_reducer", 3000, `period${period + 1}Value`)
+  set(selectedId, "main_reducer", +instance[`period${period}Value`] + 3000, `period${period + 1}Value`)
 }
 export const addPeriodToSavingsStream = (state: I.state, set: (id: string, reducer: string, value: any, childId?: string) => void): void => {
   const { selectedId, savingsTransaction } = state.ui_reducer
@@ -104,8 +107,6 @@ export const addPeriodToSavingsStream = (state: I.state, set: (id: string, reduc
   const { periods, contributePeriods } = instance
 
   const transactionPeriods = savingsTransaction === "contribute" ? contributePeriods : periods
-
-
 
   const transaction = instance.streamType === "savings" && savingsTransaction === "contribute" ? "contribute" : "period"
 
@@ -118,11 +119,12 @@ export const addPeriodToSavingsStream = (state: I.state, set: (id: string, reduc
 }
 
 const newStream = (streamType: I.streamType, birthYear: I.year, owner: I.user, reg: I.reg, state: I.state) => {
+  const { selectedScenario } = state.ui_reducer
   switch (streamType) {
     case "income":
-      return newIncomeStream(birthYear)
+      return newIncomeStream(birthYear, selectedScenario)
     case "spending":
-      return newIncomeStream(birthYear)
+      return newIncomeStream(birthYear, selectedScenario)
     case "savings":
       return newSavingsStream(birthYear, owner, reg, state)
     case "property":
@@ -134,7 +136,7 @@ const newStream = (streamType: I.streamType, birthYear: I.year, owner: I.user, r
 
 export const createStream = (colorIndex: number, set: I.set, streamType: I.streamType, reg: I.reg, owner: I.user, state: I.state): void => {
   const birthYear = state.user_reducer[`${owner}BirthYear`]
-  
+
   let _stream = newStream(streamType, birthYear, owner, reg, state)
 
   //This creates a new Income Instance, such as from ages 18-22

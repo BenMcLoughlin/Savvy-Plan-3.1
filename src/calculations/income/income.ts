@@ -32,10 +32,10 @@ var cachecgetIncome = (function () {
       let secondIncomeObject: I.incomeObject = getSecondIncomeStreamsObject(firstIncomeObject, state, yearFirst, yearLast, users)
       //console.log('JSON.stringify(secondIncomeObject, null, 4):', JSON.stringify(secondIncomeObject, null, 4))
       const afterTaxIncomeObject = getAfterTaxStreamsObject(secondIncomeObject, state, yearFirst, yearLast, users)
-      console.log('JSON.stringify(afterTaxIncomeObject, null, 4):', JSON.stringify(afterTaxIncomeObject, null, 4))
+      //console.log('JSON.stringify(afterTaxIncomeObject, null, 4):', JSON.stringify(afterTaxIncomeObject, null, 4))
       const END_TIME = new Date().getTime()
       const function_duration = END_TIME - START_TIME
-      console.log("cachecgetIncome duration:", function_duration)
+      //console.log("cachecgetIncome duration:", function_duration)
       return (cache[cacheKey] = afterTaxIncomeObject)
     }
   }

@@ -1,6 +1,7 @@
 import root_reducer from "redux/root_reducer"
 import { Action } from "redux"
 import * as I from "types"
+import { NumberLiteralType } from "typescript"
 
 export interface IUiState {
   change: boolean
@@ -16,6 +17,11 @@ export interface IUiState {
   newStream: boolean
   savingsTransaction: string
   dualSelectValue: boolean
+  scenarios: number
+  scenarioLabel1: string
+  scenarioLabel2: string
+  scenarioLabel3: string
+  
 }
 
 export interface IUserState {
@@ -69,6 +75,8 @@ export interface IinstanceCore {
   owner: I.owner
   reg: string
   streamType: string
+  selectedPeriod: number
+  linkedScenarios: number[]
 }
 
 export interface incomeStream extends IinstanceCore {

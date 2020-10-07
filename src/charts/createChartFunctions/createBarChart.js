@@ -19,6 +19,8 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
     periodEnd = instance[`period${selectedPeriod}EndYear`]
   }
 
+  const { hideAxis } = state.ui_reducer
+
   const margin = { top: 30, right: 100, bottom: 20, left: 140 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
@@ -65,7 +67,7 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
     .select(`.${className}`)
     .append("div")
     .attr("class", `${className}tooltip`)
-    .style("opacity", 1)
+    .style("opacity", 0)
     .style("position", "absolute")
     .style("top", "-100rem")
     .style("right", "30rem")
@@ -128,8 +130,11 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       .ticks("2")
       .tickFormat(d => `${d / 1000}k`)
 
-    xAxisGroup.call(xAxis)
-    yAxisGroup.call(yAxis)
+    if (!hideAxis) {
+      yAxisGroup.call(yAxis)
+      yAxisGroup.call(yAxis)
+    }
+
   }
 
   update(data)

@@ -29,6 +29,7 @@ export { Button } from "./buttons/Button"
 export { LinkButton } from "./buttons/LinkButton"
 export { Exit } from "./buttons/Exit"
 export { Next } from "./buttons/Next"
+export { SocialMediaIcons} from "./buttons/SocialMediaIcons"
 
 //Displays
 export { IncomeDisplay } from "./displays/IncomeDisplay"
@@ -55,7 +56,7 @@ export { HeaderNav } from "./nav/HeaderNav"
 export { ProgressBar } from "./nav/ProgressBar"
 export { SideNav } from "./nav/SideNav"
 export { TripleSelector } from "./nav/TripleSelector"
-export { ScenarioSelector } from "./nav/ScenarioSelector"
+export { Selector } from "./nav/Selector"
 
 //Options
 export { DualSelect } from "./options/DualSelect"

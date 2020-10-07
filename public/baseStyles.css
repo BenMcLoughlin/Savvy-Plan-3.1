@@ -205,3 +205,20 @@ input[type="number"]::-webkit-outer-spin-button {
   opacity: 0;
 }
 
+
+.fade-in-enter-active {
+
+  opacity: 1;
+  transition: all 800ms;
+}
+
+.fade-in-exit {
+
+  opacity: 1;
+}
+
+.fade-in-exit-active {
+
+  opacity: 0;
+  transition: all 800ms;
+}

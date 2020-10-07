@@ -13,6 +13,8 @@ export const drawAreaChart = (colors, className, data, dataObject, height, set, 
 
   const stackedKeys = Object.keys(data[0])
 
+  const { hideAxis, selectedPage } = state.ui_reducer
+
   const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
   const graph = svg
@@ -74,18 +76,19 @@ export const drawAreaChart = (colors, className, data, dataObject, height, set, 
       .attr("opacity", "0")
       .raise()
 
-      createAreaTooltip(className, dataObject, graph, state, xScale, yScale)
 
+        createAreaTooltip(className, dataObject, graph, state, xScale, yScale)
+    
     const yAxisGroup = graph.append("g").attr("class", "axis")
 
     const yAxis = d3
       .axisLeft(yScale)
       .ticks("3")
       .tickFormat(d => `${d / 1000}k`)
-
-    yAxisGroup.call(yAxis)
+    if (!hideAxis) {
+      yAxisGroup.call(yAxis)
+    }
   }
 
   update(data)
 }
-

@@ -56,23 +56,6 @@ const Wrapper = styled.div`
   top: 18rem;
   right: 8%;
 
-  .fade-in-enter-active {
-
-    opacity: 1;
-    transition: all 800ms;
-  }
-  
-  .fade-in-exit {
-  
-    opacity: 1;
-  }
-  
-  .fade-in-exit-active {
-  
-    opacity: 0;
-    transition: all 800ms;
-  }
-
 
 `
 
@@ -100,5 +83,7 @@ const ArrowRight = styled(ArrowIosForwardOutline)<validProps>`
 const P = styled.p`
   position: absolute;
   margin-top: 13rem;
+  left: .6rem;
+  width: 12rem;
   font-size: ${props => props.theme.fontSize.small};
 `
