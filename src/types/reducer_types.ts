@@ -21,7 +21,6 @@ export interface IUiState {
   scenarioLabel1: string
   scenarioLabel2: string
   scenarioLabel3: string
-  
 }
 
 export interface IUserState {
@@ -30,7 +29,7 @@ export interface IUserState {
   changeAssumptions: string
   numberOfChildren: number
   gender: string
-  hasChildren: string
+  haveChildren: string
   ownHome: boolean
   inflationRate: number
   maritalStatus: string
@@ -59,7 +58,8 @@ export type TreducerID = keyof IUserState | keyof IUiState | keyof main_reducer
 export interface Iset extends Action {
   type: string
   id: string
-  childId?: string
+  childId1?: string
+  childId2?: string
   value: any
 }
 
@@ -116,6 +116,7 @@ export interface debtStream extends IinstanceCore {
   balance: number
   amortization: number
   payment: number
+  currentValue: number
 }
 
 export type instance = incomeStream | propertyStream | savingsStream | debtStream

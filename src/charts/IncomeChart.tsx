@@ -10,7 +10,7 @@ interface IProps {
   state: I.state
   color_selector: any
   income_selector: any
-  set: (id: string, reducer: string, value: any, childId?: string) => void
+  set: (id: string, reducer: string, value: any, childId1?: string) => void
 }
 
 export const IncomeChart: FC<IProps> = ({ color_selector, income_selector, state, set }) => {

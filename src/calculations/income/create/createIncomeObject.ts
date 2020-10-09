@@ -1,7 +1,7 @@
 import { getYearRange } from "calculations/income/CanadaChildBenefit/CCB.helpers"
 import { getCcb } from "calculations/income/CanadaChildBenefit/CCB.function"
 import { getCpp, getOas } from "calculations/income/CanadaPensionPlan/CPP.function"
-import { getIncomeStreams, sumObjects } from "calculations/income/create/create.helpers"
+import { getStreams, sumObjects } from "calculations/income/create/create.helpers"
 import * as I from "calculations/income/types"
 
 export const getFirstIncomeStreamsObject = (state: I.state, yearFirst: I.year, yearLast: I.year, users: number[]): I.incomeObject => {
@@ -11,9 +11,9 @@ export const getFirstIncomeStreamsObject = (state: I.state, yearFirst: I.year, y
     // loop through year youngest turns 18 to year oldest dies
     users.map(n => {
       //for each user we will create an object with their income details
-      const beforeTaxTaxableIncomeStreams = getIncomeStreams(state, `user${n}`, year, "getTaxable") //creates an object showing all incoem streams, used to sum income
-      const nonTaxableIncomeStreams = getIncomeStreams(state, `user${n}`, year, "getNonTaxable") //creates an object showing all incoem streams, used to sum income
-      const incomeStreamsForCpp = getIncomeStreams(state, `user${n}`, year, "getCpp") //ctreates an object of only CPP eligible income
+      const beforeTaxTaxableIncomeStreams = getStreams(state, `user${n}`, year, "getTaxable") //creates an object showing all incoem streams, used to sum income
+      const nonTaxableIncomeStreams = getStreams(state, `user${n}`, year, "getNonTaxable") //creates an object showing all incoem streams, used to sum income
+      const incomeStreamsForCpp = getStreams(state, `user${n}`, year, "getCpp") //ctreates an object of only CPP eligible income
       const beforeTaxIncome = sumObjects(beforeTaxTaxableIncomeStreams)
       const totalCppIncome = sumObjects(incomeStreamsForCpp)
 

@@ -5,10 +5,10 @@ const initialState = {
   hasUnsecuredDebt: false,
   numberOfChildren: 1,
   gender: "",
-  hasChildren: "",
+  haveChildren: "",
   ownHome: false,
   inflationRate: 2,
-  maritalStatus: "married",
+  maritalStatus: "",
   MER: 2,
   province: "British Columbia",
   rate1: 6,
@@ -24,12 +24,28 @@ const initialState = {
   user2Name: "Kelsey",
   user1OasStartAge: 65,
   user2OasStartAge: 65,
+  user1: {
+    birthYear: 1990,
+    firstName: "",
+    lastName: "",
+    gender: "male",
+    isMarried: true,
+    hasChildren: true,
+  },
+  user2: {
+    birthYear: 1990,
+    firstName: "",
+    lastName: "",
+    gender: "female",
+  },
 }
 
 export function user_reducer(state = initialState, action: any): IUserState {
   switch (action.type) {
     case "user_reducer/SET_VALUE":
-      return { ...state, [action.id]: action.value } //sets a simple key value pair within the reducer object
+      return action.childId1
+        ? { ...state, [action.id]: { ...state[action.id], [action.childId1]: action.value } } //usually this action is just used to change a value within the object
+        : { ...state, [action.id]: action.value } //but if I don't pass it an id then I'm telling it that I want to create a new instance
     default:
       return state
   }

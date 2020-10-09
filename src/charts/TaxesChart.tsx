@@ -4,7 +4,7 @@ import { ChartNav } from "components"
 
 interface IProps {
   state: any
-  set: (id: string, reducer: string, value: any, childId?: string) => void
+  set: (id: string, reducer: string, value: any, childId1?: string) => void
 }
 
 export const TaxesChart: FC<IProps> = ({ state, set }) => {
@@ -12,7 +12,7 @@ export const TaxesChart: FC<IProps> = ({ state, set }) => {
     <Wrapper>
       <Img alt="#" src={require("assets/taxes.png")} style={{ height: "20rem" }} onClick={() => set("selectedId", "ui_reducer", "incomeDummy")} />
       <ChartNavWrapper>
-      <ChartNav options={["Taxes Owing", "Taxes Saved"]} handleChange={(value) => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount}/>
+        <ChartNav options={["Taxes Owing", "Taxes Saved"]} handleChange={value => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount} />
       </ChartNavWrapper>
     </Wrapper>
   )

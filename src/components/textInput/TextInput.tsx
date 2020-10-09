@@ -56,9 +56,11 @@ const Input = styled.input`
   border: none;
   border-radius: 5px;
   background: ${props => props.theme.color.background};
+  color: ${props => props.theme.color.darkGrey}
   box-shadow: 20px 20px 60px #cfcfcf, -20px -20px 60px #ffffff;
   &:focus {
     outline: none;
     border: 1px solid ${props => props.theme.color.green};
+    color: ${props => props.theme.color.darkGrey};
   }
 `

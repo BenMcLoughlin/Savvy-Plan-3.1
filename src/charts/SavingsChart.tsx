@@ -9,19 +9,18 @@ import { getSavingsData } from "calculations/savings/create/createChartArray"
 interface IProps {
   state: any
   color_selector: any
-  set: (id: string, reducer: string, value: any, childId?: string) => void
+  set: (id: string, reducer: string, value: any, childId1?: string) => void
   exampleState: any
 }
 
 export const SavingsChart: FC<IProps> = ({ color_selector, state, exampleState, set }) => {
-
   if (exampleState) state = exampleState()
 
   const dataObject = getSavings(state)
 
   const { areaData, barData } = getSavingsData(state, dataObject)
 
-  const {selectedPage } = state.ui_reducer
+  const { selectedPage } = state.ui_reducer
 
   color_selector = { ...color_selector, user2rrsp: "#F29278" }
 

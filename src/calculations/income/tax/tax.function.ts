@@ -10,7 +10,8 @@ export const getAfterTaxStreamsObject = (income: I.incomeObject, state: I.state,
       const beforeTaxTaxableIncomeStreams = Object.keys(_.omit(income[year][`user${n}`].beforeTaxTaxableIncomeStreams, ["year"]))
       const nonTaxableIncomeStreams = Object.keys(_.omit(income[year][`user${n}`].nonTaxableIncomeStreams, ["year"]))
       //console.log('beforeTaxTaxableIncomeStreams:', beforeTaxTaxableIncomeStreams)
-      const { beforeTaxIncome } = income[year][`user${n}`]
+ 
+      const  beforeTaxIncome  = 22000//income[year][`user${n}`]
 
       const taxRate = getTaxRate(beforeTaxIncome)
 

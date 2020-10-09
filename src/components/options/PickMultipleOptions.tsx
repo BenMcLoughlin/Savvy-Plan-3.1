@@ -5,7 +5,7 @@ import { ArrowLeftS } from "@styled-icons/remix-line"
 interface IProps {
   optionArray?: any
   arrayOfSelected: any
-  set: (id: string, reducer: string, value: any, childId: string) => void
+  set: (id: string, reducer: string, value: any, childId1: string) => void
   remove: (id: string) => void
   handleChange: (selected: any, value: string) => void
   value
@@ -13,7 +13,7 @@ interface IProps {
 
 export const PickMultipleOptions: FC<IProps> = ({ optionArray, arrayOfSelected, handleChange, value }) => {
   const [info, showInfo] = useState<string>("")
-
+console.log(arrayOfSelected)
   return (
     <Wrapper>
       {optionArray &&

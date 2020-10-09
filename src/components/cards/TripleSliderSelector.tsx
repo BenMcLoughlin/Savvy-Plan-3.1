@@ -2,7 +2,7 @@ import React, { FC, useState } from "react"
 import styled from "styled-components"
 import { AddPrompt, MultiSliders, ScrollCircles, Selector } from "components"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
-import {P} from 'styles/Styled-Components'
+import { P } from "styles/Styled-Components"
 
 interface ISliderProps {
   addLabel: string
@@ -11,11 +11,11 @@ interface ISliderProps {
   slidersArray: any
   handleChange: () => void
   handlePeriodChange: (value: number) => void
-  selectedPeriod: number
+  period: number
   selectorProps: any
 }
 
-export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, handleChange, handlePeriodChange, selectedPeriod, slidersArray, selectorProps }) => {
+export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, handleChange, handlePeriodChange, period, slidersArray, selectorProps }) => {
   const [direction, setDirection] = useState<string>("forward")
 
   return (
@@ -23,7 +23,7 @@ export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, hand
       <TransitionGroup>
         {slidersArray.map(
           (d, i) =>
-            i === selectedPeriod && (
+            i + 1 === period && (
               <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
                 <Center>
                   <MultiSliders key={i} {...d} />

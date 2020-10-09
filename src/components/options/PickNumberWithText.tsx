@@ -6,7 +6,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group"
 
 interface IProps {
   handleChange: (selected: any, value: string) => void
-  handleChange2: (event: any, childId: string) => null
+  handleChange2: (event: any, childId1: string) => null
   value: number
 }
 
@@ -18,8 +18,8 @@ export const PickNumberWithText: FC<IProps> = ({ handleChange, handleChange2, va
         <TransitionGroup1 value={value}>
           {_.range(1, value + 1).map(d => (
             <CSSTransition key={d} timeout={300} classNames={`transition`}>
-              <TextInput handleChange={e => handleChange2(e, `child${d}BirthYear`)} type="year" label={`childNumber${d}BirthYear`} valid={true} value={"value"} />
-            </CSSTransition>
+                          <TextInput handleChange={e => handleChange2(e, `child${d}BirthYear`)} type="year" label={`childNumber${d}BirthYear`} valid={true} value={"value"} />
+   </CSSTransition>
           ))}
         </TransitionGroup1>
       </TextBoxes>
@@ -42,10 +42,10 @@ const TransitionGroup1 = styled(TransitionGroup)<Props>`
   min-height: 20rem;
   flex-wrap: wrap;
   justify-content: start;
-  width:  70rem;
-  transform: ${props => props.value > 1 ? "translate(-10rem,0)" : null};
-  transition: all .3s ease;
-  > * { 
+  width: 70rem;
+  transform: ${props => (props.value > 1 ? "translate(-10rem,0)" : null)};
+  transition: all 0.3s ease;
+  > * {
     margin-top: 2rem;
     margin-left: 2rem;
   }

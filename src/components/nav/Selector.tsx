@@ -14,17 +14,13 @@ interface IProps {
 }
 
 export const Selector: FC<IProps> = ({ handleChange, value, addNew, optionArray, title, labelArray }) => {
-  const [topNumber, setTopNumber] = useState<number>(4)
-console.log('optionArray:', optionArray)
-console.log('labelArray :', labelArray )
-console.log('value:', value)
   return (
     <Wrapper value={value} optionArray={optionArray}>
       <Title>{title ? title : null}</Title>
       <TransitionGroup1>
         {optionArray.map((option,i) => (
           <CSSTransition key={i} timeout={300} classNames={`transition`}>
-            <Number selected={i === value} onClick={() => handleChange(i)}>
+            <Number selected={i === value} onClick={() => handleChange(i+1)}>
               {option}
               <SelectionTitle>{labelArray[i]}</SelectionTitle>
             </Number>
@@ -34,7 +30,10 @@ console.log('value:', value)
 
       <AddWrapper>
         <AddButton
-          handleChange={() => addNew()}
+          handleChange={() => {
+            handleChange(value+1)
+            addNew()}
+          }
         />
       </AddWrapper>
       <Pill value={value} optionArray={optionArray} />
@@ -53,6 +52,7 @@ const TransitionGroup1 = styled(TransitionGroup)`
   display: flex;
   flex-direction: row;
   position: relative;
+  margin-top: 3rem;
   .transition-enter {
     opacity: 0.01;
     transform: translate(0, -10px);
@@ -80,7 +80,7 @@ const Wrapper = styled.div<PProps>`
   align-items: center;
   position: relative;
   top: 5rem;
-  left: 12rem;
+  left: 0rem;
 `
 interface NProps {
   selected: boolean
@@ -126,8 +126,8 @@ const Pill = styled.div<PProps>`
         position: absolute;
         min-width: 7rem;
         height: 7rem;
-        top: -4ren;
-        left: 0rem;
+        margin-top: 3rem;
+        left: -9rem;
         border-radius: 10px;
         background: ${props => props.theme.color.background};
         ${props => props.theme.neomorph};

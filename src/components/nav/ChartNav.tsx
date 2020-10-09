@@ -8,7 +8,7 @@ interface IProps {
   options: string[]
   handleChange: (value) => void
   value: string
-  // set: (id: string, reducer: string, value: any, childId?: string) => void
+  // set: (id: string, reducer: string, value: any, childId1?: string) => void
 }
 
 /**
@@ -16,11 +16,10 @@ interface IProps {
  *  */
 
 export const ChartNav: FC<IProps> = ({ handleChange, options, value }) => {
-
   const { length } = options
   return (
     <Wrapper length={length}>
-      {options.map((d,i) => (
+      {options.map((d, i) => (
         <Option key={i} onClick={() => handleChange(d)} selected={value === d}>
           {d}
         </Option>

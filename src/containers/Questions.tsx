@@ -25,7 +25,6 @@ export const Questions: FC<IProps> = ({ BANANA, data, state, set }) => {
   const nextProps = nextButtonProps(progress, questions, state, set)
   const backProps = backButtonProps(progress, set)
 
- console.log('data.questions[progress]:', data.questions[progress].editChart)
   if (progress === length - 2) return <Redirect to="/plan" />
 
   return (

@@ -1,3 +1,55 @@
+export const q_data = {
+  income: {
+    name: {
+      new: {
+        question: "Where does this income come from?",
+        explanation: 'Examples could be if you work as an Engineer, you could say "Engineering". Or name if after the employer that pays you, like "Wal Mart".',
+        label: "Source of Income",
+        placeholder: "Income Name",
+      },
+      edit: {
+        question: "Would you like to change the name of this income?",
+        explanation: 'Examples could be if you work as an Engineer, you could say "Engineering". Or name if after the employer that pays you, like "Wal Mart".',
+        label: "Source of Income",
+        placeholder: "Income Name",
+      },
+    },
+    reg: {
+      new: {
+        question: "What kind of income is it?",
+        explanation: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
+        optionArray: ["Regular Employment", "Business Income", "Investment Income", "Rental Income"],
+      },
+      edit: {
+        question: "What kind of income is it?",
+        explanation: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
+        optionArray: ["Regular Employment", "Business Income", "Investment Income", "Rental Income"],
+      },
+    },
+    q2: {
+      question: "What kind of income is it?",
+      explanation: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
+      optionArray: ["Regular Employment", "Business Income", "Investment Income", "Rental Income"],
+    },
+    q3: {
+      question: "What kind of income is it?",
+      explanation: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
+      optionArray: ["Regular Employment", "Business Income", "Investment Income", "Rental Income"],
+    },
+    qFinal: {
+      question: "Would you like to add another income source?",
+      explanation: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
+    },
+    slidersInput: {
+      question: "We need estimates of the past, present and future of this income source.",
+      explanation: "Knowing your future income helps us determine your pension income",
+      topLabelPast: "I earned",
+      topLabelFuture: "I hope to earn",
+      bottomLabel: "before tax per year",
+    },
+  },
+}
+
 export const incomeQuestions_data = {
   streamType: "income",
   q1: {
@@ -159,7 +211,7 @@ export const debtQuestions_data = {
 
 export const onboard_data = {
   intro: {
-    subTitle: 'Our goal is to answer one question for you, are you ok finanically?  ',
+    subTitle: "Our goal is to answer one question for you, are you ok finanically?  ",
     question: "Lets build you a financial Plan",
     label: "continue",
   },
@@ -176,11 +228,17 @@ export const onboard_data = {
     question: "What's your Birth Year?",
     placeholder: "YYYY",
   },
-  user1BirthGender: {
+  user1Gender: {
     optionArray: ["male", "female", "prefer not to say", "write below"],
     explanation: "We want to ensure our planning process is inclusive.",
     component: "PickSingleOption",
     question: "What's your Gender?",
+  },
+  user2Gender: {
+    optionArray: ["male", "female", "prefer not to say", "write below"],
+    explanation: "We want to ensure our planning process is inclusive.",
+    component: "PickSingleOption",
+    question: "What's your spouse's Gender?",
   },
   maritalStatus: {
     optionArray: ["single", "married", "common-law", "write below"],
@@ -208,7 +266,7 @@ export const onboard_data = {
     question: "Do you have children?",
     textInput: false,
   },
-  numberOfChildren: {
+  haveChildren: {
     optionArray: ["yes", "no", "hope to eventually", "yes, and they are over 18"],
     explanation1: "We'd like to estimate your government child benefits.",
     explanation2: "Just guessing is fine, it will give you an idea of the impact of government benefits on your plan. You can always change it later. ",
@@ -216,82 +274,72 @@ export const onboard_data = {
     textInput: false,
   },
   user1Income: {
-    explanation:
-      "",
+    explanation: "",
     subTitle: "We'll use this to build a chart showings your income streams and estimate your pension income.",
     question: "We need some details about your income.",
     label: "lets go",
   },
   addUser2Income: {
-    explanation:
-      "",
+    explanation: "",
     subTitle: "",
     question: "Would you like to add your spouses income?",
     label: "lets go",
   },
   user1IncomeChart1: {
-    explanation:
-      "",
-    subTitle: "Each color represents a source of income that we'll call a stream. The goal is to transition the streams from income that you have to work for, to income you don't have to work for such as pension, rental property or savings income. Once all you're streams are from passive sources you no longer have to work.",
+    explanation: "",
+    subTitle:
+      "Each color represents a source of income that we'll call a stream. The goal is to transition the streams from income that you have to work for, to income you don't have to work for such as pension, rental property or savings income. Once all you're streams are from passive sources you no longer have to work.",
     question: "This chart shows your income for each year",
   },
   user1IncomeChart2: {
-    explanation:
-      "",
-    subTitle: "The red stream is our estimate of your Canada Pension Plan. This is based on your earnings over your lifetime, that's why we need you to estimate your income in the past and future. The more you earn the higher it will be.",
+    explanation: "",
+    subTitle:
+      "The red stream is our estimate of your Canada Pension Plan. This is based on your earnings over your lifetime, that's why we need you to estimate your income in the past and future. The more you earn the higher it will be.",
     question: "Canada Pension Plan",
   },
   user1IncomeChart3: {
-    explanation:
-      "",
-    subTitle: "The darker bars are your Old Age Security. If you earn too much money in retirement this will be taken away. Our goal is to build a savings plan that keeps you in the lowest tax bracket in retirement so that you can keep your OAS.",
+    explanation: "",
+    subTitle:
+      "The darker bars are your Old Age Security. If you earn too much money in retirement this will be taken away. Our goal is to build a savings plan that keeps you in the lowest tax bracket in retirement so that you can keep your OAS.",
     question: "Old Age Security",
   },
   user1IncomeChart4: {
-    explanation:
-      "",
+    explanation: "",
     subTitle: "We've added your savings withdrawals to the chart",
     question: "Income with savings",
   },
   user2IncomeChart1: {
-    explanation:
-      "",
+    explanation: "",
     subTitle: "If there are large differences between you and your spouse's income we can calculate tax savings strategies to reduce your taxes",
     question: "Here we can see your spouses income",
   },
   user2IncomeChart2: {
-    explanation:
-      "",
+    explanation: "",
     subTitle: "If there are large differences between you and your spouse's income we can calculate tax savings strategies to reduce your taxes",
     question: "Here we can see your spouses income",
   },
   user1SavingsChart1: {
-    explanation:
-      "",
+    explanation: "",
     subTitle: "This chart shows an estimate of your savings account value along with your contributions and withdrawals below. ",
     question: "Your Savings Contributions",
   },
   user1SavingsChart2: {
-    explanation:
-      "",
+    explanation: "",
     subTitle: "This chart shows an estimate of your savings account value along with your contributions and withdrawals below. ",
     question: "Your Withdrawals",
   },
   user2SavingsChart1: {
-    explanation:
-      "",
+    explanation: "",
     subTitle: "This chart shows an estimate of your savings account value along with your contributions and withdrawals below. ",
     question: "Your Savings Contributions",
   },
   user2SavingsChart2: {
-    explanation:
-      "",
+    explanation: "",
     subTitle: "This chart shows an estimate of your savings account value along with your contributions and withdrawals below. ",
     question: "Your Withdrawals",
   },
   user2Income: {
-    explanation:
-      "",
+    explanation: "",
     subTitle: "We'll use this to build a chart showings your income streams and estimate your pension income.",
     question: "Would you like to add your spouses income?",
     label: "lets go",

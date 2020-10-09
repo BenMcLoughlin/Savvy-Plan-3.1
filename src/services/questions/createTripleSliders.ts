@@ -1,18 +1,93 @@
 import { ageAtSelectedYear } from "services/ui_functions"
-import { addPeriodToSavingsStream, addPeriodToIncomeStream } from "services/create_functions"
+import { addPeriodToSavingsStream, addPeriodToIncomeStream, addPeriodToStreamV2 } from "services/create_functions"
 import { round } from "services/ui_functions"
 import _ from "lodash"
 import * as I from "types"
 
+export const createTripleSlidersV2 = (data: any, stream: any, set: I.set, state: I.state) => {
+  const { id, owner, period, flow } = stream
+
+  const periods = +Object.keys(stream[flow]).pop()
+
+  const optionArray = _.range(1, periods + 1).map(d => round(stream[flow][d].value)/1000 +"K")
+
+  const labelArray = _.range(1, periods + 1).map(d => `${stream[flow][d].start} - ${stream[flow][d].end}`)
+
+  const { user1BirthYear, user2BirthYear } = state.user_reducer
+
+  const birthYear = owner === "user1" ? +user1BirthYear : +user2BirthYear
+
+  const editPeriod = {
+    explanation: data.slidersInput.explanation,
+    component: "TripleSliderSelector", //very special advanced component tailored for this type of object
+    periods,
+    valid: true,
+    question: data.slidersInput.question,
+    period,
+    selectorProps: {
+      title: "Different Earning period",
+      explainer: "Think this income stream might change in the future?  Add a new time period with a different value, ignore inflation.",
+      optionArray,
+      value: period,
+      handleChange: (e) => set(id, "main_reducer", e, 'period'),
+      addNew:  () => addPeriodToStreamV2(flow, id, period, set, stream),
+      labelArray,
+    },
+  }
+
+  const slidersArray = _.range(periods).map((d: any, i: number) => {
+    const startYear = stream[flow][period].start
+    const endYear = stream[flow][period].end
+    const value = stream[flow][period].value
+
+    const currentYear = new Date().getFullYear() //the text needs to be able to refer to the income being earned in the past or in the future, so we will use this to test that
+
+    let past = currentYear > startYear 
+
+    return {
+      component: "MultiSliders",
+      num: 3,
+      slider1: {
+        bottomLabel: `at age ${startYear - birthYear}`, //eg "at age 26"
+        max: 2080,
+        min: birthYear + 18, //if its the first one then just 2020, otherwise its the period priors last year
+        step: 1,
+        topLabel: period === 1 ? "starting in" : "then in", //for the first one we want to say "starting in" but after they add changes we want it to say "then in"
+        type: "year",
+        value: startYear,
+        handleChange: (value: number) => set(id, "main_reducer", value, flow, period, 'start'),
+      },
+      slider2: {
+        bottomLabel: data.slidersInput.bottomLabel,
+        max: 250000,
+        min: 0,
+        step: 1000,
+        topLabel: past ? data.slidersInput.topLabelPast : data.slidersInput.topLabelFuture,
+        value: value,
+        handleChange: (value: number) => set(id, "main_reducer", value, flow, period, 'value'),
+      },
+      slider3: {
+        bottomLabel: `at age ${endYear - birthYear}`, //eg "at age 26"
+        max: 2080,
+        min: startYear,
+        step: 1,
+        topLabel: "Until ",
+        type: "year",
+        value: endYear,
+        handleChange: (value: number) => set(id, "main_reducer", value, flow, period, 'end'),
+      },
+    }
+  })
+
+  return { ...editPeriod, slidersArray }
+}
+
 export const createTripleSliders = (data, instance: I.instance, set: I.set, state: I.state) => {
   const { id, periods, owner, reg, streamType, selectedPeriod } = instance
 
-  console.log(console.log('selectedPeriod:', selectedPeriod))
-  const optionArray = _.range(0, periods+1).map(d => round(instance[`period${d}Value`])/1000 +"K")
-  const labelArray = _.range(0, periods+1).map(d => `${instance[`period${d}StartYear`]} - ${instance[`period${d}EndYear`]}`)
-console.log('labelArray:', labelArray)
-console.log(_.range(0, 3))
-  console.log(optionArray)
+  const optionArray = _.range(0, periods + 1).map(d => round(instance[`period${d}Value`]) / 1000 + "K")
+  const labelArray = _.range(0, periods + 1).map(d => `${instance[`period${d}StartYear`]} - ${instance[`period${d}EndYear`]}`)
+
   const { user1BirthYear, user2BirthYear } = state.user_reducer
 
   const birthYear = owner === "user1" ? +user1BirthYear : +user2BirthYear
@@ -25,18 +100,16 @@ console.log(_.range(0, 3))
     question: data.slidersInput.question,
     selectedPeriod,
     selectorProps: {
-      title:"Different Earning period",
-      explainer:"Think this income stream might change in the future?  Add a new time period with a different value, ignore inflation.",
+      title: "Different Earning period",
+      explainer: "Think this income stream might change in the future?  Add a new time period with a different value, ignore inflation.",
       optionArray,
       value: selectedPeriod,
-      handleChange: (e) => {
-        set(id, 'main_reducer', e, 'selectedPeriod')
+      handleChange: e => {
+        set(id, "main_reducer", e, "selectedPeriod")
       },
       addNew: () => addPeriodToIncomeStream(instance, periods, id, set),
       labelArray,
-
     },
-
   }
 
   const slidersArray = _.range(periods + 1).map((d: any, i: number) => {

@@ -89,3 +89,126 @@ describe("CPP calculation is in line with with Dougs", function () {
   // it("born 1988, 30k 2006-2032, 58k 2020 - 2052, 90k 2038-2052 should be 14,266.69 ", () =>
   //   expect(getIncome(mockState)[2070].user2.beforeTaxTaxableIncomeStreams.user2CppBenefit.toFixed(2)).toEqual("14266.69"))
 })
+
+
+const mockState = {
+  user_reducer: {
+    user1BirthYear: 1988,
+    user1LifeSpan: 95,
+    user1CppStartAge: 65,
+    user1OasStartAge: 65,
+    user2BirthYear: 1988,
+    user2LifeSpan: 95,
+    user2CppStartAge: 65,
+    user2OasStartAge: 65,
+    maritalStatus: "single",
+    child1BirthYear: 2020,
+    child2BirthYear: 2034,
+  },
+  ui_reducer: {
+    selectedAccount: "beforeTax",
+    selectedUser: "user1",
+  },
+  main_reducer: {
+    //TEST 1 - confirmation documentation found in CPP docs
+    user1Income_13719: {
+      balance: 0,
+      color: "",
+      cppImpact: "",
+      in: {
+        '1': {
+          start: 2020, 
+          value: 20000, 
+          end: 2030,
+        },
+      },
+      id: "user1Income_13719",
+      owner: "user1",
+      out: {
+        '1': {
+          start: 2020, 
+          value: 20000, 
+          end: 2030,
+        },
+      },
+      payment: 0,
+      streamType: "Income",
+      rate: 0,
+      reg: "",
+      taxable: true,
+      startValue: 0,
+      startYear: 0,
+      period: 1,
+      flow: 'in',
+      scenarios: 0,
+      amortization: 0,
+      name: "",
+    },
+    user2Income_13719: {
+      balance: 0,
+      color: "",
+      cppImpact: "",
+      in: {
+        '1': {
+          start: 2020, 
+          value: 20000, 
+          end: 2030,
+        },
+      },
+      id: "user2Income_13719",
+      owner: "user1",
+      out: {
+        '1': {
+          start: 2020, 
+          value: 20000, 
+          end: 2030,
+        },
+      },
+      payment: 0,
+      streamType: "Income",
+      rate: 0,
+      reg: "",
+      taxable: true,
+      startValue: 0,
+      startYear: 0,
+      period: 1,
+      flow: 'in',
+      scenarios: 0,
+      amortization: 0,
+      name: "",
+    },
+    user1Savings_817009: {
+      balance: 0,
+      color: "",
+      cppImpact: "",
+      in: {
+        '1': {
+          start: 2020, 
+          value: 20000, 
+          end: 2030,
+        },
+      },
+      id: "user1Savings_817009",
+      owner: "user1",
+      out: {
+        '1': {
+          start: 2020, 
+          value: 20000, 
+          end: 2030,
+        },
+      },
+      payment: 0,
+      streamType: "savings",
+      rate: 0,
+      reg: "",
+      taxable: true,
+      startValue: 0,
+      startYear: 0,
+      period: 1,
+      flow: 'in',
+      scenarios: 0,
+      amortization: 0,
+      name: "",
+    },
+  },
+}

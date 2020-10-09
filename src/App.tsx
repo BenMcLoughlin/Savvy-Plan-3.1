@@ -50,7 +50,6 @@ export default connect(mapStateToProps, { set, remove })(App)
 const Wrapper = styled.div`
   min-height: 90vh;
   min-width: 110vh;
-  background: yellow;
 `
 interface Props {}
 

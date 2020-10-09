@@ -115,7 +115,8 @@ const dummyIncome = {
 }
 
 describe("Confirms getCcb is in line with CRA calculations", function () {
-  it("is a dummy", () => expect(1).toEqual(1))
+  it("MOCK TEST", () => expect(1).toEqual(1))
+  //it("is a dummy", () => expect(1).toEqual(1))
   // it("checks 2019, 90k, 2 kids", () => expect(getCcb(dummyIncomeObject, [2012, 2020], 2025)).toEqual(6052.339)) //these values were recived from this calculator https://www.canada.ca/en/revenue-agency/services/child-family-benefits/child-family-benefits-calculator.html
   // it("checks 2020, 60k, 2 kids", () => expect(getCcb(dummyIncome, dummyState)[2020].netBenefit).toEqual(8653.985))
 })
