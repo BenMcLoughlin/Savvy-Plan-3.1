@@ -1,17 +1,17 @@
 import React from "react"
 import styled from "styled-components"
-import { Header, Footer, Login } from "components"
+import { Header, Footer, Login } from "view/components"
 import { ThemeProvider } from "styled-components"
-import { theme } from "styles/theme"
-import { Questions, Display, LandingPage } from "containers"
+import { theme } from "model/styles/theme"
+import { Questions, Display, LandingPage } from "view/containers"
 import { Route } from "react-router-dom"
 import { BrowserRouter } from "react-router-dom"
 import * as pages_data from "data"
-import { createPage } from "services/pages/createPage"
-import { onboardQuestions_data } from "services/questions/onboardQuestions"
+import { createPage } from "model/services/pages/createPage"
+import { onboard_questions } from "controller/questions/onboarding"
 import { connect } from "react-redux"
-import * as I from "types"
-import { set, remove } from "redux/actions"
+import * as I from "model/types"
+import { set, remove } from "model/redux/actions"
 
 const App = ({ remove, state, set }) => {
   const { progress, selectedPage } = state.ui_reducer
@@ -28,7 +28,7 @@ const App = ({ remove, state, set }) => {
             <Route exact path="/login" component={Login} />
             <Route
               path="/onboarding"
-              render={() => <Questions data={onboardQuestions_data(pages_data.onboard_data, state, set, progress, remove)} BANANA={createPage(newPageData, state, set, "display", remove)} />}
+              render={() => <Questions data={onboard_questions(pages_data.onboard_data, state, set, progress, remove)} />}
             />
             <Route exact path="/plan" render={() => <Display data={createPage(newPageData, state, set, "display", remove)} />} />
           </BrowserRouter>

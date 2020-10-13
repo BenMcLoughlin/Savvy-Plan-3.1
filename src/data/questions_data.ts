@@ -116,6 +116,45 @@ export const savingsQuestions_data = {
     topLabelFuture: "I aim to withdraw",
     bottomLabel: "Per Year",
   },
+  savingsAccountsArray: [
+    {
+      label: "tax free savings account",
+      reg: "TFSA",
+      info:
+        "The TFSa enables you to  avoid taxes on the gains you make. If you invest $100 right now and it becomes $1000 by the time you retire, that $900 you'll have earned is tax-free. You can also take money out any time you want. There is no penalty to withdraw - and if you do, the amount is added to how much you can contribute the following year.",
+    },
+    {
+      label: "registered retirement savings",
+      reg: "RRSP",
+      info:
+        "A popular retirement account designed to help Canadians save for retirement. The money you contribute to your RRSP is “pre-tax.” That means that you can subtract the amount you contribute from your income and pay less in income taxes. If you made $60,000 and you contributed $5,000 to your RRSP, you will pay tax on only $55,000 of income.",
+    },
+    {
+      label: "personal",
+      reg: "Personal",
+      info:
+        "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
+    },
+    {
+      label: "Locked in Retirement Account",
+      reg: "LIRA",
+      info:
+        "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
+    },
+    {
+      label: "Pension",
+      reg: "Pension",
+      info:
+        "Personal accounts are investment accounts that are taxable. They don't have government benefits like tax savings or deferrals, but there are no restrictions on when and how you can withdraw money",
+    },
+    {
+      label: "RESP",
+      reg: "RESP",
+      info:
+        "A popular savings account for parents or family members to save money for their children's education. With an RESP, the government will match your contributes and anything you earn through investing is earned tax-free. As always, there are rules and limitations.",
+    },
+    { label: "none", reg: "none" },
+  ],
 }
 
 export const spendingQuestions_data = {
@@ -155,7 +194,7 @@ export const propertyQuestions_data = {
   streamType: "property",
   q1: {
     question: "What should we call this property?",
-    explanation: "The name will show up in our charts",
+    explanation: "The name will show up in our view/charts",
     label: "Property Name",
   },
   q2: {
@@ -241,7 +280,7 @@ export const onboard_data = {
     question: "What's your spouse's Gender?",
   },
   maritalStatus: {
-    optionArray: ["single", "married", "common-law", "write below"],
+    optionArray: ["single", "married", "common-law"],
     explanation: "Having a spouse has a large impact on your plan",
     component: "PickSingleOption",
     question: "What's your marital status?",
@@ -283,7 +322,7 @@ export const onboard_data = {
     explanation: "",
     subTitle: "",
     question: "Would you like to add your spouses income?",
-    label: "lets go",
+    label: "Sure",
   },
   user1IncomeChart1: {
     explanation: "",
@@ -342,7 +381,7 @@ export const onboard_data = {
     explanation: "",
     subTitle: "We'll use this to build a chart showings your income streams and estimate your pension income.",
     question: "Would you like to add your spouses income?",
-    label: "lets go",
+    label: "Sure",
   },
   user1Savings: {
     explanation: "We'll use this info to see how much income in retirement your investments will provide",
@@ -355,4 +394,80 @@ export const onboard_data = {
     question: "Do you have any unsecured debt?",
     explanation: "This is debt that isn't secured on a property. Examples are credit card debt, student loans, or lines of credit.",
   },
+}
+
+export const q_dataV2 = (user, state) => {
+  const isUser1 = user === "user1"
+  
+  return ({
+  [user]: {
+    name: {
+      explanation: "This helps us personalize your plan.",
+      label: "First Name",
+      question: isUser1 ? "What's your first name?" : "What's your sspouse's first name?",
+      placeholder: "Name",
+    },
+    birthYear: {
+      explanation: "This forms the basis of our financial calculations.",
+      component: "TextInput",
+      label: "Birth Year",
+      question: isUser1 ? "What's your birth year?" : "What's your sspouse's birth year?",
+      placeholder: "YYYY",
+    },
+    gender: {
+      optionArray: ["male", "female", "prefer not to say", "write below"],
+      explanation: "We want to ensure our planning process is inclusive.",
+      component: "PickSingleOption",
+      question: isUser1 ? "What's your gender?" : "What's your sspouse's gender?",
+    },
+    maritalStatus: {
+      optionArray: ["single", "married", "common-law"],
+      explanation: "Having a spouse has a large impact on your plan",
+      component: "PickSingleOption",
+      question: "Are you married?",
+    },
+    theyHaveChildren: {
+      optionArray: ["yes", "no", "hope to eventually", "yes, and they are over 18"],
+      explanation: "We'd like to estimate your government child benefits. Even if you only plan on having children its helpful to know so we can show you how it will impact your finances.",
+      component: "PickSingleOption",
+      question: "Do you have children?",
+      textInput: false,
+    },
+    numberOfChildren: {
+      optionArray: ["yes", "no", "hope to eventually", "yes, and they are over 18"],
+      explanation1: "We'd like to estimate your government child benefits.",
+      explanation2: "Just guessing is fine, it will give you an idea of the impact of government benefits on your plan. You can always change it later. ",
+      question: "How many children?",
+      textInput: false,
+    },
+    income: {
+      explanation: "",
+      subTitle: "We'll use this to build a chart showings your income streams and estimate your pension income.",
+      question: "We need some details about your income.",
+      label: "lets go",
+      name: {
+        question: "Where does this income come from?",
+        explanation: 'Examples could be if you work as an Engineer, you could say "Engineering". Or name if after the employer that pays you, like "Wal Mart".',
+        label: "Source of Income",
+        placeholder: "Income Name",
+      },
+      registration: {
+        question: "What kind of income is it?",
+        explanation: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
+        optionArray: ["Regular Employment", "Business Income", "Investment Income", "Rental Income"],
+      },
+      amount: {
+        question: "We need estimates of the past, present and future of this income source.",
+        explanation: "Knowing your future income helps us determine your pension income",
+        topLabelPast: "I earned",
+        topLabelFuture: "I hope to earn",
+        bottomLabel: "before tax per year",  
+      },
+      addAnother: {
+        question: "Would you like to add another income source?",
+        explanation: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",  
+      }
+    }
+  }
+})
 }

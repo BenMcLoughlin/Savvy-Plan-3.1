@@ -1,0 +1,42 @@
+import { set } from "model/redux/actions"
+import { compose } from "redux"
+import { connect } from "react-redux"
+import * as I from "model/types"
+
+//Import Selectors
+import { income_selector, color_selector } from "model/selectors/income_selector"
+
+import { IncomeChart as _IncomeChart } from "view/charts/IncomeChart"
+import { SavingsChart as _SavingsChart } from "view/charts/SavingsChart"
+import { NetWorthChart as _NetWorthChart } from "view/charts/NetWorthChart"
+import { TaxesChart as _TaxesChart } from "view/charts/TaxesChart"
+import { SpendingChart as _SpendingChart } from "view/charts/SpendingChart"
+
+const mapStateToProps = (state: I.state) => ({
+  state,
+  income_selector: income_selector(state),
+  color_selector: color_selector(state),
+})
+
+export const IncomeChart = compose(connect(mapStateToProps, { set }))(_IncomeChart)
+/**
+ * The <SavingsChart> renders a chart showing the users savings from age 18-95.
+ *  */
+
+export const SavingsChart = compose(connect(mapStateToProps, { set }))(_SavingsChart)
+
+/**
+ * The <NetWorthChart> renders a chart showing the users net worth from current age until  95.
+ *  */
+
+export const NetWorthChart = compose(connect(mapStateToProps, { set }))(_NetWorthChart)
+/**
+ * The <TaxesChart> renders a chart showing the users Taxes from current age until  95.
+ *  */
+
+export const TaxesChart = compose(connect(mapStateToProps, { set }))(_TaxesChart)
+/**
+ * The <SpendingChart> renders a chart showing the users spending from current age until  95.
+ *  */
+
+export const SpendingChart = compose(connect(mapStateToProps, { set }))(_SpendingChart)
