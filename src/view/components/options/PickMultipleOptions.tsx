@@ -13,7 +13,7 @@ interface IProps {
 
 export const PickMultipleOptions: FC<IProps> = ({ optionArray, arrayOfSelected, handleChange, value }) => {
   const [info, showInfo] = useState<string>("")
-console.log(arrayOfSelected)
+
   return (
     <Wrapper>
       {optionArray &&

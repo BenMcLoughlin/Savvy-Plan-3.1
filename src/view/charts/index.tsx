@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import * as I from "model/types"
 
 //Import Selectors
-import { income_selector, color_selector } from "model/selectors/income_selector"
+import { color_selector } from "model/selectors"
 
 import { IncomeChart as _IncomeChart } from "view/charts/IncomeChart"
 import { SavingsChart as _SavingsChart } from "view/charts/SavingsChart"
@@ -14,7 +14,6 @@ import { SpendingChart as _SpendingChart } from "view/charts/SpendingChart"
 
 const mapStateToProps = (state: I.state) => ({
   state,
-  income_selector: income_selector(state),
   color_selector: color_selector(state),
 })
 

@@ -79,7 +79,6 @@ const Pill = styled.div<PProps>`
         top: 1rem;
         left: 0rem;
         background-color: #4F9190;
-        ${props => props.theme.neomorph};
         transform: ${props =>
           props.selected === props.options[0]
             ? "translate(0rem,0rem)"
@@ -87,5 +86,6 @@ const Pill = styled.div<PProps>`
         transition: all .3s ease;
         border-radius: 15px;
         animation: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) 0s 1 normal forwards running fmdUjs;
+        ${props => props.theme.neomorph};
 }
 `

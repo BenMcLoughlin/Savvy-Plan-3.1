@@ -12,10 +12,10 @@ interface ISliderProps {
   handleChange: any
   value: number
   selectedFocus?: boolean
+  path?: String
 }
 
-export const Slider: FC<ISliderProps> = ({ min, handleChange, topLabel, bottomLabel, type, max, selectedFocus, step, value}) => {
-
+export const Slider: FC<ISliderProps> = ({ min, handleChange, topLabel, bottomLabel, type, max, selectedFocus, step, value }) => {
   const [focus, setFocus] = useState(false)
 
   return (
@@ -23,7 +23,7 @@ export const Slider: FC<ISliderProps> = ({ min, handleChange, topLabel, bottomLa
       <Label>{topLabel}</Label>
       <Value
         type="text"
-        autoFocus = {selectedFocus ? selectedFocus : false}
+        autoFocus={selectedFocus ? selectedFocus : false}
         onFocus={e => {
           e.target.select()
           setFocus(true)
@@ -31,9 +31,9 @@ export const Slider: FC<ISliderProps> = ({ min, handleChange, topLabel, bottomLa
         onBlur={() => setFocus(false)}
         autoComplete="off"
         onChange={e => {
-          const value =  e.target.value.replace(",", "").replace("%", "")
-          handleChange(type === "percentage" ? value : +value)}
-        }
+          const value = e.target.value.replace(",", "").replace("%", "")
+          handleChange(type === "percentage" ? value : +value)
+        }}
         value={type === "percentage" && !focus ? `${value}%` : type === "year" ? value : value.toLocaleString()}
       />
       <RangeBar

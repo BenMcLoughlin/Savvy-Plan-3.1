@@ -7,16 +7,8 @@ export type year = _year
 import { owner as _owner } from "model/types/variable_types"
 export type owner = _owner
 
-import { incomeStream as _incomeStream } from "model/types/reducer_types"
-export type incomeStream = _incomeStream
-
-import { instance as _instance } from "model/types/reducer_types"
-export type instance = _instance
-
 //SAVINGS TYPES
 
-import { savingsStream as _savingsStream } from "model/types/reducer_types"
-export type savingsStream = _savingsStream
 
 export type transactionType = "contribute" | "period"
 

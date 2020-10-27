@@ -14,6 +14,7 @@ export const Login: FC<IProps> = ({ set, state }) => {
   const [isAdvisor, setIsAdvisor] = useState(false)
   const [isNewUser, setIsNewUser] = useState(true)
 
+  const userWantsTo = isNewUser ? "Sign Up" : "Login"
   return (
     <PageSize>
       <Wrapper>
@@ -28,17 +29,18 @@ export const Login: FC<IProps> = ({ set, state }) => {
           </Div>
         </Left>
         <Right>
-          <TextInput label="email" handleChange={() => null}  value="hi" type="text" />
+          <TextInput label="email" handleChange={() => null} value="hi" type="text" />
           <TextInput label="password" handleChange={() => null} value="hi" type="password" />
           <CSSTransition in={isNewUser} mountOnEnter unmountOnExit timeout={700} classNames="fade-in">
             <TextInput label="confirm password" handleChange={() => null} value="hi" type="password" />
           </CSSTransition>
+          <LowerWrapper isNewUser={isNewUser}>
+            <LinkButton link={isNewUser ? "/onboarding" : "/"} label={userWantsTo} handleChange={() => set("isLoggedIn", "auth_reducer", true)} />
+            <p>{`Or ${userWantsTo} with...`}</p>
+            <SocialMediaIcons handleChange={() => null} />
+            <ButtonAsText>Forgot Password?</ButtonAsText>
+          </LowerWrapper>
         </Right>
-        <LowerWrapper isNewUser={isNewUser}>
-          <SocialMediaIcons handleChange={() => null} />
-          <LinkButton link={isNewUser ? "/onboarding" : "/"} label={isNewUser ? "Sign Up" : "Login"} handleChange={() => set("newUser", "user_reducer", true)} />
-          <ButtonAsText>Forgot Password?</ButtonAsText>
-        </LowerWrapper>
       </Wrapper>
     </PageSize>
   )
@@ -104,8 +106,8 @@ interface Props {
 }
 const LowerWrapper = styled.div<Props>`
   position: absolute;
-  top: 33rem;
-  right: 24rem;
+  top: 19rem;
+  right: 20rem;
   transform: ${props => (props.isNewUser ? "translate(0,10rem)" : "translate(0,0)")};
   transition: all ease 0.4s;
   margin-top: 4rem;

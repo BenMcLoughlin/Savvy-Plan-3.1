@@ -9,6 +9,7 @@ interface ISliderProps {
   id: string
   colorValue: string
   nameValue: string
+  path?: any
 }
 
 export const EditPanel: FC<ISliderProps> = ({ editPeriod }) => {

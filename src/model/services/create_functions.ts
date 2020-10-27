@@ -186,8 +186,11 @@ export const addPeriodToStreamV2  = (flow: string, id: string, period: number, s
   const nextPeriod = lastPeriod + 1
   const lastValue = stream[flow][lastPeriod].value
   const lastEndYear = stream[flow][lastPeriod].end
-
-
+// console.log('lastPeriod:', lastPeriod)
+// console.log('nextPeriod:', nextPeriod)
+// console.log('lastValue:', lastValue)
+// console.log('lastEndYear:', lastEndYear)
+// console.log('flow:', flow)
   const newPeriod = {
    [nextPeriod]: {
      start: lastEndYear, 
@@ -201,18 +204,23 @@ export const addPeriodToStreamV2  = (flow: string, id: string, period: number, s
 
 export const createStreamV2 = (streamType: any, flow, owner: I.user, reg, set: I.set, state: I.state): void => {
   const id = owner + _.startCase(streamType) + "_" + (Math.random() * 1000000).toFixed()
+  const {colorIndex} =state.ui_reducer
+  
+  const color = colorArray[colorIndex]
+  set('colorIndex', "ui_reducer", colorIndex+1)
+
   let newStreamV2 = {
     amortization: 0,
-    color: "",
+    color,
     cppEligible: true,
     createdAt: new Date().getTime(),
     currentValue: 0,
     flow,
     in: {
       '1': {
-        start: 2020, 
-        value: 20000, 
-        end: 2030,
+        start: streamType === 'savings' ? 2050 : 2020, 
+        value: 0,
+        end: streamType === 'savings' ? 2080 :2030,
       },
     },
     id,
@@ -220,7 +228,7 @@ export const createStreamV2 = (streamType: any, flow, owner: I.user, reg, set: I
     out: {
       '1': {
         start: 2020, 
-        value: 20000, 
+        value: 0, 
         end: 2030,
       },
     },
@@ -233,8 +241,10 @@ export const createStreamV2 = (streamType: any, flow, owner: I.user, reg, set: I
     scenarios: 0,
     startValue: 0,
     startYear: 0,
-    period: 1,
+    periodIn: 1,
+    periodOut: 1,
   }
+
   set("selectedId", "ui_reducer", id, "") // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
   set(id, "main_reducer", newStreamV2)
 

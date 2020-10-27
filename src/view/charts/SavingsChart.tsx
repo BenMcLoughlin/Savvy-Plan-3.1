@@ -16,7 +16,7 @@ interface IProps {
 export const SavingsChart: FC<IProps> = ({ color_selector, state, exampleState, set }) => {
   if (exampleState) state = exampleState()
 
-  const dataObject = getSavings(state)
+  const dataObject = getSavings(state, set)
 
   const { areaData, barData } = getSavingsData(state, dataObject)
 
@@ -58,9 +58,10 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  width: 110rem;
+  height: 33rem;
   border-radius: 15px;
+  ${props => props.theme.neomorph};
 `
 const BarCanvas = styled.div`
   width: 100%;

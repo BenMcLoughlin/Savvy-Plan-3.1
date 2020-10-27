@@ -1,4 +1,4 @@
-import * as I from "model/calculations/savings/types"
+import * as I from "model/types"
 
 import _ from "lodash"
 
@@ -10,20 +10,19 @@ const emptyAccountData = {
   total: 0,
 }
 
-export const getValue = (transactionType: I.transactionType, stream: I.savingsStream, year: number): number => {
+export const getValue = (flow, stream: I.stream, year: number): number => {
   if (stream) {
-    const { periods, contributePeriods } = stream
     //step 1. Check all periods to see if year falls within the period Start or End
-    const numberOfPeriods = transactionType === "period" ? periods : contributePeriods
-    const value = _.range(numberOfPeriods + 1).map(n => {
-      if (year >= stream[`${transactionType}${n}StartYear`] && year < stream[`${transactionType}${n}EndYear`]) return stream[`${transactionType}${n}Value`]
+    const periods = +Object.keys(stream[flow]).pop() || 1
+    const value = _.range(1, periods + 1).map(n => {
+      if (year >= stream[flow][n].start && year < stream[flow][n].end) return stream[flow][n].value
       else return 0
     })
     return Math.max(...value)
   } else return 0
 }
 
-export const getAccountDetails = (account: I.account, savingsObject: I.savingsObject, state: I.state, year: number, user: string): I.annualAccountDetails => {
+export const getAccountDetails = (account: any, savingsObject: any, state: I.state, year: number, user: string): any => {
   const stream: any = Object.values(state.main_reducer).find((d: any) => d.reg === account && d.owner === user) //grab the stream we're working on, eg TFSA with its contribute and withdraw details
 
   if (!stream) return emptyAccountData
@@ -32,9 +31,9 @@ export const getAccountDetails = (account: I.account, savingsObject: I.savingsOb
 
   const prior: any = firstYear ? emptyAccountData : savingsObject[year - 1][user][account] //grabs the prior years object which will be used to run this years calculations
 
-  const withdrawAmount = getValue("period", stream, year) //this represents the amount the user has inputed to withdraw, although it might not be available in the account
+  const withdrawAmount = getValue("in", stream, year) //this represents the amount the user has inputed to withdraw, although it might not be available in the account
 
-  const contribute = getValue("contribute", stream, year) //checks the current stream to see if contributes have been made this year
+  const contribute = getValue("out", stream, year) //checks the current stream to see if contributes have been made this year
   const withdraw = withdrawAmount < prior.total ? withdrawAmount : prior.total //checks the current stream to see if withdraws have been made this year
   const principlePercentage = firstYear ? 0 : (prior.principle + prior.contribute) / prior.total //when running withdraws we want to show a mix of totalInterest and principle being withdrawn
   const principle = firstYear ? stream.currentValue || 0 : prior.principle + prior.contribute - withdraw * principlePercentage

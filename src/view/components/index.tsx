@@ -5,25 +5,36 @@ import { EditPanel as _EditPanel } from "./cards/EditPanel"
 import { Header as _Header } from "./layout/Header"
 import { Login as _Login } from "./login/Login"
 import * as I from "model/types"
-//Import Selectors
-import { income_selector, color_selector } from "model/selectors/income_selector"
 
+//DevButtons
+import { Back as _Back } from "view/components/buttons/Back"
+
+//Import Selectors
+import { color_selector } from "model/selectors"
+
+//Chart Imports
 import { IncomeChart as _IncomeChart } from "view/charts/IncomeChart"
 import { SavingsChart as _SavingsChart } from "view/charts/SavingsChart"
 import { NetWorthChart as _NetWorthChart } from "view/charts/NetWorthChart"
 import { TaxesChart as _TaxesChart } from "view/charts/TaxesChart"
 import { SpendingChart as _SpendingChart } from "view/charts/SpendingChart"
 
+//DevTools
+import { ManageRedux as _ManageRedux } from "view/components/devTools/ManageRedux"
+
+//HOC Imports
+import { PrivateRoute as _PrivateRoute } from "view/components/HOC/PrivateRoute"
+
 const mapStateToProps = (state: I.state) => ({
   state,
-  income_selector: income_selector(state),
   color_selector: color_selector(state),
 })
 
 //Buttons
 export { AddButton } from "./buttons/AddButton"
 export { AddPrompt } from "./buttons/AddPrompt"
-export { Back } from "./buttons/Back"
+
+export const Back = compose(connect(mapStateToProps))(_Back)
 export { Button } from "./buttons/Button"
 export { LinkButton } from "./buttons/LinkButton"
 export { Exit } from "./buttons/Exit"
@@ -33,14 +44,22 @@ export { SocialMediaIcons } from "./buttons/SocialMediaIcons"
 //Displays
 export { IncomeDisplay } from "./displays/IncomeDisplay"
 
+//DevTools
+export const ManageRedux = compose(connect(mapStateToProps, { set }))(_ManageRedux)
+
 //Cards
 export { Comment } from "./cards/Comment"
 export { InfoCard } from "./cards/InfoCard"
 export { TripleSliderSelector } from "./cards/TripleSliderSelector"
+export { Paragraph } from "./cards/Paragraph"
 
 //Dropdowns
 export { ColorSelect } from "./dropdowns/ColorSelect"
 export { Dropdown } from "./dropdowns/Dropdown"
+
+//Higher Order Components
+export const PrivateRoute = compose(connect(mapStateToProps, { set }))(_PrivateRoute)
+export { Loading } from "./HOC/Loading"
 
 //layout
 export const Header = compose(connect(mapStateToProps, { set, remove }))(_Header)
@@ -51,7 +70,6 @@ export const Login = compose(connect(mapStateToProps, { set, remove }))(_Login)
 
 //Nav
 export { ChartNav } from "./nav/ChartNav"
-export { HeaderNav } from "./nav/HeaderNav"
 export { ProgressBar } from "./nav/ProgressBar"
 export { SideNav } from "./nav/SideNav"
 export { TripleSelector } from "./nav/TripleSelector"

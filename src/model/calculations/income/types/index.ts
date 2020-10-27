@@ -7,12 +7,6 @@ export type year = _year
 import { owner as _owner } from "model/types/variable_types"
 export type owner = _owner
 
-import { incomeStream as _incomeStream } from "model/types/reducer_types"
-export type incomeStream = _incomeStream
-
-import { instance as _instance } from "model/types/reducer_types"
-export type instance = _instance
-
 //CCB TYPES
 export type kidsBirthYearArray = year[]
 
@@ -31,13 +25,13 @@ type incomeStreams = {
 }
 
 type userIncome = {
-  beforeTaxTaxableIncomeStreams: incomeStreams
-  incomeStreamsForCpp: incomeStreams
-  beforeTaxIncome: number
-  totalCppIncome: number
+  income: incomeStreams
+  afterTaxIncome: incomeStreams
+  taxableIncome: number
+  cppEligibleIncome: number
 }
 
-export type incomeObject = {
+export type incomeForcast = {
   [key: string]: {
     user1: userIncome
     user2: userIncome

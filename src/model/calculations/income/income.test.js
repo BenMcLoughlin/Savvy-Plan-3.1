@@ -1,4 +1,4 @@
-import { getIncome } from "model/calculations/income/income"
+import { getIncome } from "model/calculations/income/income1"
 
 const mockState = {
   user_reducer: {

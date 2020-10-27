@@ -7,5 +7,8 @@ export const getYearRange = (state: I.state) => {
   const kidsBirthYearArray: I.kidsBirthYearArray = kidsIdArray.map((d: string) => user_reducer[d]);
   const yearFirstChildBorn = user_reducer[kidsIdArray[0]]; //this uses the key "child1BirthYear" to find the year of the first child
   const yearLastChildLeaves = user_reducer[kidsIdArray[kidsIdArray.length - 1]] + 17; //finds the year of the last child and 1dds 17 for when they are no longer eligable
+ 
+ 
   return { yearFirstChildBorn, yearLastChildLeaves, kidsBirthYearArray };
 };
+

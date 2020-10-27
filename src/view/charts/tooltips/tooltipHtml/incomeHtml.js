@@ -59,15 +59,11 @@ export const incomeHtml = (d, dataObject, color, n, state) => {
                                     <div style="${row(color)} ">
                                       <div style="${box}">
                                           <p> Before tax</p>
-                                          <p style="${value}"> ${
-    round(dataObject[d.data.year].user1.beforeTaxTaxableIncomeStreams[name]) || round(dataObject[d.data.year].user2.beforeTaxTaxableIncomeStreams[name])
-  }</p>
+                                          <p style="${value}"> ${round(dataObject[d.data.year].user1.income[name]) || round(dataObject[d.data.year].user2.income[name])}</p>
                                         </div>
                                         <div style="${box}">
                                           <p> After tax</p>
-                                          <p style="${value}"> ${
-    round(dataObject[d.data.year].user1.afterTaxIncomeStreams[name]) || round(dataObject[d.data.year].user2.afterTaxIncomeStreams[name])
-  }</p>
+                                          <p style="${value}"> ${round(dataObject[d.data.year].user1.afterTaxIncome[name]) || round(dataObject[d.data.year].user2.afterTaxIncome[name])}</p>
                                         </div>
                                     </div>
                                     <div  style="${titleRow("grey")}">
@@ -111,13 +107,13 @@ export const incomeHtml = (d, dataObject, color, n, state) => {
 //                    <div style="${box}">
 //                        <p> Before tax</p>
 //                        <p style="${value}"> ${
-//                          round(dataObject[d.data.year].user1.beforeTaxTaxableIncomeStreams[name]) || round(dataObject[d.data.year].user2.beforeTaxTaxableIncomeStreams[name])
+//                          round(dataObject[d.data.year].user1.income[name]) || round(dataObject[d.data.year].user2.income[name])
 //                        }</p>
 //                      </div>
 //                      <div style="${box}">
 //                        <p> After tax</p>
 //                        <p style="${value}"> ${
-//                          round(dataObject[d.data.year].user1.afterTaxIncomeStreams[name]) || round(dataObject[d.data.year].user2.afterTaxIncomeStreams[name])
+//                          round(dataObject[d.data.year].user1.income[name]) || round(dataObject[d.data.year].user2.income[name])
 //                        }</p>
 //                      </div>
 //                  </div>

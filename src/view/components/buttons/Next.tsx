@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { ArrowIosForwardOutline } from "@styled-icons/evaicons-outline/ArrowIosForwardOutline"
 import { CSSTransition } from "react-transition-group"
 
+
 interface IProps {
   setDirection: (value: string) => void
   handleChange: (setDirection: any, valid: boolean) => void
@@ -12,6 +13,7 @@ interface IProps {
 }
 
 export const Next: FC<IProps> = ({ handleChange, nextHandleChange, setDirection, valid, state }) => {
+  const { progress } = state.ui_reducer
   useEffect(() => {
     const pressEnter = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
@@ -55,8 +57,6 @@ const Wrapper = styled.div`
   position: absolute;
   top: 18rem;
   right: 8%;
-
-
 `
 
 const Circle = styled.div<validProps>`
@@ -83,7 +83,7 @@ const ArrowRight = styled(ArrowIosForwardOutline)<validProps>`
 const P = styled.p`
   position: absolute;
   margin-top: 13rem;
-  left: .6rem;
+  left: 0.6rem;
   width: 12rem;
   font-size: ${props => props.theme.fontSize.small};
 `

@@ -17,15 +17,15 @@ export const formatCurrency = number => {
 
 export const formatIncomeName = (name, user1Name, user2Name) => {
   switch (name) {
-    case "user1CppBenefit":
+    case "user1Cpp":
       return `${user1Name}'s Canada Pension Plan`
-    case "user1OasBenefit":
+    case "user1Oas":
       return `${user1Name}'s Old Age Security`
-    case "user2CppBenefit":
+    case "user2Cpp":
       return `${user2Name}'s Canada Pension Plan`
-    case "user2OasBenefit":
+    case "user2Oas":
       return `${user2Name}'s Old Age Security`
-    case "ccbBenefit":
+    case "user1Ccb":
       return `Canada Child Benefit`
   }
   return _.startCase(name)
@@ -72,7 +72,7 @@ export const getMax = (className, dataObject, state) => {
   switch (className) {
     case "incomeChart": {
       const beforeTaxIncomeArray = Object.values(dataObject).map((d: any) => {
-        if (maritalStatus === "married") return d.user2.beforeTaxIncome + d.user1.beforeTaxIncome
+        if (maritalStatus === "married") return d.user2.taxableIncome + d.user1.taxableIncome
         else return d.user1.beforeTaxIncome
       })
       const max = d3.max(beforeTaxIncomeArray)

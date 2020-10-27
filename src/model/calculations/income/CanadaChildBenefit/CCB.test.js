@@ -1,4 +1,4 @@
-import { getCcb } from "model/calculations/income/CanadaChildBenefit/CCB.function"
+import { getCcb } from "model/calculations/income/CanadaChildBenefit/CCB.functionDEPRECIATED"
 
 const dummyState = {
   user_reducer: {
@@ -18,7 +18,7 @@ const dummyIncomeObject = () => {
       }
     }
   }
-  console.log('incomeObject:', incomeObject)
+  //console.log('incomeObject:', incomeObject)
   return incomeObject
 }
 

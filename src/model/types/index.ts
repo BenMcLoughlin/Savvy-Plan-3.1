@@ -11,6 +11,11 @@ export type questions = _questions
 import { onboardQuestions as _onboardQuestions } from "./data_types"
 export type onboardQuestions = _onboardQuestions
 
+//INCOME CALCULATION TYPES
+
+import { incomeForcast as _incomeForcast } from "model/calculations/income/types"
+export type incomeForcast = _incomeForcast
+
 //FUNCTION TYPES
 
 import { set as _set } from "./function_types"
@@ -24,14 +29,8 @@ export type remove = _remove
 import { state as _appState } from "./reducer_types"
 export type state = _appState
 
-import { debtStream as _debtStream } from "./reducer_types"
-export type debtStream = _debtStream
-
-import { instance as _instance } from "./reducer_types"
-export type instance = _instance
-
-import { savingsStream as _savingsStream } from "./reducer_types"
-export type savingsStream = _savingsStream
+import { stream as _stream } from "./reducer_types"
+export type stream = _stream
 
 import { main_reducer as _main_reducer } from "./reducer_types"
 export type main_reducer = _main_reducer

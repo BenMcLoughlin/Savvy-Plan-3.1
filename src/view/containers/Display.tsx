@@ -20,7 +20,7 @@ export const Display: FC<IProps> = ({ data, remove, set, state }) => {
 
   return (
     <Wrapper>
-      <Selector {...scenarioNav} />
+      <Selector_ {...scenarioNav} />
       <Nav>
         <SideNav {...sideNav} />
       </Nav>
@@ -114,4 +114,7 @@ const Nav = styled.div`
   left: 3rem;
   width: 30rem;
   height: 70rem;
+`
+const Selector_ = styled(Selector)`
+background: red;
 `

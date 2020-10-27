@@ -106,7 +106,6 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
         option2: "withdraw",
         value: dualSelectValue,
         handleChange: (option) => {
-          console.log(option)
           set("selectedPeriod", "ui_reducer", contributePeriods)
           set("dualSelectValue", "ui_reducer", true)
           set("savingsTransaction", "ui_reducer", option)

@@ -88,8 +88,8 @@ const SubTitle = styled.div`
 const Chart = styled.div`
   position: absolute;
   top: 25rem;
-  height: 60%;
-  width: 100%;
+  height: 30rem;
+  width: 100rem;
 `
 
 interface IScroll {

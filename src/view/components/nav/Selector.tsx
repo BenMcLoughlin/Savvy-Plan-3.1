@@ -14,6 +14,7 @@ interface IProps {
 }
 
 export const Selector: FC<IProps> = ({ handleChange, value, addNew, optionArray, title, labelArray }) => {
+
   return (
     <Wrapper value={value} optionArray={optionArray}>
       <Title>{title ? title : null}</Title>
@@ -79,8 +80,6 @@ const Wrapper = styled.div<PProps>`
   display: flex;
   align-items: center;
   position: relative;
-  top: 5rem;
-  left: 0rem;
 `
 interface NProps {
   selected: boolean

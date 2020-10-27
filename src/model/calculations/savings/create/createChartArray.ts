@@ -60,6 +60,7 @@ export const getSavingsData = ({ ui_reducer }, savingsObject: I.savingsObject) =
     return null
   })
 
+
   return {
     areaData,
     barData,

@@ -165,3 +165,5 @@ export const taxes = {
   eiPremiums: 856.36,
   employmentAmount: 1245,
 }
+
+

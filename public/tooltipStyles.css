@@ -24,9 +24,9 @@
    z-index: 300;
    border-radius: 5px;
    padding: 1rem;
-   background: #e6e6e6;
+   /* background: #e6e6e6;
    box-shadow:  20px 20px 60px #c4c4c4, 
-                -20px -20px 60px #ffffff;
+                -20px -20px 60px #ffffff; */
  }
 
  .title-row {

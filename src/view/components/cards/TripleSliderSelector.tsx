@@ -13,6 +13,7 @@ interface ISliderProps {
   handlePeriodChange: (value: number) => void
   period: number
   selectorProps: any
+  path?: any
 }
 
 export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, handleChange, handlePeriodChange, period, slidersArray, selectorProps }) => {
@@ -36,14 +37,7 @@ export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, hand
         <P fontSize={1.4} width={30}>
           {selectorProps.explainer}
         </P>
-        <Selector {...selectorProps} />
-        {/* <AddPrompt
-          handleChange={() => {
-            handleChange()
-            handlePeriodChange(periods + 1)
-          }}
-          label={addLabel}
-        /> */}
+          <Selector {...selectorProps} />
       </Change>
     </Wrapper>
   )
@@ -53,27 +47,24 @@ export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, hand
 
 const Wrapper = styled.div`
   position: relative;
-  width: 80rem;
-  height: 22rem;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  height: 30rem;
+  width: 40rem;
 `
 const Center = styled.div`
-  position: absolute;
   display: flex;
-  top: 2%;
-  left: 10%;
+  width: 100%;
+  height: 15rem;
+  justify-content: center;
+  position: absolute;
 `
 
 const Change = styled.div`
-  width: 47rem;
-  height: 14rem;
+ position: absolute;
+  width: 30rem;
+  height: 13rem;
   display: flex;
-  position: absolute;
-  top: 78%;
-  left: -31rem;
+  top: 2rem;
+  right: -42rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

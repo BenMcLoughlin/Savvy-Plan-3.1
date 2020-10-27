@@ -25,7 +25,6 @@ interface Props {}
 const Wrapper = styled.div`
   height: 4.2rem;
   width: 22rem;
-  margin-top: 3rem;
   display: flex;
   justify-content: space-around;
   align-items: center;

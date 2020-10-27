@@ -1,29 +1,46 @@
-import React, {FC} from "react"
+import React, { FC } from "react"
 import styled from "styled-components"
 import logo from "data/assets/logo.svg"
-import { HeaderNav, LinkButton } from "view/components"
+import { LinkButton, ManageRedux } from "view/components"
 import { Link } from "react-router-dom"
 import * as I from "model/types"
+import { ArrowRightS } from "@styled-icons/remix-line"
 
 interface IProps {
   set: I.set
   state: I.state
 }
 
-export const Header: FC<IProps> = ({set, state}) => {
+export const Header: FC<IProps> = ({ set, state }) => {
+  const { isLoggedIn } = state.auth_reducer
+  const options = isLoggedIn ? ["plan", "account"] : ["product", "pricing", "about"]
+
   return (
     <Wrapper>
       <Logo>
         <img src={logo} height="100%" width="100%" alt="logo" />
       </Logo>
-      <HeaderNav handleChange={() => null} value="about" options={["1"]}></HeaderNav>
+      <ManageRedux/>
+      <Nav>
+        {options.map((string, i) => (
+          <Option to={`/${string}`} key={i} onClick={() => null}>
+            {string}
+            <Arrow></Arrow>
+          </Option>
+        ))}
+      </Nav>
       <Login>
-        <H3 to="/login" onClick={() => set("newUser", "user_reducer", false)}>Log in</H3>
-        <LinkButton link="/login" label="Get Started" handleChange={() => set("newUser", "user_reducer", true)} />
+        {isLoggedIn ? (
+          <LinkButton link="/" label="Log Out" handleChange={() => set("isLoggedIn", "auth_reducer", false)} />
+        ) : (
+          <LinkButton link="/login" label="Get Started" handleChange={() => set("isLoggedIn", "auth_reducer", true)} />
+        )}
       </Login>
     </Wrapper>
   )
 }
+
+//handleChange={() => set("isLoggedIn", "auth_reducer", true)} 
 
 //---------------------------STYLES-------------------------------------------//
 
@@ -54,4 +71,51 @@ const H3 = styled(Link)`
   text-decoration: none;
   color: grey;
   font-size: 1.6rem;
+`
+const Nav = styled.div`
+  display: flex;
+  height: 100%;
+  width: 40rem;
+  padding: 2rem;
+  margin: 0px;
+  margin-left: 5rem;
+  padding: 0px;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+  right: 28rem;
+  margin: 0 auto;
+`
+
+const Arrow = styled(ArrowRightS)`
+  margin-top: 0.3rem;
+  width: 2rem;
+  height: 2rem;
+  color: grey;
+  transform: rotate(0deg);
+  transition: all 0.2s ease;
+`
+const Option = styled(Link)`
+  position: relative;
+  min-width: 7rem;
+  transition: all 2s ease;
+  text-align: center;
+  z-index: 1;
+  transition: all 100ms linear 0s;
+  margin: 0px;
+  border-radius: 2.5rem;
+  text-transform: Capitalize;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  &:hover ${Arrow} {
+    transform: rotate(90deg);
+    transition: all 0.2s ease;
+  }
+  text-decoration: none;
+  color: ${props => props.theme.color.darkGrey};
 `

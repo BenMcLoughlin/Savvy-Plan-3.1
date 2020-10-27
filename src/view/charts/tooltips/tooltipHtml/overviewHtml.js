@@ -69,7 +69,7 @@ export const overviewHtml = (d, dataObject, state) => {
   const { selectedUser, selectedAccount } = state.ui_reducer
   const { user1BirthYear } = state.user_reducer
   const overviewData = exampleOverviewData()
-  console.log("overviewData:", overviewData)
+
   let total = 100
   if (selectedAccount !== "combined" && selectedUser !== "combined") total = dataObject[d.year][selectedUser][selectedAccount].total
   if (selectedAccount === "combined" && selectedUser !== "combined") total = dataObject[d.year][selectedUser].totalSavings

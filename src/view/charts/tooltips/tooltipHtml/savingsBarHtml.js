@@ -41,7 +41,7 @@ align-items: center;
 `
 
 export const savingsBarHtml = (d, dataObject, n, state) => {
-  console.log("state:", state)
+
 
   const { user1BirthYear } = state.user_reducer
 

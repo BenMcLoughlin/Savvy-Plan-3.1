@@ -11,7 +11,7 @@ interface IProps {
 }
 
 export const PickSingleOption: FC<IProps> = ({ optionArray, handleChange, value }) => {
-  console.log(value)
+
   return (
     <Wrapper>
       {optionArray &&

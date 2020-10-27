@@ -1,9 +1,9 @@
-import React, { FC, useState } from "react"
+import React, { FC, useState, useEffect } from "react"
 import styled from "styled-components"
 import * as components from "view/components"
 import { ProgressBar, Next, Back, TripleSliderSelector } from "view/components"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
-import { Redirect } from "react-router-dom"
+import { useHistory, Redirect, useParams } from "react-router-dom"
 import { matchThenShowComponent } from "model/services/display_functions"
 import * as I from "model/types"
 
@@ -19,7 +19,17 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
   const [direction, setDirection] = useState<string>("forward")
   const { backButton, nextButton, questions } = data
   const { length } = questions
-console.log(questions[progress])
+  const { explanation, backHandleChange, chart, nextHandleChange, showChart, enableNav, subTitle } = data.questions[progress]
+
+  const history = useHistory()
+
+  useEffect(() => {
+    history.push(`/onboarding/${progress}`)
+    window.addEventListener("popstate", e => {
+      set("progress", "ui_reducer", +history.location.pathname.replace(/\D/g, ""))
+    })
+  }, [progress, history])
+
   if (progress === length - 2) return <Redirect to="/plan" />
 
   return (
@@ -27,7 +37,7 @@ console.log(questions[progress])
       <ProgressBar length={length} progress={progress} />
       <Text>
         {progress > 0 && <h3 style={{ fontWeight: "bold" }}>Why we Ask</h3>}
-        <h4>{questions[progress].explanation}</h4>
+        <h4>{explanation}</h4>
       </Text>
       <TransitionGroup>
         {questions.map(
@@ -36,24 +46,18 @@ console.log(questions[progress])
               <CSSTransition key={i} timeout={1000} classNames={`transition-${direction}`}>
                 <Content>
                   <Header>
-                    <H2>{data.question}</H2>
+                    <H2 textLength={data.question.length}>{data.question}</H2>
                     <h3>{data.subTitle}</h3>
                   </Header>
-                  <Component>{matchThenShowComponent(components, data, data.component)}</Component>
+                  <Component chart={chart}>{matchThenShowComponent(components, data, data.component)}</Component>
                 </Content>
               </CSSTransition>
             )
         )}
       </TransitionGroup>
-      {progress > 0 && <Back {...backButton} setDirection={setDirection} backHandleChange={data.questions[progress].backHandleChange} />}
-      {data.questions[progress].showChart && (
-        <>
-        <div className="">🚅 </div>
-           <Chart>{matchThenShowComponent(components, data, data.questions[progress].chart)}</Chart>
-          {/* <PositionPanel>{data.questions[progress].editChart && <TripleSliderSelector {...data.questions[progress].editChart} />}</PositionPanel> */}
-        </>
-      )}
-      <Next {...nextButton} nextHandleChange={data.questions[progress].nextHandleChange} setDirection={setDirection} />
+      {progress > 0 && <Back {...backButton} setDirection={setDirection} backHandleChange={backHandleChange} />}
+      {showChart && <Chart>{matchThenShowComponent(components, data.questions[progress], chart)}</Chart>}
+      <Next {...nextButton} nextHandleChange={nextHandleChange} setDirection={setDirection} />
     </Wrapper>
   )
 }
@@ -80,18 +84,23 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
 `
-const Component = styled.div`
+interface IComponent {
+  chart?: string
+}
+
+const Component = styled.div<IComponent>`
   position: absolute;
-  top: 16rem;
+  margin-top: ${props => (props.chart === "IncomeChart" ? "77rem" : props.chart === "SavingsChart" ? "94rem" : "30rem")};
   left: 0rem;
   width: 80rem;
   justify-content: center;
   display: flex;
+  height: 40rem;
 `
 const Chart = styled.div`
   position: absolute;
-  top: 45rem;
-  left: 44rem;
+  top: 23rem;
+  left: 40rem;
   width: 80rem;
   justify-content: center;
   display: flex;
@@ -109,18 +118,23 @@ const Text = styled.div`
 
 const Header = styled.div`
   position: absolute;
-  top: 2rem;
+  top: -2rem;
   margin-left: 2rem;
   display: flex;
   flex-direction: column;
   padding: 3rem;
 `
-const H2 = styled.h2`
-  margin-bottom: 2rem;
+
+interface IH2 {
+  textLength?: number
+}
+const H2 = styled.h2<IH2>`
+  margin-top: ${p => (p.textLength > 100 ? "-7rem" : "-4rem")};
   width: 80rem;
+  line-height: 4.4rem;
 `
-const PositionPanel = styled.h2`
-  position: absolute;
-  top: 57rem;
-  left: 32rem;
-`
+// const TransitionGroup = styled(TransitionGroup)`
+//   height: 80rem;
+//   width: 100rem;
+//   background: grey;
+// `

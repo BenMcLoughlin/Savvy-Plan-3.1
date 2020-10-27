@@ -2,20 +2,26 @@ import * as d3 from "d3"
 import { getMax, getMin } from "view/charts/createChartFunctions/chartHelpers"
 import * as tooltips from "view/charts/tooltips/barTooltip"
 import { buildHtml } from "view/charts/tooltips/tooltip"
+import _ from "lodash"
 
 export const drawBarChart = (colors, className, data, dataObject, height, set, state, width) => {
-  const { selectedId, selectedPeriod } = state.ui_reducer
+  const { selectedId } = state.ui_reducer
 
-  const instance = state.main_reducer[selectedId]
+  const stream = state.main_reducer[selectedId]
+
+  const {period, flow} = stream
   const { mouseout } = tooltips
   let periodStart = 0
   let periodEnd = 0
   let streamName = ""
 
-  if (instance) {
-    streamName = instance.name
-    periodStart = instance[`period${selectedPeriod}StartYear`]
-    periodEnd = instance[`period${selectedPeriod}EndYear`]
+  const selectedPeriod = stream[`period${_.startCase(flow)}`]
+
+
+  if (stream) {
+    streamName = stream.name
+    periodStart = stream[flow][selectedPeriod].start
+    periodEnd = stream[flow][selectedPeriod].end
   }
 
   const { hideAxis } = state.ui_reducer
@@ -74,11 +80,7 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
     rects
       .enter()
       .append("g")
-      .attr("fill", (d, i) => {
-        if (colors[d.key]) {
-          return colors[d.key]
-        } else return "#5E9090"
-      })
+      .attr("fill", (d, i) =>  colors[d.key] ? colors[d.key] : "#5E9090")
       .attr("class", (d, i) => d.key)
       .selectAll("rect")
       .data(d => d)
@@ -88,6 +90,10 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       .attr("class", (d, i, n) => {
         const name = n[0].parentNode.className.animVal
         return `${name}`
+      })
+      .attr("opacity", (d, i, n) => {
+        const name = n[0].parentNode.className.animVal
+        return streamName === name && d.data.year >= periodStart && d.data.year < periodEnd ? 0.7 : 1
       })
       .attr("width", xScale.bandwidth())
       .on("click", (d, i, n) => {
@@ -101,7 +107,6 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       .on("mouseover", (d, i, n) => {
         const name = n[0].parentNode.className.animVal
         const color = colors[name]
-        console.log("color:", color)
         tooltip.html(() => buildHtml(className, color, d, dataObject, n, state))
         tooltip.transition().duration(200).style("opacity", 1).style("pointer-events", "none")
       })

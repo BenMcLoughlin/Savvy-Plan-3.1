@@ -1,23 +1,17 @@
 import { createSelector } from "reselect"
-import { getIncome } from "model/calculations/income/income"
-import { getSavings } from "model/calculations/savings/savings.function"
+
 
 import * as I from "model/types"
 
 const state = (state: I.state) => state //this is the reducer, in object form, pulled from state
 const main_reducer = (state: I.state) => state.main_reducer //this is the reducer, in object form, pulled from state
 
-export const income_selector = createSelector(
-  //Determines the CPP payment for the user
-  state,
-  state => getIncome(state)
-)
 
-export const savings_selector = createSelector(
-  //Determines the CPP payment for the user
-  state,
-  state => getSavings(state)
-)
+// export const savings_selector = createSelector(
+//   //Determines the CPP payment for the user
+//   state,
+//   state => getSavings(state)
+// )
 
 // export const savingsDataForArray = createSelector(
 //   //Determines the CPP payment for the user

@@ -11,13 +11,13 @@ interface IProps {
 
 export const DualSelect: FC<IProps> = ({ handleChange, handleChange2, option1, option2, value }) => {
   const [clickFired, fireClick] = useState<boolean>(false) //we need to know if a button has been clicked
+  
   return (
     <Wrapper>
       <Option
         onClick={() => {
           //the onclick is used to create new objects, for instance, do you own a house? "yes", then it creates a house object
           if (handleChange && !clickFired) {
-            console.log("option1:", option1)
             //but we can't have objects created with every click
             handleChange(option1) //creates the new object
             fireClick(true) //then ensures that clicking again whon't make a new one

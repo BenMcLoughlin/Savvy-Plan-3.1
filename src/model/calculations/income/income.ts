@@ -1,46 +1,53 @@
-import { getFirstIncomeStreamsObject, getSecondIncomeStreamsObject } from "model/calculations/income/create/createIncomeObject"
-import { getAfterTaxStreamsObject } from "model/calculations/income/tax/tax.function"
-import * as I from "model/calculations/income/types"
-import { getCacheKey } from "model/calculations/helpers/caching"
+import _ from "lodash"
+import * as I from "model/types"
+import { getCpp, getCcb, getTargetIncome, getAvgRate, getMargRate, getYearRange, insertBenefits, beforePension, getAfterTaxIncome, sum } from "model/calculations/income/income.helpers"
+import { insert1, insert2, Helpers, memoize } from "model/calculations/helpers"
+import { createSelector } from "reselect"
 
-var cachecgetIncome = (function () {
-  var cache = {}
-  function f(state: I.state) {
-    const cacheKey = getCacheKey(state, "Income", "Savings")
-    if (cacheKey in cache) {
-      return cache[cacheKey]
-    } else {
-      const START_TIME = new Date().getTime()
-      const { user1BirthYear, user1LifeSpan, maritalStatus } = state.user_reducer
+const lets = new Helpers()
 
-      let yearFirst: any = +user1BirthYear + 18 // Our chart begins when the youngest of the two users turns 18, if user is single we just use their values
-      let yearLast: any = +user1BirthYear + user1LifeSpan //Our chart ends whent the oldest of the users dies,
-      let users = [1] //To build a single users income stream we will just use the number 1 in the below for loop, but if they're married we need to do it for both of them
+export const buildIncomeForcast = (state: I.state) => {
+  // console.time()
 
-      if (maritalStatus === "married" || maritalStatus === "commonlaw") {
-        //IF the user is married we need to compare to find the earliest and latest values
-        const { user2BirthYear, user2LifeSpan } = state.user_reducer
-        users = [1, 2] //this array will be mapped through to create values for both users
-        if (+user2BirthYear < user1BirthYear) yearFirst = user2BirthYear + 18
-        if (user1LifeSpan < +user2LifeSpan) yearLast = user2BirthYear + user2LifeSpan
-      }
+  let inc = {}
 
-      //we begin by building an object with all incoem values the user has inputted, the object has income information for each year, these values are used to calculate pensoins
-      const firstIncomeObject: I.incomeObject = getFirstIncomeStreamsObject(state, yearFirst, yearLast, users)
-      // console.log('JSON.stringify(secondIncomeObject, null, 4):', JSON.stringify(firstIncomeObject, null, 4))
-      //next we build a second income object and add in pensions, these are based on the first object
-      let secondIncomeObject: I.incomeObject = getSecondIncomeStreamsObject(firstIncomeObject, state, yearFirst, yearLast, users)
-      //console.log('JSON.stringify(secondIncomeObject, null, 4):', JSON.stringify(secondIncomeObject, null, 4))
-      const afterTaxIncomeObject = getAfterTaxStreamsObject(secondIncomeObject, state, yearFirst, yearLast, users)
-      //console.log('JSON.stringify(afterTaxIncomeObject, null, 4):', JSON.stringify(afterTaxIncomeObject, null, 4))
-      const END_TIME = new Date().getTime()
-      const function_duration = END_TIME - START_TIME
-      console.log("cachecgetIncome duration:", function_duration)
+  const { selectedUser } = state.ui_reducer
 
-      return (cache[cacheKey] = afterTaxIncomeObject)
-    }
-  }
-  return f
-})()
+  const users: I.owner[] = ["user1", "user2"]
 
-export const getIncome = (state: I.state) => cachecgetIncome(state)
+  users.forEach(user => {
+    const { streams } = lets.turn(state.main_reducer).intoArray().filteredFor(["streamType", "income"], ["owner", user])
+    return getYearRange(state).forEach(year => (inc = insert1(inc, user, year, beforePension(streams, year))))
+  })
+
+  users.forEach((user: I.owner) => {
+    const cpp = getCpp(inc, user, state)
+    const oas = 12000
+    getYearRange(state).forEach(year => {
+      const ccb = getCcb(inc, year, state)
+      return (inc = insertBenefits(inc, user, year, "income", ccb, cpp, oas, state))
+    })
+  })
+
+  const chartArray = []
+
+  users.forEach((user: I.owner) => {
+    const { streams } = lets.turn(state.main_reducer).intoArray().filteredFor(["streamType", "income"], ["owner", user])
+    getYearRange(state).forEach(year => {
+      const taxableIncome = sum(inc[year][user].income, "taxable", streams)
+      const marginalRate = getMargRate(taxableIncome)
+      const averageRate: any = getAvgRate(taxableIncome)
+      const afterTaxIncome = getAfterTaxIncome(inc[year][user].income, averageRate, streams)
+      const targetIncome = getTargetIncome(taxableIncome)
+      // const afterTaxIncome = taxableIncome * (1 - averageRate)
+      inc = insert2(inc, user, year, { afterTaxIncome, averageRate, marginalRate, taxableIncome, targetIncome })
+      if (selectedUser === user) {
+        return chartArray.push({ ...inc[year][user].income, year })
+      } else if (selectedUser === "combined" && user == "user1") chartArray.push({ ...inc[year].user1.income, ...inc[year].user2.income, year })
+    })
+  })
+
+  // console.log(JSON.stringify(inc, null, 4))
+  // console.timeEnd()
+  return { chartArray, inc }
+}

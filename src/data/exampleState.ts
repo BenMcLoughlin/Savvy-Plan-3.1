@@ -1,92 +1,233 @@
 export const exampleState = () => ({
-  user_reducer: {
-    numberOfChildren: 1,
-    user1BirthYear: "1988",
-    user2BirthYear: "1989",
-    user1LifeSpan: 95,
-    user2LifeSpan: 95,
-    user1Name: "Ben",
-    user2Name: "Kelsey",
-    child1BirthYear: "2021",
-  },
-  ui_reducer: {
-    selectedUser: "user1",
-    selectedAccount: "tfsa",
-    hideAxis: true,
-    selectedPage: "overview",
-  },
-  main_reducer: {
-    user1Savings_470337: {
-      cppEligible: false,
-      name: "Ben's tfsa",
-      periods: 2,
-      currentValue: 17000,
-      contributePeriods: 3,
-      contribute0StartYear: 2020,
-      contribute0Value: 1900,
-      contribute0EndYear: 2029,
-      contribute1StartYear: 2029,
-      contribute1EndYear: 2040,
-      contribute1Value: 2400,
-      contribute2StartYear: 2040,
-      contribute2EndYear: 2050,
-      contribute2Value: 4000,
-      period0StartYear: 2027,
-      period0Value: 11400,
-      period0EndYear: 2028,
-      period1StartYear: 2053,
-      period1Value: 11400,
-      period1EndYear: 2083,
-      taxable: false,
-      createdAt: "2020-10-05T18:37:08.523Z",
-      color: "#FEDE76",
-      id: "user1Savings_470337",
-      owner: "user1",
-      reg: "tfsa",
-      streamType: "savings",
+    "ui_reducer": {
+        "change": false,
+        "selectedId": "user1Savings_6529",
+        "selectedScenario": 1,
+        "selectedPeriod": 0,
+        "colorIndex": 3,
+        "videoUrl": "",
+        "progress": 24,
+        "selectedPage": "savings",
+        "selectedAccount": "tfsa",
+        "selectedUser": "user1",
+        "dualSelectValue": true,
+        "savingsTransaction": "contribute",
+        "newStream": false,
+        "scenarios": 3,
+        "scenarioLabel1": "basic",
+        "scenarioLabel2": "Spender",
+        "scenarioLabel3": "Saver"
     },
-    // user1Savings_441954: {
-    //   cppEligible: false,
-    //   name: "Ben's rrsp",
-    //   periods: 0,
-    //   currentValue: 14000,
-    //   contributePeriods: 0,
-    //   contribute0StartYear: 2020,
-    //   contribute0Value: 5000,
-    //   contribute0EndYear: 2040,
-    //   period0StartYear: 2053,
-    //   period0Value: 10000,
-    //   period0EndYear: 2083,
-    //   taxable: false,
-    //   createdAt: "2020-10-05T18:37:08.523Z",
-    //   color: "#FEDE76",
-    //   id: "user1Savings_441954",
-    //   owner: "user1",
-    //   reg: "rrsp",
-    //   streamType: "savings",
-    // },
-    // user2Savings_257447: {
-    //   cppEligible: false,
-    //   name: "Kelsey's tfsa",
-    //   periods: 0,
-    //   currentValue: 9000,
-    //   contributePeriods: 0,
-    //   contribute0StartYear: 2020,
-    //   contribute0Value: 1600,
-    //   contribute0EndYear: 2040,
-    //   period0StartYear: 2054,
-    //   period0Value: 1000,
-    //   period0EndYear: 2083,
-    //   taxable: false,
-    //   createdAt: "2020-10-05T18:37:08.523Z",
-    //   color: "#FEDE76",
-    //   id: "user2Savings_257447",
-    //   owner: "user2",
-    //   reg: "tfsa",
-    //   streamType: "savings",
-    // },
-  },
+    "main_reducer": {
+        "user1Income_589848": {
+            "amortization": 0,
+            "color": "#72929B",
+            "cppEligible": true,
+            "createdAt": 1603746619155,
+            "currentValue": 0,
+            "flow": "in",
+            "in": {
+                "1": {
+                    "start": 2020,
+                    "value": 0,
+                    "end": 2030
+                }
+            },
+            "id": "user1Income_589848",
+            "owner": "user1",
+            "out": {
+                "1": {
+                    "start": 2020,
+                    "value": 0,
+                    "end": 2030
+                }
+            },
+            "name": "Wal Mart",
+            "payment": 0,
+            "streamType": "income",
+            "rate": 0,
+            "reg": "Business Income",
+            "taxable": true,
+            "scenarios": 0,
+            "startValue": 0,
+            "startYear": 0,
+            "periodIn": 1,
+            "periodOut": 1
+        },
+        "user1Income_979566": {
+            "amortization": 0,
+            "color": "#B0CFE3",
+            "cppEligible": true,
+            "createdAt": 1603746636747,
+            "currentValue": 0,
+            "flow": "in",
+            "in": {
+                "1": {
+                    "start": 2020,
+                    "value": 0,
+                    "end": 2030
+                }
+            },
+            "id": "user1Income_979566",
+            "owner": "user1",
+            "out": {
+                "1": {
+                    "start": 2020,
+                    "value": 0,
+                    "end": 2030
+                }
+            },
+            "name": "",
+            "payment": 0,
+            "streamType": "income",
+            "rate": 0,
+            "reg": "taxable",
+            "taxable": true,
+            "scenarios": 0,
+            "startValue": 0,
+            "startYear": 0,
+            "periodIn": 1,
+            "periodOut": 1
+        },
+        "user1Savings_6529": {
+            "amortization": 0,
+            "color": "#FEDE76",
+            "cppEligible": true,
+            "createdAt": 1603746649696,
+            "currentValue": 5000,
+            "flow": "out",
+            "in": {
+                "1": {
+                    "start": 2050,
+                    "value": 6000,
+                    "end": 2085
+                }
+            },
+            "id": "user1Savings_6529",
+            "owner": "user1",
+            "out": {
+                "1": {
+                    "start": 2020,
+                    "value": 300,
+                    "end": 2030
+                },
+                "2": {
+                    "start": 2030,
+                    "value": 1800,
+                    "end": 2035
+                },
+                "3": {
+                    "start": 2035,
+                    "value": 3800,
+                    "end": 2049
+                }
+            },
+            "name": "",
+            "payment": 0,
+            "streamType": "savings",
+            "rate": 0,
+            "reg": "tfsa",
+            "taxable": true,
+            "scenarios": 0,
+            "startValue": 0,
+            "startYear": 0,
+            "periodIn": 1,
+            "periodOut": 3
+        }
+    },
+    "user_reducer": {
+        "changeAssumptions": "",
+        "hasUnsecuredDebt": false,
+        "numberOfChildren": 1,
+        "gender": "",
+        "haveChildren": "",
+        "hasChildrenStatus": "no",
+        "ownHome": false,
+        "inflationRate": 2,
+        "maritalStatus": "married",
+        "MER": 2,
+        "province": "British Columbia",
+        "rate1": 6,
+        "rate2": 4.5,
+        "user1BirthYear": 1990,
+        "user2BirthYear": 1990,
+        "user1CppStartAge": 65,
+        "user2CppStartAge": 65,
+        "user1Gender": "",
+        "user1LifeSpan": 95,
+        "user2LifeSpan": 95,
+        "user1Name": "Ben",
+        "user2Name": "Kelsey",
+        "user1OasStartAge": 65,
+        "user2OasStartAge": 65,
+        "desiredRetirementIncome": 0,
+        "user1": {
+            "birthYear": 1990,
+            "cppStartAge": 65,
+            "firstName": "",
+            "lastName": "",
+            "gender": "male",
+            "hasChildren": false,
+            "isMarried": true,
+            "oasStartAge": 65,
+            "efficientWithdrawalTFSA": 0,
+            "efficientWithdrawalRRSP": 0,
+            "efficientWithdrawalNonReg": 0
+        },
+        "user2": {
+            "birthYear": 1990,
+            "cppStartAge": 65,
+            "firstName": "",
+            "lastName": "",
+            "gender": "female",
+            "oasStartAge": 65
+        }
+    },
+    "auth_reducer": {
+        "token": null,
+        "isLoggedIn": true,
+        "isLoading": false,
+        "user": null,
+        "user1Income_589848": "Business Income",
+        "user1Income_979566": {
+            "amortization": 0,
+            "color": "#B0CFE3",
+            "cppEligible": true,
+            "createdAt": 1603746636747,
+            "currentValue": 0,
+            "flow": "in",
+            "in": {
+                "1": {
+                    "start": 2020,
+                    "value": 0,
+                    "end": 2030
+                }
+            },
+            "id": "user1Income_979566",
+            "owner": "user1",
+            "out": {
+                "1": {
+                    "start": 2020,
+                    "value": 0,
+                    "end": 2030
+                }
+            },
+            "name": "",
+            "payment": 0,
+            "streamType": "income",
+            "rate": 0,
+            "reg": "taxable",
+            "taxable": true,
+            "scenarios": 0,
+            "startValue": 0,
+            "startYear": 0,
+            "periodIn": 1,
+            "periodOut": 1
+        },
+        "user1Savings_6529": 6000
+    },
 })
+
 
 export const exampleOverviewData = () => {
   const data = {}

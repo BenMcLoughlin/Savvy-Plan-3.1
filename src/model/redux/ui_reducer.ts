@@ -7,7 +7,7 @@ const initialState: IUiState = {
   selectedPeriod: 0,
   colorIndex: 0,
   videoUrl: "",
-  progress: 0,
+  progress: 7,
   selectedPage: "savings",
   selectedAccount: "tfsa",
   selectedUser: "user1",

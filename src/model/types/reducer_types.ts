@@ -29,7 +29,7 @@ export interface IUserState {
   changeAssumptions: string
   numberOfChildren: number
   gender: string
-  childrenStatus: string
+  hasChildrenStatus: string
   ownHome: boolean
   inflationRate: number
   maritalStatus: string
@@ -61,63 +61,10 @@ export interface Iset extends Action {
 
 export type state = ReturnType<typeof root_reducer>
 
-export interface IinstanceCore {
-  color: string
-  contributePeriods?: number
-  createdAt: string
-  id: string
-  name: string
-  periods: any
-  owner: I.owner
-  reg: string
-  streamType: string
-  selectedPeriod: number
-  linkedScenarios: number[]
-}
-
-export interface incomeStream extends IinstanceCore {
-  cppEligible: boolean
-  periods: number
-  period0StartYear: I.year
-  period0Value: number
-  period0EndYear: I.year
-  taxable: boolean
+export interface stream {
   [key: string]: any
 }
-
-export interface savingsStream extends IinstanceCore {
-  periods: number
-  period0StartYear: I.year
-  period0Value: number
-  period0EndYear: I.year
-  taxable: boolean
-  [key: string]: any
-}
-
-export interface propertyStream extends IinstanceCore {
-  currentValue: number
-  hasMortgage: "yes" | "no"
-  mortgageRate: number
-  mortgageBalance: number
-  mortgageAmortization: number
-  mortgageStartYear: I.year
-  purchasePrice: number
-  purchaseYear: I.year
-  taxable: boolean
-  sellYear: I.year
-}
-
-export interface debtStream extends IinstanceCore {
-  rate: number
-  balance: number
-  amortization: number
-  payment: number
-  currentValue: number
-}
-
-
-export type instance = incomeStream | propertyStream | savingsStream | debtStream 
 
 export interface main_reducer {
-  [key: string]: instance
+  [key: string]: any
 }
