@@ -10,7 +10,7 @@ const emptyAccountData = {
   total: 0,
 }
 
-export const getValue = (flow, stream: I.stream, year: number): number => {
+export const getValue = (flow, stream: any, year: number): number => {
   if (stream) {
     //step 1. Check all periods to see if year falls within the period Start or End
     const periods = +Object.keys(stream[flow]).pop() || 1

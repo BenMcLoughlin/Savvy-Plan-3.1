@@ -1,5 +1,3 @@
-import { IUserState } from "model/types/reducer_types"
-
 const initialState = {
   changeAssumptions: "",
   hasUnsecuredDebt: false,
@@ -26,6 +24,7 @@ const initialState = {
   user1OasStartAge: 65,
   user2OasStartAge: 65,
   desiredRetirementIncome: 0,
+  idealIncome: 0,
   user1: {
     birthYear: 1990,
     cppStartAge: 65,
@@ -49,7 +48,7 @@ const initialState = {
   },
 }
 
-export function user_reducer(state = initialState, action: any): IUserState {
+export function user_reducer(state = initialState, action: any) {
   switch (action.type) {
     case "user_reducer/SET_VALUE":
       return action.childId1

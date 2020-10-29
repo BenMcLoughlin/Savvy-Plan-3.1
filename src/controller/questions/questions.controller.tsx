@@ -1,11 +1,11 @@
-import { createStreamV2, addPeriodToStreamV2 } from "model/services/create_functions"
+import { createStream, addPeriodToStream } from "model/services/create_functions"
 import { removeMostRecentStream } from "controller/questions/helpers"
 import { validator } from "model/services/validation/validator"
 import { createTripleSliders } from "controller/questions/tripleSelector.creator"
-import _ from "lodash"
+import _, { AnyKindOfDictionary } from "lodash"
 import * as I from "model/types"
 import { addText } from "controller/questions/text"
-import {useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom"
 
 const dummyStream = {
   id: "dummy",
@@ -211,7 +211,7 @@ export const onboardQuestions = (q, remove, set, state, user) => {
               handleChange: () => {
                 set("dualSelectValue", "ui_reducer", true)
                 set("selectedUser", "ui_reducer", user)
-                createStreamV2(streamType, "in", user, "taxable", set, state)
+                createStream(streamType, "in", user, "taxable", set, state)
               },
               handleChange2: (option, clickFired: boolean) => {
                 set("dualSelectValue", "ui_reducer", false)
@@ -232,7 +232,7 @@ export const onboardQuestions = (q, remove, set, state, user) => {
               component: "Button",
               valid: true,
               handleChange: () => {
-                createStreamV2("income", "in", user, "taxable", set, state)
+                createStream("income", "in", user, "taxable", set, state)
                 set("selectedUser", "ui_reducer", user)
                 set("progress", "ui_reducer", ui_reducer.progress + 1)
               },
@@ -252,7 +252,7 @@ export const onboardQuestions = (q, remove, set, state, user) => {
               handleChange: (selected, d: any) => {
                 if (!selected && d.label !== "none") {
                   // check if the item doesnt already exist, or its not none, and will then create a new income st
-                  createStreamV2("savings", "out", user, d.reg.toLowerCase(), set, state)
+                  createStream("savings", "out", user, d.reg.toLowerCase(), set, state)
                 } //checks if there is no currently selected version, if so it adds a new one, prevents adding mulitple with many clicks
                 if (selected) {
                   //the user needs to be able to remove the new object if they click on it again enabling them to remove the account they added.
@@ -261,7 +261,7 @@ export const onboardQuestions = (q, remove, set, state, user) => {
                 if (d.label === "none") {
                   //the user needs to be able to remove the new object if they click on it again enabling them to remove all accounts added
                   const selectedInstances: any = Object.values(main_reducer).filter((b: any) => b.id.includes("user1Savings")) //searches the main reducer to find the matching object to be removed
-                  selectedInstances.map((instance: I.stream) => remove(instance.id))
+                  selectedInstances.map((instance: any) => remove(instance.id))
                   set("selectedId", "ui_reducer", "")
                 }
               },
@@ -275,8 +275,10 @@ export const onboardQuestions = (q, remove, set, state, user) => {
 }
 
 export const showUsers = (q, set, state) => {
-  const { selectedUser } = state.ui_reducer
+  const { selectedUser, selectedId } = state.ui_reducer
   const { user1Name, user2Name } = state.user_reducer
+  const stream = state.main_reducer[selectedId] || dummyStream
+  const { id, streamType, reg } = stream || dummyStream
 
   return {
     introduction: () =>
@@ -302,20 +304,17 @@ export const showUsers = (q, set, state) => {
         },
         ...addText("combinedIncomeChart", state, "user1"),
       }),
-    idealIncomeChart: n =>
-      q.push({
+    idealIncomeChart: n => {
+      const data = {
         ...{
+          component: "MultiSliders",
           showChart: true,
           chart: "IncomeChart",
-          component: "TripleSelector",
-          enableNav: true,
-          value: selectedUser,
-          user1Name,
-          user2Name,
-          handleChange: d => set("selectedUser", "ui_reducer", d),
+          max: 250000,
         },
-        ...addText("idealIncomeChart", state, "user1", n),
-      }),
+        ...addText("idealIncome", state, "user1", n, set),
+      }
+    },
     incomeParagraph: () =>
       q.push({
         ...{
@@ -351,9 +350,9 @@ export const buttons = (q, set, state) => {
       },
     }),
     backButton: () => ({
-      handleChange: ()  => {
+      handleChange: () => {
         set("progress", "ui_reducer", progress > 0 ? progress - 1 : 1)
       },
     }),
   }
-} 
+}

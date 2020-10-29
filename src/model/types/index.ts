@@ -1,3 +1,5 @@
+import root_reducer from "model/redux/root_reducer"
+
 //COMPONENT TYPES
 
 //DATA TYPES
@@ -26,14 +28,7 @@ export type remove = _remove
 
 //REDUCER TYPES
 
-import { state as _appState } from "./reducer_types"
-export type state = _appState
-
-import { stream as _stream } from "./reducer_types"
-export type stream = _stream
-
-import { main_reducer as _main_reducer } from "./reducer_types"
-export type main_reducer = _main_reducer
+export type state = ReturnType<typeof root_reducer>
 
 //VARIABLE TYPES
 

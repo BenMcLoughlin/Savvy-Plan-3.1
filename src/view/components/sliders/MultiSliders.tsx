@@ -7,7 +7,6 @@ interface ISliderProps {
   state: any
   props: any
   num: number
-  path?: any
 }
 
 export const MultiSliders: FC<ISliderProps> = props => {

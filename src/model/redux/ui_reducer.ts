@@ -1,6 +1,4 @@
-import { IUiState } from "model/types/reducer_types"
-
-const initialState: IUiState = {
+const initialState = {
   change: false,
   selectedId: "dummy",
   selectedScenario: 1,
@@ -20,7 +18,7 @@ const initialState: IUiState = {
   scenarioLabel3: "Saver",
 }
 
-export function ui_reducer(state: IUiState = initialState, action: any): IUiState {
+export function ui_reducer(state = initialState, action: any) {
   switch (action.type) {
     case "ui_reducer/SET_VALUE":
       return { ...state, [action.id]: action.value } //sets a simple id value pair within the reducer object
@@ -28,6 +26,3 @@ export function ui_reducer(state: IUiState = initialState, action: any): IUiStat
       return state
   }
 }
-
-
-

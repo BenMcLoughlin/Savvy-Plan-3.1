@@ -1,19 +1,21 @@
 import _ from "lodash"
 import * as I from "model/types"
 import { getCpp, getCcb, getTargetIncome, getAvgRate, getMargRate, getYearRange, insertBenefits, beforePension, getAfterTaxIncome, sum } from "model/calculations/income/income.helpers"
-import { insert1, insert2, Helpers, memoize } from "model/calculations/helpers"
-import { createSelector } from "reselect"
+import { insert1, insert2, Helpers } from "model/calculations/helpers"
+import { maxTFSAWithdrawal } from "model/calculations/income/income.helpers"
 
 const lets = new Helpers()
 
 export const buildIncomeForcast = (state: I.state) => {
-  // console.time()
+  console.time()
 
   let inc = {}
 
   const { selectedUser } = state.ui_reducer
 
   const users: I.owner[] = ["user1", "user2"]
+
+  const maxTFSA = maxTFSAWithdrawal(2050, 2080)
 
   users.forEach(user => {
     const { streams } = lets.turn(state.main_reducer).intoArray().filteredFor(["streamType", "income"], ["owner", user])
@@ -38,7 +40,7 @@ export const buildIncomeForcast = (state: I.state) => {
       const marginalRate = getMargRate(taxableIncome)
       const averageRate: any = getAvgRate(taxableIncome)
       const afterTaxIncome = getAfterTaxIncome(inc[year][user].income, averageRate, streams)
-      const targetIncome = getTargetIncome(taxableIncome)
+      const targetIncome = getTargetIncome(inc[year][user], maxTFSA, state, taxableIncome, year)
       // const afterTaxIncome = taxableIncome * (1 - averageRate)
       inc = insert2(inc, user, year, { afterTaxIncome, averageRate, marginalRate, taxableIncome, targetIncome })
       if (selectedUser === user) {
@@ -47,7 +49,8 @@ export const buildIncomeForcast = (state: I.state) => {
     })
   })
 
-  // console.log(JSON.stringify(inc, null, 4))
-  // console.timeEnd()
+  console.log(JSON.stringify(inc, null, 4))
+  console.timeEnd()
+  console.log(chartArray)
   return { chartArray, inc }
 }

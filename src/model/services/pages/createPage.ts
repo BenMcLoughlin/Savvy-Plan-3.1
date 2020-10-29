@@ -14,8 +14,8 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
   const { user1Name, user2Name } = state.user_reducer
   const instance = state.main_reducer[selectedId]
 
-  const scenarioLabels = _.range(scenarios).map(d => state.ui_reducer[`scenarioLabel${d+1}`])
-  const scenarioOptions = _.range(scenarios).map(d => d < 10 ? `0${d}` : ""+d)
+  const scenarioLabels = _.range(scenarios).map(d => state.ui_reducer[`scenarioLabel${d + 1}`])
+  const scenarioOptions = _.range(scenarios).map(d => (d < 10 ? `0${d}` : "" + d))
 
   const { streamType, chart, addButtonLabel, infoCards } = data
 
@@ -45,17 +45,16 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
       title: "Scenario",
       optionArray: scenarioOptions,
       labelArray: scenarioLabels,
-      addNew: (e) => {
-        set('scenarios', 'ui_reducer', scenarios+1)
-        set(`scenarioLabel${scenarios+1}`, 'ui_reducer', "")
-        set(`selectedScenario`, 'ui_reducer', scenarios)
-
-      }
+      addNew: e => {
+        set("scenarios", "ui_reducer", scenarios + 1)
+        set(`scenarioLabel${scenarios + 1}`, "ui_reducer", "")
+        set(`selectedScenario`, "ui_reducer", scenarios)
+      },
     },
     addPrompt: {
       label: addButtonLabel,
       handleChange: () => {
-        createStream(colorIndex, set, streamType, selectedAccount, selectedUser, state) //creates a new stream and places it in the reducer, a switch statement on streamType determines what kind of stream
+        createStream(streamType, "in", selectedUser, "taxable", set, state)
         set("progress", "ui_reducer", 0)
         set("newStream", "ui_reducer", true)
         set("dualSelectValue", "ui_reducer", true) //ensures that the select is set to contribute when opened
@@ -64,7 +63,7 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
     editPrompt: {
       label: "Edit Income Stream",
       handleChange: () => {
-        createStream(colorIndex, set, streamType, selectedAccount, selectedUser, state) //creates a new stream and places it in the reducer, a switch statement on streamType determines what kind of stream
+        createStream(streamType, "in", selectedUser, "taxable", set, state)
         set("progress", "ui_reducer", 0)
         set("newStream", "ui_reducer", true)
         set("dualSelectValue", "ui_reducer", true) //ensures that the select is set to contribute when opened
@@ -105,12 +104,12 @@ export const createPage = (data: I.pages, state: I.state, set: I.set, parent: I.
         option1: "contribute",
         option2: "withdraw",
         value: dualSelectValue,
-        handleChange: (option) => {
+        handleChange: option => {
           set("selectedPeriod", "ui_reducer", contributePeriods)
           set("dualSelectValue", "ui_reducer", true)
           set("savingsTransaction", "ui_reducer", option)
         },
-        handleChange2: (option) => {
+        handleChange2: option => {
           set("selectedPeriod", "ui_reducer", periods)
           set("dualSelectValue", "ui_reducer", false)
           set("savingsTransaction", "ui_reducer", option)

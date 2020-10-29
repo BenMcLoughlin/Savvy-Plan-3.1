@@ -1,25 +1,25 @@
+import { maxTFSAWithdrawal } from "model/calculations/income/income.helpers"
 
- //i//mport {maxTFSAValues} from 'model/calculations/income'
+const _ = require("lodash")
 
- const payment = function (rate, nperiod, pv, fv, type) {
-   if (!fv) fv = 0
-   if (!type) type = 0
+const payment = function (rate, nperiod, pv, fv, type) {
+  if (!fv) fv = 0
+  if (!type) type = 0
 
-   if (rate === 0) return -(pv + fv) / nperiod
+  if (rate === 0) return -(pv + fv) / nperiod
 
-   var pvif = Math.pow(1 + rate, nperiod)
-   var pmt = (rate / (pvif - 1)) * -(pv * pvif + fv)
+  var pvif = Math.pow(1 + rate, nperiod)
+  var pmt = (rate / (pvif - 1)) * -(pv * pvif + fv)
 
-   if (type === 1) {
-     pmt /= 1 + rate
-   }
+  if (type === 1) {
+    pmt /= 1 + rate
+  }
 
-   return Math.round(pmt)
- }
-
+  return Math.round(pmt)
+}
 
 // const maxPossibleRRSP = (income, year) => {
-  
+
 // }
 
 // const maxTFSAWithdrawal = (tfsaStartYear, lifeSpan) => {
@@ -28,12 +28,28 @@
 
 //   return payment(0.03, tfsaWithdrawalDuration, tfsaStartValue, 0, null)
 // }
+const retirementAge = 65
+const retirementYear = 2067
+const maxRRSPPayment = 18000
+const maxTFSAPayment = 18000
+const benfits = 20000
 
-export const getTargetIncome = (income) => {
-  return ({
-    tfsa: 12000, 
-    rrsp: 4000, 
-    walMart: 12000, 
-    cpp: 12000, 
-  })
+export const getTargetIncome = (annualIncome, maxTFSA, state, taxableIncome, year) => {
+  const { income } = annualIncome
+  const RetIncome = 40000
+  const bracketDiff = 41725 - +taxableIncome
+  const totalDiff = RetIncome - +taxableIncome
+  const top5IncomeAverage = 40000
+  const rrspContAdj = top5IncomeAverage / 70000
+
+  const rrsp = (bracketDiff / totalDiff) * rrspContAdj
+  const tfsa = year < 2050 ? 0 : maxTFSA / totalDiff
+  const nReg = 1 - rrsp - tfsa > 0 ? 1 - rrsp - tfsa : 0
+
+  const targetIncome = { ...income, rrspInc: rrsp * totalDiff, tfsaInc: tfsa * totalDiff, nRegInc: nReg * totalDiff }
+  return targetIncome
 }
+
+// export const getTargetIncome = income => {
+//   return _.range(2050, 2080).map(year => targetIncome(income[year].user1))[10]
+// }

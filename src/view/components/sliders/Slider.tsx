@@ -12,7 +12,6 @@ interface ISliderProps {
   handleChange: any
   value: number
   selectedFocus?: boolean
-  path?: String
 }
 
 export const Slider: FC<ISliderProps> = ({ min, handleChange, topLabel, bottomLabel, type, max, selectedFocus, step, value }) => {

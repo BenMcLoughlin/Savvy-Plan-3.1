@@ -1,11 +1,13 @@
 import _ from "lodash"
 import { insert0 } from "model/calculations/helpers"
 import * as I from "model/types"
+import { maxTFSAValues } from "./targetIncome/target.data"
+import { payment } from "model/services/financialFunctions"
+
 export { getCpp } from "model/calculations/income/CanadaPensionPlan/CPP.function"
 export { getCcb } from "model/calculations/income/CanadaChildBenefit/CCB.function"
 export { getTargetIncome } from "model/calculations/income/targetIncome/targetIncome.function"
 export { getAvgRate, getMargRate } from "model/calculations/income/tax/tax.helpers"
-export { maxTFSAValues } from "model/calculations/income/targetIncome/target.data"
 
 export const insertBenefits = (object: I.incomeForcast, user, year, key3, ccb, cpp, oas, state) => {
   const { birthYear, cppStartAge, oasStartAge } = state.user_reducer[user]
@@ -61,4 +63,11 @@ export const beforePension = (streams, year) => {
   })
   const cppEligibleIncome = sum(income, "cppEligible", streams)
   return { income, cppEligibleIncome }
+}
+
+export const maxTFSAWithdrawal = (tfsaStartYear, lifeSpan) => {
+  const tfsaWithdrawalDuration = lifeSpan - tfsaStartYear
+  const tfsaStartValue = maxTFSAValues["" + tfsaStartYear]
+
+  return -payment(0.03, tfsaWithdrawalDuration, tfsaStartValue, 0, null)
 }

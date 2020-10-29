@@ -20,7 +20,6 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
   const { backButton, nextButton, questions } = data
   const { length } = questions
   const { explanation, backHandleChange, chart, nextHandleChange, showChart, enableNav, subTitle } = data.questions[progress]
-
   const history = useHistory()
 
   useEffect(() => {

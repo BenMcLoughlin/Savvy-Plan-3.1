@@ -2,7 +2,6 @@ import * as I from "model/types"
 import { createSavingsObject } from "model/calculations/savings/create/createSavingsObject"
 import { getOptimimWithdrawal } from "model/calculations/savings/helpers"
 
-
 export const getSavings = (state: I.state, set: I.set): any => {
   const START_TIME = new Date().getTime()
 
