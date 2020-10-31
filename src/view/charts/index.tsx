@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import * as I from "model/types"
 
 //Import Selectors
-import { color_selector } from "model/selectors"
+import { color_selector } from "model/redux/selectors"
 
 import { IncomeChart as _IncomeChart } from "view/charts/IncomeChart"
 import { SavingsChart as _SavingsChart } from "view/charts/SavingsChart"

@@ -1,4 +1,4 @@
-import * as I from "model/calculations/savings/types"
+import * as I from "model/types"
 
 export const getSavingsData = ({ ui_reducer }, savingsObject: I.savingsObject) => {
   //console.log("JSON.stringify(savinsObject, null, 4):", JSON.stringify(savingsObject, null, 4))
@@ -21,7 +21,7 @@ export const getSavingsData = ({ ui_reducer }, savingsObject: I.savingsObject) =
       })
       barData.push({
         year,
-        total: totalContribute - totalWithdraw
+        total: totalContribute - totalWithdraw,
       })
     } else if (selectedAccount === "combined" && selectedUser === "combined") {
       const totalSavings = savingsObject[year].user1.totalSavings + savingsObject[year].user2.totalSavings
@@ -33,7 +33,7 @@ export const getSavingsData = ({ ui_reducer }, savingsObject: I.savingsObject) =
       })
       barData.push({
         year,
-        total: totalContribute - totalWithdraw
+        total: totalContribute - totalWithdraw,
       })
     } else if (selectedAccount !== "combined" && selectedUser === "combined") {
       const totalSavings = savingsObject[year].user1[selectedAccount].total + savingsObject[year].user2[selectedAccount].total
@@ -45,7 +45,7 @@ export const getSavingsData = ({ ui_reducer }, savingsObject: I.savingsObject) =
       })
       barData.push({
         year,
-        total: totalContribute - totalWithdraw
+        total: totalContribute - totalWithdraw,
       })
     } else {
       areaData.push({
@@ -59,7 +59,6 @@ export const getSavingsData = ({ ui_reducer }, savingsObject: I.savingsObject) =
     }
     return null
   })
-
 
   return {
     areaData,

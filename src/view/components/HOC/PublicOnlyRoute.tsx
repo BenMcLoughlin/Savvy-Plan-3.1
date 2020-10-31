@@ -10,6 +10,6 @@ export interface IPrivateRouteProps extends RouteProps {
 }
 
 export const PrivateRoute: React.FC<IPrivateRouteProps> = props => {
-  const { isLoggedIn } = props.state.auth_reducer
-  return isLoggedIn ? <Route {...props} component={props.component} render={props.render} /> : <Redirect to="/" />
+  const { token } = props.state.auth_reducer
+  return token ? <Route {...props} component={props.component} render={props.render} /> : <Redirect to="/" />
 }

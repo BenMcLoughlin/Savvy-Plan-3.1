@@ -116,5 +116,5 @@ const Nav = styled.div`
   height: 70rem;
 `
 const Selector_ = styled(Selector)`
-background: red;
+  background: red;
 `

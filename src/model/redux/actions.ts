@@ -9,9 +9,9 @@ export const set = (id: string, reducer: string, value: any, childId1?: any, chi
   }
 }
 
-export const remove = (id: string): any => {
+export const remove = (id: string, reducer="main_reducer"): any => {
   return {
-    type: `main_reducer/remove`,
+    type: `${reducer}/REMOVE`,
     id,
   }
 }

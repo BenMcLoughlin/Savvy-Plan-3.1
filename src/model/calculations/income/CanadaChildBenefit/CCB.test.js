@@ -1,5 +1,3 @@
-import { getCcb } from "model/calculations/income/CanadaChildBenefit/CCB.functionDEPRECIATED"
-
 const dummyState = {
   user_reducer: {
     child1BirthYear: 2010,
@@ -9,19 +7,18 @@ const dummyState = {
 const dummyIncomeObject = () => {
   const incomeObject = {}
   for (let year = 2000; year <= 2080; year++) {
-   incomeObject[year] = {
+    incomeObject[year] = {
       user1: {
-        beforeTaxIncome: 40000
+        beforeTaxIncome: 40000,
       },
       user2: {
-        beforeTaxIncome: 20000
-      }
+        beforeTaxIncome: 20000,
+      },
     }
   }
   //console.log('incomeObject:', incomeObject)
   return incomeObject
 }
-
 
 const dummyIncome = {
   2010: {

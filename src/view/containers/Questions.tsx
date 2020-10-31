@@ -1,11 +1,12 @@
 import React, { FC, useState, useEffect } from "react"
 import styled from "styled-components"
 import * as components from "view/components"
-import { ProgressBar, Next, Back, TripleSliderSelector } from "view/components"
+import { ProgressBar, Next, Back } from "view/components"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
-import { useHistory, Redirect, useParams } from "react-router-dom"
+import { useHistory, Redirect } from "react-router-dom"
 import { matchThenShowComponent } from "model/services/display_functions"
 import * as I from "model/types"
+import { useHttpClient } from "view/hooks"
 
 interface IProps {
   set: I.set
@@ -19,14 +20,18 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
   const [direction, setDirection] = useState<string>("forward")
   const { backButton, nextButton, questions } = data
   const { length } = questions
-  const { explanation, backHandleChange, chart, nextHandleChange, showChart, enableNav, subTitle } = data.questions[progress]
+  const { explanation, backHandleChange, chart, nextHandleChange, showChart } = data.questions[progress]
   const history = useHistory()
+  const { sendRequest } = useHttpClient(set)
 
   useEffect(() => {
     history.push(`/onboarding/${progress}`)
     window.addEventListener("popstate", e => {
       set("progress", "ui_reducer", +history.location.pathname.replace(/\D/g, ""))
     })
+    // sendRequest(`http://localhost:5000/api/users/save`, "POST", JSON.stringify(state), {
+    //   "Content-Type": "application/json",
+    // })
   }, [progress, history])
 
   if (progress === length - 2) return <Redirect to="/plan" />

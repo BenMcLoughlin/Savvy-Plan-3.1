@@ -5,10 +5,11 @@ export interface IButton {
   label: string
   handleChange: () => void
   danger?: boolean
+  type?: "button" | "submit" | "reset"
 }
 
-export const Button: FC<IButton> = ({ danger, label, handleChange }) => (
-  <Wrapper onClick={() => handleChange()} danger={danger}>
+export const Button: FC<IButton> = ({ danger, label, handleChange, type = "button" }) => (
+  <Wrapper type={type} onClick={() => handleChange()} danger={danger}>
     {label}
   </Wrapper>
 )

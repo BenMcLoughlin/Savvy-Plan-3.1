@@ -1,6 +1,5 @@
-import { maxTFSAWithdrawal } from "model/calculations/income/income.helpers"
-
-const _ = require("lodash")
+//import { maxTFSAWithdrawal } from "model/calculations/income/income.helpers"
+import _ from "lodash"
 
 const payment = function (rate, nperiod, pv, fv, type) {
   if (!fv) fv = 0

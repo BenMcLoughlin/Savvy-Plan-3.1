@@ -2,16 +2,15 @@
 // and this article https://retirehappy.ca/enhanced-cpp/
 import { historicYmpe, fiveYearYMPE, YMPE } from "model/calculations/income/CanadaPensionPlan/CPP.data"
 import { getSAAPE, getFAAPE, adjustCpp, sumArray, sumPensionableEarnings, adjustOas } from "model/calculations/income/CanadaPensionPlan/CPP.helpers"
+import * as I from "model/types"
 
-import * as I from "model/calculations/income/types"
-
-export const getCpp = (income: any, user: I.owner, { user_reducer }): number => {
+export const getCpp = (income: any, user: I.user, { user_reducer }): number => {
   const birthYear = user_reducer[`${user}BirthYear`]
   const cppStartAge = user_reducer[`${user}CppStartAge`]
 
-  let APE_array = [] //Adjusted Pensionable earnings, earnings will be adjusted for inflation and placed here
-  let FAAPE_array = [] //first adjusted additional pensionable earnings, this is a top up
-  let SAAPE_array = [] //second adjusted additional pensionable earnings, between 59k and 69k
+  const APE_array = [] //Adjusted Pensionable earnings, earnings will be adjusted for inflation and placed here
+  const FAAPE_array = [] //first adjusted additional pensionable earnings, this is a top up
+  const SAAPE_array = [] //second adjusted additional pensionable earnings, between 59k and 69k
 
   const finalCPPAge = cppStartAge < 70 ? cppStartAge : 70
   const contributoryPeriod = finalCPPAge - 18
@@ -53,7 +52,7 @@ export const getCpp = (income: any, user: I.owner, { user_reducer }): number => 
   return adjustedBenefit
 }
 
-export const getOas = (user: I.owner, { user_reducer }) => {
+export const getOas = (user: I.user, { user_reducer }) => {
   const oasStartAge = user_reducer[`${user}OasStartAge`]
   return adjustOas(7200, oasStartAge)
 }

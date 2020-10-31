@@ -28,12 +28,12 @@ font-weight: 200;
 
 export const savingsAreaHtml = (d, dataObject, state) => {
   const { selectedUser, selectedAccount } = state.ui_reducer
-  const { user1BirthYear } = state.user_reducer
+  const { birthYear } = state.user_reducer[selectedUser]
   let total = 100
-  if (selectedAccount !== "combined" && selectedUser !== "combined") total = dataObject[d.year][selectedUser][selectedAccount].total
-  if (selectedAccount === "combined" && selectedUser !== "combined") total = dataObject[d.year][selectedUser].totalSavings
-  if (selectedAccount === "combined" && selectedUser === "combined") total = dataObject[d.year].user1.totalSavings + dataObject[d.year].user2.totalSavings
-  if (selectedAccount !== "combined" && selectedUser === "combined") total = dataObject[d.year].user1[selectedAccount].total + dataObject[d.year].user2[selectedAccount].total
+  // if (selectedAccount !== "combined" && selectedUser !== "combined") total = dataObject[d.year][selectedUser][selectedAccount].total
+  // if (selectedAccount === "combined" && selectedUser !== "combined") total = dataObject[d.year][selectedUser].totalSavings
+  // if (selectedAccount === "combined" && selectedUser === "combined") total = dataObject[d.year].user1.totalSavings + dataObject[d.year].user2.totalSavings
+  // if (selectedAccount !== "combined" && selectedUser === "combined") total = dataObject[d.year].user1[selectedAccount].total + dataObject[d.year].user2[selectedAccount].total
 
   return `
                                     <div style="${wrapper}">
@@ -47,7 +47,7 @@ export const savingsAreaHtml = (d, dataObject, state) => {
                                         Estimated Value
                                         <p>
                                         <p>
-                                        ${d.year} at age ${+d.year - +user1BirthYear}
+                                        ${d.year} at age ${+d.year - +birthYear}
                                         <p>
                                        </div>
                                     </div>

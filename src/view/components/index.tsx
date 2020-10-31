@@ -9,8 +9,11 @@ import * as I from "model/types"
 //DevButtons
 import { Back as _Back } from "view/components/buttons/Back"
 
+//Import Components
+import { TextInput as _TextInput } from "view/components/textInput/TextInput"
+
 //Import Selectors
-import { color_selector } from "model/selectors"
+import { color_selector } from "model/redux/selectors"
 
 //Chart Imports
 import { IncomeChart as _IncomeChart } from "view/charts/IncomeChart"
@@ -92,12 +95,14 @@ export { Slider } from "./sliders/Slider"
 //Text Input
 
 export { EditTitle } from "./textInput/EditTitle"
-export { MultipleTextInput } from "./textInput/MultipleTextInput"
-export { TextInput } from "./textInput/TextInput"
 
 //Smart Components Connected to Redux
 
 export const EditPanel = compose(connect(mapStateToProps, { set, remove }))(_EditPanel)
+
+//Smart Components Connected to Redux
+
+export const TextInput = compose(connect(mapStateToProps, { set, remove }))(_TextInput)
 
 export const IncomeChart = compose(connect(mapStateToProps, { set }))(_IncomeChart)
 /**

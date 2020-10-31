@@ -1,5 +1,5 @@
 import { taxes } from "model/calculations/income/tax/tax.data"
-import * as I from "model/calculations/income/types"
+import * as I from "model/types"
 
 export const getTax = (income: number, government: I.government) => {
   const { rate, constant }: any = Object.values(taxes[government]).find((d: any): any => income >= d.bot && income < d.top) //find the object that contains the bracket details the income fits into

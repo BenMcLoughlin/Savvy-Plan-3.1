@@ -1,11 +1,10 @@
-import { ageAtSelectedYear } from "model/services/ui_functions"
-import { addPeriodToStream } from "model/services/create_functions"
 import { round } from "model/services/ui_functions"
+import { addPeriodToStream } from "model/services/create_functions"
 import _ from "lodash"
 import * as I from "model/types"
 
-export const createTripleSliders = (flow, text: any, set: I.set, selectedPeriod, state: I.state, stream: any) => {
-  const { id, owner, streamType } = stream
+export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selectedPeriod: string, state: I.state, stream: I.stream): I.objects => {
+  const { id, owner } = stream
   const period = stream[selectedPeriod]
 
   const periods = +Object.keys(stream[flow]).pop()
@@ -39,14 +38,14 @@ export const createTripleSliders = (flow, text: any, set: I.set, selectedPeriod,
     },
   }
 
-  const slidersArray = _.range(periods).map((d: any, i: number) => {
+  const slidersArray = _.range(periods).map((d: number, i: number) => {
     const startYear = stream[flow][period].start
     const endYear = stream[flow][period].end
-    const value = stream[flow][period].value
+    const { value } = stream[flow][period]
 
     const currentYear = new Date().getFullYear() //the text needs to be able to refer to the income being earned in the past or in the future, so we will use this to test that
 
-    let past = currentYear > startYear
+    const past = currentYear > startYear
 
     return {
       component: "MultiSliders",

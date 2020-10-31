@@ -37,7 +37,6 @@ interface ItripleSelector {
 
 export interface pages {
   addButtonLabel
-  editPeriod: object
   chart: I.chartType //determines the chart that will be rendered
   editPanel: string //tells <Display> which edit component to use
   streamType: I.streamType

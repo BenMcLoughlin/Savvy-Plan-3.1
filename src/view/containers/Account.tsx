@@ -1,10 +1,8 @@
 import React from 'react'
 
-interface Props {
-  
-}
 
-export const Account = (props: Props) => {
+
+export const Account = () => {
   return (
     <div>
       Acount

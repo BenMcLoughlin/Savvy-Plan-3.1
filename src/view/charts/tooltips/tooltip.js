@@ -36,8 +36,8 @@ export const createBarTooltip = (className, dataObject, hoveredName, state) => {
     .on("mouseout", (d, i, n) => tooltip.transition().duration(1500).style("opacity", 0))
     .on("mousemove", () => {
       tooltip
-        .style("top", d3.event.layerY - 20 + "px") // always 10px below the cursor
-        .style("left", d3.event.layerX + 30 + "px") // always 10px to the right of the mouse
+        // .style("top", d3.layerY - 20 + "px") // always 10px below the cursor
+        // .style("left", d3.layerX + 30 + "px") // always 10px to the right of the mouse
     })
 }
 
@@ -89,6 +89,6 @@ export const createAreaTooltip = (className, dataObject, graph, state, xScale, y
     .on("mousemove", () => {
       tooltip
         .style("top", 50 + "px") // always 10px below the cursor
-        .style("left", () => (d3.event.layerX - 150 > 650 ? "650px" : d3.event.layerX - 150 + "px")) // always 10px to the right of the mouse
+       // .style("left", () => (d3.event.layerX - 150 > 650 ? "650px" : d3.event.layerX - 150 + "px")) // always 10px to the right of the mouse
     })
 }

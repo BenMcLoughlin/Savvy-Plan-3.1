@@ -22,6 +22,12 @@ export type reg =
   | "afterTax"
   | ""
 
+
+
+export interface objects {
+  [key: string]: any
+}
+
 export type owner = "user1" | "user2"
 
 export type user = "user1" | "user2" | "combined"

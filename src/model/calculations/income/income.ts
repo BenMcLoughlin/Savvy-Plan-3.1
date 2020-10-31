@@ -13,7 +13,7 @@ export const buildIncomeForcast = (state: I.state) => {
 
   const { selectedUser } = state.ui_reducer
 
-  const users: I.owner[] = ["user1", "user2"]
+  const users: I.user[] = ["user1", "user2"]
 
   const maxTFSA = maxTFSAWithdrawal(2050, 2080)
 
@@ -22,7 +22,7 @@ export const buildIncomeForcast = (state: I.state) => {
     return getYearRange(state).forEach(year => (inc = insert1(inc, user, year, beforePension(streams, year))))
   })
 
-  users.forEach((user: I.owner) => {
+  users.forEach((user: I.user) => {
     const cpp = getCpp(inc, user, state)
     const oas = 12000
     getYearRange(state).forEach(year => {
@@ -33,7 +33,7 @@ export const buildIncomeForcast = (state: I.state) => {
 
   const chartArray = []
 
-  users.forEach((user: I.owner) => {
+  users.forEach((user: I.user) => {
     const { streams } = lets.turn(state.main_reducer).intoArray().filteredFor(["streamType", "income"], ["owner", user])
     getYearRange(state).forEach(year => {
       const taxableIncome = sum(inc[year][user].income, "taxable", streams)
@@ -49,8 +49,8 @@ export const buildIncomeForcast = (state: I.state) => {
     })
   })
 
-  console.log(JSON.stringify(inc, null, 4))
-  console.timeEnd()
-  console.log(chartArray)
+  //console.log(JSON.stringify(inc, null, 4))
+  //console.timeEnd()
+  //console.log(chartArray)
   return { chartArray, inc }
 }

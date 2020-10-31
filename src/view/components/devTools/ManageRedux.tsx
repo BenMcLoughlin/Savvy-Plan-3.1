@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react"
 import styled from "styled-components"
-interface Props {}
 
 interface IProps {
   state: any

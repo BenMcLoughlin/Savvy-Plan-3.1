@@ -7,7 +7,7 @@ const initialState = {
 
 export const main_reducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case "main_reducer/remove":
+    case "main_reducer/REMOVE":
       return _.omit(state, [action.id])
     case "main_reducer/SET_VALUE":
       return action.childId3

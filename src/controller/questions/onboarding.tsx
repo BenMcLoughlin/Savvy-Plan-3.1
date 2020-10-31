@@ -1,15 +1,15 @@
 import * as I from "model/types"
-import _ from "lodash"
 import { buttons, onboardQuestions, showUsers } from "controller/questions/questions.controller"
-import { numberOfStreams, streams } from "controller/questions/helpers"
+import { streams } from "controller/questions/helpers"
 
-export const onboard_questions = (data: any, state: any, set: any, progress: number, remove: any) => {
+export const onboard_questions = (state: I.state, set: I.set, remove: I.remove): I.onboard_questions => {
   const { user1 } = state.user_reducer
-  const q: any = []
+  const q: I.question[] = []
 
   const askUser1 = onboardQuestions(q, remove, set, state, "user1")
   const askUser2 = onboardQuestions(q, remove, set, state, "user2")
   const show = showUsers(q, set, state)
+  console.log(askUser1)
 
   show.introduction()
   askUser1.for.name()
@@ -21,6 +21,7 @@ export const onboard_questions = (data: any, state: any, set: any, progress: num
     askUser2.for.birthYear()
     // askUser2.for.gender()
   }
+
   askUser1.if.theyHaveChildren()
   if (user1.hasChildren) {
     askUser1.for.numberOfChildren()
@@ -28,7 +29,7 @@ export const onboard_questions = (data: any, state: any, set: any, progress: num
 
   askUser1.to.create.income()
 
-  streams(state, "user1", "income").map((s,i) => {
+  streams(state, "user1", "income").map((s, i) => {
     askUser1.for.income.name(i)
     askUser1.for.income.registration()
     askUser1.for.income.amount(i)
@@ -39,7 +40,7 @@ export const onboard_questions = (data: any, state: any, set: any, progress: num
 
   if (user1.isMarried) {
     askUser2.to.create.income()
-    streams(state, "user2", "income").map((s,i) => {
+    streams(state, "user2", "income").map((s, i) => {
       askUser2.for.income.name(i)
       askUser2.for.income.registration()
       askUser2.for.income.amount(i)
@@ -53,7 +54,7 @@ export const onboard_questions = (data: any, state: any, set: any, progress: num
 
   askUser1.to.create.savings()
 
-  streams(state, "user1", "savings").map((s,i) => {
+  streams(state, "user1", "savings").map((s, i) => {
     askUser1.for.savings.currentValue()
     askUser1.for.savings.contributions(i)
     askUser1.for.savings.withdrawals(i)
@@ -86,8 +87,9 @@ export const onboard_questions = (data: any, state: any, set: any, progress: num
   // ask.for.user1.name()
   // ask.for.user1.name()
 
-  const questions = q.flat().map(d => d)
-//console.log(questions)
+  console.log(q)
+  const questions = q
+
   const add = buttons(questions, set, state)
 
   return {

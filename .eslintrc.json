@@ -1,9 +1,12 @@
 {
-  "extends": ["airbnb", "prettier", "plugin:node/recommended"],
+  "extends": ["prettier", "plugin:@typescript-eslint/recommended"],
+  // "extends": ["prettier", "plugin:@typescript-eslint/recommended"],
   "plugins": ["prettier"],
+
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": "off",
     "spaced-comment": "off",
+    "camelcase": [0, { "properties": "never" }],
     "no-console": "off",
     "consistent-return": "off",
     "func-names": "off",
@@ -12,8 +15,41 @@
     "no-param-reassign": "off",
     "no-return-await": "off",
     "no-underscore-dangle": "off",
+    "no-plusplus": "off",
+    "dot-notation": "off",
+    "import/prefer-default-export": "off",
+    "no-use-before-define": "off",
+    "no-return-assign": "off",
+    "no-nested-ternary": "off",
+    "no-extra-boolean-cast": "off",
+    "array-callback-return": "off",
+    "import/first": "off",
+    "prefer-template": "off",
+    "react/jsx-curly-brace-presence": "off",
+    "react/prop-types": 0,
     "class-methods-use-this": "off",
-    "prefer-destructuring": ["error", { "object": true, "array": false }],
-    "no-unused-vars": ["off", { "argsIgnorePattern": "req|res|next|val" }]
+    "no-shadow": ["off", { "builtinGlobals": false, "hoist": "functions", "allow": [] }],
+    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+    "no-unused-vars": ["off", { "argsIgnorePattern": "req|res|next|val" }],
+    "no-const-assign": "warn",
+    "prefer-const": "warn",
+    "no-else-return": "warn",
+    "eqeqeq": "warn",
+    "react/destructuring-assignment": "warn",
+    "vars-on-top": "warn",
+    "no-var": "warn",
+    "@typescript-eslint/no-extra-semi": "warn",
+    "react/jsx-props-no-spreading": 0,
+    "no-restricted-properties": "warn",
+    "@typescript-eslint/no-explicit-any": 0,
+    "prefer-destructuring": "warn"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "paths": ["./src"]
+      }
+    }
   }
 }

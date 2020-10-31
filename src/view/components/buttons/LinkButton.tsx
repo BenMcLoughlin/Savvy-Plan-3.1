@@ -9,7 +9,7 @@ export interface IButton {
   handleChange?: () => void
 }
 
-export const LinkButton: FC<IButton> = ({ danger, label, link, handleChange }) => (
+export const LinkButton: FC<IButton> = ({ danger, label, link, handleChange}) => (
   <Wrapper to={link} id="button" onClick={() => handleChange()} danger={danger}>
     {label}
   </Wrapper>
@@ -36,8 +36,8 @@ const Wrapper = styled(Link)<Props>`
   outline: none;
   transition: all 0.2s ease-in;
   ${props => props.theme.neomorph};
-  background: ${props => (props.danger ? "grey" : props.theme.color.background )};
-  color: ${props => props.danger ? "white" : "grey"};
+  background: ${props => (props.danger ? "grey" : props.theme.color.background)};
+  color: ${props => (props.danger ? "white" : "grey")};
   text-decoration: none;
   text-transform: capitalize;
 `

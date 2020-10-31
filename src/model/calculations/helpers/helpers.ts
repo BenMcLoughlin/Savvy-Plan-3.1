@@ -2,7 +2,9 @@ import _ from "lodash"
 
 export class Helpers {
   reducer: any
+
   array: any
+
   streams: any
 
   turn(reducer: any) {
@@ -98,17 +100,16 @@ export const getRetirementRange = (user, { user_reducer }) => {
   return _.range(startYear, startYear + 30)
 }
 
-
 export const sum = (obj, query, streams) =>
   Object.entries(obj).reduce((acc: any, [k, v]) => {
-    let stream = streams.find(d => d.name === k)
+    const stream = streams.find(d => d.name === k)
     return !!stream ? acc + (stream[query] ? v : 0) : acc + v
   }, 0)
 
 export const getAfterTaxIncome = (obj, rate, streams) => {
   let newObj = {}
   Object.entries(obj).forEach(([k, v]) => {
-    let stream = streams.find(d => d.name === k)
+    const stream = streams.find(d => d.name === k)
     return !!stream && !stream.taxable ? (newObj = { ...newObj, [k]: +v }) : (newObj = { ...newObj, [k]: +v * (1 - rate) })
   })
   return newObj

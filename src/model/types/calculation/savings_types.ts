@@ -1,12 +1,6 @@
 
-import { year as _year } from "model/types/variable_types"
-export type year = _year
-
-import { owner as _owner } from "model/types/variable_types"
-export type owner = _owner
 
 //SAVINGS TYPES
-
 
 export type transactionType = "contribute" | "period"
 

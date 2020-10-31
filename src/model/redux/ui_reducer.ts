@@ -18,7 +18,7 @@ const initialState = {
   scenarioLabel3: "Saver",
 }
 
-export function ui_reducer(state = initialState, action: any) {
+export default function ui_reducer(state = initialState, action: any) {
   switch (action.type) {
     case "ui_reducer/SET_VALUE":
       return { ...state, [action.id]: action.value } //sets a simple id value pair within the reducer object

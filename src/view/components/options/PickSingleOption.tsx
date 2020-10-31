@@ -6,12 +6,11 @@ import { TextInput } from "view/components"
 
 interface IProps {
   optionArray?: string[]
-  handleChange: (value: string | number) => null
+  handleChange: any
   value: string
 }
 
 export const PickSingleOption: FC<IProps> = ({ optionArray, handleChange, value }) => {
-
   return (
     <Wrapper>
       {optionArray &&
@@ -22,9 +21,9 @@ export const PickSingleOption: FC<IProps> = ({ optionArray, handleChange, value 
             </Option>
           )
         })}
-      <Pill selected={value} optionArray={optionArray}/>
+      <Pill selected={value} optionArray={optionArray} />
       <CSSTransition in={value === "write below"} mountOnEnter unmountOnExit timeout={400} classNames="fade-in">
-        <TextInput handleChange={e => handleChange(e)} type="year" label={`Gender`}  value={"value"} />
+        <TextInput handleChange={e => handleChange(e)} type="text" label={`Gender`} value={"value"} />
       </CSSTransition>
     </Wrapper>
   )

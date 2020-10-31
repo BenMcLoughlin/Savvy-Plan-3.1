@@ -1,9 +1,6 @@
-const puppeteer = require("puppeteer")
-
 describe("is a dummy test", function () {
   it("used when other tests commented out", () => expect(1).toEqual(1))
 })
-
 
 // // describe("on page load", () => {
 // //   test("h1 loads correctly", async () => {
@@ -106,7 +103,7 @@ describe("is a dummy test", function () {
 //   //await page.waitForSelector("div > .sc-fznJRM > .sc-fznOgF > .sc-fznYue > .iNiJRO")
 //   await page.click("#nextButton") //next page
 //   await page.waitFor(1000)
-  
+
 //   //await page.waitForSelector("div #yes")
 //   await page.click("div#yes") //Add Spouse Income
 //   await page.click("#nextButton") //next page
@@ -344,4 +341,3 @@ describe("is a dummy test", function () {
 
 //   await browser.close()
 // })()
-

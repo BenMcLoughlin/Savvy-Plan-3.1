@@ -41,8 +41,6 @@ align-items: center;
 `
 
 export const savingsBarHtml = (d, dataObject, n, state) => {
-
-
   const { user1BirthYear } = state.user_reducer
 
   const value = Object.values(d.data)[1]

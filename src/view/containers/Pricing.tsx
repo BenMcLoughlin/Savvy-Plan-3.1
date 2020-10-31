@@ -1,10 +1,7 @@
 import React from 'react'
 
-interface Props {
-  
-}
 
-export const Pricing = (props: Props) => {
+export const Pricing = () => {
   return (
     <div>
       PRICING

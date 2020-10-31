@@ -1,11 +1,9 @@
-import React, { useMemo } from "react"
-import styled from "styled-components"
+import React from "react"
 import { Header, Footer, Login, PrivateRoute, Loading } from "view/components"
-import { ThemeProvider } from "styled-components"
+import styled, { ThemeProvider } from "styled-components"
 import { theme } from "model/styles/theme"
 import { Account, Display, LandingPage, Pricing, Product, Questions } from "view/containers"
-import { Route } from "react-router-dom"
-import { BrowserRouter } from "react-router-dom"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
 import * as pages_data from "data"
 import { createPage } from "model/services/pages/createPage"
 import { onboard_questions } from "controller/questions/onboarding"
@@ -14,11 +12,12 @@ import * as I from "model/types"
 import { set, remove } from "model/redux/actions"
 
 const App = ({ remove, state, set }) => {
-  const { progress, selectedPage } = state.ui_reducer
+  const { selectedPage } = state.ui_reducer
   const { isLoading } = state.auth_reducer
 
   const newPageData = pages_data[`${selectedPage}Page_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
- // console.log("state:", JSON.stringify(state, null, 4))
+  console.log("state:", JSON.stringify(state, null, 4))
+
   return (
     <ThemeProvider theme={theme}>
       <Wrapper>
@@ -28,16 +27,15 @@ const App = ({ remove, state, set }) => {
             {isLoading ? (
               <Loading />
             ) : (
-              <>
+              <Switch>
                 <Route exact path="/" component={LandingPage} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/product" component={Product} />
                 <Route exact path="/pricing" component={Pricing} />
-
                 <PrivateRoute path="/account" component={Account} />
-                <PrivateRoute path={`/onboarding`} render={() => <Questions data={onboard_questions(pages_data.onboard_data, state, set, progress, remove)} />} />
+                <PrivateRoute path={`/onboarding`} render={() => <Questions data={onboard_questions(state, set, remove)} />} />
                 <PrivateRoute exact path="/plan" render={() => <Display data={createPage(newPageData, state, set, "display", remove)} />} />
-              </>
+              </Switch>
             )}
           </BrowserRouter>
         </Content>
@@ -59,9 +57,8 @@ const Wrapper = styled.div`
   min-height: 90vh;
   min-width: 110vh;
 `
-interface Props {}
 
-const Content = styled.div<Props>`
+const Content = styled.div`
   background: ${props => props.theme.background}
   width: 100%;
   width: 100%;

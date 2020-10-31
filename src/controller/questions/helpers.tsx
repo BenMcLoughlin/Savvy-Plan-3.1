@@ -1,30 +1,33 @@
-export const numberOfStreams = (state, user, streamType) => {
-  return Object.values(state.main_reducer).filter((d: any) => d.owner === user && d.streamType === streamType).length
+import * as I from "model/types"
+
+export const numberOfStreams = (state: I.state, user: I.user, streamType: I.streamType): number => {
+  return Object.values(state.main_reducer as I.main_reducer).filter((d: I.stream) => d.owner === user && d.streamType === streamType).length
 }
 
-export const streams = (state, user, streamType) => {
-  return Object.values(state.main_reducer).filter((d: any) => d.owner === user && d.streamType === streamType)
+export const streams = (state: I.state, user: I.user, streamType: I.streamType): I.stream[] => {
+  return Object.values(state.main_reducer as I.main_reducer).filter((d: I.stream) => d.owner === user && d.streamType === streamType)
 }
 
-export const removeMostRecentStream = (state, user, remove, set, streamType) => {
-
-  const streams: any = Object.values(state.main_reducer)
-    .filter((d: any) => d.owner === user && d.streamType === streamType)
-    .sort((a: any, b: any) => b.createdAt - a.createdAt)
+export const removeMostRecentStream = (state: I.state, user: I.user, remove: I.remove, set: I.set, streamType: I.streamType): void => {
+  const streams: I.stream[] = Object.values(state.main_reducer as I.main_reducer)
+    .filter((d: I.stream) => d.owner === user && d.streamType === streamType)
+    .sort((a: I.stream, b: I.stream) => b.createdAt - a.createdAt)
   set("selectedId", "ui_reducer", streams[1].id)
   remove(streams[0].id)
 }
 
-
-export const clean = (str) => {
+export const clean = (str: string): string => {
   switch (str) {
-    case "tfsa": return "T.F.S.A"
-    case "rrsp": return "R.R.S.P"
-    case "personal": return "Personal Savings"
-      
-      break;
-  
+    case "tfsa":
+      return "T.F.S.A"
+    case "rrsp":
+      return "R.R.S.P"
+    case "personal":
+      return "Personal Savings"
+
+      break
+
     default:
-      break;
+      break
   }
 }

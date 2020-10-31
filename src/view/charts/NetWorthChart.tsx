@@ -1,5 +1,6 @@
 import React, { FC } from "react"
 import styled from "styled-components"
+import netWorthImage from "data/assets/netWorth.png"
 
 interface IProps {
   state: any
@@ -14,7 +15,7 @@ export const NetWorthChart: FC<IProps> = ({ state, set }) => {
     <Wrapper>
       <Img
         alt="#"
-        src={require("data/assets/netWorth.png")}
+        src={netWorthImage}
         style={{ height: "20rem" }}
         onClick={() => {
           if (instance) set("selectedId", "ui_reducer", instance.id)

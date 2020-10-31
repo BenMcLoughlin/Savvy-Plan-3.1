@@ -12,15 +12,15 @@ interface IProps {
 }
 
 export const Header: FC<IProps> = ({ set, state }) => {
-  const { isLoggedIn } = state.auth_reducer
-  const options = isLoggedIn ? ["plan", "account"] : ["product", "pricing", "about"]
+  const { token } = state.auth_reducer
+  const options = token ? ["plan", "account"] : ["product", "pricing", "about"]
 
   return (
     <Wrapper>
       <Logo>
         <img src={logo} height="100%" width="100%" alt="logo" />
       </Logo>
-      <ManageRedux/>
+      <ManageRedux />
       <Nav>
         {options.map((string, i) => (
           <Option to={`/${string}`} key={i} onClick={() => null}>
@@ -30,17 +30,16 @@ export const Header: FC<IProps> = ({ set, state }) => {
         ))}
       </Nav>
       <Login>
-        {isLoggedIn ? (
-          <LinkButton link="/" label="Log Out" handleChange={() => set("isLoggedIn", "auth_reducer", false)} />
+        {token ? (
+          <LinkButton link="/" label="Log Out" handleChange={() => set("token", "auth_reducer", null)} />
         ) : (
-          <LinkButton link="/login" label="Get Started" handleChange={() => set("isLoggedIn", "auth_reducer", true)} />
+          <LinkButton link="/login" label="Get Started" handleChange={() => null} />
         )}
       </Login>
     </Wrapper>
   )
 }
 
-//handleChange={() => set("isLoggedIn", "auth_reducer", true)} 
 
 //---------------------------STYLES-------------------------------------------//
 

@@ -3,7 +3,6 @@ const initialState = {
   hasUnsecuredDebt: false,
   numberOfChildren: 1,
   gender: "",
-  haveChildren: "",
   hasChildrenStatus: "",
   ownHome: false,
   inflationRate: 2,
@@ -48,7 +47,7 @@ const initialState = {
   },
 }
 
-export function user_reducer(state = initialState, action: any) {
+export default function user_reducer(state = initialState, action: any) {
   switch (action.type) {
     case "user_reducer/SET_VALUE":
       return action.childId1

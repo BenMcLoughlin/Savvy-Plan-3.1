@@ -25,11 +25,12 @@ export const getReduction = (adjustedFamilyNetIncome, kidsBirthYearArray: I.year
   //if income is under 31,000 there is no reductiona
   if (adjustedFamilyNetIncome < ccbRates.threshold1) return 0
   //if income is above 31,000 and below $69,000 then the reduction is calculated using step 2 of the form, look at that to understand below
-  else if (adjustedFamilyNetIncome > ccbRates.threshold1 && adjustedFamilyNetIncome < ccbRates.threshold2) {
+  if (adjustedFamilyNetIncome > ccbRates.threshold1 && adjustedFamilyNetIncome < ccbRates.threshold2) {
     const incomeAboveThreshold = adjustedFamilyNetIncome - adjustByCraIndex(ccbRates.threshold1)[year]
 
     return incomeAboveThreshold * ccbRates[numberOfChildren].r1
-  } else if (adjustedFamilyNetIncome > ccbRates.threshold2) {
+  }
+  if (adjustedFamilyNetIncome > ccbRates.threshold2) {
     const incomeAboveThreshold = adjustedFamilyNetIncome - adjustByCraIndex(ccbRates.threshold2)[year]
 
     return incomeAboveThreshold * ccbRates[numberOfChildren].r2 + adjustByCraIndex(ccbRates[numberOfChildren].c)[year]

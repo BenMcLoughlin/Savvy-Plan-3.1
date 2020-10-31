@@ -9,8 +9,8 @@ export const mouseout = className => {
 
 export const mousemove = tooltip => {
   return tooltip
-    .style("top", d3.event.layerY - 20 + "px") // always 10px below the cursor
-    .style("left", d3.event.layerX + 30 + "px") // always 10px to the right of the mouse
+    // .style("top", d3.event.layerY - 20 + "px") // always 10px below the cursor
+    // .style("left", d3.event.layerX + 30 + "px") // always 10px to the right of the mouse
 }
 
 export const areaTooltip = (className, d, data, graph, xScale, yScale) => {

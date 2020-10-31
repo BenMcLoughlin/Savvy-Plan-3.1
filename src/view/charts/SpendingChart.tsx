@@ -1,5 +1,6 @@
 import React, { FC } from "react"
 import styled from "styled-components"
+import spendingChartImage from "data/assets/spending.png"
 
 interface IProps {
   state: any

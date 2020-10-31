@@ -1,11 +1,9 @@
-import { createStream, addPeriodToStream } from "model/services/create_functions"
+import { createStream } from "model/services/create_functions"
 import { removeMostRecentStream } from "controller/questions/helpers"
-import { validator } from "model/services/validation/validator"
+import { validator } from "model/services/validation/validators"
 import { createTripleSliders } from "controller/questions/tripleSelector.creator"
-import _, { AnyKindOfDictionary } from "lodash"
 import * as I from "model/types"
 import { addText } from "controller/questions/text"
-import { useHistory } from "react-router-dom"
 
 const dummyStream = {
   id: "dummy",
@@ -13,16 +11,13 @@ const dummyStream = {
   reg: "dummy",
 }
 
-export const onboardQuestions = (q, remove, set, state, user) => {
-  const { selectedId, dualSelectValue } = state.ui_reducer
+export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.state, user: I.user): I.objects => {
   const { main_reducer, ui_reducer } = state
+  const { selectedId, dualSelectValue } = state.ui_reducer
   const stream = state.main_reducer[selectedId] || dummyStream
-  const isUser1 = user === "user1"
   const selectedUser = state.user_reducer[user]
   const { id, streamType, reg } = stream || dummyStream
   const { maritalStatus, numberOfChildren } = state.user_reducer
-  const { isMarried } = state.user_reducer.user1
-  const { firstName } = state.user_reducer[user]
 
   return {
     for: {
@@ -31,8 +26,8 @@ export const onboardQuestions = (q, remove, set, state, user) => {
           ...{
             component: "TextInput", //Text input will capture their birthyear
             value: selectedUser.birthYear,
-            type: "year", //by setting it as streamType year the component will place valiation on the text
-            handleChange: (value: string) => set(user, "user_reducer", value, "birthYear"),
+            name: "year", //by setting it as streamType year the component will place valiation on the text
+            handleChange: (event: I.event) => set(user, "user_reducer", event.target.value, "birthYear"),
           },
           ...addText("birthYear", state, user),
         }),
@@ -45,7 +40,7 @@ export const onboardQuestions = (q, remove, set, state, user) => {
             step: 1000,
             selectedFocus: true,
             value: state.user_reducer.desiredRetirementIncome,
-            handleChange: (value: string) => {
+            handleChange: value => {
               set("desiredRetirementIncome", "user_reducer", value)
             },
           },
@@ -67,7 +62,7 @@ export const onboardQuestions = (q, remove, set, state, user) => {
             component: "TextInput", // tells the wizard to render a text input in which the user types their name
             streamType: "text",
             value: selectedUser.firstName,
-            handleChange: value => set(user, "user_reducer", value, "firstName"),
+            handleChange: (event: I.event) => set(user, "user_reducer", event.target.value, "firstName"),
           },
           ...addText("name", state, user),
         }),
@@ -100,7 +95,7 @@ export const onboardQuestions = (q, remove, set, state, user) => {
             ...{
               component: "TextInput",
               value: stream.name,
-              handleChange: (value: string) => set(id, "main_reducer", value, "name"),
+              handleChange: (event: I.event) => set(id, "main_reducer", event.target.value, "name"),
             },
             ...addText("incomeName", state, user, i),
           }),
@@ -237,6 +232,7 @@ export const onboardQuestions = (q, remove, set, state, user) => {
                 set("progress", "ui_reducer", ui_reducer.progress + 1)
               },
             },
+
             ...addText("createIncome", state, user),
           }),
         savings: () =>
@@ -274,11 +270,9 @@ export const onboardQuestions = (q, remove, set, state, user) => {
   }
 }
 
-export const showUsers = (q, set, state) => {
-  const { selectedUser, selectedId } = state.ui_reducer
+export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
+  const { selectedUser } = state.ui_reducer
   const { user1Name, user2Name } = state.user_reducer
-  const stream = state.main_reducer[selectedId] || dummyStream
-  const { id, streamType, reg } = stream || dummyStream
 
   return {
     introduction: () =>
@@ -288,7 +282,7 @@ export const showUsers = (q, set, state) => {
         label: "continue",
         component: "Button",
         value: selectedUser,
-        handleChange: d => set("progress", "ui_reducer", 1),
+        handleChange: () => set("progress", "ui_reducer", 1),
       }),
     combinedIncomeChart: () =>
       q.push({
@@ -328,9 +322,9 @@ export const showUsers = (q, set, state) => {
   }
 }
 
-export const buttons = (q, set, state) => {
+export const buttons = (q: I.a, set: I.set, state: I.state): any => {
   const { progress } = state.ui_reducer
-  const value = q[progress].value
+  const { value } = q[progress]
 
   return {
     nextButton: () => ({

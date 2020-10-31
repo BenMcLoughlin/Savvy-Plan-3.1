@@ -9,14 +9,13 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
 
   const stream = state.main_reducer[selectedId]
 
-  const {period, flow} = stream
+  const { period, flow } = stream
   const { mouseout } = tooltips
   let periodStart = 0
   let periodEnd = 0
   let streamName = ""
 
   const selectedPeriod = stream[`period${_.startCase(flow)}`]
-
 
   if (stream) {
     streamName = stream.name
@@ -80,7 +79,7 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
     rects
       .enter()
       .append("g")
-      .attr("fill", (d, i) =>  colors[d.key] ? colors[d.key] : "#5E9090")
+      .attr("fill", (d, i) => (colors[d.key] ? colors[d.key] : "#5E9090"))
       .attr("class", (d, i) => d.key)
       .selectAll("rect")
       .data(d => d)
@@ -113,8 +112,8 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       .on("mouseout", (d, i, n) => tooltip.transition().duration(1500).style("opacity", 0))
       .on("mousemove", () => {
         tooltip
-          .style("top", d3.event.layerY - 20 + "px") // always 10px below the cursor
-          .style("left", d3.event.layerX + 30 + "px") // always 10px to the right of the mouse
+        // .style("top", d3.event.layerY - 20 + "px") // always 10px below the cursor
+        // .style("left", d3.event.layerX + 30 + "px") // always 10px to the right of the mouse
       })
 
     var ticks = [2020, 2040, 2060]

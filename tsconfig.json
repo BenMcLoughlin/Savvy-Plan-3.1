@@ -1,11 +1,6 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -18,13 +13,14 @@
     "isolatedModules": true,
     "noImplicitAny": false,
     "downlevelIteration": true,
-    "strictNullChecks":false,
-    "lib": ["es6", "dom", "es2017"],
+    "strictNullChecks": false,
+    "lib": ["es6", "dom", "es2019"],
     "noEmit": true,
     "jsx": "react",
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "noFallthroughCasesInSwitch": true,
+    "types": []
   },
-  "include": [
-    "src", "jest.config.js"
-  ]
+  "include": ["src", "jest.config.js"],
+  "exclude": ["node_modules"]
 }

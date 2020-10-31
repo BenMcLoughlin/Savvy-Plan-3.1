@@ -1,11 +1,7 @@
 import React from 'react'
 import styled from "styled-components"
 
-interface Props {
-  
-}
-
-export const IncomeDisplay = (props: Props) => {
+export const IncomeDisplay = () => {
   return (
     <Wrapper>
       

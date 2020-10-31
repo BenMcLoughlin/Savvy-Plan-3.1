@@ -1,22 +1,49 @@
-import React, { FC } from "react"
+import React, { FC, useState, ChangeEvent } from "react"
 import styled from "styled-components"
 import _ from "lodash"
-import {isValidYear} from "model/services/validation/validator"
+import { validateText } from "model/services/validation/validators"
+import * as I from "model/types"
 
 interface IProps {
-  handleChange: (value: string | number) => null
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void
   label: string
   placeholder?: string
+  set: I.set
+  remove: I.remove
   type: string
   value: string
+  name?: string
+  formData?: I.formData
 }
 
-export const TextInput: FC<IProps> = ({ handleChange, label, placeholder, type, value }) => {
+export const TextInput: FC<IProps> = ({ handleChange, formData, label, placeholder, type = "text", value, name = label, remove, set }) => {
+  const [enableErrors, setEnableErrors] = useState<boolean>(false)
+  console.log(type)
+  const error = validateText(name, value, formData ? formData : null, type)
+
+  const { isError, text } = error
+
   return (
     <Wrapper>
       <Label>{_.startCase(label)}</Label>
-      <Input autoFocus={true} placeholder={placeholder} type={type === "year" ? "number" : "text"} step={1} onChange={e => handleChange(e.target.value)} id="textInput" />
-      {type === "year" && !isValidYear(value) && value.length === 4 && <Text>Please Enter a valid year eg. 1990</Text>}
+      <Input
+        placeholder={placeholder}
+        value={value}
+        type={type === "year" ? "number" : type}
+        step={1}
+        onChange={e => handleChange(e)}
+        name={name}
+        id="textInput"
+        onBlur={() => {
+          setEnableErrors(true)
+          if (setEnableErrors && isError) {
+            set("errors", "auth_reducer", error, name)
+          } else {
+            remove(name, "auth_reducer")
+          }
+        }}
+      />
+      {enableErrors && isError && <Error>{text}</Error>}
     </Wrapper>
   )
 }
@@ -36,11 +63,13 @@ const Label = styled.label`
   top: 2.2rem;
   left: 2rem;
 `
-const Text = styled.label`
-  position: relative;
-  top: 3rem;
-  left: 3rem;
+const Error = styled.label`
+  position: absolute;
+  top: 7.3rem;
   font-size: 1.2rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
   color: ${props => props.theme.color.salmon};
 `
 const Input = styled.input`
@@ -56,7 +85,7 @@ const Input = styled.input`
   border: none;
   border-radius: 5px;
   background: ${props => props.theme.color.background};
-  color: ${props => props.theme.color.darkGrey}
+  color: ${props => props.theme.color.darkGrey};
   ${props => props.theme.neomorph};
   &:focus {
     outline: none;

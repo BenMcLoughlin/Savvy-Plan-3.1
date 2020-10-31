@@ -1,7 +1,4 @@
-import { AnyARecord } from "dns"
-
 type Icomponents = "DualSelect" | "Button" | "PickMultipleOptions" | "PickNumber" | "PickSingleOption" | "Slider" | "TextInput" | "TwoSliders" | ""
-type Ireducers = "main_reducer" | "ui_reducer" | "user_reducer"
 
 export interface ICoreProps {
   explanation?: string
@@ -14,8 +11,6 @@ export interface ICoreProps {
   handleChange: any
   label?: string
 }
-
-export interface IButton extends ICoreProps {}
 
 export interface IPickMultipleOptions extends ICoreProps {
   optionArray: any
@@ -72,4 +67,4 @@ export interface ITextInput extends ICoreProps {
   type: string
 }
 
-export type IComponents = IButton | IMultiSliders | IPickMultipleOptions | IDualSelect | ITwoSliders | ITextInput | IPickNumber | IPickSingleOption | ISlider
+export type IComponents = IMultiSliders | IPickMultipleOptions | IDualSelect | ITwoSliders | ITextInput | IPickNumber | IPickSingleOption | ISlider
