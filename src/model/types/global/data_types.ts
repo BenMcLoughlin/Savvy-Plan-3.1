@@ -1,5 +1,4 @@
 import * as I from "model/types"
-import { StringDecoder } from "string_decoder"
 
 interface IinfoCards {
   label: "insights" | "action steps"

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { round } from "view/charts/createChartFunctions/chartHelpers"
 
 const wrapper = `

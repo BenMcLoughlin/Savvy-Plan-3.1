@@ -1,6 +1,6 @@
 import * as I from "model/types"
 
-export const getSavingsData = ({ ui_reducer }, savingsObject: I.savingsObject) => {
+export const getSavingsData = ({ ui_reducer }: I.state, savingsObject: I.savingsObject): I.objects => {
   //console.log("JSON.stringify(savinsObject, null, 4):", JSON.stringify(savingsObject, null, 4))
 
   const { selectedUser, selectedAccount } = ui_reducer

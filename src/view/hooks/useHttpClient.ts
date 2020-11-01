@@ -4,18 +4,19 @@ import * as I from "model/types"
 export const useHttpClient = (set: I.set): I.useHttpClient => {
   const activeHttpRequests = useRef([])
 
+  //'Authorization': 'Bearer ' +eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmOWRiMDc0NjBjYjY0YjRkNDE5NGNiMiIsImlhdCI6MTYwNDE2OTk5MCwiZXhwIjoxNjA1ODk3OTkwfQ.cVL3CLAErLoTwElV2yN19vInV8HbJblSdYaGGoWjixw"
   const sendRequest = useCallback(async (url, method = "GET", body = null, headers = {}) => {
     set("isLoading", "auth_reducer", true)
 
     const httpAbortCtrl = new AbortController()
     activeHttpRequests.current.push(httpAbortCtrl)
-
+    console.log(headers)
     try {
       const response = await fetch(url, {
         method,
         body,
         headers,
-       // signal: httpAbortCtrl.signal,
+        // signal: httpAbortCtrl.signal,
       })
 
       const responseData = await response.json()

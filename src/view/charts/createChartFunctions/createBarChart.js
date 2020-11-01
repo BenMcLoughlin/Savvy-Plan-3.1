@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as d3 from "d3"
 import { getMax, getMin } from "view/charts/createChartFunctions/chartHelpers"
 import * as tooltips from "view/charts/tooltips/barTooltip"
@@ -7,7 +8,7 @@ import _ from "lodash"
 export const drawBarChart = (colors, className, data, dataObject, height, set, state, width) => {
   const { selectedId } = state.ui_reducer
 
-  const stream = state.main_reducer[selectedId]
+  const stream = state.streams_reducer[selectedId]
 
   const { period, flow } = stream
   const { mouseout } = tooltips
@@ -97,7 +98,7 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       .attr("width", xScale.bandwidth())
       .on("click", (d, i, n) => {
         const name = n[0].parentNode.className.animVal
-        const id = Object.values(state.main_reducer).filter(d => d.name === name)[0]["id"]
+        const id = Object.values(state.streams_reducer).filter(d => d.name === name)[0]["id"]
         set("selectedId", "ui_reducer", id)
       })
       .attr("y", d => yScale(d[1]))

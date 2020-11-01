@@ -1,23 +1,17 @@
 import _ from "lodash"
 import { clean } from "controller/questions/helpers"
 import { round } from "model/services/ui_functions"
+import { dummyStream } from "data"
 import * as I from "model/types"
 
-const dummyStream = {
-  id: "dummy",
-  streamType: "dummy",
-  reg: "dummy",
-}
-
-
-export const addText = (textKey:string, state: I.state, user: I.user, n?: number, set?: I.set): I.objects => {
-  const { selectedId,} = state.ui_reducer
-  const stream = state.main_reducer[selectedId] || dummyStream
+export const addText = (textKey: string, state: I.state, user: I.user, n?: number, set?: I.set): I.objects => {
+  const { selectedId } = state.ui_reducer
+  const stream: I.stream = state.streams_reducer[selectedId] || dummyStream
   const isUser1 = user === "user1"
-  const { hasChildren, isMarried } = state.user_reducer["user1"]
-  const {  reg } = stream || dummyStream
-  const { firstName } = state.user_reducer["user1"]
-  const {  user2, desiredRetirementIncome } = state.user_reducer
+  const { hasChildren } = state.user_reducer
+  const { reg } = stream
+  const { firstName } = state.user_reducer.user1
+  const { user2, desiredRetirementIncome, isMarried } = state.user_reducer
 
   const data = {
     birthYear: {

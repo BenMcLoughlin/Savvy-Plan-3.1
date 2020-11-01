@@ -9,8 +9,7 @@ interface IProps {
   backHandleChange?: () => void //this allows a specific instance of the wizard to attach a special handle change when the next button is clicked. Prepares the state for the next
 }
 
-export const Back: FC<IProps> = ({ backHandleChange, setDirection, handleChange, state }) => {
-  const { progress } = state.ui_reducer
+export const Back: FC<IProps> = ({ backHandleChange, setDirection, handleChange }) => {
   return (
     <ArrowLeft
       onClick={() => {

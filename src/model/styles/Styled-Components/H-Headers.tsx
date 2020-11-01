@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import React, { FC } from "react"
-import { String } from "lodash"
 
 interface IProps {
   width?: number
@@ -11,46 +10,46 @@ interface IProps {
   H?: number
 }
 
-export const H1: FC<IProps> = props => {
+export const H1: FC<IProps> = (props, {props: children}) => {
   return (
     <Wrapper H={1} {...props}>
-      {props.children}
+      {children}
     </Wrapper>
   )
 }
-export const H2: FC<IProps> = props => {
+export const H2: FC<IProps> = (props, {props: children}) => {
   return (
     <Wrapper H={2} {...props}>
-      {props.children}
+      {children}
     </Wrapper>
   )
 }
-export const H3: FC<IProps> = props => {
+export const H3: FC<IProps> = (props, {props: children}) => {
   return (
     <Wrapper H={3} {...props}>
-      {props.children}
+      {children}
     </Wrapper>
   )
 }
-export const H4: FC<IProps> = props => {
+export const H4: FC<IProps> = (props, {props: children}) => {
   return (
     <Wrapper H={4} {...props}>
-      {props.children}
+      {children}
     </Wrapper>
   )
 }
 
-export const P1: FC<IProps> = props => {
+export const P1: FC<IProps> = (props, {props: children}) => {
   return (
     <Wrapper H={1} {...props}>
-      {props.children}
+      {children}
     </Wrapper>
   )
 }
-export const P2: FC<IProps> = props => {
+export const P2: FC<IProps> = (props, {props: children}) => {
   return (
     <Wrapper H={2} {...props}>
-      {props.children}
+      {children}
     </Wrapper>
   )
 }

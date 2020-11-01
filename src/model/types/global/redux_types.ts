@@ -9,8 +9,37 @@ export type period = {
 }
 export type flow = "in" | "out"
 
-export interface main_reducer {
+export type action = {
+  type: string
+  id: string
+  childId: string
+  childId1?: string
+  childId2?: string
+  childId3?: string
+  value: I.a
+}
+
+export interface streams_reducer {
   [key: string]: I.stream
+}
+
+export interface auth_reducer {
+  token: string
+  isLoading: boolean
+  errors: I.objects
+}
+
+export interface ui_reducer {
+  colorIndex: number
+  dualSelectValue: boolean
+  newStream: boolean
+  progress: number
+  scenarios: I.objects
+  selectedAccount: string
+  selectedId: string
+  selectedPage: string
+  selectedScenario: number
+  selectedUser: string
 }
 
 export type stream = {
@@ -35,4 +64,36 @@ export type stream = {
   startYear: number
   periodIn: number
   periodOut: number
+}
+
+export type userCore = {
+  birthYear: number
+  cppStartAge: number
+  firstName: string
+  gender: string
+  lastName: string
+  lifeSpan: number
+  oasStartAge: number
+}
+export type user_reducer = {
+  desiredRetirementIncome: number
+  hasChildrenStatus: string
+  hasChildren: boolean
+  inflationRate: number
+  isMarried?: boolean
+  maritalStatus: string
+  MER: number
+  numberOfChildren: number
+  province: string
+  rate1: number
+  rate2: number
+  user1: userCore
+  user2: userCore
+}
+
+export interface state {
+  auth_reducer: auth_reducer
+  ui_reducer: ui_reducer
+  streams_reducer: streams_reducer
+  user_reducer: user_reducer
 }

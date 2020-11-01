@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react"
 import styled from "styled-components"
-
+import { useHttpClient } from "view/hooks"
 interface IProps {
   state: any
   set: any
@@ -8,6 +8,14 @@ interface IProps {
 
 export const ManageRedux: FC<IProps> = ({ state, set }) => {
   const [progress, setProgress] = useState<number>()
+  const { sendRequest } = useHttpClient(set)
+
+  const sendStore = async () => {
+    await sendRequest(`http://localhost:5000/api/store/signup`, "POST", JSON.stringify(state), {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + state.auth_reducer.token,
+    })
+  }
 
   return (
     <Wrapper>
@@ -21,6 +29,7 @@ export const ManageRedux: FC<IProps> = ({ state, set }) => {
       </Storage>
       <Progress>
         <Go onClick={() => set("progress", "ui_reducer", progress)}>go to</Go>
+        <Go onClick={() => sendStore()}>Send data </Go>
         <ProgressInput type="number" onChange={(e: any) => setProgress(+e.target.value)} />
       </Progress>
     </Wrapper>

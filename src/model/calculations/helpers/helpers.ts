@@ -1,3 +1,4 @@
+import * as I from "model/types"
 import _ from "lodash"
 
 export class Helpers {
@@ -7,23 +8,23 @@ export class Helpers {
 
   streams: any
 
-  turn(reducer: any) {
+  turn(reducer: I.streams_reducer): I.a {
     this.reducer = reducer
     return this
   }
 
-  intoArray() {
+  intoArray(): I.a {
     this.array = Object.values(this.reducer)
     return this
   }
 
-  filteredFor(...args) {
-    this.streams = this.array.filter(d => args.every(([k, v]) => d[k] === v))
+  filteredFor(...args: I.a): I.a {
+    this.streams = this.array.filter((d: I.stream) => args.every(([k, v]) => d[k] === v))
     return this
   }
 }
 
-export const insert3 = (object, user, year, key3, key4, value) => {
+export const insert3 = (object: I.objects, user: I.user, year: number, key3: string, key4: string, value: I.a): I.a => {
   return (object = {
     ...object,
     [year]: {
@@ -39,7 +40,7 @@ export const insert3 = (object, user, year, key3, key4, value) => {
   })
 }
 
-export const insertBenefits = (object, user, year, key3, ccb, cpp, oas, state) => {
+export const insertBenefits = (object: I.objects, user: I.user, year: number, key3: string, ccb: string, cpp: string, oas: string, state: I.state): I.a => {
   const { birthYear, cppStartAge, oasStartAge } = state.user_reducer[user]
   const cppStartYear = +birthYear + +cppStartAge
   const oasStartYear = +birthYear + +oasStartAge
@@ -60,7 +61,7 @@ export const insertBenefits = (object, user, year, key3, ccb, cpp, oas, state) =
   })
 }
 
-export const insert2 = (object, user, year, args) => {
+export const insert2 = (object: I.objects, user: I.user, year: number, args: I.a): I.objects => {
   return (object = {
     ...object,
     [year]: {
@@ -73,7 +74,7 @@ export const insert2 = (object, user, year, args) => {
   })
 }
 
-export const insert1 = (object, user, year, value) => {
+export const insert1 = (object: I.objects, user: I.user, year: number, value: I.a): I.a => {
   return (object = {
     ...object,
     [year]: {
@@ -83,44 +84,20 @@ export const insert1 = (object, user, year, value) => {
   })
 }
 
-export const insert0 = (object, key, value) => {
+export const insert0 = (object: I.objects, key: string, value: I.a): I.objects => {
   return (object = {
     ...object,
     [key]: value,
   })
 }
 
-export const getYearRange = ({ user_reducer }) => {
+export const getYearRange = (state: I.state): number[] => {
+  const { user_reducer } = state
   const startYear = Math.min(user_reducer.user1.birthYear, user_reducer.user2.birthYear)
   return _.range(startYear + 18, startYear + 95)
 }
 
-export const getRetirementRange = (user, { user_reducer }) => {
+export const getRetirementRange = (user: I.user, { user_reducer }: I.state): number[] => {
   const startYear = user_reducer[user].birthYear + user_reducer[user].cppStartAge
   return _.range(startYear, startYear + 30)
-}
-
-export const sum = (obj, query, streams) =>
-  Object.entries(obj).reduce((acc: any, [k, v]) => {
-    const stream = streams.find(d => d.name === k)
-    return !!stream ? acc + (stream[query] ? v : 0) : acc + v
-  }, 0)
-
-export const getAfterTaxIncome = (obj, rate, streams) => {
-  let newObj = {}
-  Object.entries(obj).forEach(([k, v]) => {
-    const stream = streams.find(d => d.name === k)
-    return !!stream && !stream.taxable ? (newObj = { ...newObj, [k]: +v }) : (newObj = { ...newObj, [k]: +v * (1 - rate) })
-  })
-  return newObj
-}
-
-export const beforePension = (streams, year) => {
-  let income = {}
-  streams.map(stream => {
-    const value = Math.max(...Object.values(stream.in).map((d: any) => (d.start < year && d.end > year ? d.value : 0)))
-    return (income = insert0(income, [stream.name], value))
-  })
-  const cppEligibleIncome = sum(income, "cppEligible", streams)
-  return { income, cppEligibleIncome }
 }

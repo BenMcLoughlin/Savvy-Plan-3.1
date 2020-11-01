@@ -18,7 +18,9 @@ export const PickNumberWithText: FC<IProps> = ({ handleChange, handleChange2, va
         <TransitionGroup1 value={value}>
           {_.range(1, value + 1).map(d => (
             <CSSTransition key={d} timeout={300} classNames={`transition`}>
-                          <TextInput handleChange={e => handleChange2(e, `child${d}BirthYear`)} type="year" label={`childNumber${d}BirthYear`}  value={"value"} />
+                          <TextInput handleChange={e => {
+                            console.log(e.target.value)
+                            return handleChange2(e.target.value, `child${d}BirthYear`)}} type="year" label={`childNumber${d}BirthYear`}  value={"value"} />
    </CSSTransition>
           ))}
         </TransitionGroup1>

@@ -4,7 +4,7 @@ import { historicYmpe, fiveYearYMPE, YMPE } from "model/calculations/income/Cana
 import { getSAAPE, getFAAPE, adjustCpp, sumArray, sumPensionableEarnings, adjustOas } from "model/calculations/income/CanadaPensionPlan/CPP.helpers"
 import * as I from "model/types"
 
-export const getCpp = (income: I.incomeForcast, user: I.user, { user_reducer }): number => {
+export const getCpp = (income: I.objects, user: I.user, { user_reducer }: I.state): number => {
   const birthYear = user_reducer[`${user}BirthYear`]
   const cppStartAge = user_reducer[`${user}CppStartAge`]
 
@@ -52,7 +52,7 @@ export const getCpp = (income: I.incomeForcast, user: I.user, { user_reducer }):
   return adjustedBenefit
 }
 
-export const getOas = (user: I.user, { user_reducer }) => {
-  const { oasStartAge } = user_reducer[user]
+export const getOas = (user: I.user, { user_reducer }: I.state): number => {
+  const oasStartAge = user_reducer[`${user}OasStartAge`]
   return adjustOas(7200, oasStartAge)
 }

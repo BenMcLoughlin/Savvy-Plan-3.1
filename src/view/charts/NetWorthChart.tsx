@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { FC } from "react"
 import styled from "styled-components"
 import netWorthImage from "data/assets/netWorth.png"
@@ -18,10 +19,10 @@ export const NetWorthChart: FC<IProps> = ({ state, set }) => {
         src={netWorthImage}
         style={{ height: "20rem" }}
         onClick={() => {
-          if (instance) set("selectedId", "ui_reducer", instance.id)
+          if (instance) set("selectedId", "uiReducer", instance.id)
         }}
       />
-      <ChartNavWrapper>{/* <ChartNav options={["Taxes Owing", "Taxes Saved"]} id={"selectedAccount"} reducer={"ui_reducer"} /> */}</ChartNavWrapper>
+      <ChartNavWrapper>{/* <ChartNav options={["Taxes Owing", "Taxes Saved"]} id={"selectedAccount"} reducer={"uiReducer"} /> */}</ChartNavWrapper>
     </Wrapper>
   )
 }

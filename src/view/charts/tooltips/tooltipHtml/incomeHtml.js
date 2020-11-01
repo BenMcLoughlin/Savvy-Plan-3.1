@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { round, formatIncomeName } from "view/charts/createChartFunctions/chartHelpers"
 
 const topHeader = `
@@ -45,7 +46,7 @@ font-weight: 700;
 
 export const incomeHtml = (d, dataObject, color, n, state) => {
   const { selectedUser } = state.ui_reducer
-  const { user1BirthYear, user1Name, user2Name } = state.user_reducer
+  const { firstName } = state.user_reducer
   const name = n[0].parentNode.className.animVal
 
   return `
@@ -54,7 +55,7 @@ export const incomeHtml = (d, dataObject, color, n, state) => {
                                         <p> Age: ${d.data.year - user1BirthYear}</p>
                                     </div>
                                     <div  style="${titleRow(color)}">
-                                    ${formatIncomeName(name, user1Name, user2Name)}
+                                    ${formatIncomeName(name, firsName, firstName)}
                                     </div>
                                     <div style="${row(color)} ">
                                       <div style="${box}">
@@ -93,7 +94,7 @@ export const incomeHtml = (d, dataObject, color, n, state) => {
                                     </div>
                                     `
 }
-//   ${formatIncomeName(name, user1Name, user2Name)}
+//   ${formatIncomeName(name, firsName, firstName)}
 
 // <div style="${wrapper}">
 // <div style="${topHeader}">

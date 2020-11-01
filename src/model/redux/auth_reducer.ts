@@ -1,13 +1,12 @@
-import _ from "lodash"
+import * as I from "model/types"
 
 const initialState = {
   token: localStorage.getItem("token"),
   isLoading: false,
-
   errors: {},
 }
 
-export const auth_reducer = (state = initialState, action) => {
+export const auth_reducer = (state = initialState, action: I.a): I.auth_reducer => {
   switch (action.type) {
     case "auth_reducer/REMOVE":
       return {

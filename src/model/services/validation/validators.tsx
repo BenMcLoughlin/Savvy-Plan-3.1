@@ -13,7 +13,7 @@ const errorText = {
   year: "Please provide a valid year.",
 }
 
-export const validateText = (name: string, value: string, formData?: I.formData, type?: string): I.validText => {
+export const validateText = (name: string, value: string, formData?: I.formData): I.validText => {
   const error =
     name === "email"
       ? validateEmail(value)
@@ -28,7 +28,7 @@ export const validateText = (name: string, value: string, formData?: I.formData,
   return { isError: error, text: errorText[name] }
 }
 
-export const validator = (value, data) => {
+export const validator = (value: I.a, data: I.objects): boolean => {
   const { component, type } = data || {
     component: "dummy",
     type: "dummy",

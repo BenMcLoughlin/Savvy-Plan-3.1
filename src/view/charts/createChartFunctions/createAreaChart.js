@@ -1,8 +1,9 @@
+/* eslint-disable */
 import * as d3 from "d3"
 import { createAreaTooltip } from "view/charts/tooltips/tooltip"
 import { getMax } from "view/charts/createChartFunctions/chartHelpers"
 
-export const drawAreaChart = (colors, className, data, dataObject, height, set, state, width) => {
+export const drawAreaChart = ( className, data, dataObject, height, set, state, width) => {
   const margin = { top: 20, right: 100, bottom: 10, left: 100 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
@@ -13,7 +14,8 @@ export const drawAreaChart = (colors, className, data, dataObject, height, set, 
 
   const stackedKeys = Object.keys(data[0])
 
-  const { hideAxis, selectedPage } = state.ui_reducer
+  const hideAxis = true
+  const { selectedPage } = state.ui_reducer
 
   const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 

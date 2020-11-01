@@ -1,15 +1,13 @@
 import _ from "lodash"
 import * as I from "model/types"
 
-const initialState = {
+const initialState = {}
 
-}
-
-export const main_reducer = (state = initialState, action: any) => {
+export const streams_reducer = (state: I.streams_reducer = initialState, action: I.a): I.streams_reducer => {
   switch (action.type) {
-    case "main_reducer/REMOVE":
+    case "streams_reducer/REMOVE":
       return _.omit(state, [action.id])
-    case "main_reducer/SET_VALUE":
+    case "streams_reducer/SET_VALUE":
       return action.childId3
         ? {
             ...state,

@@ -18,8 +18,8 @@ interface IProps {
 
 export const TextInput: FC<IProps> = ({ handleChange, formData, label, placeholder, type = "text", value, name = label, remove, set }) => {
   const [enableErrors, setEnableErrors] = useState<boolean>(false)
-  console.log(type)
-  const error = validateText(name, value, formData ? formData : null, type)
+
+  const error = validateText(name, value, formData ? formData : null)
 
   const { isError, text } = error
 

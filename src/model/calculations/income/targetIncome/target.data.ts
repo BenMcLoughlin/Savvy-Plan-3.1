@@ -1,6 +1,6 @@
 
 
-const tfsaContribution = {
+export const tfsaContribution = {
   "2009": 5000,
   "2010": 5000,
   "2011": 5000,

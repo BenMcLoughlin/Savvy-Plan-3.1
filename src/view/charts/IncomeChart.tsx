@@ -1,10 +1,10 @@
+/* eslint-disable */
 import React, { FC, useRef, useEffect, useMemo } from "react"
 import styled from "styled-components"
 import { ChartNav } from "view/components"
 import { drawBarChart } from "view/charts/createChartFunctions/createBarChart"
 import * as I from "model/types"
 import { buildIncomeForcast } from "model/calculations/income/income"
-import { CSSTransition } from "react-transition-group"
 
 interface IProps {
   state: I.state
@@ -18,7 +18,7 @@ export const IncomeChart: FC<IProps> = ({ color_selector, enableNav, state, set 
   const { selectedUser } = state.ui_reducer
   const inputRef = useRef(null)
   const className = "incomeChart"
-  const { chartArray, inc } = useMemo(() => buildIncomeForcast(state), [state.main_reducer, selectedUser])
+  const { chartArray, inc } = useMemo(() => buildIncomeForcast(state), [state.streams_reducer, selectedUser])
 
   useEffect(() => {
     if (inputRef && inputRef.current) {

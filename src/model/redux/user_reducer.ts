@@ -1,53 +1,38 @@
+import * as I from "model/types"
+
 const initialState = {
-  changeAssumptions: "",
-  hasUnsecuredDebt: false,
-  numberOfChildren: 1,
-  gender: "",
+  desiredRetirementIncome: 0,
   hasChildrenStatus: "",
-  ownHome: false,
+  hasChildren: true,
   inflationRate: 2,
+  isMarried: true,
   maritalStatus: "married",
   MER: 2,
-  province: "British Columbia",
+  numberOfChildren: 1,
+  province: "britishColumbia",
   rate1: 6,
   rate2: 4.5,
-  user1BirthYear: 1990,
-  user2BirthYear: 1990,
-  user1CppStartAge: 65,
-  user2CppStartAge: 65,
-  user1Gender: "",
-  user1LifeSpan: 95,
-  user2LifeSpan: 95,
-  user1Name: "Ben",
-  user2Name: "Kelsey",
-  user1OasStartAge: 65,
-  user2OasStartAge: 65,
-  desiredRetirementIncome: 0,
-  idealIncome: 0,
   user1: {
     birthYear: 1990,
     cppStartAge: 65,
     firstName: "",
-    lastName: "",
     gender: "male",
-    hasChildren: true,
-    isMarried: true,
+    lastName: "",
+    lifeSpan: 95,
     oasStartAge: 65,
-    efficientWithdrawalTFSA: 0,
-    efficientWithdrawalRRSP: 0,
-    efficientWithdrawalNonReg: 0,
   },
   user2: {
     birthYear: 1990,
     cppStartAge: 65,
     firstName: "",
-    lastName: "",
     gender: "female",
+    lastName: "",
+    lifeSpan: 95,
     oasStartAge: 65,
   },
 }
 
-export default function user_reducer(state = initialState, action: any) {
+export default function user_reducer(state: I.user_reducer = initialState, action: I.a): I.user_reducer {
   switch (action.type) {
     case "user_reducer/SET_VALUE":
       return action.childId1

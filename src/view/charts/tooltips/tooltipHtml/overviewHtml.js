@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { round } from "view/charts/createChartFunctions/chartHelpers"
 import { exampleOverviewData } from "data/exampleState"
 

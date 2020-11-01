@@ -1,6 +1,5 @@
-import React, { FC, useState } from "react"
+import React, { FC } from "react"
 import styled from "styled-components"
-import _, { StringNullableChain } from "lodash"
 import { AddButton } from "view/components/buttons/AddButton"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 

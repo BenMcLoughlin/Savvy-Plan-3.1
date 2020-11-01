@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { FC } from "react"
 import styled from "styled-components"
 import { Google3 } from "@styled-icons/icomoon/Google3"

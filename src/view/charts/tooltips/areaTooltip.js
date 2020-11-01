@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as d3 from "d3"
 import { round, formatIncomeName } from "view/charts/createChartFunctions/chartHelpers"
 

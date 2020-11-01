@@ -1,6 +1,7 @@
+/* eslint-disable */
 import React, { FC, useState } from "react"
 import styled from "styled-components"
-import { AddPrompt, MultiSliders, ScrollCircles, Selector } from "view/components"
+import { MultiSliders, Selector } from "view/components"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 import { P } from "model/styles/Styled-Components"
 
@@ -16,7 +17,7 @@ interface ISliderProps {
   path?: any
 }
 
-export const TripleSliderSelector: FC<ISliderProps> = ({ addLabel, periods, handleChange, handlePeriodChange, period, slidersArray, selectorProps }) => {
+export const TripleSliderSelector: FC<ISliderProps> = ({ handleChange, handlePeriodChange, period, slidersArray, selectorProps }) => {
   const [direction, setDirection] = useState<string>("forward")
 
   return (

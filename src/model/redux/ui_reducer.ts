@@ -1,24 +1,21 @@
+import * as I from "model/types"
+
 const initialState = {
-  change: false,
+  colorIndex: 0,
+  dualSelectValue: true,
+  newStream: false,
+  progress: 7,
+  selectedAccount: "tfsa",
   selectedId: "dummy",
   selectedScenario: 1,
-  selectedPeriod: 0,
-  colorIndex: 0,
-  videoUrl: "",
-  progress: 7,
   selectedPage: "savings",
-  selectedAccount: "tfsa",
   selectedUser: "user1",
-  dualSelectValue: true,
-  savingsTransaction: "contribute",
-  newStream: false,
-  scenarios: 3,
-  scenarioLabel1: "basic",
-  scenarioLabel2: "Spender",
-  scenarioLabel3: "Saver",
+  scenarios: {
+    [1]: "basic",
+  },
 }
 
-export default function ui_reducer(state = initialState, action: any) {
+export default function ui_reducer(state: I.ui_reducer = initialState, action: I.a):I.ui_reducer {
   switch (action.type) {
     case "ui_reducer/SET_VALUE":
       return { ...state, [action.id]: action.value } //sets a simple id value pair within the reducer object

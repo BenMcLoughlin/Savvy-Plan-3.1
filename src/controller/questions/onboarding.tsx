@@ -3,27 +3,27 @@ import { buttons, onboardQuestions, showUsers } from "controller/questions/quest
 import { streams } from "controller/questions/helpers"
 
 export const onboard_questions = (state: I.state, set: I.set, remove: I.remove): I.onboard_questions => {
-  const { user1 } = state.user_reducer
+  const { isMarried, hasChildren } = state.user_reducer
   const q: I.question[] = []
 
   const askUser1 = onboardQuestions(q, remove, set, state, "user1")
   const askUser2 = onboardQuestions(q, remove, set, state, "user2")
   const show = showUsers(q, set, state)
-  console.log(askUser1)
+ 
 
   show.introduction()
   askUser1.for.name()
   askUser1.for.birthYear()
   askUser1.for.gender()
   askUser1.if.isMarried()
-  if (user1.isMarried) {
+  if (isMarried) {
     askUser2.for.name()
     askUser2.for.birthYear()
     // askUser2.for.gender()
   }
 
   askUser1.if.theyHaveChildren()
-  if (user1.hasChildren) {
+  if (hasChildren) {
     askUser1.for.numberOfChildren()
   }
 
@@ -38,7 +38,7 @@ export const onboard_questions = (state: I.state, set: I.set, remove: I.remove):
 
   //show.incomeParagraph()
 
-  if (user1.isMarried) {
+  if (isMarried) {
     askUser2.to.create.income()
     streams(state, "user2", "income").map((s, i) => {
       askUser2.for.income.name(i)
@@ -49,8 +49,8 @@ export const onboard_questions = (state: I.state, set: I.set, remove: I.remove):
     })
   }
   askUser1.for.desiredRetirementIncome()
-  show.idealIncomeChart(1)
-  show.idealIncomeChart(2)
+  // show.idealIncomeChart(1)
+  // show.idealIncomeChart(2)
 
   askUser1.to.create.savings()
 
@@ -87,7 +87,7 @@ export const onboard_questions = (state: I.state, set: I.set, remove: I.remove):
   // ask.for.user1.name()
   // ask.for.user1.name()
 
-  console.log(q)
+
   const questions = q
 
   const add = buttons(questions, set, state)

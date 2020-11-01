@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { FC } from "react"
 import styled from "styled-components"
 import { ChartNav } from "view/components"

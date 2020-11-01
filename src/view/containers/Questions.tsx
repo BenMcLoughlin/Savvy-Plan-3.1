@@ -6,7 +6,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group"
 import { useHistory, Redirect } from "react-router-dom"
 import { matchThenShowComponent } from "model/services/display_functions"
 import * as I from "model/types"
-import { useHttpClient } from "view/hooks"
+//import { useHttpClient } from "view/hooks"
 
 interface IProps {
   set: I.set
@@ -22,11 +22,11 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
   const { length } = questions
   const { explanation, backHandleChange, chart, nextHandleChange, showChart } = data.questions[progress]
   const history = useHistory()
-  const { sendRequest } = useHttpClient(set)
+  //const { sendRequest } = useHttpClient(set)
 
   useEffect(() => {
     history.push(`/onboarding/${progress}`)
-    window.addEventListener("popstate", e => {
+    window.addEventListener("popstate", () => {
       set("progress", "ui_reducer", +history.location.pathname.replace(/\D/g, ""))
     })
     // sendRequest(`http://localhost:5000/api/users/save`, "POST", JSON.stringify(state), {

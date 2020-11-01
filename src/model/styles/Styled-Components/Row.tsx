@@ -6,8 +6,8 @@ interface IProps {
   justify?: string
 }
 
-export const Row: FC<IProps> = props => {
-  return <Wrapper {...props}>{props.children}</Wrapper>
+export const Row: FC<IProps> = (props, { props: children }) => {
+  return <Wrapper {...props}>{children}</Wrapper>
 }
 
 //---------------------------STYLES-------------------------------------------//

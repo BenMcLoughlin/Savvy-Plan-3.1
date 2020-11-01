@@ -1,14 +1,15 @@
-import React from 'react'
-import styled from 'styled-components'
-import { TwitterWithCircle, FacebookWithCircle, InstagramWithCircle } from '@styled-icons/entypo-social'
+/* eslint-disable */
+import React from "react"
+import styled from "styled-components"
+import { TwitterWithCircle, FacebookWithCircle, InstagramWithCircle } from "@styled-icons/entypo-social"
 
 export const Footer = () => {
   return (
     <Wrapper>
       <Icons>
-        <TwitterWithCircle style={{ height: '3rem' }} />
-        <FacebookWithCircle style={{ height: '3rem' }} />
-        <InstagramWithCircle style={{ height: '3rem' }} />
+        <TwitterWithCircle style={{ height: "3rem" }} />
+        <FacebookWithCircle style={{ height: "3rem" }} />
+        <InstagramWithCircle style={{ height: "3rem" }} />
       </Icons>
       <Text>Help</Text>
     </Wrapper>
@@ -20,7 +21,7 @@ export const Footer = () => {
 const Wrapper = styled.div`
   height: 6.5rem;
   width: 100%;
-  background: #617A7C;
+  background: #617a7c;
   box-shadow: 0 1px 2px rgba(0, 0, 0.01, 0.08);
   position: relative;
 `

@@ -30,16 +30,11 @@ export const Header: FC<IProps> = ({ set, state }) => {
         ))}
       </Nav>
       <Login>
-        {token ? (
-          <LinkButton link="/" label="Log Out" handleChange={() => set("token", "auth_reducer", null)} />
-        ) : (
-          <LinkButton link="/login" label="Get Started" handleChange={() => null} />
-        )}
+        {token ? <LinkButton link="/" label="Log Out" handleChange={() => set("token", "auth_reducer", null)} /> : <LinkButton link="/login" label="Get Started" handleChange={() => null} />}
       </Login>
     </Wrapper>
   )
 }
-
 
 //---------------------------STYLES-------------------------------------------//
 
@@ -63,13 +58,6 @@ const Login = styled.div`
   align-items: center;
   width: 23rem;
   font-weight: 600;
-`
-const H3 = styled(Link)`
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  color: grey;
-  font-size: 1.6rem;
 `
 const Nav = styled.div`
   display: flex;

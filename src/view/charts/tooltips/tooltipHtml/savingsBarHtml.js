@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { round } from "view/charts/createChartFunctions/chartHelpers"
 
 const topHeader = `
@@ -41,7 +42,7 @@ align-items: center;
 `
 
 export const savingsBarHtml = (d, dataObject, n, state) => {
-  const { user1BirthYear } = state.user_reducer
+  const { birthYear } = state.user_reducer.user1
 
   const value = Object.values(d.data)[1]
 
@@ -49,7 +50,7 @@ export const savingsBarHtml = (d, dataObject, n, state) => {
   return `
                                    <div style="${topHeader}">
                                     <p> ${d.data.year}</p>
-                                    <p> Age: ${+d.data.year - +user1BirthYear}</p>
+                                    <p> Age: ${+d.data.year - +birthYear}</p>
                                     </div>
                                     <div  style="${titleRow(color)}">
                                     ${value > 0 ? "Contribution" : "Withdrawal"}

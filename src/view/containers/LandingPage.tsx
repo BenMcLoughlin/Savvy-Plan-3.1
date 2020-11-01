@@ -14,7 +14,7 @@ interface IProps {
   remove: I.remove
 }
 
-export const LandingPage: FC<IProps> = ({ remove, state, set }) => {
+export const LandingPage: FC<IProps> = ({ set }) => {
   const [scrollPosition, setScrollPosition] = useState(0)
   const [scrollMax, setScrollMax] = useState(0)
 

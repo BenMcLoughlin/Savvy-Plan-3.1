@@ -4,10 +4,10 @@ import { adjustByCraIndex } from "model/calculations/income/tax/tax.helpers"
 import * as I from "model/types"
 import { getYearRange } from "model/calculations/income/CanadaChildBenefit/CCB.helpers"
 
-export const getAdjustedFamilyNetIncome = (income: I.incomeForcast, year: I.year) =>
+export const getAdjustedFamilyNetIncome = (income: I.incomeForcast, year: number): number =>
   income[year].user2 ? income[year].user1.cppEligibleIncome + income[year].user2.cppEligibleIncome : income[year].user1.cppEligibleIncome
 
-export const getBenefitBeforeReduction = (kidsBirthYearArray: I.year[], year: I.year) => {
+export const getBenefitBeforeReduction = (kidsBirthYearArray: number[], year: number): number => {
   //find ages of children at this given year
   const agesThisYear = kidsBirthYearArray.map(d => year - d)
   //console.log(agesThisYear)
@@ -19,7 +19,7 @@ export const getBenefitBeforeReduction = (kidsBirthYearArray: I.year[], year: I.
   return adjustByCraIndex(beforeAdjustment)[year] //this value is adjusted according to the CRA inflation index, adjustByCraIndex returns on object of years, we just grab the year we're currently working on
 }
 
-export const getReduction = (adjustedFamilyNetIncome, kidsBirthYearArray: I.year[], year: I.year) => {
+export const getReduction = (adjustedFamilyNetIncome: number, kidsBirthYearArray: number[], year: number): number => {
   const agesThisYear = kidsBirthYearArray.map(d => year - d).filter(d => d > 0 && d <= 17).length
   const numberOfChildren = agesThisYear < 5 ? agesThisYear : 4 //if the number of children is above 4 we'll just use the number 4 to grab the max value from CCB rates
   //if income is under 31,000 there is no reductiona
@@ -37,9 +37,9 @@ export const getReduction = (adjustedFamilyNetIncome, kidsBirthYearArray: I.year
   }
 }
 
-export const getCcb = (object, year, state) => {
+export const getCcb = (object: I.objects, year: number, state: I.state): number => {
   const { yearFirstChildBorn, yearLastChildLeaves, kidsBirthYearArray } = getYearRange(state) //these values will be used in CCB calculation but are just grabbed once here
-  if (year > yearLastChildLeaves || year < yearFirstChildBorn || !state.user_reducer.user1.hasChildren) {
+  if (year > yearLastChildLeaves || year < yearFirstChildBorn || !state.user_reducer.hasChildren) {
     return 0
   }
   const benefitBeforeReduction = getBenefitBeforeReduction(kidsBirthYearArray, year)

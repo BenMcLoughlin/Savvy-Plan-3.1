@@ -10,20 +10,21 @@ const emptyAccountData = {
   total: 0,
 }
 
-export const getValue = (flow, stream: any, year: number): number => {
+export const getValue = (flow: I.flow, stream: I.stream, year: I.n): I.n => {
   if (stream) {
     //step 1. Check all periods to see if year falls within the period Start or End
     const periods = +Object.keys(stream[flow]).pop() || 1
     const value = _.range(1, periods + 1).map(n => {
       if (year >= stream[flow][n].start && year < stream[flow][n].end) return stream[flow][n].value
-      else return 0
+      return 0
     })
     return Math.max(...value)
-  } else return 0
+  }
+  return 0
 }
 
-export const getAccountDetails = (account: any, savingsObject: any, state: I.state, year: number, user: string): any => {
-  const stream: any = Object.values(state.main_reducer).find((d: any) => d.reg === account && d.owner === user) //grab the stream we're working on, eg TFSA with its contribute and withdraw details
+export const getAccountDetails = (account: I.a, savingsObject: I.objects, state: I.state, year: I.n, user: string): I.objects => {
+  const stream: any = Object.values(state.streams_reducer).find((d: any) => d.reg === account && d.owner === user) //grab the stream we're working on, eg TFSA with its contribute and withdraw details
 
   if (!stream) return emptyAccountData
 
@@ -51,7 +52,7 @@ export const getAccountDetails = (account: any, savingsObject: any, state: I.sta
   }
 }
 
-export const createSavingsObject = (state: I.state, yearFirst: number, yearLast: number, users: number[]) => {
+export const createSavingsObject = (state: I.state, yearFirst: I.n, yearLast: I.n, users: I.n[]): I.objects => {
   const savingsObject = {} //initialize an empty object which values will be passed into
 
   for (let year = yearFirst; year <= yearLast; year++) {

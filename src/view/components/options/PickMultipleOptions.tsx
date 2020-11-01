@@ -11,7 +11,7 @@ interface IProps {
   value
 }
 
-export const PickMultipleOptions: FC<IProps> = ({ optionArray, arrayOfSelected, handleChange, value }) => {
+export const PickMultipleOptions: FC<IProps> = ({ optionArray, arrayOfSelected, handleChange}) => {
   const [info, showInfo] = useState<string>("")
 
   return (

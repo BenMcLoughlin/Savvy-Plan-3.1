@@ -1,6 +1,6 @@
+/* eslint-disable */
 import React, { FC, useEffect, useRef } from "react"
 import styled from "styled-components"
-import { ChartNav } from "view/components"
 import { getSavings } from "model/calculations/savings/savings.function"
 import { drawAreaChart } from "view/charts/createChartFunctions/createAreaChart"
 import { drawBarChart } from "view/charts/createChartFunctions/createBarChart"
@@ -16,7 +16,7 @@ interface IProps {
 export const SavingsChart: FC<IProps> = ({ color_selector, state, exampleState, set }) => {
   if (exampleState) state = exampleState()
 
-  const dataObject = getSavings(state, set)
+  const dataObject = getSavings(state)
 
   const { areaData, barData } = getSavingsData(state, dataObject)
 
@@ -36,7 +36,7 @@ export const SavingsChart: FC<IProps> = ({ color_selector, state, exampleState, 
       const areaHeight = inputAreaRef.current.offsetHeight
       const barWidth = inputBarRef.current.offsetWidth
       const barHeight = inputBarRef.current.offsetHeight
-      drawAreaChart(color_selector, areaClassName, areaData, dataObject, areaHeight, set, state, areaWidth)
+      drawAreaChart(areaClassName, areaData, dataObject, areaHeight, state, areaWidth)
       drawBarChart(color_selector, barClassName, barData, dataObject, barHeight, set, state, barWidth)
     }
   }, [dataObject, set, state])

@@ -104,12 +104,3 @@ const Square = styled.div<ISquare>`
     border-radius: 0 0 10px 10px;
   }
 `
-
-const Label = styled.div`
-  color: white;
-  font-size: 1.4rem;
-  position: absolute;
-  top: 0.64rem;
-  background: grey;
-  left: -2rem;
-`

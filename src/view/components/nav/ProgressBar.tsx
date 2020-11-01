@@ -8,7 +8,7 @@ interface IProps {
 }
 
 export const ProgressBar: FC<IProps> = ({ progress, length }) => {
-  let squares = _.range(progress)
+  const squares = _.range(progress)
   return (
     <Wrapper>
       {squares.map((d) => (

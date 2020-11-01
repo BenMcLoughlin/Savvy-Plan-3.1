@@ -13,9 +13,7 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
 
   const labelArray = _.range(1, periods + 1).map(d => `${stream[flow][d].start} - ${stream[flow][d].end}`)
 
-  const { user1BirthYear, user2BirthYear } = state.user_reducer
-
-  const birthYear = owner === "user1" ? +user1BirthYear : +user2BirthYear
+  const { birthYear } = state.user_reducer[owner]
 
   const editPeriod = {
     explanation: text.explanation,
@@ -32,13 +30,13 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
       explainer: text.explainer,
       optionArray,
       value: period,
-      handleChange: e => set(id, "main_reducer", e, `period${_.startCase(flow)}`),
+      handleChange: e => set(id, "streams_reducer", e, `period${_.startCase(flow)}`),
       addNew: () => addPeriodToStream(flow, id, period, set, stream),
       labelArray,
     },
   }
 
-  const slidersArray = _.range(periods).map((d: number, i: number) => {
+  const slidersArray = _.range(periods).map(() => {
     const startYear = stream[flow][period].start
     const endYear = stream[flow][period].end
     const { value } = stream[flow][period]
@@ -60,7 +58,7 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
         value: startYear,
         handleChange: (value: number) => {
           if (text.setOptimumValues) text.setOptimumValues()
-          set(id, "main_reducer", value, flow, period, "start")
+          set(id, "streams_reducer", value, flow, period, "start")
         },
       },
       slider2: {
@@ -70,7 +68,7 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
         step: text.max < 25000 ? 100 : 1000,
         topLabel: past ? text.topLabelPast : text.topLabelFuture,
         value: value,
-        handleChange: (value: number) => set(id, "main_reducer", value, flow, period, "value"),
+        handleChange: (value: number) => set(id, "streams_reducer", value, flow, period, "value"),
       },
       slider3: {
         bottomLabel: `at age ${endYear - birthYear}`, //eg "at age 26"
@@ -80,7 +78,7 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
         topLabel: "Until ",
         type: "year",
         value: endYear,
-        handleChange: (value: number) => set(id, "main_reducer", value, flow, period, "end"),
+        handleChange: (value: number) => set(id, "streams_reducer", value, flow, period, "end"),
       },
     }
   })

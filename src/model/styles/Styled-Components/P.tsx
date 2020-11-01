@@ -8,8 +8,8 @@ interface IProps {
   fontSize?: number
 }
 
-export const P: FC<IProps> = props => {
-  return <Wrapper {...props}>{props.children}</Wrapper>
+export const P: FC<IProps> = (props, { props: children }) => {
+  return <Wrapper {...props}>{children}</Wrapper>
 }
 
 //---------------------------STYLES-------------------------------------------//

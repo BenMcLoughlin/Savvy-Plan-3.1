@@ -1,8 +1,9 @@
 import { useState, useCallback, useEffect } from "react"
+import * as I from "model/types"
 
 let logoutTimer
 
-export const useAuth = () => {
+export const useAuth = (): I.objects => {
   const [token, setToken] = useState(false)
   const [tokenExpirationDate, setTokenExpirationDate] = useState<any>()
   const [userId, setUserId] = useState(false)

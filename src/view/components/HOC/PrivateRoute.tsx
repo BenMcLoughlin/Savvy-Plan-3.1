@@ -1,6 +1,4 @@
-import React, { FC } from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import React from "react"
 import { Route, Redirect, RouteProps } from "react-router-dom"
 
 export interface IPrivateRouteProps extends RouteProps {

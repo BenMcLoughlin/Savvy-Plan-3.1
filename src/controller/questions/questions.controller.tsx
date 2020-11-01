@@ -4,19 +4,14 @@ import { validator } from "model/services/validation/validators"
 import { createTripleSliders } from "controller/questions/tripleSelector.creator"
 import * as I from "model/types"
 import { addText } from "controller/questions/text"
-
-const dummyStream = {
-  id: "dummy",
-  streamType: "dummy",
-  reg: "dummy",
-}
+import { dummyStream } from "data"
 
 export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.state, user: I.user): I.objects => {
-  const { main_reducer, ui_reducer } = state
+  const { streams_reducer, ui_reducer } = state
   const { selectedId, dualSelectValue } = state.ui_reducer
-  const stream = state.main_reducer[selectedId] || dummyStream
+  const stream: I.stream = state.streams_reducer[selectedId] || dummyStream
   const selectedUser = state.user_reducer[user]
-  const { id, streamType, reg } = stream || dummyStream
+  const { id, streamType, reg } = stream
   const { maritalStatus, numberOfChildren } = state.user_reducer
 
   return {
@@ -74,7 +69,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             childValue: numberOfChildren,
             valid: numberOfChildren > 0,
             handleChange: (n: any) => set("numberOfChildren", "user_reducer", n),
-            handleChange2: (value: string, childId1: string) => set(`${childId1}`, "user_reducer", value),
+            handleChange2: (value: number, childId1: string) => set(`${childId1}`, "user_reducer", value),
           },
           ...addText("numberOfChildren", state, user),
         }),
@@ -95,7 +90,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             ...{
               component: "TextInput",
               value: stream.name,
-              handleChange: (event: I.event) => set(id, "main_reducer", event.target.value, "name"),
+              handleChange: (event: I.event) => set(id, "streams_reducer", event.target.value, "name"),
             },
             ...addText("incomeName", state, user, i),
           }),
@@ -104,7 +99,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             ...{
               component: "PickSingleOption",
               value: reg,
-              handleChange: (value: string) => set(id, "main_reducer", value, "reg"),
+              handleChange: (value: string) => set(id, "streams_reducer", value, "reg"),
             },
             ...addText("incomeRegistration", state, user),
           }),
@@ -122,7 +117,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               handleChange: (value: string) => {
                 set("dualSelectValue", "ui_reducer", true)
                 set("selectedAccount", "ui_reducer", stream.reg)
-                set(id, "main_reducer", value, "currentValue")
+                set(id, "streams_reducer", value, "currentValue")
               },
             },
             ...addText("savingsCurrentValue", state, user),
@@ -189,9 +184,9 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             handleChange: (value: string) => {
               set("maritalStatus", "user_reducer", value)
               if (value === "married" || value === "common-law") {
-                set("user1", "user_reducer", true, "isMarried")
+                set("isMarried", "user_reducer", true)
               } else {
-                set("user1", "user_reducer", false, "isMarried")
+                set("isMarried", "user_reducer", false)
               }
             },
           },
@@ -206,7 +201,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               handleChange: () => {
                 set("dualSelectValue", "ui_reducer", true)
                 set("selectedUser", "ui_reducer", user)
-                createStream(streamType, "in", user, "taxable", set, state)
+                createStream(streamType, "in", user, "employment", set, state)
               },
               handleChange2: (option, clickFired: boolean) => {
                 set("dualSelectValue", "ui_reducer", false)
@@ -227,7 +222,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               component: "Button",
               valid: true,
               handleChange: () => {
-                createStream("income", "in", user, "taxable", set, state)
+                createStream("income", "in", user, "employment", set, state)
                 set("selectedUser", "ui_reducer", user)
                 set("progress", "ui_reducer", ui_reducer.progress + 1)
               },
@@ -238,7 +233,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
         savings: () =>
           q.push({
             ...{
-              arrayOfSelected: Object.values(main_reducer).filter((d: any) => d.id.includes(`user1Savings`)),
+              arrayOfSelected: Object.values(streams_reducer).filter((d: any) => d.id.includes(`user1Savings`)),
               component: "PickMultipleOptions",
               user: "user1",
               value: dualSelectValue,
@@ -256,7 +251,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
                 }
                 if (d.label === "none") {
                   //the user needs to be able to remove the new object if they click on it again enabling them to remove all accounts added
-                  const selectedInstances: any = Object.values(main_reducer).filter((b: any) => b.id.includes("user1Savings")) //searches the main reducer to find the matching object to be removed
+                  const selectedInstances: any = Object.values(streams_reducer).filter((b: any) => b.id.includes("user1Savings")) //searches the main reducer to find the matching object to be removed
                   selectedInstances.map((instance: any) => remove(instance.id))
                   set("selectedId", "ui_reducer", "")
                 }
@@ -272,7 +267,8 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
 
 export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
   const { selectedUser } = state.ui_reducer
-  const { user1Name, user2Name } = state.user_reducer
+  const { firstName: user1Name } = state.user_reducer.user1
+  const { firstName: user2Name } = state.user_reducer.user2
 
   return {
     introduction: () =>
@@ -298,17 +294,6 @@ export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
         },
         ...addText("combinedIncomeChart", state, "user1"),
       }),
-    idealIncomeChart: n => {
-      const data = {
-        ...{
-          component: "MultiSliders",
-          showChart: true,
-          chart: "IncomeChart",
-          max: 250000,
-        },
-        ...addText("idealIncome", state, "user1", n, set),
-      }
-    },
     incomeParagraph: () =>
       q.push({
         ...{

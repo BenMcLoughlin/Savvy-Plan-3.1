@@ -34,8 +34,11 @@ export const Login: FC<IProps> = ({ set, state }) => {
       const res = await sendRequest(`http://localhost:5000/api/users/${userWantsTo}`, "POST", JSON.stringify(formData), {
         "Content-Type": "application/json",
       })
+      // await sendRequest(`http://localhost:5000/api/store/${userWantsTo}`, "POST", JSON.stringify(state), {
+      //   "Content-Type": "application/json",
+      // })
       // if (isNewUser)
-      //   await sendRequest(`http://localhost:5000/api/store/create`, "POST", JSON.stringify(state), {
+      //   await sendRequest(`http://localhost:5000/api/store/${userWantsTo}`, "POST", JSON.stringify(state), {
       //     "Content-Type": "application/json",
       //   })
       set("token", "auth_reducer", res.token)
@@ -79,19 +82,6 @@ export const Login: FC<IProps> = ({ set, state }) => {
 }
 
 //-----------------------------------------------style-----------------------------------------------//
-
-interface IError {
-  i: number
-}
-
-const Error = styled.div<IError>`
-  position: absolute;
-  bottom: 24rem;
-  width: 30rem;
-  left: 0rem;
-  height: 10rem;
-  color: ${props => props.theme.color.salmon};
-`
 
 const PageSize = styled.div`
   height: 100%;

@@ -16,7 +16,7 @@ const App = ({ remove, state, set }) => {
   const { isLoading } = state.auth_reducer
 
   const newPageData = pages_data[`${selectedPage}Page_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
-  console.log("state:", JSON.stringify(state, null, 4))
+  //console.log("state:", JSON.stringify(state, null, 4))
 
   return (
     <ThemeProvider theme={theme}>
@@ -34,7 +34,7 @@ const App = ({ remove, state, set }) => {
                 <Route exact path="/pricing" component={Pricing} />
                 <PrivateRoute path="/account" component={Account} />
                 <PrivateRoute path={`/onboarding`} render={() => <Questions data={onboard_questions(state, set, remove)} />} />
-                <PrivateRoute exact path="/plan" render={() => <Display data={createPage(newPageData, state, set, "display", remove)} />} />
+                <PrivateRoute exact path="/plan" render={() => <Display data={createPage(newPageData, state, set)} />} />
               </Switch>
             )}
           </BrowserRouter>

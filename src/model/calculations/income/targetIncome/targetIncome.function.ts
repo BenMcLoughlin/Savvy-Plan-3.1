@@ -1,21 +1,23 @@
+import * as I from "model/types"
 //import { maxTFSAWithdrawal } from "model/calculations/income/income.helpers"
-import _ from "lodash"
+//import _ from "lodash"
 
-const payment = function (rate, nperiod, pv, fv, type) {
-  if (!fv) fv = 0
-  if (!type) type = 0
 
-  if (rate === 0) return -(pv + fv) / nperiod
+// const payment = function (rate, nperiod, pv, fv, type) {
+//   if (!fv) fv = 0
+//   if (!type) type = 0
 
-  var pvif = Math.pow(1 + rate, nperiod)
-  var pmt = (rate / (pvif - 1)) * -(pv * pvif + fv)
+//   if (rate === 0) return -(pv + fv) / nperiod
 
-  if (type === 1) {
-    pmt /= 1 + rate
-  }
+//   var pvif = Math.pow(1 + rate, nperiod)
+//   var pmt = (rate / (pvif - 1)) * -(pv * pvif + fv)
 
-  return Math.round(pmt)
-}
+//   if (type === 1) {
+//     pmt /= 1 + rate
+//   }
+
+//   return Math.round(pmt)
+// }
 
 // const maxPossibleRRSP = (income, year) => {
 
@@ -27,13 +29,13 @@ const payment = function (rate, nperiod, pv, fv, type) {
 
 //   return payment(0.03, tfsaWithdrawalDuration, tfsaStartValue, 0, null)
 // }
-const retirementAge = 65
-const retirementYear = 2067
-const maxRRSPPayment = 18000
-const maxTFSAPayment = 18000
-const benfits = 20000
+// const retirementAge = 65
+// const retirementYear = 2067
+// const maxRRSPPayment = 18000
+// const maxTFSAPayment = 18000
+// const benfits = 20000
 
-export const getTargetIncome = (annualIncome, maxTFSA, state, taxableIncome, year) => {
+export const getTargetIncome = (annualIncome: I.objects, maxTFSA: I.n, state: I.state, taxableIncome: I.n, year: I.n): I.objects => {
   const { income } = annualIncome
   const RetIncome = 40000
   const bracketDiff = 41725 - +taxableIncome

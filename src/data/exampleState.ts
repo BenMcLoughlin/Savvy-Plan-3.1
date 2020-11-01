@@ -1,24 +1,21 @@
-export const exampleState = () => ({
+import * as I from "model/types"
+
+export const exampleState = (): I.state => ({
   ui_reducer: {
-    change: false,
     selectedId: "user1Savings_6529",
     selectedScenario: 1,
-    selectedPeriod: 0,
     colorIndex: 3,
-    videoUrl: "",
     progress: 24,
     selectedPage: "savings",
     selectedAccount: "tfsa",
     selectedUser: "user1",
     dualSelectValue: true,
-    savingsTransaction: "contribute",
     newStream: false,
-    scenarios: 3,
-    scenarioLabel1: "basic",
-    scenarioLabel2: "Spender",
-    scenarioLabel3: "Saver",
+    scenarios: {
+      [1]: "base",
+    },
   },
-  main_reducer: {
+  streams_reducer: {
     user1Income_589848: {
       amortization: 0,
       color: "#72929B",
@@ -46,7 +43,7 @@ export const exampleState = () => ({
       payment: 0,
       streamType: "income",
       rate: 0,
-      reg: "Business Income",
+      reg: "tfsa",
       taxable: true,
       scenarios: 0,
       startValue: 0,
@@ -81,7 +78,7 @@ export const exampleState = () => ({
       payment: 0,
       streamType: "income",
       rate: 0,
-      reg: "taxable",
+      reg: "tfsa",
       taxable: true,
       scenarios: 0,
       startValue: 0,
@@ -136,30 +133,16 @@ export const exampleState = () => ({
     },
   },
   user_reducer: {
-    changeAssumptions: "",
-    hasUnsecuredDebt: false,
     numberOfChildren: 1,
-    gender: "",
-    haveChildren: "",
+    hasChildren: false,
     hasChildrenStatus: "no",
-    ownHome: false,
     inflationRate: 2,
     maritalStatus: "married",
     MER: 2,
     province: "British Columbia",
     rate1: 6,
     rate2: 4.5,
-    user1BirthYear: 1990,
-    user2BirthYear: 1990,
-    user1CppStartAge: 65,
-    user2CppStartAge: 65,
-    user1Gender: "",
-    user1LifeSpan: 95,
-    user2LifeSpan: 95,
-    user1Name: "Ben",
-    user2Name: "Kelsey",
-    user1OasStartAge: 65,
-    user2OasStartAge: 65,
+    isMarried: true,
     desiredRetirementIncome: 0,
     user1: {
       birthYear: 1990,
@@ -167,12 +150,8 @@ export const exampleState = () => ({
       firstName: "",
       lastName: "",
       gender: "male",
-      hasChildren: false,
-      isMarried: true,
       oasStartAge: 65,
-      efficientWithdrawalTFSA: 0,
-      efficientWithdrawalRRSP: 0,
-      efficientWithdrawalNonReg: 0,
+      lifeSpan: 95,
     },
     user2: {
       birthYear: 1990,
@@ -181,54 +160,17 @@ export const exampleState = () => ({
       lastName: "",
       gender: "female",
       oasStartAge: 65,
+      lifeSpan: 95,
     },
   },
   auth_reducer: {
     token: null,
-    isLoggedIn: true,
     isLoading: false,
-    user: null,
-    user1Income_589848: "Business Income",
-    user1Income_979566: {
-      amortization: 0,
-      color: "#B0CFE3",
-      cppEligible: true,
-      createdAt: 1603746636747,
-      currentValue: 0,
-      flow: "in",
-      in: {
-        "1": {
-          start: 2020,
-          value: 0,
-          end: 2030,
-        },
-      },
-      id: "user1Income_979566",
-      owner: "user1",
-      out: {
-        "1": {
-          start: 2020,
-          value: 0,
-          end: 2030,
-        },
-      },
-      name: "",
-      payment: 0,
-      streamType: "income",
-      rate: 0,
-      reg: "taxable",
-      taxable: true,
-      scenarios: 0,
-      startValue: 0,
-      startYear: 0,
-      periodIn: 1,
-      periodOut: 1,
-    },
-    user1Savings_6529: 6000,
+    errors: {}
   },
 })
 
-export const exampleOverviewData = () => {
+export const exampleOverviewData = ():I.a => {
   const data = {}
   for (let year = 2010; year <= 2090; year++) {
     data[year] = {

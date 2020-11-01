@@ -1,9 +1,10 @@
+/* eslint-disable */
 import * as d3 from "d3"
 import { round, formatIncomeName } from "view/charts/createChartFunctions/chartHelpers"
 
 export const incomeChart = (d, dataObject, i, tooltip, n, state) => {
   const { selectedUser } = state.ui_reducer
-  const { user1BirthYear, user1Name, user2Name } = state.ui_reducer
+  const { birthYear,  firstName } = state.ui_reducer.user1
   const name = n[0].parentNode.className.animVal
   d3.select(n[i]).transition().duration(100).attr("opacity", 0.7).attr("cursor", "pointer")
 
@@ -13,10 +14,10 @@ export const incomeChart = (d, dataObject, i, tooltip, n, state) => {
     `
                                     <div class="topHeader">
                                         <p> ${d.data.year}</p>
-                                        <p> Age: ${d.data.year - user1BirthYear}</p>
+                                        <p> Age: ${d.data.year - birthYear}</p>
                                     </div>
                                     <div class="title-row" style="color: ${thisColor}; ">
-                                     ${formatIncomeName(name, user1Name, user2Name)}
+                                     ${formatIncomeName(name, user1Name, firstName)}
                                     </div>
                                     <div class="row" style="color: ${thisColor}; ">
                                       <div class="box">

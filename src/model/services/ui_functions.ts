@@ -1,9 +1,9 @@
-export const ageAtSelectedYear = (startYear, birthYear) => {
+export const ageAtSelectedYear = (startYear: number, birthYear: number):number | string => {
   if (startYear > birthYear) return startYear - birthYear
-  else return "-"
+  return "-"
 }
 
-export const round = (value: number) => {
+export const round = (value: number):number => {
   if (value < 1000) {
   return Math.round(value/10) * 10
   }

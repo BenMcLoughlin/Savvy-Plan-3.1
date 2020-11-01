@@ -12,7 +12,7 @@ import root_reducer from "./model/redux/root_reducer"
 
 const store = createStore(root_reducer, composeWithDevTools())
 
-const persistor:any = persistStore(store)
+const persistor: any = persistStore(store)
 
 ReactDOM.render(
   <React.StrictMode>
