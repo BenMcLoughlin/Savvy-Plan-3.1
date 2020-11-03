@@ -46,16 +46,17 @@ font-weight: 700;
 
 export const incomeHtml = (d, dataObject, color, n, state) => {
   const { selectedUser } = state.ui_reducer
-  const { firstName } = state.user_reducer
+  const { firstName: user1FirstName, birthYear: user1BirthYear} = state.user_reducer.user1
+  const { firstName: user2FirstName, birthYear: user2BirthYear} = state.user_reducer.user2
   const name = n[0].parentNode.className.animVal
 
   return `
                    <div style="${topHeader}">
                                         <p> ${d.data.year}</p>
-                                        <p> Age: ${d.data.year - user1BirthYear}</p>
+                                        <p> Age: ${d.data.year - user1BirthYear}}</p>
                                     </div>
                                     <div  style="${titleRow(color)}">
-                                    ${formatIncomeName(name, firsName, firstName)}
+                                    ${formatIncomeName(name, user1FirstName, user2FirstName)}
                                     </div>
                                     <div style="${row(color)} ">
                                       <div style="${box}">

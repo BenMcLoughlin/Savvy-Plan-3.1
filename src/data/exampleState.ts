@@ -15,7 +15,7 @@ export const exampleState = (): I.state => ({
       [1]: "base",
     },
   },
-  streams_reducer: {
+  stream_reducer: {
     user1Income_589848: {
       amortization: 0,
       color: "#72929B",
@@ -166,11 +166,11 @@ export const exampleState = (): I.state => ({
   auth_reducer: {
     token: null,
     isLoading: false,
-    errors: {}
+    errors: {},
   },
 })
 
-export const exampleOverviewData = ():I.a => {
+export const exampleOverviewData = (): I.a => {
   const data = {}
   for (let year = 2010; year <= 2090; year++) {
     data[year] = {

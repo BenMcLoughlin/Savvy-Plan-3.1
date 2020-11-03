@@ -2,6 +2,9 @@
 import { taxes } from "model/calculations/income/tax/tax.data"
 import * as I from "model/types"
 
+type getTax = (income: I.n, government: I.government) => I.n
+
+
 export const getTax = (income: I.n, government: I.government): I.n => {
   const { rate, constant }: any = Object.values(taxes[government]).find((d: any): any => income >= d.bot && income < d.top) //find the object that contains the bracket details the income fits into
   const tax = income * rate - constant

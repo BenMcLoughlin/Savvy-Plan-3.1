@@ -6,10 +6,11 @@ import * as I from "model/types"
 
 export const addText = (textKey: string, state: I.state, user: I.user, n?: number, set?: I.set): I.objects => {
   const { selectedId } = state.ui_reducer
-  const stream: I.stream = state.streams_reducer[selectedId] || dummyStream
+  const stream: I.stream = state.stream_reducer[selectedId] || dummyStream
   const isUser1 = user === "user1"
   const { hasChildren } = state.user_reducer
   const { reg } = stream
+  const { firstName: spouseFirstName } = state.user_reducer.user2
   const { firstName } = state.user_reducer.user1
   const { user2, desiredRetirementIncome, isMarried } = state.user_reducer
 
@@ -29,7 +30,7 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
     createIncome: {
       explanation: "",
       subTitle: "We'll use this to build a chart showings your income streams and estimate your pension income.",
-      question: `We need details about ${isMarried ? firstName + "'s" : "your"} income`,
+      question: `We need details about ${isMarried ? spouseFirstName + "'s" : "your"} income`,
       label: "lets go",
     },
     createSavings: {

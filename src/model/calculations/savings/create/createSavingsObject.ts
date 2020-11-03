@@ -24,7 +24,7 @@ export const getValue = (flow: I.flow, stream: I.stream, year: I.n): I.n => {
 }
 
 export const getAccountDetails = (account: I.a, savingsObject: I.objects, state: I.state, year: I.n, user: string): I.objects => {
-  const stream: any = Object.values(state.streams_reducer).find((d: any) => d.reg === account && d.owner === user) //grab the stream we're working on, eg TFSA with its contribute and withdraw details
+  const stream: any = Object.values(state.stream_reducer).find((d: any) => d.reg === account && d.owner === user) //grab the stream we're working on, eg TFSA with its contribute and withdraw details
 
   if (!stream) return emptyAccountData
 

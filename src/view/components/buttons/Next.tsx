@@ -2,6 +2,8 @@ import React, { FC, useEffect } from "react"
 import styled from "styled-components"
 import { ArrowIosForwardOutline } from "@styled-icons/evaicons-outline/ArrowIosForwardOutline"
 import { CSSTransition } from "react-transition-group"
+import { useHttpClient } from "view/hooks"
+import * as I from "model/types"
 
 interface IProps {
   setDirection: (value: string) => void
@@ -9,9 +11,21 @@ interface IProps {
   nextHandleChange?: () => void //this allows a specific instance of the wizard to attach a special handle change when the next button is clicked. Prepares the state for the next
   valid: boolean
   state: any
+  set: I.set
 }
 
-export const Next: FC<IProps> = ({ handleChange, nextHandleChange, setDirection, valid, state }) => {
+export const Next: FC<IProps> = ({ handleChange, nextHandleChange, setDirection, valid, state, set }) => {
+
+    const { sendRequest } = useHttpClient(set)
+
+    const saveStore = async () => {
+      await sendRequest(`/api/store/saveStore`, "PATCH", JSON.stringify(state), {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer " + state.auth_reducer.token,
+      })
+    }
+
 
   useEffect(() => {
     const pressEnter = (event: KeyboardEvent) => {
@@ -34,6 +48,7 @@ export const Next: FC<IProps> = ({ handleChange, nextHandleChange, setDirection,
             valid={valid}
             onClick={() => {
               setDirection("forward")
+              saveStore()
               handleChange(setDirection, valid)
               if (nextHandleChange) nextHandleChange()
             }}

@@ -33,7 +33,7 @@ export const TextInput: FC<IProps> = ({ handleChange, formData, label, placehold
         step={1}
         onChange={e => handleChange(e)}
         name={name}
-        id="textInput"
+        id={name}
         onBlur={() => {
           setEnableErrors(true)
           if (setEnableErrors && isError) {

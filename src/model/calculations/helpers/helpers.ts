@@ -8,7 +8,7 @@ export class Helpers {
 
   streams: any
 
-  turn(reducer: I.streams_reducer): I.a {
+  turn(reducer: I.stream_reducer): I.a {
     this.reducer = reducer
     return this
   }

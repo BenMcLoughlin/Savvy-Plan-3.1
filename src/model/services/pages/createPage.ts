@@ -87,8 +87,8 @@ export const createPage = (data: I.pages, state: I.state, set: I.set): I.a => {
 
   //   const editProps = {
   //     id,
-  //     handleColorChange: (value: string) => set(id, "streams_reducer", value, "color"),
-  //     handleTitleChange: (value: string) => set(id, "streams_reducer", value, "name"),
+  //     handleColorChange: (value: string) => set(id, "stream_reducer", value, "color"),
+  //     handleTitleChange: (value: string) => set(id, "stream_reducer", value, "name"),
   //     handlePeriodChange: (value: string) => set("selectedPeriod", "ui_reducer", value),
   //     handleDelete: () => {
   //       set("selectedId", "ui_reducer", "", "") // sets the seleted ID in the reducer to nothing so the box will no longer show                                                                                                         // determines which income instance to show within the edit box
@@ -119,7 +119,7 @@ export const createPage = (data: I.pages, state: I.state, set: I.set): I.a => {
   //       label: "account",
   //       handleChange: option => {
   //         set("selectedAccount", "ui_reducer", option)
-  //         set(selectedId, "streams_reducer", option, "reg")
+  //         set(selectedId, "stream_reducer", option, "reg")
   //       },
   //       selectedValue: selectedAccount,
   //     },

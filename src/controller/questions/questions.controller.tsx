@@ -1,15 +1,15 @@
 import { createStream } from "model/services/create_functions"
 import { removeMostRecentStream } from "controller/questions/helpers"
-import { validator } from "model/services/validation/validators"
+import { validateNext } from "model/services/validation/validators"
 import { createTripleSliders } from "controller/questions/tripleSelector.creator"
 import * as I from "model/types"
 import { addText } from "controller/questions/text"
 import { dummyStream } from "data"
 
 export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.state, user: I.user): I.objects => {
-  const { streams_reducer, ui_reducer } = state
+  const { stream_reducer, ui_reducer } = state
   const { selectedId, dualSelectValue } = state.ui_reducer
-  const stream: I.stream = state.streams_reducer[selectedId] || dummyStream
+  const stream: I.stream = state.stream_reducer[selectedId] || dummyStream
   const selectedUser = state.user_reducer[user]
   const { id, streamType, reg } = stream
   const { maritalStatus, numberOfChildren } = state.user_reducer
@@ -66,10 +66,11 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
           ...{
             component: "PickNumberWithText",
             value: numberOfChildren,
+            value2: numberOfChildren,
             childValue: numberOfChildren,
             valid: numberOfChildren > 0,
             handleChange: (n: any) => set("numberOfChildren", "user_reducer", n),
-            handleChange2: (value: number, childId1: string) => set(`${childId1}`, "user_reducer", value),
+            handleChange2: (event: I.event) => set(event.target.name, "user_reducer", event.target.value),
           },
           ...addText("numberOfChildren", state, user),
         }),
@@ -90,7 +91,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             ...{
               component: "TextInput",
               value: stream.name,
-              handleChange: (event: I.event) => set(id, "streams_reducer", event.target.value, "name"),
+              handleChange: (event: I.event) => set(id, "stream_reducer", event.target.value, "name"),
             },
             ...addText("incomeName", state, user, i),
           }),
@@ -99,7 +100,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             ...{
               component: "PickSingleOption",
               value: reg,
-              handleChange: (value: string) => set(id, "streams_reducer", value, "reg"),
+              handleChange: (value: string) => set(id, "stream_reducer", value, "reg"),
             },
             ...addText("incomeRegistration", state, user),
           }),
@@ -117,7 +118,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               handleChange: (value: string) => {
                 set("dualSelectValue", "ui_reducer", true)
                 set("selectedAccount", "ui_reducer", stream.reg)
-                set(id, "streams_reducer", value, "currentValue")
+                set(id, "stream_reducer", value, "currentValue")
               },
             },
             ...addText("savingsCurrentValue", state, user),
@@ -168,9 +169,9 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             handleChange: (value: string) => {
               set("hasChildrenStatus", "user_reducer", value)
               if (value === "yes" || value === "hope to eventually") {
-                set("user1", "user_reducer", true, "hasChildren")
+                set("hasChildren", "user_reducer", true)
               } else {
-                set("user1", "user_reducer", false, "hasChildren")
+                set("hasChildren", "user_reducer", false)
               }
             },
           },
@@ -233,7 +234,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
         savings: () =>
           q.push({
             ...{
-              arrayOfSelected: Object.values(streams_reducer).filter((d: any) => d.id.includes(`user1Savings`)),
+              arrayOfSelected: Object.values(stream_reducer).filter((d: any) => d.id.includes(`user1Savings`)),
               component: "PickMultipleOptions",
               user: "user1",
               value: dualSelectValue,
@@ -251,7 +252,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
                 }
                 if (d.label === "none") {
                   //the user needs to be able to remove the new object if they click on it again enabling them to remove all accounts added
-                  const selectedInstances: any = Object.values(streams_reducer).filter((b: any) => b.id.includes("user1Savings")) //searches the main reducer to find the matching object to be removed
+                  const selectedInstances: any = Object.values(stream_reducer).filter((b: any) => b.id.includes("user1Savings")) //searches the main reducer to find the matching object to be removed
                   selectedInstances.map((instance: any) => remove(instance.id))
                   set("selectedId", "ui_reducer", "")
                 }
@@ -319,7 +320,7 @@ export const buttons = (q: I.a, set: I.set, state: I.state): any => {
           set("progress", "ui_reducer", progress + 1)
         }
       },
-      valid: validator(value, q[progress]),
+      valid: validateNext(value, q[progress]),
       state,
     }),
     exitButton: () => ({

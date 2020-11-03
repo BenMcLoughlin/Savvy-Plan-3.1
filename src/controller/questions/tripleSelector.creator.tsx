@@ -30,7 +30,7 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
       explainer: text.explainer,
       optionArray,
       value: period,
-      handleChange: e => set(id, "streams_reducer", e, `period${_.startCase(flow)}`),
+      handleChange: e => set(id, "stream_reducer", e, `period${_.startCase(flow)}`),
       addNew: () => addPeriodToStream(flow, id, period, set, stream),
       labelArray,
     },
@@ -49,16 +49,16 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
       component: "MultiSliders",
       num: 3,
       slider1: {
-        bottomLabel: `at age ${startYear - birthYear}`, //eg "at age 26"
+        bottomLabel: `at age ${startYear - +birthYear}`, //eg "at age 26"
         max: 2080,
-        min: birthYear + 18, //if its the first one then just 2020, otherwise its the period priors last year
+        min: +birthYear + 18, //if its the first one then just 2020, otherwise its the period priors last year
         step: 1,
         topLabel: period === 1 ? "starting in" : "then in", //for the first one we want to say "starting in" but after they add changes we want it to say "then in"
         type: "year",
         value: startYear,
         handleChange: (value: number) => {
           if (text.setOptimumValues) text.setOptimumValues()
-          set(id, "streams_reducer", value, flow, period, "start")
+          set(id, "stream_reducer", value, flow, period, "start")
         },
       },
       slider2: {
@@ -68,17 +68,17 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
         step: text.max < 25000 ? 100 : 1000,
         topLabel: past ? text.topLabelPast : text.topLabelFuture,
         value: value,
-        handleChange: (value: number) => set(id, "streams_reducer", value, flow, period, "value"),
+        handleChange: (value: number) => set(id, "stream_reducer", value, flow, period, "value"),
       },
       slider3: {
         bottomLabel: `at age ${endYear - birthYear}`, //eg "at age 26"
-        max: `${birthYear + 110}`,
+        max: `${+birthYear + 110}`,
         min: startYear,
         step: 1,
         topLabel: "Until ",
         type: "year",
         value: endYear,
-        handleChange: (value: number) => set(id, "streams_reducer", value, flow, period, "end"),
+        handleChange: (value: number) => set(id, "stream_reducer", value, flow, period, "end"),
       },
     }
   })

@@ -5,8 +5,8 @@ import { getSAAPE, getFAAPE, adjustCpp, sumArray, sumPensionableEarnings, adjust
 import * as I from "model/types"
 
 export const getCpp = (income: I.objects, user: I.user, { user_reducer }: I.state): number => {
-  const birthYear = user_reducer[`${user}BirthYear`]
-  const cppStartAge = user_reducer[`${user}CppStartAge`]
+  const { birthYear } = user_reducer[`${user}`]
+  const { cppStartAge } = user_reducer[`${user}`]
 
   const APE_array = [] //Adjusted Pensionable earnings, earnings will be adjusted for inflation and placed here
   const FAAPE_array = [] //first adjusted additional pensionable earnings, this is a top up
@@ -49,7 +49,7 @@ export const getCpp = (income: I.objects, user: I.user, { user_reducer }: I.stat
 
   const adjustedBenefit = adjustCpp(benefit, cppStartAge)
 
-  return adjustedBenefit
+  return adjustedBenefit > 0 ? adjustedBenefit : 0
 }
 
 export const getOas = (user: I.user, { user_reducer }: I.state): number => {

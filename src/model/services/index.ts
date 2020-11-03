@@ -1,1 +1,1 @@
-export{ validateSignUpErrors } from "./validation/validators"
+export { validateSignUpErrors } from "./validation/validators"

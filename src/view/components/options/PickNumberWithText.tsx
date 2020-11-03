@@ -3,14 +3,20 @@ import styled from "styled-components"
 import { PickNumber, TextInput } from "view/components"
 import _ from "lodash"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
+import * as I from "model/types"
 
 interface IProps {
   handleChange: (selected: any, value: string) => void
-  handleChange2: (event: any, childId1: string) => null
+  handleChange2: (event: any) => null
   value: number
+  value2: I.a
+  state: I.state
 }
 
-export const PickNumberWithText: FC<IProps> = ({ handleChange, handleChange2, value }) => {
+export const PickNumberWithText: FC<IProps> = ({ handleChange, handleChange2, state, value}) => {
+
+  const {user_reducer} = state
+
   return (
     <Wrapper>
       <PickNumber handleChange={handleChange} value={value} />
@@ -18,10 +24,8 @@ export const PickNumberWithText: FC<IProps> = ({ handleChange, handleChange2, va
         <TransitionGroup1 value={value}>
           {_.range(1, value + 1).map(d => (
             <CSSTransition key={d} timeout={300} classNames={`transition`}>
-                          <TextInput handleChange={e => {
-                            console.log(e.target.value)
-                            return handleChange2(e.target.value, `child${d}BirthYear`)}} type="year" label={`childNumber${d}BirthYear`}  value={"value"} />
-   </CSSTransition>
+              <TextInput handleChange={handleChange2} type="year" label={`childNumber${d}BirthYear`} value={user_reducer[`child${d}BirthYear`]} name={`child${d}BirthYear`} />
+            </CSSTransition>
           ))}
         </TransitionGroup1>
       </TextBoxes>

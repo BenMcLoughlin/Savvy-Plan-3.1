@@ -10,9 +10,10 @@ export const ManageRedux: FC<IProps> = ({ state, set }) => {
   const [progress, setProgress] = useState<number>()
   const { sendRequest } = useHttpClient(set)
 
-  const sendStore = async () => {
-    await sendRequest(`http://localhost:5000/api/store/signup`, "POST", JSON.stringify(state), {
+  const saveStore = async () => {
+    await sendRequest(`/api/store/saveStore`, "PATCH", JSON.stringify(state), {
       "Content-Type": "application/json",
+      'Accept': 'application/json',
       Authorization: "Bearer " + state.auth_reducer.token,
     })
   }
@@ -29,7 +30,7 @@ export const ManageRedux: FC<IProps> = ({ state, set }) => {
       </Storage>
       <Progress>
         <Go onClick={() => set("progress", "ui_reducer", progress)}>go to</Go>
-        <Go onClick={() => sendStore()}>Send data </Go>
+        <Go onClick={() => saveStore()}>Save data </Go>
         <ProgressInput type="number" onChange={(e: any) => setProgress(+e.target.value)} />
       </Progress>
     </Wrapper>

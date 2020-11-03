@@ -1,3 +1,4 @@
+
 import React, { FC, useState, useEffect } from "react"
 import styled from "styled-components"
 import { CSSTransition } from "react-transition-group"
@@ -14,7 +15,7 @@ interface IProps {
   remove: I.remove
 }
 
-export const LandingPage: FC<IProps> = ({ set }) => {
+export const LandingPage: FC<IProps> = ({ remove, state, set }) => {
   const [scrollPosition, setScrollPosition] = useState(0)
   const [scrollMax, setScrollMax] = useState(0)
 
@@ -122,4 +123,4 @@ const SlideInDiv = styled.div<IScroll>`
   transform: ${props => (props.scrollPercentage < 0.5 ? "translate(-90rem, 0)" : "translate(0, 0)")};
   transition: all ease 1s;
   font-weight: bold;
-`
+  `

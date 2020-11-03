@@ -3,11 +3,13 @@ import * as I from "model/types"
 
 const initialState = {}
 
-export const streams_reducer = (state: I.streams_reducer = initialState, action: I.a): I.streams_reducer => {
+export const stream_reducer = (state: I.stream_reducer = initialState, action: I.a): I.stream_reducer => {
   switch (action.type) {
-    case "streams_reducer/REMOVE":
+    case "stream_reducer/REMOVE":
       return _.omit(state, [action.id])
-    case "streams_reducer/SET_VALUE":
+    case "stream_reducer/SET_STORE":
+      return (state = { ...action.savedState })
+    case "stream_reducer/SET_VALUE":
       return action.childId3
         ? {
             ...state,

@@ -10,7 +10,7 @@ interface IProps {
 
 export const SpendingChart: FC<IProps> = ({ state, set }) => {
   //THIS IS JUST A PLACEHODLER FUNCTION FOR NOW
-  const instance: any = Object.values(state.streams_reducer).filter((d: any) => d.id.includes("Spending"))[0]
+  const instance: any = Object.values(state.stream_reducer).filter((d: any) => d.id.includes("Spending"))[0]
 
   return (
     <Wrapper>

@@ -1,6 +1,6 @@
 import { compose } from "redux"
 import { connect } from "react-redux"
-import { set, remove } from "model/redux/actions"
+import { set, remove, setStore } from "model/redux/actions"
 import { EditPanel as _EditPanel } from "./cards/EditPanel"
 import { Header as _Header } from "./layout/Header"
 import { Login as _Login } from "./login/Login"
@@ -11,6 +11,8 @@ import { Back as _Back } from "view/components/buttons/Back"
 
 //Import Components
 import { TextInput as _TextInput } from "view/components/textInput/TextInput"
+import { PickNumberWithText as _PickNumberWithText } from "view/components/options/PickNumberWithText"
+import { Next as _Next } from "view/components/buttons/Next"
 
 //Import Selectors
 import { color_selector } from "model/redux/selectors"
@@ -41,7 +43,8 @@ export const Back = compose(connect(mapStateToProps))(_Back)
 export { Button } from "./buttons/Button"
 export { LinkButton } from "./buttons/LinkButton"
 export { Exit } from "./buttons/Exit"
-export { Next } from "./buttons/Next"
+export const Next = compose(connect(mapStateToProps, {set}))(_Next)
+
 export { SocialMediaIcons } from "./buttons/SocialMediaIcons"
 
 //Displays
@@ -69,7 +72,7 @@ export const Header = compose(connect(mapStateToProps, { set, remove }))(_Header
 export { Footer } from "./layout/Footer"
 
 //login
-export const Login = compose(connect(mapStateToProps, { set, remove }))(_Login)
+export const Login = compose(connect(mapStateToProps, { set, remove, setStore }))(_Login)
 
 //Nav
 export { ChartNav } from "./nav/ChartNav"
@@ -83,7 +86,7 @@ export { DualSelect } from "./options/DualSelect"
 export { PickMultipleOptions } from "./options/PickMultipleOptions"
 export { PickNumber } from "./options/PickNumber"
 export { PickSingleOption } from "./options/PickSingleOption"
-export { PickNumberWithText } from "./options/PickNumberWithText"
+export const PickNumberWithText = compose(connect(mapStateToProps, { set, remove }))(_PickNumberWithText)
 
 //Scroll
 export { ScrollCircles } from "./scroll/ScrollCircles"

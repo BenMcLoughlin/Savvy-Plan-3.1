@@ -8,7 +8,7 @@ import _ from "lodash"
 export const drawBarChart = (colors, className, data, dataObject, height, set, state, width) => {
   const { selectedId } = state.ui_reducer
 
-  const stream = state.streams_reducer[selectedId]
+  const stream = state.stream_reducer[selectedId]
 
   const { period, flow } = stream
   const { mouseout } = tooltips
@@ -98,7 +98,7 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       .attr("width", xScale.bandwidth())
       .on("click", (d, i, n) => {
         const name = n[0].parentNode.className.animVal
-        const id = Object.values(state.streams_reducer).filter(d => d.name === name)[0]["id"]
+        const id = Object.values(state.stream_reducer).filter(d => d.name === name)[0]["id"]
         set("selectedId", "ui_reducer", id)
       })
       .attr("y", d => yScale(d[1]))
@@ -113,8 +113,8 @@ export const drawBarChart = (colors, className, data, dataObject, height, set, s
       .on("mouseout", (d, i, n) => tooltip.transition().duration(1500).style("opacity", 0))
       .on("mousemove", () => {
         tooltip
-        // .style("top", d3.event.layerY - 20 + "px") // always 10px below the cursor
-        // .style("left", d3.event.layerX + 30 + "px") // always 10px to the right of the mouse
+          .style("top", d3.event.layerY - 20 + "px") // always 10px below the cursor
+          .style("left", d3.event.layerX + 30 + "px") // always 10px to the right of the mouse
       })
 
     var ticks = [2020, 2040, 2060]

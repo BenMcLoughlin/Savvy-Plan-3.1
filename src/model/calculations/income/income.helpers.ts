@@ -58,7 +58,7 @@ export const getAfterTaxIncome = (obj: I.objects, rate: I.n, streams: I.stream[]
 export const beforePension = (streams: I.stream[], year: I.n): I.objects => {
   let income = {}
   streams.map(stream => {
-    const value = Math.max(...Object.values(stream.in).map((d: any) => (d.start < year && d.end > year ? d.value : 0)))
+    const value = Math.max(...Object.values(stream.in).map((d: any) => (d.start <= year && d.end > year ? d.value : 0)))
     return (income = insert0(income, stream.name, value))
   })
   const cppEligibleIncome = sum(income, "cppEligible", streams)

@@ -121,15 +121,15 @@ import * as I from "model/types"
 //  *  */
 
 // export const addPeriodToIncomeStream = (instance: any, period: number, selectedId: any, set: (id: string, reducer: string, value: any, childId1?: string) => void): void => {
-//   set(selectedId, "streams_reducer", period + 1, "periods")
+//   set(selectedId, "stream_reducer", period + 1, "periods")
 //   set("selectedPeriod", "ui_reducer", period + 1)
-//   set(selectedId, "streams_reducer", +instance[`period${period}EndYear`], `period${period + 1}StartYear`)
-//   set(selectedId, "streams_reducer", +instance[`period${period}EndYear`] + 3, `period${period + 1}EndYear`)
-//   set(selectedId, "streams_reducer", +instance[`period${period}Value`] + 3000, `period${period + 1}Value`)
+//   set(selectedId, "stream_reducer", +instance[`period${period}EndYear`], `period${period + 1}StartYear`)
+//   set(selectedId, "stream_reducer", +instance[`period${period}EndYear`] + 3, `period${period + 1}EndYear`)
+//   set(selectedId, "stream_reducer", +instance[`period${period}Value`] + 3000, `period${period + 1}Value`)
 // }
 // export const addPeriodToSavingsStream = (state: I.state, set: (id: string, reducer: string, value: any, childId1?: string) => void): void => {
 //   const { selectedId, savingsTransaction } = state.ui_reducer
-//   const instance = state.streams_reducer[selectedId]
+//   const instance = state.stream_reducer[selectedId]
 
 //   const { periods, contributePeriods } = instance
 
@@ -139,10 +139,10 @@ import * as I from "model/types"
 
 //   const startingValue = instance[`${transaction}${transactionPeriods}Value`]
 
-//   set(selectedId, "streams_reducer", transactionPeriods + 1, savingsTransaction === "contribute" ? "contributePeriods" : "periods")
-//   set(selectedId, "streams_reducer", instance[`${transaction}${transactionPeriods}EndYear`], `${transaction}${transactionPeriods + 1}StartYear`)
-//   set(selectedId, "streams_reducer", +instance[`${transaction}${transactionPeriods}EndYear`] + 5, `${transaction}${transactionPeriods + 1}EndYear`)
-//   set(selectedId, "streams_reducer", startingValue, `${transaction}${transactionPeriods + 1}Value`)
+//   set(selectedId, "stream_reducer", transactionPeriods + 1, savingsTransaction === "contribute" ? "contributePeriods" : "periods")
+//   set(selectedId, "stream_reducer", instance[`${transaction}${transactionPeriods}EndYear`], `${transaction}${transactionPeriods + 1}StartYear`)
+//   set(selectedId, "stream_reducer", +instance[`${transaction}${transactionPeriods}EndYear`] + 5, `${transaction}${transactionPeriods + 1}EndYear`)
+//   set(selectedId, "stream_reducer", startingValue, `${transaction}${transactionPeriods + 1}Value`)
 // }
 
 // const newStream = (streamType: I.streamType, birthYear: I.year, owner: I.user, reg: I.reg, state: I.state) => {
@@ -172,12 +172,12 @@ import * as I from "model/types"
 //   const createdAt = new Date().toISOString()
 //   const stream = { ..._stream, createdAt, color, id, owner, reg, streamType }
 
-//   set(id, "streams_reducer", stream, "") //This action fires and sets the state in the income reducer creating a new item there,
+//   set(id, "stream_reducer", stream, "") //This action fires and sets the state in the income reducer creating a new item there,
 //   set("selectedId", "ui_reducer", id, "") // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
 //   set("colorIndex", "ui_reducer", colorIndex + 1, "") // determines which income instance to show within the edit box
 // }
 
-export const addPeriodToStream = (flow: string, id: string, period: number, set: I.set, stream: I.stream):void => {
+export const addPeriodToStream = (flow: string, id: string, period: number, set: I.set, stream: I.stream): void => {
   const lastPeriod = +Object.keys(stream[flow]).pop()
   const nextPeriod = lastPeriod + 1
   const lastValue = stream[flow][lastPeriod].value
@@ -195,7 +195,7 @@ export const addPeriodToStream = (flow: string, id: string, period: number, set:
     },
   }
 
-  set(id, "streams_reducer", newPeriod[nextPeriod], flow, "" + nextPeriod)
+  set(id, "stream_reducer", newPeriod[nextPeriod], flow, "" + nextPeriod)
 }
 
 export const createStream = (streamType: string, flow: I.flow, owner: string, reg: I.reg, set: I.set, state: I.state): void => {
@@ -205,7 +205,7 @@ export const createStream = (streamType: string, flow: I.flow, owner: string, re
   const color = colorArray[colorIndex]
   set("colorIndex", "ui_reducer", colorIndex + 1)
 
-const newStream = {
+  const newStream = {
     amortization: 0,
     color,
     cppEligible: true,
@@ -242,5 +242,5 @@ const newStream = {
   }
 
   set("selectedId", "ui_reducer", id, "") // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
-  set(id, "streams_reducer", newStream)
+  set(id, "stream_reducer", newStream)
 }

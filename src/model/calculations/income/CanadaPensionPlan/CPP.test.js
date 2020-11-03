@@ -18,7 +18,7 @@
 //     selectedAccount: "beforeTax",
 //     selectedUser: "user1",
 //   },
-//   streams_reducer: {
+//   stream_reducer: {
 //     //TEST 1 - confirmation documentation found in CPP docs
 //     user1Income_13719: {
 //       cppEligible: true,

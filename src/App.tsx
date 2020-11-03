@@ -24,19 +24,16 @@ const App = ({ remove, state, set }) => {
         <Content>
           <BrowserRouter>
             <Header />
-            {isLoading ? (
-              <Loading />
-            ) : (
-              <Switch>
-                <Route exact path="/" component={LandingPage} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/product" component={Product} />
-                <Route exact path="/pricing" component={Pricing} />
-                <PrivateRoute path="/account" component={Account} />
-                <PrivateRoute path={`/onboarding`} render={() => <Questions data={onboard_questions(state, set, remove)} />} />
-                <PrivateRoute exact path="/plan" render={() => <Display data={createPage(newPageData, state, set)} />} />
-              </Switch>
-            )}
+            {isLoading && <Loading />}
+            <Switch>
+              <Route exact path="/" component={LandingPage} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/product" component={Product} />
+              <Route exact path="/pricing" component={Pricing} />
+              <PrivateRoute path="/account" component={Account} />
+              <PrivateRoute path={`/onboarding`} render={() => <Questions data={onboard_questions(state, set, remove)} />} />
+              <PrivateRoute exact path="/plan" render={() => <Display data={createPage(newPageData, state, set)} />} />
+            </Switch>
           </BrowserRouter>
         </Content>
         <Footer />

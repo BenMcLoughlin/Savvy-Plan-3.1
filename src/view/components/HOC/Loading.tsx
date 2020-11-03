@@ -13,8 +13,11 @@ export const Loading: React.FC = props => (
 //---------------------------STYLES-------------------------------------------//
 
 const Wrapper = styled.div`
-  width: 100%;
-  height: 70vh;
+  position: absolute;
+  bottom: 10rem;
+  left: 50rem;
+  width: 30rem;
+  height: 30rem;
   display: flex;
   justify-content: center;
   align-content: center;

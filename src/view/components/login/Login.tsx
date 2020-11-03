@@ -1,4 +1,4 @@
-import React, { useState, FC } from "react"
+import React, { useState, useEffect, FC } from "react"
 import styled from "styled-components"
 import { TextInput, Button, SocialMediaIcons } from "view/components"
 import * as C from "view/components"
@@ -11,15 +11,16 @@ import { Redirect } from "react-router-dom"
 interface IProps {
   set: I.set
   state: I.state
+  setStore: (reducer: I.reducer, store: I.a) => void
 }
 
-export const Login: FC<IProps> = ({ set, state }) => {
+export const Login: FC<IProps> = ({ set, state, setStore }) => {
   const [isAdvisor, setIsAdvisor] = useState(false)
   const [isNewUser, setIsNewUser] = useState(true)
 
   const userWantsTo = isNewUser ? "signup" : "login"
 
-  const { token } = state.auth_reducer
+  const { token, errors } = state.auth_reducer
 
   const { sendRequest } = useHttpClient(set)
 
@@ -28,20 +29,31 @@ export const Login: FC<IProps> = ({ set, state }) => {
 
   const noErrors = validateSignUpErrors(state)
 
+  useEffect(() => window.localStorage.clear(), [])
+
   const handleSubmit = async e => {
     e.preventDefault()
     if (noErrors) {
-      const res = await sendRequest(`http://localhost:5000/api/users/${userWantsTo}`, "POST", JSON.stringify(formData), {
+      const res = await sendRequest(`api/users/${userWantsTo}`, "POST", JSON.stringify(formData), {
         "Content-Type": "application/json",
       })
-      // await sendRequest(`http://localhost:5000/api/store/${userWantsTo}`, "POST", JSON.stringify(state), {
-      //   "Content-Type": "application/json",
-      // })
-      // if (isNewUser)
-      //   await sendRequest(`http://localhost:5000/api/store/${userWantsTo}`, "POST", JSON.stringify(state), {
-      //     "Content-Type": "application/json",
-      //   })
-      set("token", "auth_reducer", res.token)
+      if (isNewUser && res) {
+        await sendRequest(`api/store/createStore`, "POST", JSON.stringify(state), {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + res.token,
+        })
+      }
+      if (!isNewUser) {
+        const response: I.a = await sendRequest(`api/store/getStore`, "GET", null, {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + res.token,
+        })
+        setStore("ui_reducer", response.data.data.ui_reducer)
+        setStore("user_reducer", response.data.data.user_reducer)
+        setStore("stream_reducer", response.data.data.stream_reducer)
+      }
+
+      res && set("token", "auth_reducer", res.token)
     }
   }
 
@@ -75,6 +87,7 @@ export const Login: FC<IProps> = ({ set, state }) => {
             <ButtonAsText>Forgot Password?</ButtonAsText>
             {/* {errors.length > 0 && errors.map((error, i) => <Error i={i}>wrong email easdf and bars</Error>)} */}
           </LowerWrapper>
+          {errors.msg && <Error>{errors.msg}</Error>}
         </Form>
       </Wrapper>
     </PageSize>
@@ -103,7 +116,7 @@ const Wrapper = styled.div`
 const H2 = styled.h2`
   font-size: 4.6rem;
 `
-const Div = styled.h2`
+const Div = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 1.6rem;
@@ -112,7 +125,15 @@ const Div = styled.h2`
   width: 33rem;
   margin-top: 2rem;
 `
-const Left = styled.h2`
+const Error = styled.div`
+  position: absolute;
+  color: ${props => props.theme.color.salmon};
+  font-size: 1.4rem;
+  width: 33rem;
+  left: 42rem;
+  top: 5rem;
+`
+const Left = styled.div`
   font-size: 1.6rem;
   display: flex;
   flex-direction: column;
@@ -122,7 +143,6 @@ const Left = styled.h2`
 `
 const Form = styled.form`
   font-size: 1.6rem;
-  position: absolute;
   margin-top: 20rem;
   display: flex;
   flex-direction: column;

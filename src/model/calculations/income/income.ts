@@ -6,7 +6,7 @@ import { maxTFSAWithdrawal } from "model/calculations/income/income.helpers"
 const lets = new Helpers()
 
 export const buildIncomeForcast = (state: I.state): I.objects => {
-  console.time()
+  //console.time()
 
   let inc = {}
 
@@ -17,7 +17,7 @@ export const buildIncomeForcast = (state: I.state): I.objects => {
   const maxTFSA = maxTFSAWithdrawal(2050, 2080)
 
   users.forEach(user => {
-    const { streams } = lets.turn(state.streams_reducer).intoArray().filteredFor(["streamType", "income"], ["owner", user])
+    const { streams } = lets.turn(state.stream_reducer).intoArray().filteredFor(["streamType", "income"], ["owner", user])
     return getYearRange(state).forEach(year => (inc = insert1(inc, user, year, beforePension(streams, year))))
   })
 
@@ -33,7 +33,7 @@ export const buildIncomeForcast = (state: I.state): I.objects => {
   const chartArray = []
 
   users.forEach((user: I.user) => {
-    const { streams } = lets.turn(state.streams_reducer).intoArray().filteredFor(["streamType", "income"], ["owner", user])
+    const { streams } = lets.turn(state.stream_reducer).intoArray().filteredFor(["streamType", "income"], ["owner", user])
     getYearRange(state).forEach((year: number) => {
       const taxableIncome = sum(inc[year][user].income, "taxable", streams)
       const marginalRate = getMargRate(taxableIncome)

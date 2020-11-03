@@ -17,7 +17,7 @@
     "@types/react-transition-group": "^4.4.0",
     "@types/redux": "^3.6.31",
     "@types/styled-components": "^5.1.4",
-    "d3": "^6.2.0",
+    "d3": "^5.7.0",
     "jest-puppeteer": "^4.4.0",
     "lodash": "^4.17.20",
     "puppeteer": "^5.4.1",
@@ -30,6 +30,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-persist": "^6.0.0",
+    "redux-persist-transform-encrypt": "^3.0.1",
     "reselect": "^4.0.0",
     "styled-components": "^5.2.0",
     "styled-icons": "^10.22.0",
@@ -70,5 +71,6 @@
     "eslint-plugin-react-hooks": "0.0.0-8e5adfbd7",
     "ndb": "^1.1.5",
     "prettier": "^2.1.2"
-  }
+  },
+  "proxy": "http://127.0.0.1:5000"
 }

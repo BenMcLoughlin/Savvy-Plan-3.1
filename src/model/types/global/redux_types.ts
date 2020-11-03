@@ -16,10 +16,11 @@ export type action = {
   childId1?: string
   childId2?: string
   childId3?: string
+  savedState?: savedState
   value: I.a
 }
 
-export interface streams_reducer {
+export interface stream_reducer {
   [key: string]: I.stream
 }
 
@@ -94,6 +95,10 @@ export type user_reducer = {
 export interface state {
   auth_reducer: auth_reducer
   ui_reducer: ui_reducer
-  streams_reducer: streams_reducer
+  stream_reducer: stream_reducer
   user_reducer: user_reducer
 }
+
+export type savedState = user_reducer | ui_reducer | stream_reducer
+
+export type reducer = 'ui_reducer' | "user_reducer" | "stream_reducer" | "auth_reducer"

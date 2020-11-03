@@ -10,8 +10,14 @@ export const set = (id: string, reducer: string, value: I.a, childId1?: string, 
     value,
   }
 }
+export const setStore = (reducer: I.reducer, savedState: I.savedState): I.objects => {
+  return {
+    type: `${reducer}/SET_STORE`,
+    savedState,
+  }
+}
 
-export const remove = (id: string, reducer = "streams_reducer"): I.objects => {
+export const remove = (id: string, reducer = "stream_reducer"): I.objects => {
   return {
     type: `${reducer}/REMOVE`,
     id,

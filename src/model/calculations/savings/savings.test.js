@@ -21,7 +21,7 @@
 //     selectedAccount: "after tax",
 //     selectedUser: "user1",
 //   },
-//   streams_reducer: {
+//   stream_reducer: {
 //     user1tfsa_10000: {
 //       name: "",
 //       periods: 0,

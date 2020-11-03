@@ -6,7 +6,6 @@ import { TransitionGroup, CSSTransition } from "react-transition-group"
 import { useHistory, Redirect } from "react-router-dom"
 import { matchThenShowComponent } from "model/services/display_functions"
 import * as I from "model/types"
-//import { useHttpClient } from "view/hooks"
 
 interface IProps {
   set: I.set
@@ -22,9 +21,8 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
   const { length } = questions
   const { explanation, backHandleChange, chart, nextHandleChange, showChart } = data.questions[progress]
   const history = useHistory()
-  //const { sendRequest } = useHttpClient(set)
-
   useEffect(() => {
+    // saveStore()
     history.push(`/onboarding/${progress}`)
     window.addEventListener("popstate", () => {
       set("progress", "ui_reducer", +history.location.pathname.replace(/\D/g, ""))
@@ -104,7 +102,7 @@ const Component = styled.div<IComponent>`
 const Chart = styled.div`
   position: absolute;
   top: 23rem;
-  left: 40rem;
+  left: 33rem;
   width: 80rem;
   justify-content: center;
   display: flex;
