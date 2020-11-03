@@ -11,14 +11,15 @@ interface IProps {
   color_selector: any
   set: (id: string, reducer: string, value: any, childId1?: string) => void
   enableNav?: boolean
+  show?: string
 }
 
-export const IncomeChart: FC<IProps> = ({ color_selector, enableNav, state, set }) => {
-  color_selector = { ...color_selector, user1Cpp: "#F29278", user2Cpp: "#F29278", user1Ccb: "#536D7A", user1Oas: "#3B7B8E", user2Oas: "#3B7B8E" }
+export const IncomeChart: FC<IProps> = ({ color_selector, enableNav, state, set, show }) => {
+
   const { selectedUser } = state.ui_reducer
   const inputRef = useRef(null)
   const className = "incomeChart"
-  const { chartArray, inc } = useMemo(() => buildIncomeForcast(state), [state.stream_reducer, selectedUser])
+  const { chartArray, inc } = useMemo(() => buildIncomeForcast(state, show), [state.stream_reducer, selectedUser])
 
   useEffect(() => {
     if (inputRef && inputRef.current) {

@@ -7,8 +7,8 @@ interface IProps {
   justify?: string
 }
 
-export const Section: FC<IProps> = (props, { props: children }) => {
-  return <Wrapper {...props}>{children}</Wrapper>
+export const Section: FC<IProps> = props => {
+  return <Wrapper {...props}>{props.children}</Wrapper>
 }
 
 //---------------------------STYLES-------------------------------------------//

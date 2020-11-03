@@ -49,7 +49,7 @@ export const onboard_questions = (state: I.state, set: I.set, remove: I.remove):
     })
   }
   askUser1.for.desiredRetirementIncome()
-  // show.idealIncomeChart(1)
+   show.idealIncomeChart(1)
   // show.idealIncomeChart(2)
 
   askUser1.to.create.savings()

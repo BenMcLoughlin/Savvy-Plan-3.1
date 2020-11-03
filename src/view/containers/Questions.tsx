@@ -102,7 +102,7 @@ const Component = styled.div<IComponent>`
 const Chart = styled.div`
   position: absolute;
   top: 23rem;
-  left: 33rem;
+  left: 28rem;
   width: 80rem;
   justify-content: center;
   display: flex;

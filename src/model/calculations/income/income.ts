@@ -5,8 +5,8 @@ import { maxTFSAWithdrawal } from "model/calculations/income/income.helpers"
 
 const lets = new Helpers()
 
-export const buildIncomeForcast = (state: I.state): I.objects => {
-  //console.time()
+export const buildIncomeForcast = (state: I.state, show = "income"): I.objects => {
+  console.time()
 
   let inc = {}
 
@@ -43,13 +43,15 @@ export const buildIncomeForcast = (state: I.state): I.objects => {
       // const afterTaxIncome = taxableIncome * (1 - averageRate)
       inc = insert2(inc, user, year, { afterTaxIncome, averageRate, marginalRate, taxableIncome, targetIncome })
       if (selectedUser === user) {
-        return chartArray.push({ ...inc[year][user].income, year })
-      } else if (selectedUser === "combined" && user === "user1") chartArray.push({ ...inc[year].user1.income, ...inc[year].user2.income, year })
+        return chartArray.push({ ...inc[year][user][show], year })
+      } else if (selectedUser === "combined" && user === "user1") chartArray.push({ ...inc[year].user1[show], ...inc[year].user2[show], year })
     })
   })
 
-  //console.log(JSON.stringify(inc, null, 4))
-  //console.timeEnd()
+  console.log(chartArray)
+
+  console.log(JSON.stringify(inc, null, 4))
+  console.timeEnd()
   //console.log(chartArray)
   return { chartArray, inc }
 }

@@ -281,6 +281,21 @@ export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
         value: selectedUser,
         handleChange: () => set("progress", "ui_reducer", 1),
       }),
+    idealIncomeChart: () =>
+      q.push({
+        ...{
+          showChart: true,
+          chart: "IncomeChart",
+          show: "targetIncome",
+          component: "TripleSelector",
+          enableNav: true,
+          value: selectedUser,
+          user1Name,
+          user2Name,
+          handleChange: d => set("selectedUser", "ui_reducer", d),
+        },
+        ...addText("idealIncomeChart", state, "user1"),
+      }),
     combinedIncomeChart: () =>
       q.push({
         ...{

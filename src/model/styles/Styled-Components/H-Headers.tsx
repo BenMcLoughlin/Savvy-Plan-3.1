@@ -10,46 +10,46 @@ interface IProps {
   H?: number
 }
 
-export const H1: FC<IProps> = (props, {props: children}) => {
+export const H1: FC<IProps> = props => {
   return (
     <Wrapper H={1} {...props}>
-      {children}
+      {props.children}
     </Wrapper>
   )
 }
-export const H2: FC<IProps> = (props, {props: children}) => {
+export const H2: FC<IProps> = props => {
   return (
     <Wrapper H={2} {...props}>
-      {children}
+      {props.children}
     </Wrapper>
   )
 }
-export const H3: FC<IProps> = (props, {props: children}) => {
+export const H3: FC<IProps> = props => {
   return (
     <Wrapper H={3} {...props}>
-      {children}
+      {props.children}
     </Wrapper>
   )
 }
-export const H4: FC<IProps> = (props, {props: children}) => {
+export const H4: FC<IProps> = props => {
   return (
     <Wrapper H={4} {...props}>
-      {children}
+      {props.children}
     </Wrapper>
   )
 }
 
-export const P1: FC<IProps> = (props, {props: children}) => {
+export const P1: FC<IProps> = props => {
   return (
     <Wrapper H={1} {...props}>
-      {children}
+      {props.children}
     </Wrapper>
   )
 }
-export const P2: FC<IProps> = (props, {props: children}) => {
+export const P2: FC<IProps> = props => {
   return (
     <Wrapper H={2} {...props}>
-      {children}
+      {props.children}
     </Wrapper>
   )
 }
@@ -63,5 +63,5 @@ const Wrapper = styled.div<IProps>`
   font-size: ${props => (props.fontSize ? props.fontSize + "rem" : 4 / props.H + "rem")};
   justify-content: ${props => (props.justify ? props.justify : "space-around")};
   line-height: 2.5rem;
-  font-size: ${props => (props.fontWeight ? props.fontWeight : "bold")};
+  font-weight: ${props => (props.fontWeight ? props.fontWeight : "bold")};
 `

@@ -1,6 +1,5 @@
 import { useCallback } from "react"
 import * as I from "model/types"
-import { validateBackendErrors } from "model/services/validation/validators"
 
 export const useHttpClient = (set: I.set): I.useHttpClient => {
   const sendRequest = useCallback(async (url, method = "GET", body = null, headers = {}) => {

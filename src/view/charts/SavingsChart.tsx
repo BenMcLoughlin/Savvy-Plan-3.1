@@ -10,12 +10,13 @@ interface IProps {
   state: any
   color_selector: any
   set: (id: string, reducer: string, value: any, childId1?: string) => void
-  exampleState: any
+  exampleState?: any
 }
 
 export const SavingsChart: FC<IProps> = ({ color_selector, state, exampleState, set }) => {
   if (exampleState) state = exampleState()
 
+  console.log(state)
   const dataObject = getSavings(state)
 
   const { areaData, barData } = getSavingsData(state, dataObject)

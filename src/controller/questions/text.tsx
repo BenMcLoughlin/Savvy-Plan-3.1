@@ -78,13 +78,13 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
     desiredRetirementIncome: {
       ask: "Just an approximation of the current value is helpful. ",
       bottomLabel: `$${round(desiredRetirementIncome / 12).toLocaleString()} a month`,
-      subTitle: "With this as a target we can determine the most tax efficient way to draw that income in retirement. Then build your savings plan.",
+      subTitle: "The rule of thumb is 70% of your average lifetime income, so in your case that would be $55k.",
       topLabel: "I'd love to earn ",
       question: `How much ${isMarried ? "combined" : null} after tax income would you like to target in retirement?`,
       explanation: "Knowing this we can build reccomendations on how you should be saving now",
     },
     idealIncomeChart: {
-      question: n === 1 ? "This shows your ideal income breakdown for when you retire." : "This is what we've calulcated",
+      question: "This shows your ideal income breakdown for when you retire.",
       subTitle:
         n === 1
           ? "In a perfect world you would earn taxable income in the lowest tax bracket, around 40k. Then anything above that would come from your Tax Free Savings. With this plan you would keep all your government benefits and still be able to take advantage of tax savings by contributing to your RRSP now. "

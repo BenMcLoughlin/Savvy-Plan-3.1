@@ -70,7 +70,7 @@ interface validProps {
 const Wrapper = styled.div`
   position: absolute;
   top: 18rem;
-  right: 8rem;
+  right: 4%;
 `
 
 const Circle = styled.div<validProps>`

@@ -1,4 +1,3 @@
-
 import React, { FC, useState, useEffect } from "react"
 import styled from "styled-components"
 import { CSSTransition } from "react-transition-group"
@@ -89,8 +88,9 @@ const SubTitle = styled.div`
 const Chart = styled.div`
   position: absolute;
   top: 25rem;
-  height: 30rem;
-  width: 100rem;
+  left: 7rem;
+  height: 60%;
+  width: 100%;
 `
 
 interface IScroll {
@@ -100,7 +100,7 @@ interface IScroll {
 
 const Screen = styled.div<IScroll>`
   position: absolute;
-  margin-top: 3rem;
+  margin-top: -14rem;
   margin-left: 41%;
   border: 10px solid ${props => props.theme.color.darkGrey};
   height: ${props => (props.scrollPercentage < 0.5 ? props.scrollPercentage * 77 + "rem" : 0.025 * props.scrollMax + "rem")};
@@ -123,4 +123,4 @@ const SlideInDiv = styled.div<IScroll>`
   transform: ${props => (props.scrollPercentage < 0.5 ? "translate(-90rem, 0)" : "translate(0, 0)")};
   transition: all ease 1s;
   font-weight: bold;
-  `
+`
