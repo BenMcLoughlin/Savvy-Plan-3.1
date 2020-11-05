@@ -108,9 +108,9 @@ interface Chart {
 const Chart = styled.div<Chart>`
   position: absolute;
   top: ${props => (props.useExampleState ? "10rem" : "23rem")};
-  left: ${props => (props.useExampleState ? "-10rem" : "20rem")};
+  left: ${props => (props.useExampleState ? "-10rem" : "32rem")};
   width: ${props => (props.useExampleState ? "140rem" : "80rem")};
-  height: ${props => (props.useExampleState ? "50rem" : "30rem")};
+  height: ${props => (props.useExampleState ? "55rem" : "30rem")};
   justify-content: center;
   display: flex;
 `

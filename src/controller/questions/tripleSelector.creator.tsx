@@ -25,8 +25,7 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
     question: text.question,
     period,
     selectorProps: {
-      title: "",
-      explainer: text.explainer,
+      title: text.explainer,
       optionArray,
       value: period,
       handleChange: e => set(id, "stream_reducer", e, `period${_.startCase(flow)}`),

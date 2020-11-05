@@ -15,6 +15,12 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
   const { user2, retIncome, isMarried } = state.user_reducer
 
   const data = {
+    addAnotherIncome: {
+      explanation: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
+      option1: "yes",
+      option2: "no",
+      question: "Would you like to add another income source?",
+    },
     birthYear: {
       explanation: "This forms the basis of our financial calculations.",
       label: "Birth Year",
@@ -30,7 +36,7 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
     createIncome: {
       explanation: "",
       subTitle: "We'll use this to build a chart showings your income streams and estimate your pension income.",
-      question: `We need details about ${isMarried ? spouseFirstName + "'s" : "your"} income`,
+      question: `We need details about ${isMarried && !isUser1 ? spouseFirstName + "'s" : "your"} income`,
       label: "lets go",
     },
     createSavings: {
@@ -96,6 +102,11 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
       explanation: "We want to ensure our planning process is inclusive.",
       question: isUser1 ? "What's your gender?" : "What's your sspouse's gender?",
     },
+    haveChildren: {
+      explanation: "We'd like to estimate your government child benefits. Even if you only plan on having children its helpful to know so we can show you how it will impact your finances.",
+      optionArray: ["yes", "no", "hope to eventually", "yes, and they are over 18"],
+      question: "Do you have children?",
+    },
     incomeParagraph: {
       question: "Heres the deal...",
       text:
@@ -113,7 +124,7 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
       question: "How many children?",
     },
     introduction: {
-      subTitle: "This chart compares the savings of someone with a plan with someone who doesn't have a plan.",
+      subTitle: "This chart compares the savings of someone who considers the long term impact of their actions on their finances with someone who doesn't.",
       question: "Why should you have a financial plan? ",
     },
     idealIncome: {
@@ -169,7 +180,7 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
       explainer: "If you think your income might change you can add different earning periods, ignore inflation.",
       subTitle:
         isUser1 && n === 0
-          ? `Give us an estimate of your ${stream.name} income. The "until" option is essentially when you'd like to retire. You can see how your Canada Pension Plan is calculated based on your earnings.`
+          ? `Give us an estimate of your ${stream.name} income. We'll then estimate your Canada Pension Plan and Old Age Security.`
           : `Give us an estimate of your ${stream.name} income`,
     },
     incomeName: {
@@ -182,6 +193,11 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
       explanation: "Determining your pension income depends on the type of income you were earning and if you were contributing to Canada Pension Plan.",
       optionArray: ["Regular Employment", "Business Income", "Investment Income", "Rental Income"],
       question: "What kind of income is it?",
+    },
+    isMarried: {
+      explanation: "Having a spouse has a large impact on your plan",
+      optionArray: ["single", "married", "common-law"],
+      question: "Are you married?",
     },
     savingsCurrentValue: {
       ask: "Just an approximation of the current value is helpful. ",
@@ -215,21 +231,10 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
       topLabelFuture: "I'd like to withdraw",
       bottomLabel: "before tax per year",
     },
-    haveChildren: {
-      explanation: "We'd like to estimate your government child benefits. Even if you only plan on having children its helpful to know so we can show you how it will impact your finances.",
-      optionArray: ["yes", "no", "hope to eventually", "yes, and they are over 18"],
-      question: "Do you have children?",
-    },
-    isMarried: {
-      explanation: "Having a spouse has a large impact on your plan",
-      optionArray: ["single", "married", "common-law"],
-      question: "Are you married?",
-    },
-    addAnotherIncome: {
-      explanation: "The more income streams you add the better an idea you'll get of your finanical position. Streams could be rental income, different jobs or pensions.",
-      option1: "yes",
-      option2: "no",
-      question: "Would you like to add another income source?",
+    whatWeWillBuild: {
+      question: "What will we build?",
+      subTitle:
+        "We want you to be able to answer one question: are you ok financially? To do this we will ask you for details about your current financial position. We will then estimate your government benefits and calculate the most tax efficient way for you to draw income in retirement. Then we can make reccomendations on what you need to do now to ensure you're making the best financial decisions. Finally we'll give you the ability to build different scenarios and see how things might play out.",
     },
   }
 

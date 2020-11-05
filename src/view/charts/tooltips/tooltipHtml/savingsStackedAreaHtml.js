@@ -118,7 +118,7 @@ const buildUserToolTip = (year, user) => `<div style="${wrapper}">
                 <div style="${displayValue}">${round(data[year][user].debt)}</div>
                 <div style="${displayTitle}">debt</div>
              </div>
-             <div style="${displayBox(data[year][user].highlight === "totalSavings")}">
+             <div style="${displayBox(data[year][user].highlight === "investments")}">
                 <div style="${displayValue}">${round(data[year][user].totalSavings)}</div>
                 <div style="${displayTitle}">totalSavings</div>
              </div>

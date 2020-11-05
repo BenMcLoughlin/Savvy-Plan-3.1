@@ -273,10 +273,16 @@ export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
         ...{
           chart: "SavingsChart",
           useExampleState: true,
-          component: "Button",
-          label: "hi",
         },
         ...addText("introduction", state, "user1"),
+      }),
+    whatWeWillBuild: () =>
+      q.push({
+        ...{
+
+
+        },
+        ...addText("whatWeWillBuild", state, "user1"),
       }),
     idealIncomeChart: () =>
       q.push({

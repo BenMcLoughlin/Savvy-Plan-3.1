@@ -11,6 +11,7 @@ export const onboard_questions = (state: I.state, set: I.set, remove: I.remove):
   const show = showUsers(q, set, state)
 
   show.introduction()
+  show.whatWeWillBuild()
   askUser1.for.name()
   askUser1.for.birthYear()
   askUser1.for.gender()
