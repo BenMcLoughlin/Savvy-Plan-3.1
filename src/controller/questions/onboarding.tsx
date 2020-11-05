@@ -9,7 +9,6 @@ export const onboard_questions = (state: I.state, set: I.set, remove: I.remove):
   const askUser1 = onboardQuestions(q, remove, set, state, "user1")
   const askUser2 = onboardQuestions(q, remove, set, state, "user2")
   const show = showUsers(q, set, state)
- 
 
   show.introduction()
   askUser1.for.name()
@@ -48,8 +47,8 @@ export const onboard_questions = (state: I.state, set: I.set, remove: I.remove):
       show.combinedIncomeChart()
     })
   }
-  askUser1.for.desiredRetirementIncome()
-   show.idealIncomeChart(1)
+  askUser1.for.retIncome()
+  show.idealIncomeChart(1)
   // show.idealIncomeChart(2)
 
   askUser1.to.create.savings()
@@ -86,7 +85,6 @@ export const onboard_questions = (state: I.state, set: I.set, remove: I.remove):
   // ask.for.user1.name()
   // ask.for.user1.name()
   // ask.for.user1.name()
-
 
   const questions = q
 

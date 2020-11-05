@@ -4,8 +4,8 @@ import { round } from "view/charts/createChartFunctions/chartHelpers"
 const wrapper = `
   margin-left: 14rem;
   margin-top: -3rem;
-  width: 17rem;
-  height: 4rem;
+  width: 6rem;
+  height: 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,22 +15,17 @@ const wrapper = `
   z-index: 200;
 `
 const largeValue = `
-font-size: 2.4rem;
+font-size: 1.4rem;
 font-weight: 600;
 `
 const left = `
 font-size: 1rem;
 font-weight: 200;
 `
-const right = `
-font-size: 1rem;
-font-weight: 200;
-`
 
-export const savingsAreaHtml = (d, dataObject, state) => {
-  const { selectedUser, selectedAccount } = state.ui_reducer
-  const { birthYear } = state.user_reducer[selectedUser] || state.user_reducer.user1
-  let total = 100
+export const savingsStackedAreaValueHtml = (d, dataObject, user) => {
+
+  let total = dataObject[d.year][user].totalSavings
   // if (selectedAccount !== "combined" && selectedUser !== "combined") total = dataObject[d.year][selectedUser][selectedAccount].total
   // if (selectedAccount === "combined" && selectedUser !== "combined") total = dataObject[d.year][selectedUser].totalSavings
   // if (selectedAccount === "combined" && selectedUser === "combined") total = dataObject[d.year].user1.totalSavings + dataObject[d.year].user2.totalSavings
@@ -43,14 +38,6 @@ export const savingsAreaHtml = (d, dataObject, state) => {
                                         ${round(total)}
                                         <p>
                                       </div>
-                                      <div style="${right}">
-                                        <p>
-                                        Estimated Value
-                                        <p>
-                                        <p>
-                                        ${d.year} at age ${+d.year - +birthYear}
-                                        <p>
-                                       </div>
                                     </div>
                                     `
 }

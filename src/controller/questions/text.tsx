@@ -12,7 +12,7 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
   const { reg } = stream
   const { firstName: spouseFirstName } = state.user_reducer.user2
   const { firstName } = state.user_reducer.user1
-  const { user2, desiredRetirementIncome, isMarried } = state.user_reducer
+  const { user2, retIncome, isMarried } = state.user_reducer
 
   const data = {
     birthYear: {
@@ -75,9 +75,9 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
       ],
       question: isMarried ? `Does ${_.startCase(firstName)} have investments?` : "Do you have investments?",
     },
-    desiredRetirementIncome: {
+    retIncome: {
       ask: "Just an approximation of the current value is helpful. ",
-      bottomLabel: `$${round(desiredRetirementIncome / 12).toLocaleString()} a month`,
+      bottomLabel: `$${round(retIncome / 12).toLocaleString()} a month`,
       subTitle: "The rule of thumb is 70% of your average lifetime income, so in your case that would be $55k.",
       topLabel: "I'd love to earn ",
       question: `How much ${isMarried ? "combined" : null} after tax income would you like to target in retirement?`,
@@ -111,6 +111,10 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
         ? "We'd like to estimate your government child benefits."
         : "Just guessing is fine, it will give you an idea of the impact of government benefits on your plan. You can always change it later. ",
       question: "How many children?",
+    },
+    introduction: {
+      subTitle: "This chart compares the savings of someone with a plan with someone who doesn't have a plan.",
+      question: "Why should you have a financial plan? ",
     },
     idealIncome: {
       question: "banana",

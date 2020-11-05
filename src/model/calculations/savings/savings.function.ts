@@ -23,6 +23,9 @@ export const getSavings = (state: I.state): I.objects => {
 
   // set('optimumTFSAPayment', 'user_reducer', payment)
   //console.log("caculateSavings duration:", function_duration)
-
   return savingsObject
+}
+
+export const getStackedSavings = state => {
+  return "hello"
 }

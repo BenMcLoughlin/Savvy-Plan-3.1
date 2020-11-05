@@ -1,22 +1,22 @@
 /* eslint-disable */
 import * as d3 from "d3"
-import { createAreaTooltip } from "view/charts/tooltips/tooltip"
+import { createAreaTooltip, createStackedAreaTooltip } from "view/charts/tooltips/tooltip"
 import { getMax } from "view/charts/createChartFunctions/chartHelpers"
 
-export const drawAreaChart = ( className, data, dataObject, height, state, width) => {
+export const drawAreaChart = (className, data, dataObject, height, state, width) => {
   const margin = { top: 20, right: 100, bottom: 10, left: 100 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
-
+  console.log(data)
   d3.select(`.${className} > *`).remove()
   d3.select(`.${className}tooltip`).remove()
+  d3.select(`.${className}tooltip2`).remove()
+  d3.select(`.${className}tooltip3`).remove()
   d3.selectAll(`circle`).remove()
 
   const stackedKeys = Object.keys(data[0])
 
   const hideAxis = true
-
-  console.log(state)
 
   const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
@@ -26,7 +26,7 @@ export const drawAreaChart = ( className, data, dataObject, height, state, width
     .attr("width", graphWidth)
     .attr("transform", `translate(${margin.left}, ${margin.top})`)
 
-  const stack = d3.stack().keys(stackedKeys).order(d3.stackOrderNone).offset(d3.stackOffsetDiverging)
+  const stack = d3.stack().keys(stackedKeys).order(d3.stackOrderReverse).offset(d3.stackOffsetDiverging)
 
   var defs = svg.append("defs")
 
@@ -72,14 +72,18 @@ export const drawAreaChart = ( className, data, dataObject, height, state, width
       .enter()
       .append("rect")
       .attr("x", d => xScale(d.year))
-      .attr("y", 0) //because the name changes we want to grab the second item with the value, I just flipped it to an array to I could get second value
-      .attr("width", 15)
-      .attr("height", 400)
+      .attr("y", 0) 
+      .attr("width", (width/85))
+      .attr("height", height)
       .attr("class", `${className}Rect`)
       .attr("opacity", "0")
       .raise()
 
-    createAreaTooltip(className, dataObject, graph, state, xScale, yScale)
+    if ((className = "savingsStackedAreaChart")) {
+      createStackedAreaTooltip(className, dataObject, graph, state, xScale, yScale)
+    } else {
+      createAreaTooltip(className, dataObject, graph, state, xScale, yScale)
+    }
 
     const yAxisGroup = graph.append("g").attr("class", "axis")
 

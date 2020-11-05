@@ -14,14 +14,15 @@ interface IProps {
   show?: string
 }
 
-export const IncomeChart: FC<IProps> = ({ color_selector, enableNav, state, set, show }) => {
+export const IncomeChart: FC<IProps> = ({ color_selector, enableNav, state, set }) => {
 
   const { selectedUser } = state.ui_reducer
   const inputRef = useRef(null)
   const className = "incomeChart"
-  const { chartArray, inc } = useMemo(() => buildIncomeForcast(state, show), [state.stream_reducer, selectedUser])
+  const { chartArray, inc } = useMemo(() => buildIncomeForcast(state), [state.stream_reducer, selectedUser])
 
   useEffect(() => {
+
     if (inputRef && inputRef.current) {
       const width = inputRef.current.offsetWidth
       const height = inputRef.current.offsetHeight

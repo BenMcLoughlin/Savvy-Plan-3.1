@@ -5,7 +5,7 @@ import * as I from "model/types"
 
 export const round = (number: I.n): I.a => {
   if (number !== undefined && number <= 1000000) return `${(Math.round(number / 1000) * 1000) / 1000} k`
-  if (number > 1000000) return `${(Math.round(number / 1000) * 1000) / 1000000} m`
+  if (number > 1000000) return `${(Math.round(number / 10000) * 10000) / 1000000} M`
   return null
 }
 export const formatCurrency = (number: I.n): string => {
@@ -58,24 +58,26 @@ const getSavingsBarMax = (dataObject: I.objects): I.n => {
 const getSavingsAreaMinMax = dataObject => {
   const savingsByYear = Object.values(dataObject)
   const arrayOfSavingsTotals = savingsByYear.map((year: any) => {
-    if ("user2" in year) return year.user1.totalSavings + year.user2.totalSavings
+    if ("user2" in year) return +year.user1.totalSavings + +year.user2.totalSavings
     return year.user1.totalSavings
   })
   const max = d3.max(arrayOfSavingsTotals)
   return max + 10000
 }
 
+
+
 /**
  * returns the maximum value for the view/charts x axis
  **/
-export const getMax = (className:string, dataObject: I.objects, state: I.state): I.n => {
+export const getMax = (className: string, dataObject: I.objects, state: I.state): I.n => {
   const { maritalStatus } = state.user_reducer
 
   switch (className) {
     case "incomeChart": {
       const beforeTaxIncomeArray = Object.values(dataObject).map((d: any) => {
         if (maritalStatus === "married") return d.user2.taxableIncome + d.user1.taxableIncome
-         return d.user1.beforeTaxIncome
+        return d.user1.taxableIncome
       })
       const max = d3.max(beforeTaxIncomeArray)
       return max > 100000 ? max + 30000 : 100000
@@ -83,6 +85,8 @@ export const getMax = (className:string, dataObject: I.objects, state: I.state):
     case "savingsBarChart":
       return getSavingsBarMax(dataObject)
     case "savingsAreaChart":
+      return getSavingsAreaMinMax(dataObject)
+    case "savingsStackedAreaChart":
       return getSavingsAreaMinMax(dataObject)
     case "overviewAreaChart":
       return getSavingsAreaMinMax(dataObject) + 100000
@@ -92,6 +96,7 @@ export const getMax = (className:string, dataObject: I.objects, state: I.state):
 }
 
 export const getMin = (className: string, dataObject: I.objects): I.n => {
+  console.log(className)
   switch (className) {
     case "incomeChart":
       return 0
@@ -106,7 +111,7 @@ export const getMin = (className: string, dataObject: I.objects): I.n => {
   return 100000
 }
 
-export const getPeakYear = (dataObject: I.objects):I.a => {
+export const getPeakYear = (dataObject: I.objects): I.a => {
   const dataArray: any = Object.values(dataObject)
 
   dataArray.sort((a: any, b: any) => b.user1.tfsa.total - a.user1.tfsa.total)

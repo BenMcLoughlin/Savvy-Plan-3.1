@@ -1,9 +1,11 @@
 import * as I from "model/types"
 
-export const getSavingsData = ({ ui_reducer }: I.state, savingsObject: I.savingsObject): I.objects => {
+export const getSavingsData = ({ ui_reducer }: I.state, savingsObject: I.a): I.objects => {
   //console.log("JSON.stringify(savinsObject, null, 4):", JSON.stringify(savingsObject, null, 4))
 
   const { selectedUser, selectedAccount } = ui_reducer
+
+  const selectedPage = "savingsStacked"
 
   const arrayOfYears = Object.keys(savingsObject)
 
@@ -22,6 +24,18 @@ export const getSavingsData = ({ ui_reducer }: I.state, savingsObject: I.savings
       barData.push({
         year,
         total: totalContribute - totalWithdraw,
+      })
+    } else if (selectedPage === "savingsStacked") {
+      const totalSavingsUser1 = savingsObject[year].user1.totalSavings
+      const totalSavingsUser2 = savingsObject[year].user2.totalSavings
+      areaData.push({
+        year,
+        totalSavingsUser1,
+        totalSavingsUser2,
+      })
+      barData.push({
+        year,
+        nothing: 0,
       })
     } else if (selectedAccount === "combined" && selectedUser === "combined") {
       const totalSavings = savingsObject[year].user1.totalSavings + savingsObject[year].user2.totalSavings

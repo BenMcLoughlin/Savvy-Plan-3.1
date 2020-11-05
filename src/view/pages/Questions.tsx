@@ -19,7 +19,7 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
   const [direction, setDirection] = useState<string>("forward")
   const { backButton, nextButton, questions } = data
   const { length } = questions
-  const { explanation, backHandleChange, chart, nextHandleChange, showChart } = data.questions[progress]
+  const { explanation, backHandleChange, chart, nextHandleChange, useExampleState } = data.questions[progress]
   const history = useHistory()
   useEffect(() => {
     // saveStore()
@@ -58,13 +58,14 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
         )}
       </TransitionGroup>
       {progress > 0 && <Back {...backButton} setDirection={setDirection} backHandleChange={backHandleChange} />}
-      {showChart && <Chart>{matchThenShowComponent(components, data.questions[progress], chart)}</Chart>}
+      {chart && <Chart useExampleState={useExampleState}>{matchThenShowComponent(components, data.questions[progress], chart)}</Chart>}
       <Next {...nextButton} nextHandleChange={nextHandleChange} setDirection={setDirection} />
     </Wrapper>
   )
 }
 
 //---------------------------STYLES-------------------------------------------//
+
 
 const Wrapper = styled.div`
   height: 100%rem;
@@ -99,11 +100,17 @@ const Component = styled.div<IComponent>`
   display: flex;
   height: 40rem;
 `
-const Chart = styled.div`
+
+interface Chart {
+  useExampleState: boolean
+}
+
+const Chart = styled.div<Chart>`
   position: absolute;
-  top: 23rem;
-  left: 28rem;
-  width: 80rem;
+  top: ${props => (props.useExampleState ? "10rem" : "23rem")};
+  left: ${props => (props.useExampleState ? "-10rem" : "20rem")};
+  width: ${props => (props.useExampleState ? "140rem" : "80rem")};
+  height: ${props => (props.useExampleState ? "50rem" : "30rem")};
   justify-content: center;
   display: flex;
 `

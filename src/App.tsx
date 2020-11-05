@@ -2,7 +2,7 @@ import React from "react"
 import { Header, Footer, Login, PrivateRoute, Loading } from "view/components"
 import styled, { ThemeProvider } from "styled-components"
 import { theme } from "model/styles/theme"
-import { Account, Display, LandingPage, Pricing, Product, Questions } from "view/containers"
+import { Account, Display, LandingPage, Pricing, Product, Questions } from "view/pages"
 import { BrowserRouter, Route } from "react-router-dom"
 import * as pages_data from "data"
 import { createPage } from "model/services/pages/createPage"
@@ -16,7 +16,7 @@ const App = ({ remove, state, set }) => {
   const { isLoading } = state.auth_reducer
 
   const newPageData = pages_data[`${selectedPage}Page_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
-  console.log("state:", JSON.stringify(state, null, 4))
+  //console.log("state:", JSON.stringify(state, null, 4))
 
   return (
     <ThemeProvider theme={theme}>

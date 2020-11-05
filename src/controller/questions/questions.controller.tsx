@@ -26,7 +26,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
           },
           ...addText("birthYear", state, user),
         }),
-      desiredRetirementIncome: () =>
+      retIncome: () =>
         q.push({
           ...{
             component: "Slider",
@@ -34,12 +34,12 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             min: 0,
             step: 1000,
             selectedFocus: true,
-            value: state.user_reducer.desiredRetirementIncome,
+            value: state.user_reducer.retIncome,
             handleChange: value => {
-              set("desiredRetirementIncome", "user_reducer", value)
+              set("retIncome", "user_reducer", value)
             },
           },
-          ...addText("desiredRetirementIncome", state, user),
+          ...addText("retIncome", state, user),
         }),
       gender: () =>
         q.push({
@@ -78,7 +78,6 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
         amount: n => {
           const data = {
             ...{
-              showChart: true,
               chart: "IncomeChart",
               max: 250000,
             },
@@ -126,7 +125,6 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
         contributions: n => {
           const data = {
             ...{
-              showChart: true,
               chart: "SavingsChart",
               max: reg === "tfsa" ? 6000 : reg === "rrsp" ? 30000 : 100000,
               setOptimumValues: () => set("optimumTFSA", "user_reducer", 3000),
@@ -138,7 +136,6 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
         rates: n => {
           const data = {
             ...{
-              showChart: true,
               chart: "SavingsChart",
               max: reg === "tfsa" ? 6000 : reg === "rrsp" ? 30000 : 100000,
             },
@@ -149,7 +146,6 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
         withdrawals: n => {
           const data = {
             ...{
-              showChart: true,
               chart: "SavingsChart",
               type: "withdrawals",
               max: 100000,
@@ -274,17 +270,17 @@ export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
   return {
     introduction: () =>
       q.push({
-        subTitle: "Our goal is to answer one question for you, are you ok finanically?  ",
-        question: "Lets build you a financial Plan",
-        label: "continue",
-        component: "Button",
-        value: selectedUser,
-        handleChange: () => set("progress", "ui_reducer", 1),
+        ...{
+          chart: "SavingsChart",
+          useExampleState: true,
+          component: "Button",
+          label: "hi",
+        },
+        ...addText("introduction", state, "user1"),
       }),
     idealIncomeChart: () =>
       q.push({
         ...{
-          showChart: true,
           chart: "IncomeChart",
           show: "targetIncome",
           component: "TripleSelector",
@@ -299,7 +295,6 @@ export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
     combinedIncomeChart: () =>
       q.push({
         ...{
-          showChart: true,
           chart: "IncomeChart",
           component: "TripleSelector",
           enableNav: true,
@@ -313,7 +308,6 @@ export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
     incomeParagraph: () =>
       q.push({
         ...{
-          showChart: true,
           chart: "IncomeChart",
           component: "Paragraph",
           enableNav: true,

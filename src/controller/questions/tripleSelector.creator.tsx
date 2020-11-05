@@ -21,7 +21,6 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
     component: "TripleSliderSelector", //very special advanced component tailored for this type of object
     periods,
     chart: text.chart,
-    showChart: text.showChart,
     valid: true,
     question: text.question,
     period,

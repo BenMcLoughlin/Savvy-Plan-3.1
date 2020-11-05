@@ -2,11 +2,11 @@ import React, { FC, useState, useEffect } from "react"
 import styled from "styled-components"
 import { CSSTransition } from "react-transition-group"
 import { LinkButton } from "view/components"
-import { exampleState } from "data/exampleState"
 import * as I from "model/types"
 import { SavingsChart } from "view/charts"
 import image from "data/assets/dashboard.png"
 import { Section, Row, P, H1, H2 } from "model/styles/Styled-Components"
+import "./dummyTooltipCSS.css"
 
 interface IProps {
   set: I.set
@@ -29,6 +29,44 @@ export const LandingPage: FC<IProps> = ({ remove, state, set }) => {
   return (
     <Wrapper>
       <Section height={90}>
+        <DummyTooltip>
+            <div className="wrapper">
+              <div className="header">
+                <div className="headerText"> Example Investments of someone with a plan</div>
+                <div className="headerAge"> Age 59 </div>
+              </div>
+              <div className="displayLine" />
+              <div className="main">
+                <div className="displayBox">
+                  <div className="displayValue">100k</div>
+                  <div className="displayTitle">income</div>
+                </div>
+                <div className="displayBox">
+                  <div className="displayValue">100k</div>
+                  <div className="displayTitle">income</div>
+                </div>
+                <div className="displayBox">
+                  <div className="displayValue">100k</div>
+                  <div className="displayTitle">income</div>
+                </div>
+                <div className="displayBox">
+                  <div className="displayValue">100k</div>
+                  <div className="displayTitle">income</div>
+                </div>
+                <div className="displayBox">
+                  <div className="displayValue">100k</div>
+                  <div className="displayTitle">income</div>
+                </div>
+                <div className="displayBox">
+                  <div className="displayValue">100k</div>
+                  <div className="displayTitle">income</div>
+                </div>
+              </div>
+              <div className="header">
+                <div className="bottomText"> Example Investments of someone with a plan</div>
+              </div>
+            </div>
+        </DummyTooltip>
         <Title enter={enter}>
           <CSSTransition in={enter} timeout={2000} classNames={`transition-forward`}>
             <H1>See your financial future</H1>
@@ -44,7 +82,7 @@ export const LandingPage: FC<IProps> = ({ remove, state, set }) => {
           </CSSTransition>
         </Title>
         <Chart>
-          <SavingsChart exampleState={exampleState} />
+          <SavingsChart useExampleState={true} />
         </Chart>
       </Section>
       <Section height={80}>
@@ -78,6 +116,15 @@ const Title = styled.div<Ienter>`
   justify-content: space-around;
   height: 30rem;
   z-index: 100;
+`
+const DummyTooltip = styled.div`
+  position: absolute;
+  top: 23rem;
+  left: 8rem;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 30rem;
+  z-index: 1000;
 `
 const SubTitle = styled.div`
   height: 14rem;

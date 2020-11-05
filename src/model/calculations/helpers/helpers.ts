@@ -24,20 +24,20 @@ export class Helpers {
   }
 }
 
-export const insert3 = (object: I.objects, user: I.user, year: number, key3: string, key4: string, value: I.a): I.a => {
-  return (object = {
-    ...object,
-    [year]: {
-      ...object[year],
-      [user]: {
-        ...object[year][user],
-        [key3]: {
-          ...object[year][user][key3],
-          [key4]: value,
-        },
-      },
-    },
-  })
+export const insert3 = (object: I.objects, key1: string, key2: string, key3: string, key4: string, value: I.a): I.a => {
+   return (object = {
+     ...object,
+     [key1]: {
+       ...object[key1],
+       [key2]: {
+         ...object[key1][key2],
+         [key3]: {
+           ...object[key1][key2][key3],
+           [key4]: value,
+         },
+       },
+     },
+   })
 }
 
 export const insertBenefits = (object: I.objects, user: I.user, year: number, key3: string, ccb: string, cpp: string, oas: string, state: I.state): I.a => {

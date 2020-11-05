@@ -1,7 +1,7 @@
 import * as I from "model/types"
 
 const initialState = {
-  desiredRetirementIncome: 0,
+  retIncome: 0,
   hasChildrenStatus: "",
   hasChildren: true,
   inflationRate: 2,

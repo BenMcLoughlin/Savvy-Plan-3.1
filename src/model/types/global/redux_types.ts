@@ -77,7 +77,7 @@ export type userCore = {
   oasStartAge: number
 }
 export type user_reducer = {
-  desiredRetirementIncome: number
+  retIncome: number
   hasChildrenStatus: string
   hasChildren: boolean
   inflationRate: number
@@ -101,4 +101,4 @@ export interface state {
 
 export type savedState = user_reducer | ui_reducer | stream_reducer
 
-export type reducer = 'ui_reducer' | "user_reducer" | "stream_reducer" | "auth_reducer"
+export type reducer = "ui_reducer" | "user_reducer" | "stream_reducer" | "auth_reducer"
