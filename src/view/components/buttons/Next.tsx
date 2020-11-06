@@ -8,37 +8,35 @@ import * as I from "model/types"
 interface IProps {
   setDirection: (value: string) => void
   handleChange: (setDirection: any, valid: boolean) => void
-  nextHandleChange?: () => void //this allows a specific instance of the wizard to attach a special handle change when the next button is clicked. Prepares the state for the next
+  onNext?: () => void //this allows a specific instance of the wizard to attach a special handle change when the next button is clicked. Prepares the state for the next
   valid: boolean
   state: any
   set: I.set
 }
 
-export const Next: FC<IProps> = ({ handleChange, nextHandleChange, setDirection, valid, state, set }) => {
+export const Next: FC<IProps> = ({ handleChange, onNext, setDirection, valid, state, set }) => {
+  const { sendRequest } = useHttpClient(set)
 
-    const { sendRequest } = useHttpClient(set)
-
-    const saveStore = async () => {
-      await sendRequest(`/api/store/saveStore`, "PATCH", JSON.stringify(state), {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: "Bearer " + state.auth_reducer.token,
-      })
-    }
-
+  const saveStore = async () => {
+    await sendRequest(`/api/store/saveStore`, "PATCH", JSON.stringify(state), {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "Bearer " + state.auth_reducer.token,
+    })
+  }
 
   useEffect(() => {
     const pressEnter = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
         handleChange(setDirection, valid)
-        if (nextHandleChange) nextHandleChange()
+        if (onNext) onNext()
       }
     }
     if (valid) {
       window.addEventListener("keydown", pressEnter)
       return () => window.removeEventListener("keydown", pressEnter)
     }
-  }, [handleChange, nextHandleChange, setDirection, valid, state])
+  }, [handleChange, onNext, setDirection, valid, state])
 
   return (
     <Wrapper>
@@ -50,7 +48,7 @@ export const Next: FC<IProps> = ({ handleChange, nextHandleChange, setDirection,
               setDirection("forward")
               saveStore()
               handleChange(setDirection, valid)
-              if (nextHandleChange) nextHandleChange()
+              if (onNext) onNext()
             }}
             id="nextButton"
           />

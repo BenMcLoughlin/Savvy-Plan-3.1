@@ -234,7 +234,7 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
     whatWeWillBuild: {
       question: "What will we build?",
       subTitle:
-        "We want you to be able to answer one question: are you ok financially? To do this we will ask you for details about your current financial position. We will then estimate your government benefits and calculate the most tax efficient way for you to draw income in retirement. Then we can make reccomendations on what you need to do now to ensure you're making the best financial decisions. Finally we'll give you the ability to build different scenarios and see how things might play out.",
+    `We want you to be able to answer one question: are you ok financially? To do this we will ask you for details about your current financial position. We will then estimate your government benefits and calculate the most tax efficient way for you to draw income in retirement. Then we can make reccomendations on what you need to do now to ensure you're making the best financial decisions. Finally we'll give you the ability to build different scenarios and see how things might play out.`,
     },
   }
 

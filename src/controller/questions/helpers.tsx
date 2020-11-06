@@ -31,3 +31,17 @@ export const clean = (str: string): string => {
       break
   }
 }
+
+
+export const getYearRange = (state: I.state, user: I.user): I.objects => {
+  const { user_reducer } = state
+  const {
+    user1: { birthYear: by1, lifeSpan: ls1 },
+    user2: { birthYear: by2, lifeSpan: ls2 },
+  } = user_reducer
+  const startWorking = user === "user1" ? by1 + 18 : by2 + 18
+  const endWorking = user === "user1" ? by1 + 65 : by2 + 65
+  const chartStartYear = (user === "user1" ? +by1 : Math.min(+by1, +by2)) + 18
+  const chartEndYear = user === "user1" ? +by1 + +ls1 : Math.max(+by1 + ls1, +by2 + ls2)
+  return ({ chartStartYear, chartEndYear, startWorking, endWorking })
+}

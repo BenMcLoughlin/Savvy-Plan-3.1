@@ -1,20 +1,16 @@
 import * as I from "model/types"
-import { getCpp, getCcb, getTargetIncome, getAvgRate, getMargRate, getYearRange, insertBenefits, beforePension, getAfterTaxIncome, sum } from "model/calculations/income/income.helpers"
+import { getCpp, getCcb, getAvgRate, getMargRate, getYearRange, insertBenefits, beforePension, getAfterTaxIncome, sum } from "model/calculations/income/income.helpers"
 import { insert1, insert2, Helpers } from "model/calculations/helpers"
-import { maxTFSAWithdrawal } from "model/calculations/income/income.helpers"
+
 
 const lets = new Helpers()
 
 export const buildIncomeForcast = (state: I.state): I.objects => {
-  console.time()
+  //console.time()
 
   let inc = {}
 
-  const { selectedUser } = state.ui_reducer
-
-  const users: I.user[] = ["user1", "user2"]
-
-  const maxTFSA = maxTFSAWithdrawal(2050, 2080)
+  const { selectedUser, users } = state.ui_reducer
 
   users.forEach(user => {
     const { streams } = lets.turn(state.stream_reducer).intoArray().filteredFor(["streamType", "income"], ["owner", user])
@@ -46,10 +42,8 @@ export const buildIncomeForcast = (state: I.state): I.objects => {
     })
   })
 
-  console.log(chartArray)
-
-  console.log(JSON.stringify(inc, null, 4))
-  console.timeEnd()
+  //console.log(JSON.stringify(inc, null, 4))
+  //console.timeEnd()
   //console.log(chartArray)
   return { chartArray, inc }
 }

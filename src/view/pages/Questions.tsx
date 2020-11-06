@@ -19,7 +19,7 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
   const [direction, setDirection] = useState<string>("forward")
   const { backButton, nextButton, questions } = data
   const { length } = questions
-  const { explanation, backHandleChange, chart, nextHandleChange, useExampleState } = data.questions[progress]
+  const { explanation, backHandleChange, chart, onNext, useExampleState } = data.questions[progress]
   const history = useHistory()
   useEffect(() => {
     // saveStore()
@@ -38,7 +38,7 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
     <Wrapper>
       <ProgressBar length={length} progress={progress} />
       <Text>
-        {progress > 0 && <h3 style={{ fontWeight: "bold" }}>Why we Ask</h3>}
+        {progress > 0 && explanation && <h3 style={{ fontWeight: "bold" }}>Why we Ask</h3>}
         <h4>{explanation}</h4>
       </Text>
       <TransitionGroup>
@@ -59,13 +59,12 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
       </TransitionGroup>
       {progress > 0 && <Back {...backButton} setDirection={setDirection} backHandleChange={backHandleChange} />}
       {chart && <Chart useExampleState={useExampleState}>{matchThenShowComponent(components, data.questions[progress], chart)}</Chart>}
-      <Next {...nextButton} nextHandleChange={nextHandleChange} setDirection={setDirection} />
+      <Next {...nextButton} onNext={onNext} setDirection={setDirection} />
     </Wrapper>
   )
 }
 
 //---------------------------STYLES-------------------------------------------//
-
 
 const Wrapper = styled.div`
   height: 100%rem;

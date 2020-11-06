@@ -24,7 +24,7 @@ export class Helpers {
   }
 }
 
-export const insert3 = (object: I.objects, key1: string, key2: string, key3: string, key4: string, value: I.a): I.a => {
+export const insert4 = (object: I.objects, key1: string, key2: string, key3: string, key4: string, value: I.a): I.a => {
    return (object = {
      ...object,
      [key1]: {
@@ -34,6 +34,22 @@ export const insert3 = (object: I.objects, key1: string, key2: string, key3: str
          [key3]: {
            ...object[key1][key2][key3],
            [key4]: value,
+         },
+       },
+     },
+   })
+}
+
+export const insert3 = (object: I.objects, key1: I.a, key2: I.a, key3: I.a, value: I.a): I.a => {
+   return (object = {
+     ...object,
+     [key1]: {
+       ...object[key1],
+       [key2]: {
+         ...object[key1][key2],
+         [key3]: {
+           ...object[key1][key2][key3],
+            ...value,
          },
        },
      },
@@ -84,7 +100,7 @@ export const insert1 = (object: I.objects, user: I.user, year: number, value: I.
   })
 }
 
-export const insert0 = (object: I.objects, key: string, value: I.a): I.objects => {
+export const insert0 = (object: I.objects, key: I.a, value: I.a): I.objects => {
   return (object = {
     ...object,
     [key]: value,

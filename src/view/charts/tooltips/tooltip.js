@@ -1,4 +1,3 @@
-
 /* eslint-disable */
 import * as d3 from "d3"
 import { incomeHtml } from "view/charts/tooltips/tooltipHtml/incomeHtml"
@@ -10,7 +9,6 @@ import { overviewHtml } from "view/charts/tooltips/tooltipHtml/overviewHtml"
 import { getPeakYear } from "view/charts/createChartFunctions/chartHelpers"
 
 export const buildHtml = (className, color, d, dataObject, n, state, user) => {
-
   switch (className) {
     case "incomeChart":
       return incomeHtml(d, dataObject, color, n, state)
@@ -100,32 +98,19 @@ export const createAreaTooltip = (className, dataObject, graph, state, xScale, y
       // .style("left", () => (d3.event.layerX - 150 > 650 ? "650px" : d3.event.layerX - 150 + "px")) // always 10px to the right of the mouse
     })
 }
-export const createStackedAreaTooltip = (className, dataObject, graph, state, xScale, yScale,) => {
+export const createStackedAreaTooltip = (className, dataObject, graph, state, xScale, yScale) => {
+  const tooltip = d3.select(`.${className}`).append("div").attr("class", `${className}tooltip`).style("opacity", 0).style("position", "absolute")
 
-  const tooltip = d3
-    .select(`.${className}`)
-    .append("div")
-    .attr("class", `${className}tooltip`)
-    .style("opacity", 0)
-    .style("position", "absolute")
-
-  const tooltip2 = d3
-    .select(`.${className}`)
-    .append("div")
-    .attr("class", `${className}tooltip2`)
-    .style("opacity", 0)
-    .style("position", "absolute")
-
+  const tooltip2 = d3.select(`.${className}`).append("div").attr("class", `${className}tooltip2`).style("opacity", 0).style("position", "absolute")
 
   const tooltip3 = d3
     .select(`.${className}`)
     .append("div")
     .attr("class", `${className}tooltip3`)
-    .style("opacity", 1)
+    .style("opacity", 0)
     .style("position", "absolute")
     .style("top", "5rem")
     .style("left", xScale(d => d.year) - 60 + "px")
-
 
   d3.selectAll(`.${className}Rect`)
     .on("mouseover", (d, i, n) => {
@@ -150,7 +135,7 @@ export const createStackedAreaTooltip = (className, dataObject, graph, state, xS
         .attr("fill", "white")
         .attr("stroke-width", 2)
         .attr("stroke", "#72929B")
-        
+
       graph
         .append("circle")
         .attr("className", "point")
@@ -161,29 +146,32 @@ export const createStackedAreaTooltip = (className, dataObject, graph, state, xS
         .attr("stroke-width", 2)
         .attr("stroke", "#72929B")
 
-      tooltip.html(buildHtml(className, null, d, dataObject, null, state))
-      tooltip2.html(buildHtml("savingsStackedAreaChartValue", null, d, dataObject, null, state, "user2"))
-      tooltip3.html(buildHtml("savingsStackedAreaChartValue", null, d, dataObject, null, state, "user1"))
+      tooltip.html(buildHtml(className, null, d, dataObject, null, state)).style("opacity", 1)
+      tooltip2.style("opacity", 1).html(buildHtml("savingsStackedAreaChartValue", null, d, dataObject, null, state, "user2")).style("opacity", 1)
+      tooltip3.style("opacity", 1).html(buildHtml("savingsStackedAreaChartValue", null, d, dataObject, null, state, "user1")).style("opacity", 1)
       tooltip.transition().duration(200).style("opacity", 1).style("pointer-events", "none")
     })
     .on("mouseout", (d, i, n) => {
       d3.selectAll(`circle`).remove()
       d3.selectAll(`line`).remove()
-      // tooltip.transition().duration(1500).style("opacity", 0)
+       tooltip.transition().duration(500).style("opacity", 0)
+       tooltip2.transition().duration(5500).style("opacity", 0)
+       tooltip3.transition().duration(5500).style("opacity", 0)
     })
-    .on("mousemove", (d) => {
+    .on("mousemove", d => {
       tooltip
+        .style("opacity", 1)
         .style("top", 50 + "px") // always 10px below the cursor
         .style("left", () => (d3.event.layerX > 1100 ? "1100px" : d3.event.layerX + 50 + "px")) // always 10px to the right of the mouse
+
       tooltip2
-        .style("opacity", 1)//THIS IS USER 2
+        .style("opacity", 1) //THIS IS USER 2
         .style("top", yScale(Object.values(d)[2]) + 70 + "px") //() => d3.event.layerY - 0 + "px") //
         .style("left", () => d3.event.layerX - 320 + "px") // always 10px to the right of the mouse
         .style("background", "red") // always 10px to the right of the mouse
       tooltip3
-        .style("opacity", 1)//THIS IS USER 1
+        .style("opacity", 1) //THIS IS USER 1
         .style("top", yScale(+Object.values(d)[2] + +Object.values(d)[1]) + 10 + "px") //() => d3.event.layerY - 0 + "px") //
         .style("left", () => d3.event.layerX - 320 + "px") // always 10px to the right of the mouse
-        
     })
 }

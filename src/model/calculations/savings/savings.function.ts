@@ -7,16 +7,15 @@ export const getSavings = (state: I.state): I.objects => {
 
   const yearFirst: number = new Date().getFullYear() // Our chart begins when the youngest of the two users turns 18, if user is single we just use their values
   let yearLast = +birthYear + lifeSpan //Our chart ends whent the oldest of the users dies,
-  let users = [1] //To build a single users income stream we will just use the number 1 in the below for loop, but if they're married we need to do it for both of them
 
   if (maritalStatus === "married" || maritalStatus === "common-law") {
     //IF the user is married we need to compare to find the earliest and latest values
     const { birthYear: user2BirthYear, lifeSpan: user2LifeSpan } = state.user_reducer.user1
-    users = [1, 2] //this array will be mapped through to create values for both users
+
     if (lifeSpan < +user2LifeSpan) yearLast = user2BirthYear + user2LifeSpan
   }
 
-  const savingsObject = createSavingsObject(state, yearFirst, yearLast, users)
+  const savingsObject = createSavingsObject(state, yearFirst, yearLast)
   //console.log('JSON.stringify(savingsObject):', JSON.stringify(savingsObject, null, 4))
 
   //const function_duration = END_TIME - START_TIME

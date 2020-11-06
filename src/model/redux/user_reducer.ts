@@ -15,20 +15,24 @@ const initialState = {
   user1: {
     birthYear: 1990,
     cppStartAge: 65,
+    endWorking: 2050,
     firstName: "Ben",
     gender: "male",
     lastName: "",
     lifeSpan: 95,
     oasStartAge: 65,
+    startWorking: 2007,
   },
   user2: {
     birthYear: 1990,
     cppStartAge: 65,
+    endWorking: 2050,
     firstName: "Kelsey",
     gender: "female",
     lastName: "",
     lifeSpan: 95,
     oasStartAge: 65,
+    startWorking: 2007,
   },
 }
 

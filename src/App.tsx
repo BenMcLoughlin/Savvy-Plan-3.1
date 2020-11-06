@@ -25,7 +25,6 @@ const App = ({ remove, state, set }) => {
           <BrowserRouter>
             <Header />
             {isLoading && <Loading />}
-
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/product" component={Product} />

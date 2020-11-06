@@ -96,7 +96,6 @@ export const getMax = (className: string, dataObject: I.objects, state: I.state)
 }
 
 export const getMin = (className: string, dataObject: I.objects): I.n => {
-  console.log(className)
   switch (className) {
     case "incomeChart":
       return 0

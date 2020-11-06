@@ -32,6 +32,8 @@ export interface auth_reducer {
 
 export interface ui_reducer {
   colorIndex: number
+  chartStartYear: number
+  chartEndYear: number
   dualSelectValue: boolean
   newStream: boolean
   progress: number
@@ -41,6 +43,7 @@ export interface ui_reducer {
   selectedPage: string
   selectedScenario: number
   selectedUser: string
+  users: I.user[]
 }
 
 export type stream = {
@@ -70,11 +73,13 @@ export type stream = {
 export type userCore = {
   birthYear: number
   cppStartAge: number
+  endWorking: number
   firstName: string
   gender: string
   lastName: string
   lifeSpan: number
   oasStartAge: number
+  startWorking: number
 }
 export type user_reducer = {
   retIncome: number

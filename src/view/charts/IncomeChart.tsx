@@ -5,13 +5,13 @@ import { ChartNav } from "view/components"
 import { drawBarChart } from "view/charts/createChartFunctions/createBarChart"
 import * as I from "model/types"
 import { buildIncomeForcast } from "model/calculations/income/income"
+import { getTargetIncome } from "model/calculations/income/targetIncome/targetIncome.function"
 
 interface IProps {
   state: I.state
   color_selector: any
   set: (id: string, reducer: string, value: any, childId1?: string) => void
   enableNav?: boolean
-  show?: string
 }
 
 export const IncomeChart: FC<IProps> = ({ color_selector, enableNav, state, set }) => {
@@ -20,6 +20,7 @@ export const IncomeChart: FC<IProps> = ({ color_selector, enableNav, state, set 
   const inputRef = useRef(null)
   const className = "incomeChart"
   const { chartArray, inc } = useMemo(() => buildIncomeForcast(state), [state.stream_reducer, selectedUser])
+  const { chartArray2 } = useMemo(() => getTargetIncome(inc, state), [state.stream_reducer, selectedUser])
 
   useEffect(() => {
 

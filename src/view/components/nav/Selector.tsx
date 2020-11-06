@@ -102,7 +102,7 @@ const Title = styled.div`
   font-size: ${props => props.theme.fontSize.small};
   font-weight: 200;
   position: absolute;
-  top: -4rem;
+  top: -5rem;
 `
 const SelectionTitle = styled.div`
   font-size: 0.8rem;

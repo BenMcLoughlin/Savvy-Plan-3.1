@@ -30,9 +30,8 @@ export const insertBenefits = (object: I.incomeForcast, user: I.user, year:I.n, 
 }
 
 export const getYearRange = (state: I.state): I.n[] => {
-  const { user_reducer } = state
-  const startYear = Math.min(user_reducer.user1.birthYear, user_reducer.user2.birthYear)
-  return _.range(startYear + 18, startYear + 95)
+  const { chartStartYear, chartEndYear } = state.ui_reducer
+  return _.range(chartStartYear, chartEndYear)
 }
 
 export const getRetirementRange = (user: I.user, { user_reducer }: I.state): I.n[] => {

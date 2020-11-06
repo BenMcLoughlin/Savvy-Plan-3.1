@@ -2,6 +2,8 @@ import * as I from "model/types"
 
 const initialState = {
   colorIndex: 0,
+  chartStartYear: 2007,
+  chartEndYear: 2095,
   dualSelectValue: true,
   newStream: false,
   progress: 0,
@@ -13,10 +15,13 @@ const initialState = {
   scenarios: {
     [1]: "basic",
   },
+  users: [],
 }
 
 export default function ui_reducer(state: I.ui_reducer = initialState, action: I.a): I.ui_reducer {
   switch (action.type) {
+    case "ui_reducer/SET_MANY":
+      return { ...state, ...action.args }
     case "ui_reducer/SET_STORE":
       return (state = { ...action.savedState })
     case "ui_reducer/SET_VALUE":

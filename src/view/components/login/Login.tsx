@@ -38,19 +38,22 @@ export const Login: FC<IProps> = ({ set, state, setStore }) => {
         "Content-Type": "application/json",
       })
       if (isNewUser && res) {
+        console.log('state:', state)
         await sendRequest(`api/store/createStore`, "POST", JSON.stringify(state), {
           "Content-Type": "application/json",
           Authorization: "Bearer " + res.token,
         })
       }
-      if (!isNewUser) {
+      if (!isNewUser && res) {
+        console.log(res.token)
         const response: I.a = await sendRequest(`api/store/getStore`, "GET", null, {
           "Content-Type": "application/json",
           Authorization: "Bearer " + res.token,
         })
-        setStore("ui_reducer", response.data.data.ui_reducer)
-        setStore("user_reducer", response.data.data.user_reducer)
-        setStore("stream_reducer", response.data.data.stream_reducer)
+
+        await setStore("ui_reducer", response.data.data.ui_reducer)
+        await setStore("user_reducer", response.data.data.user_reducer)
+        await setStore("stream_reducer", response.data.data.stream_reducer)
       }
 
       res && set("token", "auth_reducer", res.token)

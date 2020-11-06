@@ -1,4 +1,4 @@
-import React, { FC  } from "react"
+import React, { FC, useState  } from "react"
 import styled from "styled-components"
 import _ from "lodash"
 import { CSSTransition } from "react-transition-group"
@@ -10,20 +10,23 @@ interface IProps {
   value: string
 }
 
-export const PickSingleOption: FC<IProps> = ({ optionArray, handleChange, value }) => {
+export const PickSingleOption: FC<IProps> = ({ optionArray, handleChange,  value }) => {
+
+ const [writeBelow, setWriteBelow] = useState<string>()
+
   return (
     <Wrapper>
       {optionArray &&
         optionArray.map((d: string, i: number) => {
           return (
-            <Option key={i} selected={d.toLowerCase() === value} onClick={() => handleChange(d)} id={`${_.camelCase(d)}`}>
+            <Option key={i} selected={d.toLowerCase() === value || d.toLowerCase().includes("write below")} onClick={() => handleChange(d)} id={`${_.camelCase(d)}`}>
               {d}
             </Option>
           )
         })}
       <Pill selected={value} optionArray={optionArray} />
-      <CSSTransition in={value === "write below"} mountOnEnter unmountOnExit timeout={400} classNames="fade-in">
-        <TextInput handleChange={e => handleChange(e)} type="text" label={`Gender`} value={"value"} />
+      <CSSTransition in={value.includes("write below")} mountOnEnter unmountOnExit timeout={400} classNames="fade-in">
+        <TextInput handleChange={e => setWriteBelow(e.target.value)} type="text" label={`Gender`} value={writeBelow} />
       </CSSTransition>
     </Wrapper>
   )

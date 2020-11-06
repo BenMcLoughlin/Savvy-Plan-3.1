@@ -17,6 +17,13 @@ export const setStore = (reducer: I.reducer, savedState: I.savedState): I.object
   }
 }
 
+export const setMany = (reducer: I.reducer, ...args): I.objects => {
+  return {
+    type: `${reducer}/SET_MANY`,
+    ...args,
+  }
+}
+
 export const remove = (id: string, reducer = "stream_reducer"): I.objects => {
   return {
     type: `${reducer}/REMOVE`,

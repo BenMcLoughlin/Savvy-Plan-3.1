@@ -1,3 +1,5 @@
+import * as I from "model/types"
+
 type Icomponents = "DualSelect" | "Button" | "PickMultipleOptions" | "PickNumber" | "PickSingleOption" | "Slider" | "TextInput" | "TwoSliders" | ""
 
 export interface ICoreProps {
@@ -14,7 +16,7 @@ export interface ICoreProps {
 
 export interface IPickMultipleOptions extends ICoreProps {
   optionArray: string[]
-  user: string
+  user: I.user
   arrayOfSelected: string[]
 }
 

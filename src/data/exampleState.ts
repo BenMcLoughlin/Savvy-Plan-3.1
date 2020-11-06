@@ -2,6 +2,8 @@ import * as I from "model/types"
 
 export const exampleState = (): I.state => ({
   ui_reducer: {
+    chartEndYear: 2085,
+    chartStartYear: 2007,
     selectedId: "user1Savings_6529",
     selectedScenario: 1,
     colorIndex: 3,
@@ -14,6 +16,7 @@ export const exampleState = (): I.state => ({
     scenarios: {
       [1]: "base",
     },
+    users: ["user1", "user2"],
   },
   stream_reducer: {
     user1Savings_6529: {
@@ -122,20 +125,24 @@ export const exampleState = (): I.state => ({
     user1: {
       birthYear: 1995,
       cppStartAge: 65,
+      endWorking: 2050,
       firstName: "",
       lastName: "",
       gender: "male",
       oasStartAge: 65,
       lifeSpan: 95,
+      startWorking: 2007,
     },
     user2: {
       birthYear: 1995,
       cppStartAge: 65,
+      endWorking: 2050,
       firstName: "",
       lastName: "",
       gender: "female",
       oasStartAge: 65,
       lifeSpan: 95,
+      startWorking: 2007,
     },
   },
   auth_reducer: {

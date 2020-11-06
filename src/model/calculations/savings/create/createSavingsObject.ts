@@ -23,7 +23,7 @@ export const getValue = (flow: I.flow, stream: I.stream, year: I.n): I.n => {
   return 0
 }
 
-export const getAccountDetails = (account: I.a, savingsObject: I.objects, state: I.state, year: I.n, user: string): I.objects => {
+export const getAccountDetails = (account: I.a, savingsObject: I.objects, state: I.state, year: I.n, user: I.user): I.objects => {
   const stream: any = Object.values(state.stream_reducer).find((d: any) => d.reg === account && d.owner === user) //grab the stream we're working on, eg TFSA with its contribute and withdraw details
 
   if (!stream) return emptyAccountData
@@ -52,17 +52,18 @@ export const getAccountDetails = (account: I.a, savingsObject: I.objects, state:
   }
 }
 
-export const createSavingsObject = (state: I.state, yearFirst: I.n, yearLast: I.n, users: I.n[]): I.objects => {
+export const createSavingsObject = (state: I.state, yearFirst: I.n, yearLast: I.n,): I.objects => {
   const savingsObject = {} //initialize an empty object which values will be passed into
 
+  const {users} = state.ui_reducer
   for (let year = yearFirst; year <= yearLast; year++) {
-    users.map((n: any) => {
-      const tfsa = getAccountDetails("tfsa", savingsObject, state, year, `user${n}`)
-      const rrsp = getAccountDetails("rrsp", savingsObject, state, year, `user${n}`)
-      const personal = getAccountDetails("personal", savingsObject, state, year, `user${n}`)
+    users.map((user: I.user) => {
+      const tfsa = getAccountDetails("tfsa", savingsObject, state, year, user)
+      const rrsp = getAccountDetails("rrsp", savingsObject, state, year, user)
+      const personal = getAccountDetails("personal", savingsObject, state, year, user)
       return (savingsObject[year] = {
         ...savingsObject[year],
-        [`user${n}`]: {
+        [user]: {
           tfsa,
           rrsp,
           personal,

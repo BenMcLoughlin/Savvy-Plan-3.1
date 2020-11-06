@@ -1,5 +1,5 @@
 import { createStream } from "model/services/create_functions"
-import { removeMostRecentStream } from "controller/questions/helpers"
+import { removeMostRecentStream, getYearRange } from "controller/questions/helpers"
 import { validateNext } from "model/services/validation/validators"
 import { createTripleSliders } from "controller/questions/tripleSelector.creator"
 import * as I from "model/types"
@@ -12,7 +12,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
   const stream: I.stream = state.stream_reducer[selectedId] || dummyStream
   const selectedUser = state.user_reducer[user]
   const { id, streamType, reg } = stream
-  const { maritalStatus, numberOfChildren } = state.user_reducer
+  const { numberOfChildren, maritalStatus } = state.user_reducer
 
   return {
     for: {
@@ -22,7 +22,14 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             component: "TextInput", //Text input will capture their birthyear
             value: selectedUser.birthYear,
             name: "year", //by setting it as streamType year the component will place valiation on the text
-            handleChange: (event: I.event) => set(user, "user_reducer", event.target.value, "birthYear"),
+            handleChange: (e: I.event) => set(user, "user_reducer", +e.target.value, "birthYear"),
+            onNext: () => {
+              const { chartStartYear, chartEndYear, startWorking, endWorking } = getYearRange(state, user)
+              set("chartStartYear", "ui_reducer", chartStartYear)
+              set("chartEndYear", "ui_reducer", chartEndYear)
+              set(user, "user_reducer", startWorking, "startWorking")
+              set(user, "user_reducer", endWorking, "endWorking")
+            },
           },
           ...addText("birthYear", state, user),
         }),
@@ -47,6 +54,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             component: "PickSingleOption", //this component allows the user to choose one of a number of options
             value: selectedUser.gender,
             handleChange: (value: string) => set(user, "user_reducer", value, "gender"),
+            handleChange2: (e: I.event) => set(user, "user_reducer", `write below: ${e.target.value}`, "gender"),
           },
           ...addText("gender", state, user),
         }),
@@ -57,7 +65,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             component: "TextInput", // tells the wizard to render a text input in which the user types their name
             streamType: "text",
             value: selectedUser.firstName,
-            handleChange: (event: I.event) => set(user, "user_reducer", event.target.value, "firstName"),
+            handleChange: (e: I.event) => set(user, "user_reducer", e.target.value, "firstName"),
           },
           ...addText("name", state, user),
         }),
@@ -70,7 +78,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             childValue: numberOfChildren,
             valid: numberOfChildren > 0,
             handleChange: (n: any) => set("numberOfChildren", "user_reducer", n),
-            handleChange2: (event: I.event) => set(event.target.name, "user_reducer", event.target.value),
+            handleChange2: (e: I.event) => set(e.target.name, "user_reducer", e.target.value),
           },
           ...addText("numberOfChildren", state, user),
         }),
@@ -90,7 +98,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             ...{
               component: "TextInput",
               value: stream.name,
-              handleChange: (event: I.event) => set(id, "stream_reducer", event.target.value, "name"),
+              handleChange: (e: I.event) => set(id, "stream_reducer", e.target.value, "name"),
             },
             ...addText("incomeName", state, user, i),
           }),
@@ -182,8 +190,10 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               set("maritalStatus", "user_reducer", value)
               if (value === "married" || value === "common-law") {
                 set("isMarried", "user_reducer", true)
+                set("users", "ui_reducer", ["user1", "user2"])
               } else {
                 set("isMarried", "user_reducer", false)
+                set("users", "ui_reducer", ["user1"])
               }
             },
           },
@@ -234,7 +244,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               component: "PickMultipleOptions",
               user: "user1",
               value: dualSelectValue,
-              nextHandleChange: () => {
+              onNext: () => {
                 set("selectedUser", "ui_reducer", "user1")
               },
               handleChange: (selected, d: any) => {
@@ -253,7 +263,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
                   set("selectedId", "ui_reducer", "")
                 }
               },
-              //onClick: reg => createStream(colorIndex, newSavingsStream(reg, +user1BirthYear + 65), set, `savings`, "user1"),
+              //onClick: reg => createStream(colorIndex, newSavingsStream(reg, +birthYear1 + 65), set, `savings`, "user1"),
             },
             ...addText("createSavings", state, user),
           }),
@@ -278,10 +288,6 @@ export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
       }),
     whatWeWillBuild: () =>
       q.push({
-        ...{
-
-
-        },
         ...addText("whatWeWillBuild", state, "user1"),
       }),
     idealIncomeChart: () =>
