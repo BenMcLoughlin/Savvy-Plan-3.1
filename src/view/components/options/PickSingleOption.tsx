@@ -1,4 +1,4 @@
-import React, { FC, useState  } from "react"
+import React, { FC, useState } from "react"
 import styled from "styled-components"
 import _ from "lodash"
 import { CSSTransition } from "react-transition-group"
@@ -10,9 +10,8 @@ interface IProps {
   value: string
 }
 
-export const PickSingleOption: FC<IProps> = ({ optionArray, handleChange,  value }) => {
-
- const [writeBelow, setWriteBelow] = useState<string>()
+export const PickSingleOption: FC<IProps> = ({ optionArray, handleChange, value }) => {
+  const [writeBelow, setWriteBelow] = useState<string>()
 
   return (
     <Wrapper>

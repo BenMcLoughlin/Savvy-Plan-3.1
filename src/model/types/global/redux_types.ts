@@ -35,6 +35,8 @@ export interface ui_reducer {
   chartStartYear: number
   chartEndYear: number
   dualSelectValue: boolean
+  hasChildren: boolean
+  isMarried: boolean
   newStream: boolean
   progress: number
   scenarios: I.objects
@@ -44,6 +46,8 @@ export interface ui_reducer {
   selectedScenario: number
   selectedUser: string
   users: I.user[]
+  dummy: string
+  dummyNested: I.a
 }
 
 export type stream = {
@@ -81,12 +85,11 @@ export type userCore = {
   oasStartAge: number
   startWorking: number
 }
+
 export type user_reducer = {
   retIncome: number
   hasChildrenStatus: string
-  hasChildren: boolean
   inflationRate: number
-  isMarried?: boolean
   maritalStatus: string
   MER: number
   numberOfChildren: number

@@ -1,5 +1,5 @@
 import React from "react"
-import { Header, Footer, Login, PrivateRoute, Loading } from "view/components"
+import { Header, Footer, Login, PrivateRoute, Loading, DevToolBox } from "view/components"
 import styled, { ThemeProvider } from "styled-components"
 import { theme } from "model/styles/theme"
 import { Account, Display, LandingPage, Pricing, Product, Questions } from "view/pages"
@@ -25,6 +25,7 @@ const App = ({ remove, state, set }) => {
           <BrowserRouter>
             <Header />
             {isLoading && <Loading />}
+
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/product" component={Product} />

@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import styled from "styled-components"
 import logo from "data/assets/logo.svg"
-import { LinkButton, ManageRedux } from "view/components"
+import { LinkButton } from "view/components"
 import { Link } from "react-router-dom"
 import * as I from "model/types"
 import { ArrowRightS } from "@styled-icons/remix-line"
@@ -20,7 +20,6 @@ export const Header: FC<IProps> = ({ set, state }) => {
       <Logo>
         <img src={logo} height="100%" width="100%" alt="logo" />
       </Logo>
-      <ManageRedux />
       <Nav>
         {options.map((string, i) => (
           <Option to={`/${string}`} key={i} onClick={() => null}>
@@ -30,7 +29,7 @@ export const Header: FC<IProps> = ({ set, state }) => {
         ))}
       </Nav>
       <Login>
-        {token ? <LinkButton link="/" label="Log Out" handleChange={() => set("token", "auth_reducer", null)} /> : <LinkButton link="/login" label="Get Started" handleChange={() => null} />}
+        {token ? <LinkButton link="/" label="Log Out" handleChange={() => set("auth_reducer", {token: null})} /> : <LinkButton link="/login" label="Get Started" handleChange={() => null} />}
       </Login>
     </Wrapper>
   )

@@ -25,7 +25,7 @@ import { TaxesChart as _TaxesChart } from "view/charts/TaxesChart"
 import { SpendingChart as _SpendingChart } from "view/charts/SpendingChart"
 
 //DevTools
-import { ManageRedux as _ManageRedux } from "view/components/devTools/ManageRedux"
+import { DevToolBox as _DevToolBox } from "view/components/devTools/DevToolBox"
 
 //HOC Imports
 import { PrivateRoute as _PrivateRoute } from "view/components/HOC/PrivateRoute"
@@ -43,7 +43,7 @@ export const Back = compose(connect(mapStateToProps))(_Back)
 export { Button } from "./buttons/Button"
 export { LinkButton } from "./buttons/LinkButton"
 export { Exit } from "./buttons/Exit"
-export const Next = compose(connect(mapStateToProps, {set}))(_Next)
+export const Next = compose(connect(mapStateToProps, { set }))(_Next)
 
 export { SocialMediaIcons } from "./buttons/SocialMediaIcons"
 
@@ -51,7 +51,7 @@ export { SocialMediaIcons } from "./buttons/SocialMediaIcons"
 export { IncomeDisplay } from "./displays/IncomeDisplay"
 
 //DevTools
-export const ManageRedux = compose(connect(mapStateToProps, { set }))(_ManageRedux)
+export const DevToolBox = compose(connect(mapStateToProps, { set }))(_DevToolBox)
 
 //Cards
 export { Comment } from "./cards/Comment"
@@ -72,7 +72,7 @@ export const Header = compose(connect(mapStateToProps, { set, remove }))(_Header
 export { Footer } from "./layout/Footer"
 
 //login
-export const Login = compose(connect(mapStateToProps, { set, remove, setStore }))(_Login)
+export const Login = compose(connect(mapStateToProps, { set, remove }))(_Login)
 
 //Nav
 export { ChartNav } from "./nav/ChartNav"

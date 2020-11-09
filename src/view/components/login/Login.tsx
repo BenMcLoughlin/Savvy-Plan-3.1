@@ -11,10 +11,9 @@ import { Redirect } from "react-router-dom"
 interface IProps {
   set: I.set
   state: I.state
-  setStore: (reducer: I.reducer, store: I.a) => void
 }
 
-export const Login: FC<IProps> = ({ set, state, setStore }) => {
+export const Login: FC<IProps> = ({ set, state }) => {
   const [isAdvisor, setIsAdvisor] = useState(false)
   const [isNewUser, setIsNewUser] = useState(true)
 
@@ -38,25 +37,23 @@ export const Login: FC<IProps> = ({ set, state, setStore }) => {
         "Content-Type": "application/json",
       })
       if (isNewUser && res) {
-        console.log('state:', state)
         await sendRequest(`api/store/createStore`, "POST", JSON.stringify(state), {
           "Content-Type": "application/json",
           Authorization: "Bearer " + res.token,
         })
       }
       if (!isNewUser && res) {
-        console.log(res.token)
         const response: I.a = await sendRequest(`api/store/getStore`, "GET", null, {
           "Content-Type": "application/json",
           Authorization: "Bearer " + res.token,
         })
 
-        await setStore("ui_reducer", response.data.data.ui_reducer)
-        await setStore("user_reducer", response.data.data.user_reducer)
-        await setStore("stream_reducer", response.data.data.stream_reducer)
+        await set("ui_reducer", { ...response.data.data.ui_reducer })
+        await set("user_reducer", { ...response.data.data.user_reducer })
+        await set("stream_reducer", { ...response.data.data.stream_reducer })
       }
 
-      res && set("token", "auth_reducer", res.token)
+      res && set("auth_reducer", { token: res.token })
     }
   }
 

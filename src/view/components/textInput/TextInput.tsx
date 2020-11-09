@@ -8,12 +8,12 @@ interface IProps {
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void
   label: string
   placeholder?: string
-  set: I.set
   remove: I.remove
   type: string
   value: string
   name?: string
   formData?: I.formData
+  set: I.set
 }
 
 export const TextInput: FC<IProps> = ({ handleChange, formData, label, placeholder, type = "text", value, name = label, remove, set }) => {
@@ -37,7 +37,7 @@ export const TextInput: FC<IProps> = ({ handleChange, formData, label, placehold
         onBlur={() => {
           setEnableErrors(true)
           if (setEnableErrors && isError) {
-            set("errors", "auth_reducer", error, name)
+            set("auth_reducer", { errors: { error, name } })
           } else {
             remove(name, "auth_reducer")
           }

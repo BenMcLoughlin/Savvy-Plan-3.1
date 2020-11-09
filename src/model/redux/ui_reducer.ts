@@ -1,4 +1,5 @@
 import * as I from "model/types"
+import _ from "lodash"
 
 const initialState = {
   colorIndex: 0,
@@ -6,6 +7,8 @@ const initialState = {
   chartEndYear: 2095,
   dualSelectValue: true,
   newStream: false,
+  hasChildren: true,
+  isMarried: true,
   progress: 0,
   selectedAccount: "tfsa",
   selectedId: "dummy",
@@ -15,17 +18,20 @@ const initialState = {
   scenarios: {
     [1]: "basic",
   },
-  users: [],
+  users: ["user1" as I.user],
+  dummy: "hi",
+  dummyNested: {
+    dummyNested1: "",
+  },
 }
 
 export default function ui_reducer(state: I.ui_reducer = initialState, action: I.a): I.ui_reducer {
-  switch (action.type) {
-    case "ui_reducer/SET_MANY":
-      return { ...state, ...action.args }
+  const { type, values } = action
+  switch (type) {
+    case "ui_reducer/SET":
+      return _.merge({}, state, { ...values })
     case "ui_reducer/SET_STORE":
       return (state = { ...action.savedState })
-    case "ui_reducer/SET_VALUE":
-      return { ...state, [action.id]: action.value } //sets a simple id value pair within the reducer object
     default:
       return state
   }

@@ -1,18 +1,21 @@
 import * as I from "model/types"
 import { getCpp, getCcb, getAvgRate, getMargRate, getYearRange, insertBenefits, beforePension, getAfterTaxIncome, sum } from "model/calculations/income/income.helpers"
 import { insert1, insert2, Helpers } from "model/calculations/helpers"
-
+import {filter} from 'lodash'
 
 const lets = new Helpers()
 
 export const buildIncomeForcast = (state: I.state): I.objects => {
   //console.time()
-
+console.log('state:', state)
   let inc = {}
 
   const { selectedUser, users } = state.ui_reducer
 
+  //TODO: refactor to use drop while from lodash ?
+
   users.forEach(user => {
+    const newStreams = filter(state.stream_reducer, (d) => d.streamType === "income" && d.owner === user)
     const { streams } = lets.turn(state.stream_reducer).intoArray().filteredFor(["streamType", "income"], ["owner", user])
     return getYearRange(state).forEach(year => (inc = insert1(inc, user, year, beforePension(streams, year))))
   })
@@ -26,7 +29,11 @@ export const buildIncomeForcast = (state: I.state): I.objects => {
     })
   })
 
+
   const chartArray = []
+
+    console.log(chartArray)
+
 
   users.forEach((user: I.user) => {
     const { streams } = lets.turn(state.stream_reducer).intoArray().filteredFor(["streamType", "income"], ["owner", user])
@@ -41,7 +48,7 @@ export const buildIncomeForcast = (state: I.state): I.objects => {
       } else if (selectedUser === "combined" && user === "user1") chartArray.push({ ...inc[year].user1.income, ...inc[year].user2.income, year })
     })
   })
-
+console.log('{ chartArray, inc }:', { chartArray, inc })
   //console.log(JSON.stringify(inc, null, 4))
   //console.timeEnd()
   //console.log(chartArray)

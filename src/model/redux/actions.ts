@@ -1,26 +1,17 @@
 import * as I from "model/types"
 
-export const set = (id: string, reducer: string, value: I.a, childId1?: string, childId2?: string, childId3?: string): I.objects => {
+export const set = (reducer: string, values): I.objects => {
+  console.log(values)
   return {
-    type: `${reducer}/SET_VALUE`,
-    childId1, // child id in the id value pair of the object nested within the parent object,
-    childId2, // child id in the id value pair of the object nested within the parent object,
-    childId3,
-    id, // parent id is the id to the lower level child object
-    value,
+    type: `${reducer}/SET`,
+    values,
   }
 }
+
 export const setStore = (reducer: I.reducer, savedState: I.savedState): I.objects => {
   return {
     type: `${reducer}/SET_STORE`,
     savedState,
-  }
-}
-
-export const setMany = (reducer: I.reducer, ...args): I.objects => {
-  return {
-    type: `${reducer}/SET_MANY`,
-    ...args,
   }
 }
 

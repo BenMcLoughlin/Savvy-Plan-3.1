@@ -4,8 +4,9 @@ import * as I from "model/types"
 export const useHttpClient = (set: I.set): I.useHttpClient => {
   const sendRequest = useCallback(async (url, method = "GET", body = null, headers = {}) => {
     if (method !== "PATCH") {
-      set("isLoading", "auth_reducer", true)
+      set("auth_reducer", { isLoading: true })
     }
+    console.log('body:', body)
     try {
       const response = await fetch(url, {
         method,
@@ -19,12 +20,12 @@ export const useHttpClient = (set: I.set): I.useHttpClient => {
         throw new Error(responseData.message)
       }
 
-      set("isLoading", "auth_reducer", false)
+      set("auth_reducer", { isLoading: false })
       return responseData
     } catch (err) {
-      set("isLoading", "auth_reducer", false)
-      set("errors", "auth_reducer", { msg: err.message })
-      setTimeout(() => set("errors", "auth_reducer", {}), 4000)
+      set("auth_reducer", { isLoading: false })
+      set("auth_reducer", { errors: { msg: err.message } })
+      setTimeout(() => set("auth_reducer", { errors: {} }), 4000)
     }
   }, [])
 

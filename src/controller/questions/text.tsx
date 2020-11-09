@@ -5,14 +5,13 @@ import { dummyStream } from "data"
 import * as I from "model/types"
 
 export const addText = (textKey: string, state: I.state, user: I.user, n?: number, set?: I.set): I.objects => {
-  const { selectedId } = state.ui_reducer
+  const { selectedId, isMarried, hasChildren } = state.ui_reducer
   const stream: I.stream = state.stream_reducer[selectedId] || dummyStream
   const isUser1 = user === "user1"
-  const { hasChildren } = state.user_reducer
   const { reg } = stream
   const { firstName: spouseFirstName } = state.user_reducer.user2
   const { firstName } = state.user_reducer.user1
-  const { user2, retIncome, isMarried } = state.user_reducer
+  const { user2, retIncome, } = state.user_reducer
 
   const data = {
     addAnotherIncome: {
@@ -140,7 +139,7 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
         type: "year",
         value: state.user_reducer["idealIncome"],
         handleChange: (value: number) => {
-          set("idealIncome", "user_reducer", value)
+          set("user_reducer", { idealIncome: value })
         },
       },
       slider2: {
@@ -150,7 +149,7 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
         step: 1000,
         topLabel: `at age 12`,
         value: 0,
-        handleChange: (value: number) => set("idealIncome", "user_reducer", value),
+        handleChange: (value: number) => set("user_reducer", { idealIncome: value }),
       },
     },
     incomeAmount: {
@@ -233,8 +232,7 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
     },
     whatWeWillBuild: {
       question: "What will we build?",
-      subTitle:
-    `We want you to be able to answer one question: are you ok financially? To do this we will ask you for details about your current financial position. We will then estimate your government benefits and calculate the most tax efficient way for you to draw income in retirement. Then we can make reccomendations on what you need to do now to ensure you're making the best financial decisions. Finally we'll give you the ability to build different scenarios and see how things might play out.`,
+      subTitle: `We want you to be able to answer one question: are you ok financially? To do this we will ask you for details about your current financial position. We will then estimate your government benefits and calculate the most tax efficient way for you to draw income in retirement. Then we can make reccomendations on what you need to do now to ensure you're making the best financial decisions. Finally we'll give you the ability to build different scenarios and see how things might play out.`,
     },
   }
 

@@ -1,3 +1,5 @@
-export type set = (id: string, reducer: string, value: any, childId1?: string, childId2?: string, childId3?: string) => void
+import * as I from "model/types"
+
+export type set = (reducer: string, value: I.objects) => void
 
 export type remove = (id: string, reducer?) => void

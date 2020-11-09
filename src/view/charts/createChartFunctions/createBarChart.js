@@ -6,10 +6,12 @@ import { buildHtml } from "view/charts/tooltips/tooltip"
 import _ from "lodash"
 
 export const drawBarChart = (colors, className, data, dataObject, height, set, state, width) => {
+                         
   const { selectedId } = state.ui_reducer
-
+console.log('data:', data)
+console.log('dataObject:', dataObject)
   const stream = state.stream_reducer[selectedId]
-
+console.log('stream:', stream)
   const { period, flow } = stream
   const { mouseout } = tooltips
   let periodStart = 0

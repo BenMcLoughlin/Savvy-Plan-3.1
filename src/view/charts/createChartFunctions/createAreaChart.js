@@ -7,7 +7,7 @@ export const drawAreaChart = (className, data, dataObject, height, state, width)
   const margin = { top: 20, right: 100, bottom: 10, left: 100 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
-  console.log(data)
+
   d3.select(`.${className} > *`).remove()
   d3.select(`.${className}tooltip`).remove()
   d3.select(`.${className}tooltip2`).remove()

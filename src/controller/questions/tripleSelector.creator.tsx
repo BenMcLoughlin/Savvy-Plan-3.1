@@ -28,7 +28,7 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
       title: text.explainer,
       optionArray,
       value: period,
-      handleChange: e => set(id, "stream_reducer", e, `period${_.startCase(flow)}`),
+      handleChange: e => set("stream_reducer", { [id]: { [`period${_.startCase(flow)}`]: e } }),
       addNew: () => addPeriodToStream(flow, id, period, set, stream),
       labelArray,
     },
@@ -56,7 +56,7 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
         value: startYear,
         handleChange: (value: number) => {
           if (text.setOptimumValues) text.setOptimumValues()
-          set(id, "stream_reducer", value, flow, period, "start")
+          set("stream_reducer", { [id]: { [flow]: { [period]: { start: value } } } })
         },
       },
       slider2: {
@@ -66,7 +66,7 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
         step: text.max < 25000 ? 100 : 1000,
         topLabel: past ? text.topLabelPast : text.topLabelFuture,
         value: value,
-        handleChange: (value: number) => set(id, "stream_reducer", value, flow, period, "value"),
+        handleChange: (value: number) => set("stream_reducer", { [id]: { [flow]: { [period]: { value: value } } } }),
       },
       slider3: {
         bottomLabel: `at age ${endYear - birthYear}`, //eg "at age 26"
@@ -76,7 +76,7 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
         topLabel: "Until ",
         type: "year",
         value: endYear,
-        handleChange: (value: number) => set(id, "stream_reducer", value, flow, period, "end"),
+        handleChange: (value: number) => set("stream_reducer", { [id]: { [flow]: { [period]: { end: value } } } }),
       },
     }
   })

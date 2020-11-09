@@ -8,10 +8,10 @@ import { matchThenShowComponent } from "model/services/display_functions"
 import * as I from "model/types"
 
 interface IProps {
-  set: I.set
   remove: I.remove
   state: I.state
   data: any
+  set: I.set
 }
 
 export const Questions: FC<IProps> = ({ data, state, set }) => {
@@ -25,7 +25,7 @@ export const Questions: FC<IProps> = ({ data, state, set }) => {
     // saveStore()
     history.push(`/onboarding/${progress}`)
     window.addEventListener("popstate", () => {
-      set("progress", "ui_reducer", +history.location.pathname.replace(/\D/g, ""))
+      set("ui_reducer", { progress: +history.location.pathname.replace(/\D/g, "") })
     })
     // sendRequest(`http://localhost:5000/api/users/save`, "POST", JSON.stringify(state), {
     //   "Content-Type": "application/json",

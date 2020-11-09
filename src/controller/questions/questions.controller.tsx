@@ -13,7 +13,6 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
   const selectedUser = state.user_reducer[user]
   const { id, streamType, reg } = stream
   const { numberOfChildren, maritalStatus } = state.user_reducer
-
   return {
     for: {
       birthYear: () =>
@@ -22,13 +21,11 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             component: "TextInput", //Text input will capture their birthyear
             value: selectedUser.birthYear,
             name: "year", //by setting it as streamType year the component will place valiation on the text
-            handleChange: (e: I.event) => set(user, "user_reducer", +e.target.value, "birthYear"),
+            handleChange: (e: I.event) => set("user_reducer", { [user]: { birthYear: +e.target.value } }),
             onNext: () => {
               const { chartStartYear, chartEndYear, startWorking, endWorking } = getYearRange(state, user)
-              set("chartStartYear", "ui_reducer", chartStartYear)
-              set("chartEndYear", "ui_reducer", chartEndYear)
-              set(user, "user_reducer", startWorking, "startWorking")
-              set(user, "user_reducer", endWorking, "endWorking")
+              set("ui_reducer", { chartStartYear, chartEndYear })
+              set("user_reducer", { [user]: { startWorking, endWorking } })
             },
           },
           ...addText("birthYear", state, user),
@@ -43,7 +40,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             selectedFocus: true,
             value: state.user_reducer.retIncome,
             handleChange: value => {
-              set("retIncome", "user_reducer", value)
+              set("user_reducer", { retIncome: value })
             },
           },
           ...addText("retIncome", state, user),
@@ -53,8 +50,8 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
           ...{
             component: "PickSingleOption", //this component allows the user to choose one of a number of options
             value: selectedUser.gender,
-            handleChange: (value: string) => set(user, "user_reducer", value, "gender"),
-            handleChange2: (e: I.event) => set(user, "user_reducer", `write below: ${e.target.value}`, "gender"),
+            handleChange: (value: string) => set("user_reducer", { [user]: { gender: value } }),
+            handleChange2: (e: I.event) => set("user_reducer", { [user]: { gender: `write below: ${e.target.value}` } }),
           },
           ...addText("gender", state, user),
         }),
@@ -65,7 +62,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             component: "TextInput", // tells the wizard to render a text input in which the user types their name
             streamType: "text",
             value: selectedUser.firstName,
-            handleChange: (e: I.event) => set(user, "user_reducer", e.target.value, "firstName"),
+            handleChange: (e: I.event) => set("user_reducer", { [user]: { firstName: e.target.value } }),
           },
           ...addText("name", state, user),
         }),
@@ -77,8 +74,8 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             value2: numberOfChildren,
             childValue: numberOfChildren,
             valid: numberOfChildren > 0,
-            handleChange: (n: any) => set("numberOfChildren", "user_reducer", n),
-            handleChange2: (e: I.event) => set(e.target.name, "user_reducer", e.target.value),
+            handleChange: (e: any) => set("user_reducer", { numberOfChildren: +e }),
+            handleChange2: (e: I.event) => set("user_reducer", { [e.target.name]: +e.target.value }),
           },
           ...addText("numberOfChildren", state, user),
         }),
@@ -98,7 +95,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             ...{
               component: "TextInput",
               value: stream.name,
-              handleChange: (e: I.event) => set(id, "stream_reducer", e.target.value, "name"),
+              handleChange: (e: I.event) => set("stream_reducer", { [id]: { name: e.target.value } }),
             },
             ...addText("incomeName", state, user, i),
           }),
@@ -107,7 +104,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             ...{
               component: "PickSingleOption",
               value: reg,
-              handleChange: (value: string) => set(id, "stream_reducer", value, "reg"),
+              handleChange: (value: string) => set("stream_reducer", { [id]: { reg: value } }),
             },
             ...addText("incomeRegistration", state, user),
           }),
@@ -123,9 +120,8 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               selectedFocus: true,
               value: stream.currentValue,
               handleChange: (value: string) => {
-                set("dualSelectValue", "ui_reducer", true)
-                set("selectedAccount", "ui_reducer", stream.reg)
-                set(id, "stream_reducer", value, "currentValue")
+                set("ui_reducer", { dualSelectValue: true, selectedAccount: stream.reg })
+                set("stream_reducer", { [id]: { currentValue: value } })
               },
             },
             ...addText("savingsCurrentValue", state, user),
@@ -135,7 +131,6 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             ...{
               chart: "SavingsChart",
               max: reg === "tfsa" ? 6000 : reg === "rrsp" ? 30000 : 100000,
-              setOptimumValues: () => set("optimumTFSA", "user_reducer", 3000),
             },
             ...addText("savingsContributions", state, user, n),
           }
@@ -171,12 +166,8 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             component: "PickSingleOption",
             value: state.user_reducer.hasChildrenStatus,
             handleChange: (value: string) => {
-              set("hasChildrenStatus", "user_reducer", value)
-              if (value === "yes" || value === "hope to eventually") {
-                set("hasChildren", "user_reducer", true)
-              } else {
-                set("hasChildren", "user_reducer", false)
-              }
+              set("ui_reducer", { hasChildren: value === "yes" || value === "hope to eventually" })
+              set("user_reducer", { hasChildrenStatus: value })
             },
           },
           ...addText("haveChildren", state, user),
@@ -187,13 +178,29 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             component: "PickSingleOption",
             value: maritalStatus,
             handleChange: (value: string) => {
-              set("maritalStatus", "user_reducer", value)
+              set("user_reducer", { maritalStatus: value })
               if (value === "married" || value === "common-law") {
-                set("isMarried", "user_reducer", true)
-                set("users", "ui_reducer", ["user1", "user2"])
+                set("ui_reducer", { isMarried: true, users: ["user1", "user2"] })
               } else {
-                set("isMarried", "user_reducer", false)
-                set("users", "ui_reducer", ["user1"])
+                set("ui_reducer", { isMarried: false, users: "" })
+                set("ui_reducer", { isMarried: false, users: ["user1"] })
+              }
+            },
+          },
+          ...addText("isMarried", state, user),
+        }),
+      theyWantToChangeAssumptions: () =>
+        q.push({
+          ...{
+            component: "PickSingleOption",
+            value: maritalStatus,
+            handleChange: (value: string) => {
+              set("user_reducer", { maritalStatus: value })
+              if (value === "married" || value === "common-law") {
+                set("ui_reducer", { isMarried: true, users: ["user1", "user2"] })
+              } else {
+                set("ui_reducer", { isMarried: false, users: "" })
+                set("ui_reducer", { isMarried: false, users: ["user1"] })
               }
             },
           },
@@ -206,12 +213,11 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               component: "DualSelect",
               value: ui_reducer.dualSelectValue,
               handleChange: () => {
-                set("dualSelectValue", "ui_reducer", true)
-                set("selectedUser", "ui_reducer", user)
+                set("ui_reducer", { dualSelectValue: true, selectedUser: user })
                 createStream(streamType, "in", user, "employment", set, state)
               },
               handleChange2: (option, clickFired: boolean) => {
-                set("dualSelectValue", "ui_reducer", false)
+                set("ui_reducer", { dualSelectValue: false })
                 if (clickFired) {
                   removeMostRecentStream(state, user, remove, set, streamType)
                 }
@@ -230,8 +236,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               valid: true,
               handleChange: () => {
                 createStream("income", "in", user, "employment", set, state)
-                set("selectedUser", "ui_reducer", user)
-                set("progress", "ui_reducer", ui_reducer.progress + 1)
+                set("ui_reducer", { progress: ui_reducer.progress + 1, selectedUser: user })
               },
             },
 
@@ -245,7 +250,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               user: "user1",
               value: dualSelectValue,
               onNext: () => {
-                set("selectedUser", "ui_reducer", "user1")
+                set("ui_reducer", { selectedUser: "user1" })
               },
               handleChange: (selected, d: any) => {
                 if (!selected && d.label !== "none") {
@@ -260,7 +265,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
                   //the user needs to be able to remove the new object if they click on it again enabling them to remove all accounts added
                   const selectedInstances: any = Object.values(stream_reducer).filter((b: any) => b.id.includes("user1Savings")) //searches the main reducer to find the matching object to be removed
                   selectedInstances.map((instance: any) => remove(instance.id))
-                  set("selectedId", "ui_reducer", "")
+                  set("ui_reducer", { [id]: "" })
                 }
               },
               //onClick: reg => createStream(colorIndex, newSavingsStream(reg, +birthYear1 + 65), set, `savings`, "user1"),
@@ -300,7 +305,7 @@ export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
           value: selectedUser,
           user1Name,
           user2Name,
-          handleChange: d => set("selectedUser", "ui_reducer", d),
+          handleChange: d => set("ui_reducer", { selectedUser: d }),
         },
         ...addText("idealIncomeChart", state, "user1"),
       }),
@@ -313,7 +318,7 @@ export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
           value: selectedUser,
           user1Name,
           user2Name,
-          handleChange: d => set("selectedUser", "ui_reducer", d),
+          handleChange: d => set("ui_reducer", { selectedUser: d }),
         },
         ...addText("combinedIncomeChart", state, "user1"),
       }),
@@ -338,7 +343,7 @@ export const buttons = (q: I.a, set: I.set, state: I.state): any => {
       handleChange: (setDirection, valid) => {
         setDirection("forward")
         if (valid) {
-          set("progress", "ui_reducer", progress + 1)
+          set("ui_reducer", { progress: progress + 1 })
         }
       },
       valid: validateNext(value, q[progress]),
@@ -346,13 +351,12 @@ export const buttons = (q: I.a, set: I.set, state: I.state): any => {
     }),
     exitButton: () => ({
       handleChange: () => {
-        set("selectedId", "ui_reducer", "")
-        set("newStream", "ui_reducer", false)
+        set("ui_reducer", { selectedI: "", newStream: false })
       },
     }),
     backButton: () => ({
       handleChange: () => {
-        set("progress", "ui_reducer", progress > 0 ? progress - 1 : 1)
+        set("ui_reducer", { progress: progress > 0 ? progress - 1 : 1 })
       },
     }),
   }

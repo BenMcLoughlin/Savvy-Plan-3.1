@@ -39,7 +39,7 @@ export const getReduction = (adjustedFamilyNetIncome: number, kidsBirthYearArray
 
 export const getCcb = (object: I.objects, year: number, state: I.state): number => {
   const { yearFirstChildBorn, yearLastChildLeaves, kidsBirthYearArray } = getYearRange(state) //these values will be used in CCB calculation but are just grabbed once here
-  if (year > yearLastChildLeaves || year < yearFirstChildBorn || !state.user_reducer.hasChildren) {
+  if (year > yearLastChildLeaves || year < yearFirstChildBorn || !state.ui_reducer.hasChildren) {
     return 0
   }
   const benefitBeforeReduction = getBenefitBeforeReduction(kidsBirthYearArray, year)

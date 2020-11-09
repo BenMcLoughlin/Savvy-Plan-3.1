@@ -3,7 +3,7 @@ import { buttons, onboardQuestions, showUsers } from "controller/questions/quest
 import { streams } from "controller/questions/helpers"
 
 export const onboard_questions = (state: I.state, set: I.set, remove: I.remove): I.onboard_questions => {
-  const { isMarried, hasChildren } = state.user_reducer
+  const { isMarried, hasChildren } = state.ui_reducer
   const q: I.question[] = []
 
   const askUser1 = onboardQuestions(q, remove, set, state, "user1")
@@ -48,18 +48,19 @@ export const onboard_questions = (state: I.state, set: I.set, remove: I.remove):
       show.combinedIncomeChart()
     })
   }
+  askUser1.if.theyWantToChangeAssumptions()
   askUser1.for.retIncome()
   show.idealIncomeChart(1)
   // show.idealIncomeChart(2)
 
-  askUser1.to.create.savings()
+  // askUser1.to.create.savings()
 
-  streams(state, "user1", "savings").map((s, i) => {
-    askUser1.for.savings.currentValue()
-    askUser1.for.savings.contributions(i)
-    askUser1.for.savings.withdrawals(i)
-    askUser1.for.savings.rates(i)
-  })
+  // streams(state, "user1", "savings").map((s, i) => {
+  //   askUser1.for.savings.currentValue()
+  //   askUser1.for.savings.contributions(i)
+  //   askUser1.for.savings.withdrawals(i)
+  //   askUser1.for.savings.rates(i)
+  // })
 
   //DUMMY
   askUser1.for.name()

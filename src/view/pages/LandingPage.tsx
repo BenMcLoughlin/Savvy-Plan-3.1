@@ -37,8 +37,8 @@ export const LandingPage: FC<IProps> = ({ remove, state, set }) => {
             <SubTitle>
               <H2>We do the math you make the decisions</H2>
               <Row width={40}>
-                <LinkButton link="/login" label="Get Started" handleChange={() => set("newUser", "user_reducer", true)} />
-                <LinkButton link="/login" label="I'm an Advisor" handleChange={() => set("newUser", "user_reducer", true)} danger={true} />
+                <LinkButton link="/login" label="Get Started" />
+                <LinkButton link="/login" label="I'm an Advisor" />
               </Row>
             </SubTitle>
           </CSSTransition>
@@ -52,7 +52,7 @@ export const LandingPage: FC<IProps> = ({ remove, state, set }) => {
         <SlideInDiv scrollPercentage={scrollPosition / scrollMax} scrollMax={scrollMax}>
           <div>Redefining Financial Planning</div>
           <P fontSize={1.6}>We help you answer one question: are you ok financially? </P>
-          <LinkButton link="/login" label="Learn More" handleChange={() => set("newUser", "user_reducer", true)} />
+          <LinkButton link="/login" label="Learn More" />
         </SlideInDiv>
       </Section>
     </Wrapper>

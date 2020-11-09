@@ -65,13 +65,3 @@ export const validateSignUpErrors = (state: I.state): boolean => {
   return errors.length === 0
 }
 
-export const validateBackendErrors = (message: string, set: I.set): void => {
-  if (message.includes("email")) {
-    const error = {
-      type: "email",
-      message: "User email is already in use",
-    }
-    set("errors", "auth_reducer", error)
-  }
-  setTimeout(() => set("errors", "auth_reducer", {}), 4000)
-}

@@ -2,18 +2,14 @@ import { colorArray } from "model/styles/color_data"
 import _ from "lodash"
 import * as I from "model/types"
 
-
 export const addPeriodToStream = (flow: string, id: string, period: number, set: I.set, stream: I.stream): void => {
   const lastPeriod = +Object.keys(stream[flow]).pop()
   const nextPeriod = lastPeriod + 1
   const lastValue = stream[flow][lastPeriod].value
   const lastEndYear = stream[flow][lastPeriod].end
-  // console.log('lastPeriod:', lastPeriod)
-  // console.log('nextPeriod:', nextPeriod)
-  // console.log('lastValue:', lastValue)
-  // console.log('lastEndYear:', lastEndYear)
-  // console.log('flow:', flow)
-  const newPeriod = {
+
+  const newPeriods = {
+    ...stream[flow],
     [nextPeriod]: {
       start: lastEndYear,
       value: lastValue,
@@ -21,7 +17,8 @@ export const addPeriodToStream = (flow: string, id: string, period: number, set:
     },
   }
 
-  set(id, "stream_reducer", newPeriod[nextPeriod], flow, "" + nextPeriod)
+  set("stream_reducer", { [id]: { [flow]: newPeriods } })
+
 }
 
 export const createStream = (streamType: string, flow: I.flow, owner: string, reg: I.reg, set: I.set, state: I.state): void => {
@@ -29,7 +26,7 @@ export const createStream = (streamType: string, flow: I.flow, owner: string, re
   const { colorIndex } = state.ui_reducer
 
   const color = colorArray[colorIndex]
-  set("colorIndex", "ui_reducer", colorIndex + 1)
+  set("ui_reducer", { colorIndex: colorIndex + 1 })
 
   const newStream = {
     amortization: 0,
@@ -66,7 +63,7 @@ export const createStream = (streamType: string, flow: I.flow, owner: string, re
     periodIn: 1,
     periodOut: 1,
   }
-
-  set("selectedId", "ui_reducer", id, "") // determines which income instance to show within the edit box                                                                                                          // determines which income instance to show within the edit box
-  set(id, "stream_reducer", newStream)
+  set("ui_reducer", { selectedId: id })
+  set("stream_reducer", { [id]: newStream })
+  // determines which income instance to show within the edit box
 }

@@ -7,16 +7,22 @@ export const exampleState = (): I.state => ({
     selectedId: "user1Savings_6529",
     selectedScenario: 1,
     colorIndex: 3,
+    isMarried: true,
     progress: 24,
     selectedPage: "savingsStacked",
     selectedAccount: "tfsa",
     selectedUser: "user1",
     dualSelectValue: true,
+    hasChildren: false,
     newStream: false,
     scenarios: {
       [1]: "base",
     },
     users: ["user1", "user2"],
+    dummy: "",
+    dummyNested: {
+      dummyNested1: "",
+    },
   },
   stream_reducer: {
     user1Savings_6529: {
@@ -112,7 +118,6 @@ export const exampleState = (): I.state => ({
   },
   user_reducer: {
     numberOfChildren: 1,
-    hasChildren: false,
     hasChildrenStatus: "no",
     inflationRate: 2,
     maritalStatus: "married",
@@ -120,7 +125,6 @@ export const exampleState = (): I.state => ({
     province: "British Columbia",
     rate1: 6,
     rate2: 4.5,
-    isMarried: true,
     retIncome: 0,
     user1: {
       birthYear: 1995,
