@@ -4,16 +4,16 @@ import styled from "styled-components"
 import { ChartNav } from "view/components"
 
 interface IProps {
-  state: any
-  set: (id: string, reducer: string, value: any, childId1?: string) => void
+
+
 }
 
-export const TaxesChart: FC<IProps> = ({ state, set }) => {
+export const TaxesChart: FC<IProps> = () => {
   return (
     <Wrapper>
-      <Img alt="#" src={require("data/assets/taxes.png")} style={{ height: "20rem" }} onClick={() => set("selectedId", "ui_reducer", "incomeDummy")} />
+      <Img alt="#" src={require("data/assets/taxes.png")} style={{ height: "20rem" }} onClick={() => null} />
       <ChartNavWrapper>
-        <ChartNav options={["Taxes Owing", "Taxes Saved"]} handleChange={value => set("selectedAccount", "ui_reducer", value)} value={state.ui_reducer.selectedAccount} />
+        <ChartNav options={["Taxes Owing", "Taxes Saved"]} handleChange={value => null} value={null} />
       </ChartNavWrapper>
     </Wrapper>
   )

@@ -6,16 +6,15 @@ import { TransitionGroup, CSSTransition } from "react-transition-group"
 import { useHistory, Redirect } from "react-router-dom"
 import { matchThenShowComponent } from "model/services/display_functions"
 import * as I from "model/types"
+import { store } from "index"
+import { set } from "model/redux/actions"
 
 interface IProps {
-  remove: I.remove
-  state: I.state
   data: any
-  set: I.set
 }
 
-export const Questions: FC<IProps> = ({ data, state, set }) => {
-  const { progress } = state.ui_reducer
+export const Questions: FC<IProps> = ({ data }) => {
+  const { progress } = store.getState().ui_reducer
   const [direction, setDirection] = useState<string>("forward")
   const { backButton, nextButton, questions } = data
   const { length } = questions

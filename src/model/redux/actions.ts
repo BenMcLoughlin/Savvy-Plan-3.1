@@ -1,23 +1,18 @@
 import * as I from "model/types"
+import { store } from "index"
 
-export const set = (reducer: string, values): I.objects => {
-  console.log(values)
-  return {
+export const stateV2 = "hi" //store.getState()
+
+export const set = (reducer: string, values: I.a): void => {
+  store.dispatch({
     type: `${reducer}/SET`,
-    values,
-  }
+    payload: values,
+  })
 }
 
-export const setStore = (reducer: I.reducer, savedState: I.savedState): I.objects => {
-  return {
-    type: `${reducer}/SET_STORE`,
-    savedState,
-  }
-}
-
-export const remove = (id: string, reducer = "stream_reducer"): I.objects => {
-  return {
+export const remove = (id: string, reducer = "stream_reducer"): void => {
+  store.dispatch({
     type: `${reducer}/REMOVE`,
     id,
-  }
+  })
 }

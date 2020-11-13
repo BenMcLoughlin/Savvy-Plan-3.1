@@ -1,6 +1,8 @@
 import { createStream } from "model/services/create_functions"
 import * as I from "model/types"
 import _ from "lodash"
+import { store } from "index"
+import { set, remove } from "model/redux/actions"
 
 /**
  * createPage receives state and provides all the information needed to render the <Display> component. It has the name of the chart that needs to be rendered. The details for the info card
@@ -8,7 +10,8 @@ import _ from "lodash"
  * <Display> box as dumb as possible.
  * */
 
-export const createPage = (data: I.pages, state: I.state, set: I.set): I.a => {
+export const createPage = (data: I.pages): I.a => {
+  const state = store.getState()
   const { selectedUser, selectedPage, selectedScenario } = state.ui_reducer
 
   const { firstName: user1Name } = state.user_reducer.user1
@@ -30,7 +33,7 @@ export const createPage = (data: I.pages, state: I.state, set: I.set): I.a => {
     user2Name,
     sideNav: {
       handleChange: value => {
-        set( "ui_reducer", {selectedPage: value})
+        set("ui_reducer", { selectedPage: value })
         set("ui_reducer", { selectedId: "" })
         set("ui_reducer", { progress: 0 })
       },
@@ -39,33 +42,33 @@ export const createPage = (data: I.pages, state: I.state, set: I.set): I.a => {
     },
     scenarioNav: {
       handleChange: value => {
-          set("ui_reducer", { selectedScenario: value })
+        set("ui_reducer", { selectedScenario: value })
       },
       value: selectedScenario,
       title: "Scenario",
       optionArray: scenarioOptions,
       labelArray: scenarioLabels,
       addNew: () => {
-                set("ui_reducer", { scenarios: scenarios + 1 })
+        set("ui_reducer", { scenarios: scenarios + 1 })
       },
     },
     addPrompt: {
       label: addButtonLabel,
       handleChange: () => {
-        createStream(streamType, "in", selectedUser, "employment", set, state)
-             set("ui_reducer", { progress: 0 })
-             set("ui_reducer", { newStream: true})
-             set("ui_reducer", { dualSelectValue: true})
+        createStream(streamType, "in", selectedUser, "employment")
+        set("ui_reducer", { progress: 0 })
+        set("ui_reducer", { newStream: true })
+        set("ui_reducer", { dualSelectValue: true })
       },
     },
     editPrompt: {
       label: "Edit Income Stream",
       handleChange: () => {
-        createStream(streamType, "in", selectedUser, "employment", set, state)
+        createStream(streamType, "in", selectedUser, "employment")
       },
     },
     tripleSelector: {
-      handleChange: (d: string) => set("ui_reducer", { selectedUserd: d}),
+      handleChange: (d: string) => set("ui_reducer", { selectedUserd: d }),
       user1Name,
       user2Name,
       value: selectedUser,
@@ -74,7 +77,6 @@ export const createPage = (data: I.pages, state: I.state, set: I.set): I.a => {
       //Kept empty because values depend on the selectedId
     },
   }
-
 
   return pageData
 }

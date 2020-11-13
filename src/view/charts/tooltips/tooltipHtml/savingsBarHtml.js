@@ -46,7 +46,7 @@ export const savingsBarHtml = (d, dataObject, n, state) => {
 
   const value = Object.values(d.data)[1]
 
-  const color = "red"
+  const color = "blue"
   return `
                                    <div style="${topHeader}">
                                     <p> ${d.data.year}</p>

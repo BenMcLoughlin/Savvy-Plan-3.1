@@ -1,8 +1,10 @@
 import { colorArray } from "model/styles/color_data"
 import _ from "lodash"
 import * as I from "model/types"
+import { store } from "index"
+import { set } from "model/redux/actions"
 
-export const addPeriodToStream = (flow: string, id: string, period: number, set: I.set, stream: I.stream): void => {
+export const addPeriodToStream = (flow: string, id: string, period: number, stream: I.stream): void => {
   const lastPeriod = +Object.keys(stream[flow]).pop()
   const nextPeriod = lastPeriod + 1
   const lastValue = stream[flow][lastPeriod].value
@@ -18,12 +20,11 @@ export const addPeriodToStream = (flow: string, id: string, period: number, set:
   }
 
   set("stream_reducer", { [id]: { [flow]: newPeriods } })
-
 }
 
-export const createStream = (streamType: string, flow: I.flow, owner: string, reg: I.reg, set: I.set, state: I.state): void => {
+export const createStream = (streamType: string, flow: I.flow, owner: string, reg: I.reg): void => {
   const id = owner + _.startCase(streamType) + "_" + (Math.random() * 1000000).toFixed()
-  const { colorIndex } = state.ui_reducer
+  const { colorIndex } = store.getState().ui_reducer
 
   const color = colorArray[colorIndex]
   set("ui_reducer", { colorIndex: colorIndex + 1 })

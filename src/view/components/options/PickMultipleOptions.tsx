@@ -5,8 +5,6 @@ import { ArrowLeftS } from "@styled-icons/remix-line"
 interface IProps {
   optionArray?: any
   arrayOfSelected: any
-  set: (id: string, reducer: string, value: any, childId1: string) => void
-  remove: (id: string) => void
   handleChange: (selected: any, value: string) => void
   value
 }

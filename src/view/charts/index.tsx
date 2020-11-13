@@ -7,6 +7,7 @@ import * as I from "model/types"
 import { color_selector } from "model/redux/selectors"
 
 import { IncomeChart as _IncomeChart } from "view/charts/IncomeChart"
+import { DonutChart as _DonutChart } from "view/charts/DonutChart"
 import { SavingsChart as _SavingsChart } from "view/charts/SavingsChart"
 import { NetWorthChart as _NetWorthChart } from "view/charts/NetWorthChart"
 import { TaxesChart as _TaxesChart } from "view/charts/TaxesChart"
@@ -17,7 +18,10 @@ const mapStateToProps = (state: I.state) => ({
   color_selector: color_selector(state),
 })
 
+export const DonutChart = compose(connect(mapStateToProps, { set }))(_DonutChart)
+
 export const IncomeChart = compose(connect(mapStateToProps, { set }))(_IncomeChart)
+
 /**
  * The <SavingsChart> renders a chart showing the users savings from age 18-95.
  *  */

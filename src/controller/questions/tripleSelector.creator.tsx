@@ -2,8 +2,11 @@ import { round } from "model/services/ui_functions"
 import { addPeriodToStream } from "model/services/create_functions"
 import _ from "lodash"
 import * as I from "model/types"
+import { store } from "index"
+import { set, remove } from "model/redux/actions"
 
-export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selectedPeriod: string, state: I.state, stream: I.stream): I.objects => {
+export const createTripleSliders = (flow: I.flow, text: I.a, selectedPeriod: string, stream: I.stream): I.objects => {
+  const state = store.getState()
   const { id, owner } = stream
   const period = stream[selectedPeriod]
 
@@ -29,7 +32,7 @@ export const createTripleSliders = (flow: I.flow, text: I.a, set: I.set, selecte
       optionArray,
       value: period,
       handleChange: e => set("stream_reducer", { [id]: { [`period${_.startCase(flow)}`]: e } }),
-      addNew: () => addPeriodToStream(flow, id, period, set, stream),
+      addNew: () => addPeriodToStream(flow, id, period, stream),
       labelArray,
     },
   }

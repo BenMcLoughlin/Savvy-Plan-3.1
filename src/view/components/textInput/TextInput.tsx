@@ -3,20 +3,19 @@ import styled from "styled-components"
 import _ from "lodash"
 import { validateText } from "model/services/validation/validators"
 import * as I from "model/types"
+import { set, remove } from "model/redux/actions"
 
 interface IProps {
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void
   label: string
   placeholder?: string
-  remove: I.remove
   type: string
   value: string
   name?: string
   formData?: I.formData
-  set: I.set
 }
 
-export const TextInput: FC<IProps> = ({ handleChange, formData, label, placeholder, type = "text", value, name = label, remove, set }) => {
+export const TextInput: FC<IProps> = ({ handleChange, formData, label, placeholder, type = "text", value, name = label }) => {
   const [enableErrors, setEnableErrors] = useState<boolean>(false)
 
   const error = validateText(name, value, formData ? formData : null)

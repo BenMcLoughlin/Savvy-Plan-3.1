@@ -4,13 +4,11 @@ import styled from "styled-components"
 import netWorthImage from "data/assets/netWorth.png"
 
 interface IProps {
-  state: any
-  set: (id: string, reducer: string, value: any, childId1?: string) => void
+
+
 }
 
-export const NetWorthChart: FC<IProps> = ({ state, set }) => {
-  //THIS IS JUST A PLACEHODLER FUNCTION FOR NOW
-  const instance: any = Object.values(state.main_reducer).filter((d: any) => d.id.includes("Networth"))[0]
+export const NetWorthChart: FC<IProps> = ({ }) => {
 
   return (
     <Wrapper>
@@ -19,7 +17,6 @@ export const NetWorthChart: FC<IProps> = ({ state, set }) => {
         src={netWorthImage}
         style={{ height: "20rem" }}
         onClick={() => {
-          if (instance) set("selectedId", "uiReducer", instance.id)
         }}
       />
       <ChartNavWrapper>{/* <ChartNav options={["Taxes Owing", "Taxes Saved"]} id={"selectedAccount"} reducer={"uiReducer"} /> */}</ChartNavWrapper>

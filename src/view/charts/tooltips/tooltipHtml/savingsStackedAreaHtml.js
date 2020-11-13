@@ -4,7 +4,7 @@ import { round } from "view/charts/createChartFunctions/chartHelpers"
 
 const wrapTwo = `
   height: 30rem;
-  width: 42rem;
+  width: 44rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -14,7 +14,7 @@ const wrapTwo = `
 const wrapper = `
   background: #eff5fb;
   height: 14rem;
-  width: 42rem;
+  width: 44rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -120,7 +120,7 @@ const buildUserToolTip = (year, user) => `<div style="${wrapper}">
              </div>
              <div style="${displayBox(data[year][user].highlight === "investments")}">
                 <div style="${displayValue}">${round(data[year][user].totalSavings)}</div>
-                <div style="${displayTitle}">totalSavings</div>
+                <div style="${displayTitle}">Investments</div>
              </div>
              <div style="${displayBox(data[year][user].highlight === "networth")}">
                 <div style="${displayValue}">${round(data[year][user].networth)}</div>

@@ -5,13 +5,11 @@ import { LinkButton } from "view/components"
 import { Link } from "react-router-dom"
 import * as I from "model/types"
 import { ArrowRightS } from "@styled-icons/remix-line"
+import { store } from "index"
+import { set } from "model/redux/actions"
 
-interface IProps {
-  set: I.set
-  state: I.state
-}
-
-export const Header: FC<IProps> = ({ set, state }) => {
+export const Header: FC = () => {
+  const state = store.getState()
   const { token } = state.auth_reducer
   const options = token ? ["plan", "account"] : ["product", "pricing", "about"]
 
@@ -29,7 +27,11 @@ export const Header: FC<IProps> = ({ set, state }) => {
         ))}
       </Nav>
       <Login>
-        {token ? <LinkButton link="/" label="Log Out" handleChange={() => set("auth_reducer", {token: null})} /> : <LinkButton link="/login" label="Get Started" handleChange={() => null} />}
+        {token ? (
+          <LinkButton link="/" label="Log Out" handleChange={() => set("auth_reducer", { token: null })} />
+        ) : (
+          <LinkButton link="/login" label="Get Started" handleChange={() => null} />
+        )}
       </Login>
     </Wrapper>
   )

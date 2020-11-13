@@ -1,8 +1,9 @@
 import * as I from "model/types"
-import _ from "lodash"
+import {merge} from "model/utils"
 
 const initialState = {
   colorIndex: 0,
+  changeAssumptions: true,
   chartStartYear: 2007,
   chartEndYear: 2095,
   dualSelectValue: true,
@@ -18,7 +19,7 @@ const initialState = {
   scenarios: {
     [1]: "basic",
   },
-  users: ["user1" as I.user],
+  users: ["user1" as I.user, "user2" as I.user],
   dummy: "hi",
   dummyNested: {
     dummyNested1: "",
@@ -26,12 +27,10 @@ const initialState = {
 }
 
 export default function ui_reducer(state: I.ui_reducer = initialState, action: I.a): I.ui_reducer {
-  const { type, values } = action
+  const { type, payload } = action
   switch (type) {
     case "ui_reducer/SET":
-      return _.merge({}, state, { ...values })
-    case "ui_reducer/SET_STORE":
-      return (state = { ...action.savedState })
+      return merge({}, state, { ...payload })
     default:
       return state
   }

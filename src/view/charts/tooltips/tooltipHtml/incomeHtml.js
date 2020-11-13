@@ -45,6 +45,7 @@ font-weight: 700;
 `
 
 export const incomeHtml = (d, dataObject, color, n, state) => {
+
   const { selectedUser } = state.ui_reducer
   const { firstName: user1FirstName, birthYear: user1BirthYear} = state.user_reducer.user1
   const { firstName: user2FirstName, birthYear: user2BirthYear} = state.user_reducer.user2

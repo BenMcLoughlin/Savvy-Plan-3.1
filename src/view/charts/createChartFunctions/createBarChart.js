@@ -5,13 +5,12 @@ import * as tooltips from "view/charts/tooltips/barTooltip"
 import { buildHtml } from "view/charts/tooltips/tooltip"
 import _ from "lodash"
 
-export const drawBarChart = (colors, className, data, dataObject, height, set, state, width) => {
-                         
+
+export const drawBarChart = (colors, className, data, dataObject, height, state, width) => {
+                       
   const { selectedId } = state.ui_reducer
-console.log('data:', data)
-console.log('dataObject:', dataObject)
   const stream = state.stream_reducer[selectedId]
-console.log('stream:', stream)
+
   const { period, flow } = stream
   const { mouseout } = tooltips
   let periodStart = 0
@@ -52,7 +51,7 @@ console.log('stream:', stream)
   const stack = d3.stack().keys(stackedKeys).order(d3.stackOrderNone).offset(d3.stackOffsetDiverging)
 
   const update = data => {
-    const max = getMax(className, dataObject, state)
+    const max = getMax(className, dataObject)
 
     const min = getMin(className, dataObject, state)
 

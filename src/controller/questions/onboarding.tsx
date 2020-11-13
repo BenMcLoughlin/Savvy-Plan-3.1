@@ -1,14 +1,17 @@
 import * as I from "model/types"
 import { buttons, onboardQuestions, showUsers } from "controller/questions/questions.controller"
 import { streams } from "controller/questions/helpers"
+import { store } from "index"
+import { set } from "model/redux/actions"
 
-export const onboard_questions = (state: I.state, set: I.set, remove: I.remove): I.onboard_questions => {
-  const { isMarried, hasChildren } = state.ui_reducer
+export const onboard_questions = (): I.onboard_questions => {
+  const state = store.getState()
+  const { isMarried, hasChildren, changeAssumptions } = state.ui_reducer
   const q: I.question[] = []
 
-  const askUser1 = onboardQuestions(q, remove, set, state, "user1")
-  const askUser2 = onboardQuestions(q, remove, set, state, "user2")
-  const show = showUsers(q, set, state)
+  const askUser1 = onboardQuestions(q, "user1")
+  const askUser2 = onboardQuestions(q, "user2")
+  const show = showUsers(q)
 
   show.introduction()
   show.whatWeWillBuild()
@@ -49,9 +52,21 @@ export const onboard_questions = (state: I.state, set: I.set, remove: I.remove):
     })
   }
   askUser1.if.theyWantToChangeAssumptions()
+  if (changeAssumptions) {
+    askUser1.for.rate1()
+    askUser1.for.rate2()
+    askUser1.for.inflationRate()
+    askUser1.for.managementExpenseRatio()
+    askUser1.for.lifeSpan()
+    if (isMarried) {
+      askUser2.for.lifeSpan()
+    }
+  }
+
   askUser1.for.retIncome()
-  show.idealIncomeChart(1)
-  // show.idealIncomeChart(2)
+  show.targetIncomeChart(1)
+  show.targetNestEgg(1)
+  // show.targetIncomeChart(2)
 
   // askUser1.to.create.savings()
 
@@ -90,7 +105,7 @@ export const onboard_questions = (state: I.state, set: I.set, remove: I.remove):
 
   const questions = q
 
-  const add = buttons(questions, set, state)
+  const add = buttons(questions)
 
   return {
     questions,

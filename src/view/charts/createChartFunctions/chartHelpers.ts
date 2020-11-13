@@ -2,6 +2,7 @@
 import _ from "lodash"
 import * as d3 from "d3"
 import * as I from "model/types"
+import { store } from "index"
 
 export const round = (number: I.n): I.a => {
   if (number !== undefined && number <= 1000000) return `${(Math.round(number / 1000) * 1000) / 1000} k`
@@ -21,10 +22,22 @@ export const formatIncomeName = (name: string, user1Name: string, user2Name: str
   switch (name) {
     case "user1Cpp":
       return `${user1Name}'s Canada Pension Plan`
-    case "user1Oas":
-      return `${user1Name}'s Old Age Security`
     case "user2Cpp":
       return `${user2Name}'s Canada Pension Plan`
+    case "user1Rrsp":
+      return `${user1Name}'s RRSP Income`
+    case "user2Rrsp":
+      return `${user2Name}'s RRSP Income`
+    case "user1Tfsa":
+      return `${user1Name}'s TFSA Income`
+    case "user2Tfsa":
+      return `${user2Name}'s TFSA Income`
+    case "user1Nreg":
+      return `${user1Name}'s Non-Registered Income`
+    case "user2Nreg":
+      return `${user2Name}'s Non-Registered Income`
+    case "user1Oas":
+      return `${user1Name}'s Old Age Security`
     case "user2Oas":
       return `${user2Name}'s Old Age Security`
     case "user1Ccb":
@@ -65,35 +78,33 @@ const getSavingsAreaMinMax = dataObject => {
   return max + 10000
 }
 
-
-
 /**
  * returns the maximum value for the view/charts x axis
  **/
-export const getMax = () => 100000//(className: string, dataObject: I.objects, state: I.state): I.n => {
-//   const { isMarried } = state.ui_reducer
+export const getMax = (className: string, dataObject: I.objects): I.n => {
+  const { isMarried } = store.getState().ui_reducer
 
-//   switch (className) {
-//     case "incomeChart": {
-//       const beforeTaxIncomeArray = Object.values(dataObject).map((d: any) => {
-//         if (isMarried) return d.user2.taxableIncome + d.user1.taxableIncome
-//         return d.user1.taxableIncome
-//       })
-//       const max = d3.max(beforeTaxIncomeArray)
-//       return max > 100000 ? max + 30000 : 100000
-//     }
-//     case "savingsBarChart":
-//       return getSavingsBarMax(dataObject)
-//     case "savingsAreaChart":
-//       return getSavingsAreaMinMax(dataObject)
-//     case "savingsStackedAreaChart":
-//       return getSavingsAreaMinMax(dataObject)
-//     case "overviewAreaChart":
-//       return getSavingsAreaMinMax(dataObject) + 100000
+  switch (className) {
+    case "incomeChart": {
+      const beforeTaxIncomeArray = Object.values(dataObject).map((d: any) => {
+        if (isMarried) return d.user2.taxableInc + d.user1.taxableInc
+        return d.user1.taxableInc
+      })
+      const max = d3.max(beforeTaxIncomeArray)
+      return max > 100000 ? max + 30000 : 100000
+    }
+    case "savingsBarChart":
+      return getSavingsBarMax(dataObject)
+    case "savingsAreaChart":
+      return getSavingsAreaMinMax(dataObject)
+    case "savingsStackedAreaChart":
+      return getSavingsAreaMinMax(dataObject)
+    case "overviewAreaChart":
+      return getSavingsAreaMinMax(dataObject) + 100000
 
-//       return 100000
-//   }
-// }
+      return 100000
+  }
+}
 
 export const getMin = (className: string, dataObject: I.objects): I.n => {
   switch (className) {

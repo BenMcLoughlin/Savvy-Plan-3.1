@@ -4,13 +4,12 @@ import styled from "styled-components"
 import spendingChartImage from "data/assets/spending.png"
 
 interface IProps {
-  state: any
-  set: (id: string, reducer: string, value: any, childId1?: string) => void
+
 }
 
-export const SpendingChart: FC<IProps> = ({ state, set }) => {
+export const SpendingChart: FC<IProps> = ({  }) => {
   //THIS IS JUST A PLACEHODLER FUNCTION FOR NOW
-  const instance: any = Object.values(state.stream_reducer).filter((d: any) => d.id.includes("Spending"))[0]
+
 
   return (
     <Wrapper>
@@ -19,7 +18,7 @@ export const SpendingChart: FC<IProps> = ({ state, set }) => {
         src={require("data/assets/spending.png")}
         style={{ height: "20rem" }}
         onClick={() => {
-          if (instance) set("selectedId", "ui_reducer", instance.id)
+         null
         }}
       />
     </Wrapper>

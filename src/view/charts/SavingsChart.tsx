@@ -5,21 +5,22 @@ import { getSavings, getStackedSavings } from "model/calculations/savings/saving
 import { drawAreaChart } from "view/charts/createChartFunctions/createAreaChart"
 import { drawBarChart } from "view/charts/createChartFunctions/createBarChart"
 import { getSavingsData } from "model/calculations/savings/create/createChartArray"
-import { exampleState } from "data/exampleState"
+import { exampleState, dummyRate1Data } from "data/exampleState"
 import { comparisonData} from "data/planComparisonData"
+import { store } from "index"
 
 interface IProps {
-  state: any
   color_selector: any
-  set: (id: string, reducer: string, value: any, childId1?: string) => void
   useExampleState?: boolean
+  chartData?: string
 }
 
-export const SavingsChart: FC<IProps> = ({ color_selector, state, useExampleState, set }) => {
-  if (useExampleState) state = exampleState()
+export const SavingsChart: FC<IProps> = ({ color_selector,  useExampleState, chartData, }) => {
+  let state = store.getState()
+  if (useExampleState) state = exampleState
+  if (chartData) state = dummyRate1Data
 
   const dataObject = useExampleState ? comparisonData : getSavings(state)
-
 
   const { areaData, barData } = getSavingsData(state, dataObject)
 
@@ -40,11 +41,11 @@ export const SavingsChart: FC<IProps> = ({ color_selector, state, useExampleStat
       if (!useExampleState) {
         const barWidth = inputBarRef.current.offsetWidth
         const barHeight = inputBarRef.current.offsetHeight
-        drawBarChart(color_selector, barClassName, barData, dataObject, barHeight, set, state, barWidth)
+        drawBarChart(color_selector, barClassName, barData, dataObject, barHeight, state, barWidth)
       }
       drawAreaChart(areaClassName, areaData, dataObject, areaHeight, state, areaWidth)
     }
-  }, [dataObject, set, state])
+  }, [dataObject])
 
   return (
     <Wrapper useExampleState={useExampleState}>

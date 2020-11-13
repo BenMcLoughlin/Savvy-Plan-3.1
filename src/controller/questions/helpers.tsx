@@ -1,14 +1,13 @@
 import * as I from "model/types"
-
-export const numberOfStreams = (state: I.state, user: I.user, streamType: I.streamType): number => {
-  return Object.values(state.stream_reducer as I.stream_reducer).filter((d: I.stream) => d.owner === user && d.streamType === streamType).length
-}
+import { set, remove } from "model/redux/actions"
+import { store } from "index"
 
 export const streams = (state: I.state, user: I.user, streamType: I.streamType): I.stream[] => {
   return Object.values(state.stream_reducer as I.stream_reducer).filter((d: I.stream) => d.owner === user && d.streamType === streamType)
 }
 
-export const removeMostRecentStream = (state: I.state, user: I.user, remove: I.remove, set: I.set, streamType: I.streamType): void => {
+export const removeMostRecentStream = (user: I.user, streamType: I.streamType): void => {
+  const state = store.getState()
   const streams: I.stream[] = Object.values(state.stream_reducer as I.stream_reducer)
     .filter((d: I.stream) => d.owner === user && d.streamType === streamType)
     .sort((a: I.stream, b: I.stream) => b.createdAt - a.createdAt)
@@ -38,9 +37,17 @@ export const getYearRange = (state: I.state, user: I.user): I.objects => {
     user1: { birthYear: by1, lifeSpan: ls1 },
     user2: { birthYear: by2, lifeSpan: ls2 },
   } = user_reducer
-  const startWorking = user === "user1" ? by1 + 18 : by2 + 18
-  const endWorking = user === "user1" ? by1 + 65 : by2 + 65
+  const startWork = user === "user1" ? by1 + 18 : by2 + 18
+  const endWork = user === "user1" ? by1 + 65 : by2 + 65
   const chartStartYear = (user === "user1" ? +by1 : Math.min(+by1, +by2)) + 18
   const chartEndYear = user === "user1" ? +by1 + +ls1 : Math.max(+by1 + ls1, +by2 + ls2)
-  return { chartStartYear, chartEndYear, startWorking, endWorking }
+  return { chartStartYear, chartEndYear, startWork, endWork }
+}
+
+export const showTargetIncome = () => {
+  const {
+    user_reducer,
+    ui_reducer: { isMarried },
+  } = store.getState()
+  return "hi"
 }

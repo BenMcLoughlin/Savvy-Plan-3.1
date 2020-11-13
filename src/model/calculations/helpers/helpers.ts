@@ -112,8 +112,3 @@ export const getYearRange = (state: I.state): number[] => {
   const startYear = Math.min(user_reducer.user1.birthYear, user_reducer.user2.birthYear)
   return _.range(startYear + 18, startYear + 95)
 }
-
-export const getRetirementRange = (user: I.user, { user_reducer }: I.state): number[] => {
-  const startYear = user_reducer[user].birthYear + user_reducer[user].cppStartAge
-  return _.range(startYear, startYear + 30)
-}

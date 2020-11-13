@@ -2,7 +2,7 @@ import * as I from "model/types"
 
 export const getSavingsData = ({ ui_reducer }: I.state, savingsObject: I.a): I.objects => {
   //console.log("JSON.stringify(savinsObject, null, 4):", JSON.stringify(savingsObject, null, 4))
-
+//console.log('savingsObject:', savingsObject)
   const { selectedUser, selectedAccount } = ui_reducer
 
   const selectedPage = "savingsStacked"

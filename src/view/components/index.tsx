@@ -1,6 +1,6 @@
 import { compose } from "redux"
 import { connect } from "react-redux"
-import { set, remove, setStore } from "model/redux/actions"
+import { set, remove } from "model/redux/actions"
 import { EditPanel as _EditPanel } from "./cards/EditPanel"
 import { Header as _Header } from "./layout/Header"
 import { Login as _Login } from "./login/Login"
@@ -18,6 +18,7 @@ import { Next as _Next } from "view/components/buttons/Next"
 import { color_selector } from "model/redux/selectors"
 
 //Chart Imports
+import { DonutChart as _DonutChart } from "view/charts/DonutChart"
 import { IncomeChart as _IncomeChart } from "view/charts/IncomeChart"
 import { SavingsChart as _SavingsChart } from "view/charts/SavingsChart"
 import { NetWorthChart as _NetWorthChart } from "view/charts/NetWorthChart"
@@ -106,6 +107,8 @@ export const EditPanel = compose(connect(mapStateToProps, { set, remove }))(_Edi
 //Smart Components Connected to Redux
 
 export const TextInput = compose(connect(mapStateToProps, { set, remove }))(_TextInput)
+
+export const DonutChart = compose(connect(mapStateToProps, { set }))(_DonutChart)
 
 export const IncomeChart = compose(connect(mapStateToProps, { set }))(_IncomeChart)
 /**

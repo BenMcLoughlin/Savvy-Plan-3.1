@@ -6,16 +6,15 @@ import * as components from "view/components"
 import { AddPrompt, InfoCard, SideNav, TripleSelector, Selector, IncomeDisplay } from "view/components"
 import { matchThenShowComponent } from "model/services/display_functions"
 import * as I from "model/types"
+import { store } from "index"
+import { set } from "model/redux/actions"
 
 interface IProps {
-  set: I.set
-  remove: I.remove
-  state: I.state
   data: I.pages
 }
 
-export const Display: FC<IProps> = ({ data, remove, set, state }) => {
-  const { selectedId } = state.ui_reducer
+export const Display: FC<IProps> = ({ data }) => {
+  const { selectedId } = store.getState().ui_reducer
 
   const { addPrompt, chart, editPrompt, editPanel, infoCards, sideNav, scenarioNav, tripleSelector } = data
 

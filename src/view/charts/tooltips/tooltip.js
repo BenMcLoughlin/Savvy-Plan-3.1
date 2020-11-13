@@ -5,6 +5,7 @@ import { savingsBarHtml } from "view/charts/tooltips/tooltipHtml/savingsBarHtml"
 import { savingsAreaHtml } from "view/charts/tooltips/tooltipHtml/savingsAreaHtml"
 import { savingsStackedAreaHtml } from "view/charts/tooltips/tooltipHtml/savingsStackedAreaHtml"
 import { savingsStackedAreaValueHtml } from "view/charts/tooltips/tooltipHtml/savingsStackedAreaValueHtml"
+import { savingsSunburstChartHtml } from "view/charts/tooltips/tooltipHtml/savingsSunburstChartHtml"
 import { overviewHtml } from "view/charts/tooltips/tooltipHtml/overviewHtml"
 import { getPeakYear } from "view/charts/createChartFunctions/chartHelpers"
 
@@ -22,6 +23,8 @@ export const buildHtml = (className, color, d, dataObject, n, state, user) => {
       return savingsStackedAreaValueHtml(d, dataObject, user)
     case "overviewAreaChart":
       return overviewHtml(d, dataObject, state)
+    case "savingsSunburstChart":
+      return savingsSunburstChartHtml(d, dataObject, state)
   }
 }
 

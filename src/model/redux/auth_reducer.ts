@@ -1,5 +1,5 @@
 import * as I from "model/types"
-import _ from "lodash"
+import { merge } from "model/utils"
 
 const initialState = {
   token: localStorage.getItem("token"),
@@ -8,10 +8,10 @@ const initialState = {
 }
 
 export const auth_reducer = (state = initialState, action: I.a): I.auth_reducer => {
-    const { type, values } = action
+    const { type, payload } = action
   switch (type) {
     case "auth_reducer/SET":
-      return _.merge({}, state, values)
+      return merge({}, state, { ...payload })
     case "auth_reducer/REMOVE":
       return {
         ...state,

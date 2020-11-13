@@ -2,19 +2,13 @@ import React, { FC, useState, useEffect } from "react"
 import styled from "styled-components"
 import { CSSTransition } from "react-transition-group"
 import { LinkButton } from "view/components"
-import * as I from "model/types"
 import { SavingsChart } from "view/charts"
 import image from "data/assets/dashboard.png"
 import { Section, Row, P, H1, H2 } from "model/styles/Styled-Components"
 import "./dummyTooltipCSS.css"
 
-interface IProps {
-  set: I.set
-  state: I.state
-  remove: I.remove
-}
 
-export const LandingPage: FC<IProps> = ({ remove, state, set }) => {
+export const LandingPage: FC = () => {
   const [scrollPosition, setScrollPosition] = useState(0)
   const [scrollMax, setScrollMax] = useState(0)
 

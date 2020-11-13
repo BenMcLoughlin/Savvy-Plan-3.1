@@ -3,15 +3,19 @@ import { clean } from "controller/questions/helpers"
 import { round } from "model/services/ui_functions"
 import { dummyStream } from "data"
 import * as I from "model/types"
+import { store } from "index"
+import { set } from "model/redux/actions"
 
-export const addText = (textKey: string, state: I.state, user: I.user, n?: number, set?: I.set): I.objects => {
+export const addText = (textKey: string, user: I.user, n?: number): I.objects => {
+  const state = store.getState()
   const { selectedId, isMarried, hasChildren } = state.ui_reducer
+  const { rate1, mer, inflationRate, selectedUser } = state.user_reducer
   const stream: I.stream = state.stream_reducer[selectedId] || dummyStream
   const isUser1 = user === "user1"
   const { reg } = stream
-  const { firstName: spouseFirstName } = state.user_reducer.user2
+  const { firstName: spouseFirstName, rrspInc } = state.user_reducer.user2
   const { firstName } = state.user_reducer.user1
-  const { user2, retIncome, } = state.user_reducer
+  const { user2, retIncome } = state.user_reducer
 
   const data = {
     addAnotherIncome: {
@@ -85,16 +89,21 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
       bottomLabel: `$${round(retIncome / 12).toLocaleString()} a month`,
       subTitle: "The rule of thumb is 70% of your average lifetime income, so in your case that would be $55k.",
       topLabel: "I'd love to earn ",
-      question: `How much ${isMarried ? "combined" : null} after tax income would you like to target in retirement?`,
+      question: `How much ${isMarried ? "combined" : ""} after tax income would you like to target in retirement?`,
       explanation: "Knowing this we can build reccomendations on how you should be saving now",
     },
-    idealIncomeChart: {
+    targetIncomeChart: {
       question: "This shows your ideal income breakdown for when you retire.",
       subTitle:
         n === 1
           ? "In a perfect world you would earn taxable income in the lowest tax bracket, around 40k. Then anything above that would come from your Tax Free Savings. With this plan you would keep all your government benefits and still be able to take advantage of tax savings by contributing to your RRSP now. "
           : "If you draw $12k from your RRSPs you'll still be in the lowest tax bracket in retirement. Then since you want 52k the remaining $12k could come from your TFSA",
     },
+    targetNestEgg: {
+      question: "In order to fund you're retirement your savings should be structured simliar to this",
+      subTitle: "If you draw $12k from your RRSPs you'll still be in the lowest tax bracket in retirement. Then since you want 52k the remaining $12k could come from your TFSA",
+    },
+
     gender: {
       component: "PickSingleOption", //this component allows the user to choose one of a number of options
       optionArray: ["male", "female", "prefer not to say", "write below"],
@@ -111,6 +120,14 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
       text:
         "Given the income you entered we estimate your Canada Pension Plan payment, in todays dollars, to be around $14k per year if you take it at 65 along with $7k in Old Age Pension. The lowest income tax bracket is $42 k, so our strategy is to figure out how much you need to invest in your RRSP’s to be drawing income that will keep you in the lowest bracket in retirement. ",
     },
+    lifeSpan: {
+      explanation: "Many of our calculations are trying to estimate how long your money needs to last for. If you don't live as long you dont need to save as much! ",
+      subTitle: "We typically use 95",
+      label: "First Name",
+      question: `We you like to adjust ${isMarried && !isUser1 ? spouseFirstName + "'s" : "your"} life span?`,
+      topLabel: "I hope to live until ",
+      bottomLabel: "years old ",
+    },
     name: {
       explanation: "This helps us personalize your plan.",
       label: "First Name",
@@ -119,8 +136,28 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
     numberOfChildren: {
       explanation: hasChildren
         ? "We'd like to estimate your government child benefits."
-        : "Just guessing is fine, it will give you an idea of the impact of government benefits on your plan. You can always change it later. ",
+        : "Just guessing is fine, it will give you an idea of the impact of government benefits on your plan. You can always adjust it later. ",
       question: "How many children?",
+    },
+    managementExpenseRatio: {
+      type: "percentage",
+      subTitle: `Your management fee is paid to the firm managing your investments and varies from 0.5% to 3%. For our calculations we use 1.2%. Like inflation, this fee is deducted from your return to get your real rate of return. Your ${rate1}% return minus ${inflationRate}% inflation and ${mer}% in fees will then be ${(
+        rate1 -
+        inflationRate -
+        mer
+      ).toFixed(2)}%`,
+      question: "Would you like to adjust your investment management fee?",
+      bottomLabel: ``,
+      topLabel: "My fee is ",
+    },
+    inflationRate: {
+      type: "percentage",
+      subTitle: `We use 2%. Since we want to have all our estimates in todays dollars we will deduct this from your return on investment. Making your rate of return after inflation ${(
+        rate1 - inflationRate
+      ).toFixed(2)}%`,
+      question: "Would you like to adjust the estimated inflation rate?",
+      bottomLabel: ``,
+      topLabel: "Inflation might be ",
     },
     introduction: {
       subTitle: "This chart compares the savings of someone who considers the long term impact of their actions on their finances with someone who doesn't.",
@@ -198,6 +235,21 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
       optionArray: ["single", "married", "common-law"],
       question: "Are you married?",
     },
+    rate1: {
+      type: "percentage",
+      explanation: "This assumption is very important as we try to estimate how much you need to save and how much income you can have in retirement. ",
+      subTitle: "We like to use 6%, but some might consider this a higher risk rate of return..",
+      question: "Would you like to adjust your pre-retirement rate of return?",
+      bottomLabel: `Return on Investment`,
+      topLabel: "I hope to get ",
+    },
+    rate2: {
+      type: "percentage",
+      subTitle: "We usually use 4.5%, its helpful to assume that you'll want to take on less risk in retirement which could mean having a lower return. ",
+      question: "Would you like to adjust your lower risk rate of return for after you've retired?",
+      bottomLabel: `Return on Investment`,
+      topLabel: "I hope to get ",
+    },
     savingsCurrentValue: {
       ask: "Just an approximation of the current value is helpful. ",
       bottomLabel: `in my ${reg.toUpperCase()}`,
@@ -208,8 +260,7 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
     savingsContributions: {
       question: `This chart shows your ${clean(reg)} as it grows with contributions and without making any withdrawals. `,
       subTitle: `How much do you plan to contribute each year to your ${reg}?`,
-      explanation:
-        n === 0 ? "Our goal is to estimate how much you could withdraw in retirement. Knowing that helps us make decisions like when to retire or how much to save. " : "BANANANAN",
+      explanation: n === 0 ? "Our goal is to estimate how much you could withdraw in retirement. Knowing that helps us make decisions like when to retire or how much to save. " : "BANANANAN",
       topLabelPast: "I contributed",
       topLabelFuture: "I plan to contribute",
       bottomLabel: "per year",
@@ -217,8 +268,7 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
     savingsRates: {
       question: `This chart shows how your ${reg} grows as you save and then shrinks as you draw income in retirement.`,
       subTitle: `How much do you plan to contribute each year to your ${reg}?`,
-      explanation:
-        n === 0 ? "Our goal is to estimate how much you could withdraw in retirement. Knowing that helps us make decisions like when to retire or how much to save. " : "BANANANAN",
+      explanation: n === 0 ? "Our goal is to estimate how much you could withdraw in retirement. Knowing that helps us make decisions like when to retire or how much to save. " : "BANANANAN",
       topLabelPast: "I think I'll earn",
       topLabelFuture: "I plan to contribute",
       bottomLabel: "per year",
@@ -229,6 +279,14 @@ export const addText = (textKey: string, state: I.state, user: I.user, n?: numbe
       topLabelPast: "I earned",
       topLabelFuture: "I'd like to withdraw",
       bottomLabel: "before tax per year",
+    },
+    theyWantToChangeAssumptions: {
+      question: "Would you like to change the plans assumptions?",
+      subTitle:
+        "Since we don’t know the future we have a make a series of guesses about what could happen. We call these assumptions and they include interest and inflation rates as well as when you might take your pension income. ",
+      explanation: "Some people enjoy digging into the details while others just want to skip to the results. ",
+      option1: "yes",
+      option2: "no",
     },
     whatWeWillBuild: {
       question: "What will we build?",

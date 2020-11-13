@@ -4,7 +4,7 @@ import { round, formatIncomeName } from "view/charts/createChartFunctions/chartH
 
 export const incomeChart = (d, dataObject, i, tooltip, n, state) => {
   const { selectedUser } = state.ui_reducer
-  const { birthYear,  firstName } = state.ui_reducer.user1
+  const { birthYear, firstName } = state.ui_reducer.user1
   const name = n[0].parentNode.className.animVal
   d3.select(n[i]).transition().duration(100).attr("opacity", 0.7).attr("cursor", "pointer")
 
@@ -23,7 +23,7 @@ export const incomeChart = (d, dataObject, i, tooltip, n, state) => {
                                       <div class="box">
                                         <p> Before tax</p>
                                         <p class="value"> ${
-                                          round(dataObject[d.data.year].user1.beforeTaxTaxableIncomeStreams[name]) || round(dataObject[d.data.year].user2.beforeTaxTaxableIncomeStreams[name])
+                                          round(dataObject[d.data.year].user1.beforeTaxtaxableIncStreams[name]) || round(dataObject[d.data.year].user2.beforeTaxtaxableIncStreams[name])
                                         } K</p>
                                       </div>
                                       <div class="box">

@@ -1,12 +1,13 @@
 import { useCallback } from "react"
 import * as I from "model/types"
+import { set } from "model/redux/actions"
 
-export const useHttpClient = (set: I.set): I.useHttpClient => {
+export const useHttpClient = (): I.useHttpClient => {
   const sendRequest = useCallback(async (url, method = "GET", body = null, headers = {}) => {
     if (method !== "PATCH") {
       set("auth_reducer", { isLoading: true })
     }
-    console.log('body:', body)
+
     try {
       const response = await fetch(url, {
         method,

@@ -4,6 +4,7 @@ import { createAreaTooltip, createStackedAreaTooltip } from "view/charts/tooltip
 import { getMax } from "view/charts/createChartFunctions/chartHelpers"
 
 export const drawAreaChart = (className, data, dataObject, height, state, width) => {
+  
   const margin = { top: 20, right: 100, bottom: 10, left: 100 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
@@ -37,7 +38,7 @@ export const drawAreaChart = (className, data, dataObject, height, state, width)
   gradient.append("stop").attr("class", "end").attr("offset", "100%").attr("stop-color", "white").attr("stop-opacity", 1)
 
   const update = data => {
-    const d3Max = getMax(className, dataObject, state) //500000 //d3.max(data, d => Object.values(d).reduce((a, n) => +a + +n)) + 500000
+    const d3Max = getMax(className, dataObject) //500000 //d3.max(data, d => Object.values(d).reduce((a, n) => +a + +n)) + 500000
 
     const yScale = d3.scaleLinear().range([graphHeight, 0]).domain([0, d3Max])
 

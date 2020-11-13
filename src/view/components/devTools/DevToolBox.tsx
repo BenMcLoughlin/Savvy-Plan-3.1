@@ -1,28 +1,17 @@
+/* eslint-disable */
 import React, { FC, useState } from "react"
 import styled from "styled-components"
 import { useHttpClient } from "view/hooks"
-interface IProps {
-  state: any
-  set: any
-}
+import { set, remove } from "model/redux/actions"
 
-export const DevToolBox: FC<IProps> = ({ state, set }) => {
+export const DevToolBox: FC = () => {
   const [progress, setProgress] = useState<number>()
   const [open, toggleOpen] = useState<boolean>(false)
-  const { sendRequest } = useHttpClient(set)
-
-  const saveStore = async () => {
-    await sendRequest(`/api/store/saveStore`, "PATCH", JSON.stringify(state), {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: "Bearer " + state.auth_reducer.token,
-    })
-  }
 
   return (
     <Wrapper open={open} onClick={() => toggleOpen(!open)}>
       <Title>Dev Toolbox</Title>
-      <Go onClick={() => set("progress", "ui_reducer", progress)}>go to</Go>
+      <Go onClick={() => set("ui_reducer", { progress })}>go to</Go>
       <ProgressInput type="number" onChange={(e: any) => setProgress(+e.target.value)} />
       {/* <Storage
         onClick={() => {

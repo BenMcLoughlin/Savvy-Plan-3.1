@@ -7,13 +7,11 @@ import { CSSTransition } from "react-transition-group"
 import { useForm, useHttpClient } from "view/hooks"
 import { validateSignUpErrors } from "model/services"
 import { Redirect } from "react-router-dom"
+import { set } from "model/redux/actions"
+import { store } from "index"
 
-interface IProps {
-  set: I.set
-  state: I.state
-}
-
-export const Login: FC<IProps> = ({ set, state }) => {
+export const Login: FC = () => {
+  const state = store.getState()
   const [isAdvisor, setIsAdvisor] = useState(false)
   const [isNewUser, setIsNewUser] = useState(true)
 
@@ -21,7 +19,7 @@ export const Login: FC<IProps> = ({ set, state }) => {
 
   const { token, errors } = state.auth_reducer
 
-  const { sendRequest } = useHttpClient(set)
+  const { sendRequest } = useHttpClient()
 
   const { formData, setForm } = useForm("email", "password", "passwordConfirm")
   const { email, password, passwordConfirm } = formData
@@ -65,7 +63,7 @@ export const Login: FC<IProps> = ({ set, state }) => {
     <PageSize>
       <Wrapper>
         <Left>
-          <H2>Welcome to Savvy Plan ben@hotmail.com</H2>
+          <H2>Welcome to Savvy Plan</H2>
           <Div>
             I am a...{" "}
             <C.DualSelect handleChange={() => setIsAdvisor(true)} handleChange2={() => setIsAdvisor(false)} option1={"financial Advisor"} option2={"Not an advisor"} value={isAdvisor} />
@@ -114,7 +112,8 @@ const Wrapper = styled.div`
 `
 
 const H2 = styled.h2`
-  font-size: 4.6rem;
+  font-size: 5.6rem;
+  width: 70rem;
 `
 const Div = styled.div`
   display: flex;

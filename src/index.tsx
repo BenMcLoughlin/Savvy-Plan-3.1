@@ -10,7 +10,8 @@ import { persistStore } from "redux-persist"
 import { PersistGate } from "redux-persist/integration/react"
 import root_reducer from "./model/redux/root_reducer"
 
-const store = createStore(root_reducer, composeWithDevTools())
+export const store = createStore(root_reducer, composeWithDevTools())
+export const stateV2 = store.getState()
 
 const persistor: any = persistStore(store)
 

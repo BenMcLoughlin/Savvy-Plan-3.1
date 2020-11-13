@@ -4,18 +4,20 @@ import { ArrowIosForwardOutline } from "@styled-icons/evaicons-outline/ArrowIosF
 import { CSSTransition } from "react-transition-group"
 import { useHttpClient } from "view/hooks"
 import * as I from "model/types"
+import { store } from "index"
+
 
 interface IProps {
   setDirection: (value: string) => void
   handleChange: (setDirection: any, valid: boolean) => void
   onNext?: () => void //this allows a specific instance of the wizard to attach a special handle change when the next button is clicked. Prepares the state for the next
   valid: boolean
-  state: any
-  set: I.set
 }
 
-export const Next: FC<IProps> = ({ handleChange, onNext, setDirection, valid, state, set }) => {
-  const { sendRequest } = useHttpClient(set)
+export const Next: FC<IProps> = ({ handleChange, onNext, setDirection, valid}) => {
+  const state = store.getState()
+
+  const { sendRequest } = useHttpClient()
 
   const saveStore = async () => {
     await sendRequest(`/api/store/saveStore`, "PATCH", JSON.stringify(state), {

@@ -1,5 +1,5 @@
 import React from "react"
-import { Header, Footer, Login, PrivateRoute, Loading, DevToolBox } from "view/components"
+import { Header, Footer, Login, PrivateRoute, Loading } from "view/components"
 import styled, { ThemeProvider } from "styled-components"
 import { theme } from "model/styles/theme"
 import { Account, Display, LandingPage, Pricing, Product, Questions } from "view/pages"
@@ -9,9 +9,8 @@ import { createPage } from "model/services/pages/createPage"
 import { onboard_questions } from "controller/questions/onboarding"
 import { connect } from "react-redux"
 import * as I from "model/types"
-import { set, remove } from "model/redux/actions"
 
-const App = ({ remove, state, set }) => {
+const App = ({ state }) => {
   const { selectedPage } = state.ui_reducer
   const { isLoading } = state.auth_reducer
 
@@ -31,8 +30,8 @@ const App = ({ remove, state, set }) => {
             <Route exact path="/product" component={Product} />
             <Route exact path="/pricing" component={Pricing} />
             <PrivateRoute path="/account" component={Account} />
-            <PrivateRoute path={`/onboarding`} render={() => <Questions data={onboard_questions(state, set, remove)} />} />
-            <PrivateRoute exact path="/plan" render={() => <Display data={createPage(newPageData, state, set)} />} />
+            <PrivateRoute path={`/onboarding`} render={() => <Questions data={onboard_questions()} />} />
+            <PrivateRoute exact path="/plan" render={() => <Display data={createPage(newPageData)} />} />
           </BrowserRouter>
         </Content>
         <Footer />
@@ -45,7 +44,7 @@ const mapStateToProps = (state: I.state) => ({
   state,
 })
 
-export default connect(mapStateToProps, { set, remove })(App)
+export default connect(mapStateToProps)(App)
 
 //---------------------------STYLES-------------------------------------------//
 

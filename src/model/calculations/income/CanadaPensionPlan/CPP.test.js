@@ -85,7 +85,7 @@
 // describe("CPP calculation is in line with with Dougs", function () {
 //   it("MOCK TEST", () => expect(1).toEqual(1))
 //   // it("born 1988, 30k 2006-2020, 58k 2020 - 2037, 90k 2038-2052 should be 17916.78", () =>
-//   //   expect(getIncome(mockState)[2070].user1.beforeTaxTaxableIncomeStreams.user1CppBenefit.toFixed(2)).toEqual("17916.78"))
+//   //   expect(getIncome(mockState)[2070].user1.beforeTaxtaxableIncStreams.user1CppBenefit.toFixed(2)).toEqual("17916.78"))
 //   // it("born 1988, 30k 2006-2032, 58k 2020 - 2052, 90k 2038-2052 should be 14,266.69 ", () =>
-//   //   expect(getIncome(mockState)[2070].user2.beforeTaxTaxableIncomeStreams.user2CppBenefit.toFixed(2)).toEqual("14266.69"))
+//   //   expect(getIncome(mockState)[2070].user2.beforeTaxtaxableIncStreams.user2CppBenefit.toFixed(2)).toEqual("14266.69"))
 // })

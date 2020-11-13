@@ -1,43 +1,24 @@
+import userEvent from "@testing-library/user-event"
 import _ from "lodash"
 import { insert0 } from "model/calculations/helpers"
 import * as I from "model/types"
-import { maxTFSAValues } from "./targetIncome/target.data"
-import { payment } from "model/services/financialFunctions"
 export { getCpp } from "model/calculations/income/CanadaPensionPlan/CPP.function"
 export { getCcb } from "model/calculations/income/CanadaChildBenefit/CCB.function"
-export { getTargetIncome } from "model/calculations/income/targetIncome/targetIncome.function"
+export { getTargetIncomeV2 } from "model/calculations/income/targetIncome/targetIncome.function"
 export { getAvgRate, getMargRate } from "model/calculations/income/tax/tax.helpers"
+import { tCon, rCon } from "model/calculations/income/data"
+import { map, meanBy, merge } from "lodash"
+import { Finance } from "financejs"
+import { set } from "model/redux/actions"
 
-export const insertBenefits = (object: I.incomeForcast, user: I.user, year:I.n, key3: string, ccb:I.n, cpp:I.n, oas:I.n, state:I.state): I.objects => {
-  const { birthYear, cppStartAge, oasStartAge } = state.user_reducer[user]
-  const cppStartYear = +birthYear + +cppStartAge
-  const oasStartYear = +birthYear + +oasStartAge
-  return (object = {
-    ...object,
-    [year]: {
-      ...object[year],
-      [user]: {
-        ...object[year][user],
-        [key3]: {
-          ...object[year][user][key3],
-          [`${user}Ccb`]: user === "user1" ? ccb : 0,
-          [`${user}Cpp`]: year < cppStartYear ? 0 : cpp,
-          [`${user}Oas`]: year < oasStartYear ? 0 : oas,
-        },
-      },
-    },
-  })
-}
+export const addPensions = (cpp, oas, ccb, inc, year, user) => ({
+  ...inc[year][user].income,
+  [`${user}Ccb`]: user === "user1" ? ccb : 0,
+  [`${user}Cpp`]: year < 2050 ? 0 : cpp,
+  [`${user}Oas`]: year < 2050 ? 0 : oas,
+})
 
-export const getYearRange = (state: I.state): I.n[] => {
-  const { chartStartYear, chartEndYear } = state.ui_reducer
-  return _.range(chartStartYear, chartEndYear)
-}
-
-export const getRetirementRange = (user: I.user, { user_reducer }: I.state): I.n[] => {
-  const startYear = user_reducer[user].birthYear + user_reducer[user].cppStartAge
-  return _.range(startYear, startYear + 30)
-}
+export const getYearRange = ({ ui_reducer: { chartStartYear, chartEndYear } }): I.n[] => _.range(chartStartYear, chartEndYear)
 
 export const sum = (obj: I.objects, query: string, streams: I.stream[]): I.n =>
   Object.entries(obj).reduce((acc: any, [k, v]) => {
@@ -64,9 +45,75 @@ export const beforePension = (streams: I.stream[], year: I.n): I.objects => {
   return { income, cppEligibleIncome }
 }
 
-export const maxTFSAWithdrawal = (tfsaStartYear: I.n, lifeSpan: I.n): I.n => {
-  const tfsaWithdrawalDuration = lifeSpan - tfsaStartYear
-  const tfsaStartValue = maxTFSAValues["" + tfsaStartYear]
+export const beforePensionV2 = (streams, y) =>
+  streams.reduce((a, n) => {
+    const value = Math.max(...Object.values(n.in).map((d: I.a) => (d.start <= y && d.end > y ? d.value : 0)))
+    a[n.name] = value
+    a.cppEligibleIncome = a.cppEligibleIncome + value || value
+    return a
+  }, {})
 
-  return -payment(0.03, tfsaWithdrawalDuration, tfsaStartValue, 0, null)
+let fin = new Finance()
+
+export const getValues = (u: I.user, r1: number, r2: number, inc, s: number, e: number, showTargetIncome: boolean) => {
+  if (!showTargetIncome) {
+    return {
+      maxTfsa: 0,
+      maxRrsp: 0,
+      topTenAvg: 0,
+    }
+  }
+  const checkMax = (value, year) => (value > (rCon[year] || rCon[2022]) ? rCon[year] || rCon[2022] : value)
+  const topTenAvg = meanBy(
+    Object.values(inc)
+      .sort((a, b) => b[u].cppEligibleIncome - a[u].cppEligibleIncome)
+      .slice(0, 10),
+    (d: I.a) => d[u].cppEligibleIncome
+  )
+
+  set("user_reducer", { [u]: { avgIncome: topTenAvg } })
+
+  return {
+    maxTfsa: -fin.PMT(
+      r2,
+      30,
+      Object.entries(tCon).reduce((a, [k, v]) => a + (+k > +s && +k < +e ? v + a * r1 : 0), 0)
+    ),
+    maxRrsp: -fin.PMT(
+      r2,
+      30,
+      Object.entries(inc).reduce((a, [k, v]) => a + (+k > +s && +k < +e ? checkMax(v[u].cppEligibleIncome * 0.18, k) + a * r1 : 0), 0)
+    ),
+    topTenAvg,
+    incPerc: 0.5,
+  }
+}
+
+export const getTargetIncome = (endWork, income, incPerc, retIncome, taxableInc, maxTfsa, maxRrsp, topTenAvg, year, user) => {
+  const retInc = retIncome * incPerc
+
+  const lowBracketDiff = taxableInc < 41725 ? 41725 - taxableInc : 0
+  const totalDiff = retInc > taxableInc ? retInc - taxableInc : 0
+  const rrspContAdj = topTenAvg / 70000
+
+  const rrspPerc = (lowBracketDiff / totalDiff) * rrspContAdj
+  const rrspWithdrawal = year > endWork ? rrspPerc * totalDiff : 0
+
+  const tfsaPerc = +retInc < maxTfsa + 41725 ? 1 - rrspPerc : maxTfsa / totalDiff
+  const tfsaWithdrawal = year > endWork ? tfsaPerc * totalDiff : 0
+
+  const nRegPerc = rrspPerc + tfsaPerc < 1 ? 1 - rrspPerc - tfsaPerc : 0
+  const nRegWithdrawal = year > endWork ? nRegPerc * totalDiff : 0
+
+  return {
+    ...income,
+    [`${user}Rrsp`]: rrspWithdrawal > 0 ? rrspWithdrawal : 0,
+    [`${user}Tfsa`]: tfsaWithdrawal > 0 ? tfsaWithdrawal : 0,
+    [`${user}Nreg`]: nRegWithdrawal > 0 ? nRegWithdrawal : 0,
+  }
+}
+
+
+export const getAccountPresentValues = (values, r, retYear) => {
+  return values.reduce((a, n, i) => (a.user1Tfsa = (a.user1Tfsa + (n.year > retYear ? a.user1Tfsa / (1 + r) ** (i + 1) : 0) || 0), 0))
 }

@@ -2,13 +2,9 @@ import React, { FC } from "react"
 import styled from "styled-components"
 
 interface IProps {
-  // id: string
-  // reducer: string
-  // state: any
   options: string[]
   handleChange: (value) => void
   value: string
-  // set: (id: string, reducer: string, value: any, childId1?: string) => void
 }
 
 /**

@@ -15,7 +15,7 @@ type incomeStreams = {
 type userIncome = {
   income: incomeStreams
   afterTaxIncome: incomeStreams
-  taxableIncome: number
+  taxableInc: number
   cppEligibleIncome: number
 }
 

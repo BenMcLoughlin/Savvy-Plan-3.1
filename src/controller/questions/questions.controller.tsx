@@ -5,30 +5,34 @@ import { createTripleSliders } from "controller/questions/tripleSelector.creator
 import * as I from "model/types"
 import { addText } from "controller/questions/text"
 import { dummyStream } from "data"
+import { store } from "index"
+import { set, remove } from "model/redux/actions"
 
-export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.state, user: I.user): I.objects => {
-  const { stream_reducer, ui_reducer } = state
-  const { selectedId, dualSelectValue } = state.ui_reducer
-  const stream: I.stream = state.stream_reducer[selectedId] || dummyStream
-  const selectedUser = state.user_reducer[user]
+export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
+  const stateV2 = store.getState()
+  const { stream_reducer, ui_reducer } = stateV2
+  const { selectedId, dualSelectValue, changeAssumptions } = stateV2.ui_reducer
+  const stream: I.stream = stateV2.stream_reducer[selectedId] || dummyStream
+  const { birthYear, lifeSpan, gender, firstName } = stateV2.user_reducer[user]
   const { id, streamType, reg } = stream
-  const { numberOfChildren, maritalStatus } = state.user_reducer
+  const { numberOfChildren, maritalStatus, rate1, rate2, inflationRate, mer } = stateV2.user_reducer
   return {
     for: {
       birthYear: () =>
         q.push({
           ...{
             component: "TextInput", //Text input will capture their birthyear
-            value: selectedUser.birthYear,
+            value: birthYear,
             name: "year", //by setting it as streamType year the component will place valiation on the text
             handleChange: (e: I.event) => set("user_reducer", { [user]: { birthYear: +e.target.value } }),
             onNext: () => {
-              const { chartStartYear, chartEndYear, startWorking, endWorking } = getYearRange(state, user)
+              const { chartStartYear, chartEndYear, startWork, endWork } = getYearRange(stateV2, user)
               set("ui_reducer", { chartStartYear, chartEndYear })
-              set("user_reducer", { [user]: { startWorking, endWorking } })
+              // set("user_reducer", { [user]: { startWork, endWork } })
+              //store.dispatch({ type: "user_reducer/SET", payload: { [user]: { startWork, endWork } } })
             },
           },
-          ...addText("birthYear", state, user),
+          ...addText("birthYear", user),
         }),
       retIncome: () =>
         q.push({
@@ -38,22 +42,23 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             min: 0,
             step: 1000,
             selectedFocus: true,
-            value: state.user_reducer.retIncome,
+            value: stateV2.user_reducer.retIncome,
             handleChange: value => {
               set("user_reducer", { retIncome: value })
             },
           },
-          ...addText("retIncome", state, user),
+          ...addText("retIncome", user),
         }),
+
       gender: () =>
         q.push({
           ...{
             component: "PickSingleOption", //this component allows the user to choose one of a number of options
-            value: selectedUser.gender,
+            value: gender,
             handleChange: (value: string) => set("user_reducer", { [user]: { gender: value } }),
             handleChange2: (e: I.event) => set("user_reducer", { [user]: { gender: `write below: ${e.target.value}` } }),
           },
-          ...addText("gender", state, user),
+          ...addText("gender", user),
         }),
       name: () =>
         q.push({
@@ -61,10 +66,10 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             placeholder: "Name",
             component: "TextInput", // tells the wizard to render a text input in which the user types their name
             streamType: "text",
-            value: selectedUser.firstName,
+            value: firstName,
             handleChange: (e: I.event) => set("user_reducer", { [user]: { firstName: e.target.value } }),
           },
-          ...addText("name", state, user),
+          ...addText("name", user),
         }),
       numberOfChildren: () =>
         q.push({
@@ -77,7 +82,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
             handleChange: (e: any) => set("user_reducer", { numberOfChildren: +e }),
             handleChange2: (e: I.event) => set("user_reducer", { [e.target.name]: +e.target.value }),
           },
-          ...addText("numberOfChildren", state, user),
+          ...addText("numberOfChildren", user),
         }),
       income: {
         amount: n => {
@@ -86,9 +91,9 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               chart: "IncomeChart",
               max: 250000,
             },
-            ...addText("incomeAmount", state, user, n),
+            ...addText("incomeAmount", user, n),
           }
-          q.push(createTripleSliders("in", data, set, "periodIn", state, stream))
+          q.push(createTripleSliders("in", data, "periodIn", stream))
         },
         name: i =>
           q.push({
@@ -97,7 +102,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               value: stream.name,
               handleChange: (e: I.event) => set("stream_reducer", { [id]: { name: e.target.value } }),
             },
-            ...addText("incomeName", state, user, i),
+            ...addText("incomeName", user, i),
           }),
         registration: () =>
           q.push({
@@ -106,8 +111,82 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               value: reg,
               handleChange: (value: string) => set("stream_reducer", { [id]: { reg: value } }),
             },
-            ...addText("incomeRegistration", state, user),
+            ...addText("incomeRegistration", user),
           }),
+      },
+      inflationRate: () => {
+        q.push({
+          ...{
+            component: "Slider",
+            max: 5,
+            min: 0,
+            step: 0.1,
+            selectedFocus: true,
+            value: inflationRate,
+            handleChange: value => {
+              set("user_reducer", { inflationRate: value, r1: (rate1 - mer - value) / 100, r2: (rate2 - mer - value) / 100 })
+            },
+          },
+          ...addText("inflationRate", user),
+        })
+      },
+      lifeSpan: () => {
+        q.push({
+          ...{
+            component: "Slider",
+            max: 120,
+            min: 75,
+            step: 1,
+            selectedFocus: true,
+            value: lifeSpan,
+            handleChange: value => set("user_reducer", { [user]: { lifeSpan: value } }),
+          },
+          ...addText("lifeSpan", user),
+        })
+      },
+      managementExpenseRatio: () => {
+        q.push({
+          ...{
+            component: "Slider",
+            max: 4,
+            min: 0,
+            step: 0.1,
+            selectedFocus: true,
+            value: mer,
+            handleChange: value => set("user_reducer", { mer: value, r1: (rate1 - value - inflationRate) / 100, r2: (rate2 - value - inflationRate) / 100 }),
+          },
+          ...addText("managementExpenseRatio", user),
+        })
+      },
+      rate1: () => {
+        q.push({
+          ...{
+            component: "Slider",
+            max: 10,
+            min: 0,
+            step: 0.1,
+            selectedFocus: true,
+            value: rate1,
+            handleChange: value => set("user_reducer", { rate1: value, r1: (value - mer - inflationRate) / 100 }),
+          },
+          ...addText("rate1", user),
+        })
+      },
+      rate2: () => {
+        q.push({
+          ...{
+            component: "Slider",
+            max: 10,
+            min: 0,
+            step: 0.1,
+            selectedFocus: true,
+            value: rate2,
+            handleChange: value => {
+              set("user_reducer", { rate2: value, r1: (value - mer - inflationRate) / 100 })
+            },
+          },
+          ...addText("rate2", user),
+        })
       },
       savings: {
         currentValue: () =>
@@ -124,7 +203,7 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
                 set("stream_reducer", { [id]: { currentValue: value } })
               },
             },
-            ...addText("savingsCurrentValue", state, user),
+            ...addText("savingsCurrentValue", user),
           }),
         contributions: n => {
           const data = {
@@ -132,19 +211,9 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               chart: "SavingsChart",
               max: reg === "tfsa" ? 6000 : reg === "rrsp" ? 30000 : 100000,
             },
-            ...addText("savingsContributions", state, user, n),
+            ...addText("savingsContributions", user, n),
           }
-          q.push(createTripleSliders("out", data, set, "periodOut", state, stream))
-        },
-        rates: n => {
-          const data = {
-            ...{
-              chart: "SavingsChart",
-              max: reg === "tfsa" ? 6000 : reg === "rrsp" ? 30000 : 100000,
-            },
-            ...addText("savingsRates", state, user, n),
-          }
-          q.push(createTripleSliders("out", data, set, "periodOut", state, stream))
+          q.push(createTripleSliders("out", data, "periodOut", stream))
         },
         withdrawals: n => {
           const data = {
@@ -153,9 +222,9 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               type: "withdrawals",
               max: 100000,
             },
-            ...addText("savingsWithdrawals", state, user, n),
+            ...addText("savingsWithdrawals", user, n),
           }
-          q.push(createTripleSliders("in", data, set, "periodIn", state, stream))
+          q.push(createTripleSliders("in", data, "periodIn", stream))
         },
       },
     },
@@ -164,13 +233,13 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
         q.push({
           ...{
             component: "PickSingleOption",
-            value: state.user_reducer.hasChildrenStatus,
+            value: stateV2.user_reducer.hasChildrenStatus,
             handleChange: (value: string) => {
               set("ui_reducer", { hasChildren: value === "yes" || value === "hope to eventually" })
               set("user_reducer", { hasChildrenStatus: value })
             },
           },
-          ...addText("haveChildren", state, user),
+          ...addText("haveChildren", user),
         }),
       isMarried: () =>
         q.push({
@@ -187,24 +256,17 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               }
             },
           },
-          ...addText("isMarried", state, user),
+          ...addText("isMarried", user),
         }),
       theyWantToChangeAssumptions: () =>
         q.push({
           ...{
-            component: "PickSingleOption",
-            value: maritalStatus,
-            handleChange: (value: string) => {
-              set("user_reducer", { maritalStatus: value })
-              if (value === "married" || value === "common-law") {
-                set("ui_reducer", { isMarried: true, users: ["user1", "user2"] })
-              } else {
-                set("ui_reducer", { isMarried: false, users: "" })
-                set("ui_reducer", { isMarried: false, users: ["user1"] })
-              }
-            },
+            component: "DualSelect",
+            value: changeAssumptions,
+            handleChange: () => set("ui_reducer", { dualSelectValue: true, changeAssumptions: true }),
+            handleChange2: () => set("ui_reducer", { dualSelectValue: false, changeAssumptions: false }),
           },
-          ...addText("isMarried", state, user),
+          ...addText("theyWantToChangeAssumptions", user),
         }),
       addAnother: {
         income: () =>
@@ -214,16 +276,16 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               value: ui_reducer.dualSelectValue,
               handleChange: () => {
                 set("ui_reducer", { dualSelectValue: true, selectedUser: user })
-                createStream(streamType, "in", user, "employment", set, state)
+                createStream(streamType, "in", user, "employment")
               },
               handleChange2: (option, clickFired: boolean) => {
                 set("ui_reducer", { dualSelectValue: false })
                 if (clickFired) {
-                  removeMostRecentStream(state, user, remove, set, streamType)
+                  removeMostRecentStream(user, streamType)
                 }
               },
             },
-            ...addText("addAnotherIncome", state, user),
+            ...addText("addAnotherIncome", user),
           }),
       },
     },
@@ -235,12 +297,12 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               component: "Button",
               valid: true,
               handleChange: () => {
-                createStream("income", "in", user, "employment", set, state)
+                createStream("income", "in", user, "employment")
                 set("ui_reducer", { progress: ui_reducer.progress + 1, selectedUser: user })
               },
             },
 
-            ...addText("createIncome", state, user),
+            ...addText("createIncome", user),
           }),
         savings: () =>
           q.push({
@@ -255,11 +317,11 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               handleChange: (selected, d: any) => {
                 if (!selected && d.label !== "none") {
                   // check if the item doesnt already exist, or its not none, and will then create a new income st
-                  createStream("savings", "out", user, d.reg.toLowerCase(), set, state)
+                  createStream("savings", "out", user, d.reg.toLowerCase())
                 } //checks if there is no currently selected version, if so it adds a new one, prevents adding mulitple with many clicks
                 if (selected) {
                   //the user needs to be able to remove the new object if they click on it again enabling them to remove the account they added.
-                  removeMostRecentStream(state, user, remove, set, streamType)
+                  removeMostRecentStream(user, streamType)
                 }
                 if (d.label === "none") {
                   //the user needs to be able to remove the new object if they click on it again enabling them to remove all accounts added
@@ -270,17 +332,18 @@ export const onboardQuestions = (q: I.a, remove: I.remove, set: I.set, state: I.
               },
               //onClick: reg => createStream(colorIndex, newSavingsStream(reg, +birthYear1 + 65), set, `savings`, "user1"),
             },
-            ...addText("createSavings", state, user),
+            ...addText("createSavings", user),
           }),
       },
     },
   }
 }
 
-export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
-  const { selectedUser } = state.ui_reducer
-  const { firstName: user1Name } = state.user_reducer.user1
-  const { firstName: user2Name } = state.user_reducer.user2
+export const showUsers = (q: I.a): I.objects => {
+  const stateV2 = store.getState()
+  const { selectedUser } = stateV2.ui_reducer
+  const { firstName: user1Name } = stateV2.user_reducer.user1
+  const { firstName: user2Name } = stateV2.user_reducer.user2
 
   return {
     introduction: () =>
@@ -289,13 +352,13 @@ export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
           chart: "SavingsChart",
           useExampleState: true,
         },
-        ...addText("introduction", state, "user1"),
+        ...addText("introduction", "user1"),
       }),
     whatWeWillBuild: () =>
       q.push({
-        ...addText("whatWeWillBuild", state, "user1"),
+        ...addText("whatWeWillBuild", "user1"),
       }),
-    idealIncomeChart: () =>
+    targetIncomeChart: () =>
       q.push({
         ...{
           chart: "IncomeChart",
@@ -307,7 +370,16 @@ export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
           user2Name,
           handleChange: d => set("ui_reducer", { selectedUser: d }),
         },
-        ...addText("idealIncomeChart", state, "user1"),
+        ...addText("targetIncomeChart", "user1"),
+      }),
+    targetNestEgg: () =>
+      q.push({
+        ...{
+          chart: "DonutChart",
+          useExampleState: true,
+          handleChange: d => set("ui_reducer", { selectedUser: d }),
+        },
+        ...addText("targetNestEgg", "user1"),
       }),
     combinedIncomeChart: () =>
       q.push({
@@ -320,7 +392,7 @@ export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
           user2Name,
           handleChange: d => set("ui_reducer", { selectedUser: d }),
         },
-        ...addText("combinedIncomeChart", state, "user1"),
+        ...addText("combinedIncomeChart", "user1"),
       }),
     incomeParagraph: () =>
       q.push({
@@ -329,13 +401,14 @@ export const showUsers = (q: I.a, set: I.set, state: I.state): I.objects => {
           component: "Paragraph",
           enableNav: true,
         },
-        ...addText("incomeParagraph", state, "user1"),
+        ...addText("incomeParagraph", "user1"),
       }),
   }
 }
 
-export const buttons = (q: I.a, set: I.set, state: I.state): any => {
-  const { progress } = state.ui_reducer
+export const buttons = (q: I.a): any => {
+  const stateV2 = store.getState()
+  const { progress } = store.getState().ui_reducer
   const { value } = q[progress]
 
   return {
@@ -347,7 +420,7 @@ export const buttons = (q: I.a, set: I.set, state: I.state): any => {
         }
       },
       valid: validateNext(value, q[progress]),
-      state,
+      stateV2,
     }),
     exitButton: () => ({
       handleChange: () => {

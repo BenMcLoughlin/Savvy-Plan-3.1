@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as I from "model/types"
 import { createSavingsObject } from "model/calculations/savings/create/createSavingsObject"
 
@@ -20,7 +21,6 @@ export const getSavings = (state: I.state): I.objects => {
 
   //const function_duration = END_TIME - START_TIME
 
-  // set('optimumTFSAPayment', 'user_reducer', payment)
   //console.log("caculateSavings duration:", function_duration)
   return savingsObject
 }
