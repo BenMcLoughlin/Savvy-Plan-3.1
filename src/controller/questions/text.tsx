@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { clean } from "controller/questions/helpers"
+import { clean, efficientIncome, efficientIncomeExplanation } from "controller/questions/helpers"
 import { round } from "model/services/ui_functions"
 import { dummyStream } from "data"
 import * as I from "model/types"
@@ -7,15 +7,15 @@ import { store } from "index"
 import { set } from "model/redux/actions"
 
 export const addText = (textKey: string, user: I.user, n?: number): I.objects => {
-  const state = store.getState()
-  const { selectedId, isMarried, hasChildren } = state.ui_reducer
-  const { rate1, mer, inflationRate, selectedUser } = state.user_reducer
-  const stream: I.stream = state.stream_reducer[selectedId] || dummyStream
+  const { stream_reducer, user_reducer, ui_reducer} = store.getState()
+  const { selectedId, isMarried, hasChildren } = ui_reducer
+  const { rate1, mer, inflationRate, selectedUser } = user_reducer
+  const stream: I.stream = stream_reducer[selectedId] || dummyStream
   const isUser1 = user === "user1"
   const { reg } = stream
-  const { firstName: spouseFirstName, rrspInc } = state.user_reducer.user2
-  const { firstName } = state.user_reducer.user1
-  const { user2, retIncome } = state.user_reducer
+  const { firstName: spouseFirstName, rrspInc, avgIncome: user2AvgInc } = user_reducer.user2
+  const { firstName, avgIncome: user1AvgInc, rrspInc: user1RspInc, tfsaInc: user1TfsaInc } = user_reducer.user1
+  const { user2, retIncome } = user_reducer
 
   const data = {
     addAnotherIncome: {
@@ -87,17 +87,15 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
     retIncome: {
       ask: "Just an approximation of the current value is helpful. ",
       bottomLabel: `$${round(retIncome / 12).toLocaleString()} a month`,
-      subTitle: "The rule of thumb is 70% of your average lifetime income, so in your case that would be $55k.",
+      subTitle: `The rule of thumb is 70% of your average income, so in your case that would be $${round((user1AvgInc + user2AvgInc) * 0.7)}.`,
       topLabel: "I'd love to earn ",
       question: `How much ${isMarried ? "combined" : ""} after tax income would you like to target in retirement?`,
       explanation: "Knowing this we can build reccomendations on how you should be saving now",
     },
     targetIncomeChart: {
-      question: "This shows your ideal income breakdown for when you retire.",
-      subTitle:
-        n === 1
-          ? "In a perfect world you would earn taxable income in the lowest tax bracket, around 40k. Then anything above that would come from your Tax Free Savings. With this plan you would keep all your government benefits and still be able to take advantage of tax savings by contributing to your RRSP now. "
-          : "If you draw $12k from your RRSPs you'll still be in the lowest tax bracket in retirement. Then since you want 52k the remaining $12k could come from your TFSA",
+      question: "We calculated the most efficient way for you to draw your retirement income and placed it in the chart below",
+      subTitle: efficientIncome(),
+      explanation: efficientIncomeExplanation(),
     },
     targetNestEgg: {
       question: "In order to fund you're retirement your savings should be structured simliar to this",
@@ -174,7 +172,7 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
         step: 1,
         topLabel: "then in", //for the first one we want to say "starting in" but after they add changes we want it to say "then in"
         type: "year",
-        value: state.user_reducer["idealIncome"],
+        value: user_reducer["idealIncome"],
         handleChange: (value: number) => {
           set("user_reducer", { idealIncome: value })
         },

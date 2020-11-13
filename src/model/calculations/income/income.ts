@@ -39,6 +39,7 @@ export const buildIncomeForcast = (state: I.state): I.objects => {
 
   const chartArray = []
 
+  console.log(1 / users.length)
   users.forEach((user: I.user) => {
     const streams = filter(state.stream_reducer, d => d.streamType === "income" && d.owner === user)
     const cpp = getCpp(inc, user, state)
@@ -46,13 +47,13 @@ export const buildIncomeForcast = (state: I.state): I.objects => {
     const {
       ["user1"]: { startWork, endWork },
     } = state.user_reducer
-    const { maxTfsa, maxRrsp, topTenAvg, incPerc } = getValues(user, r1, r2, inc, startWork, endWork, showTargetInc)
+    const { maxTfsa, maxRrsp, topTenAvg } = getValues(user, r1, r2, inc, startWork, endWork, showTargetInc)
 
     getYearRange(state).forEach(year => {
       const ccb = getCcb(inc, year, state)
       const inc0 = addPensions(cpp, oas, ccb, inc, year, user)
       const taxableInc0 = sum(inc0, "taxable", streams)
-      const income = showTargetInc ? getTargetIncome(endWork, inc0, incPerc, retIncome, taxableInc0, maxTfsa, maxRrsp, topTenAvg, year, user) : inc0
+      const income = showTargetInc ? getTargetIncome(endWork, inc0, 1/users.length, retIncome, taxableInc0, maxTfsa, maxRrsp, topTenAvg, year, user) : inc0
       const taxableInc = sum(income, "taxable", streams)
       const marginalRate = getMargRate(taxableInc)
       const averageRate: any = getAvgRate(taxableInc)
@@ -77,8 +78,8 @@ export const buildIncomeForcast = (state: I.state): I.objects => {
   })
 
  // console.log("{ chartArray, inc }:", JSON.stringify(chartArray, null, 4))
- console.log(JSON.stringify(inc[2055], null, 4))
-  console.timeEnd()
+ //console.log(JSON.stringify(inc[2055], null, 4))
+ // console.timeEnd()
   //console.log(chartArray)
   return { chartArray, inc }
 }

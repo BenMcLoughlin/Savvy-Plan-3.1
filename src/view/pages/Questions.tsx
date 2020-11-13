@@ -37,7 +37,7 @@ export const Questions: FC<IProps> = ({ data }) => {
     <Wrapper>
       <ProgressBar length={length} progress={progress} />
       <Text>
-        {progress > 0 && explanation && <h3 style={{ fontWeight: "bold" }}>Why we Ask</h3>}
+        {progress > 0 && explanation && <h3 style={{ fontWeight: "bold" }}>Why this matters</h3>}
         <h4>{explanation}</h4>
       </Text>
       <TransitionGroup>

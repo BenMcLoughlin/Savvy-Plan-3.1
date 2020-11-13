@@ -3,11 +3,16 @@ import { store } from "index"
 
 export const stateV2 = "hi" //store.getState()
 
-export const set = (reducer: string, values: I.a): void => {
+export const set = (reducer: string, values: I.a): I.a => {
+console.log(typeof values)
   store.dispatch({
     type: `${reducer}/SET`,
     payload: values,
   })
+  return {
+    type: `${reducer}/SET`,
+    payload: values,
+  }
 }
 
 export const remove = (id: string, reducer = "stream_reducer"): void => {

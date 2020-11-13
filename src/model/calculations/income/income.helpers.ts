@@ -71,7 +71,7 @@ export const getValues = (u: I.user, r1: number, r2: number, inc, s: number, e: 
     (d: I.a) => d[u].cppEligibleIncome
   )
 
-  set("user_reducer", { [u]: { avgIncome: topTenAvg } })
+  set("user_reducer", { [u]: { avgIncome: +topTenAvg } })
 
   return {
     maxTfsa: -fin.PMT(
@@ -85,7 +85,7 @@ export const getValues = (u: I.user, r1: number, r2: number, inc, s: number, e: 
       Object.entries(inc).reduce((a, [k, v]) => a + (+k > +s && +k < +e ? checkMax(v[u].cppEligibleIncome * 0.18, k) + a * r1 : 0), 0)
     ),
     topTenAvg,
-    incPerc: 0.5,
+    incPerc: 1,
   }
 }
 
@@ -97,13 +97,13 @@ export const getTargetIncome = (endWork, income, incPerc, retIncome, taxableInc,
   const rrspContAdj = topTenAvg / 70000
 
   const rrspPerc = (lowBracketDiff / totalDiff) * rrspContAdj
-  const rrspWithdrawal = year > endWork ? rrspPerc * totalDiff : 0
+  const rrspWithdrawal = year >= endWork ? rrspPerc * totalDiff : 0
 
   const tfsaPerc = +retInc < maxTfsa + 41725 ? 1 - rrspPerc : maxTfsa / totalDiff
-  const tfsaWithdrawal = year > endWork ? tfsaPerc * totalDiff : 0
+  const tfsaWithdrawal = year >= endWork ? tfsaPerc * totalDiff : 0
 
   const nRegPerc = rrspPerc + tfsaPerc < 1 ? 1 - rrspPerc - tfsaPerc : 0
-  const nRegWithdrawal = year > endWork ? nRegPerc * totalDiff : 0
+  const nRegWithdrawal = year >= endWork ? nRegPerc * totalDiff : 0
 
   return {
     ...income,

@@ -251,7 +251,7 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
               if (value === "married" || value === "common-law") {
                 set("ui_reducer", { isMarried: true, users: ["user1", "user2"] })
               } else {
-                set("ui_reducer", { isMarried: false, users: "" })
+                set("ui_reducer", { users: null })
                 set("ui_reducer", { isMarried: false, users: ["user1"] })
               }
             },
@@ -341,7 +341,7 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
 
 export const showUsers = (q: I.a): I.objects => {
   const stateV2 = store.getState()
-  const { selectedUser } = stateV2.ui_reducer
+  const { selectedUser, isMarried } = stateV2.ui_reducer
   const { firstName: user1Name } = stateV2.user_reducer.user1
   const { firstName: user2Name } = stateV2.user_reducer.user2
 
@@ -363,7 +363,7 @@ export const showUsers = (q: I.a): I.objects => {
         ...{
           chart: "IncomeChart",
           show: "targetIncome",
-          component: "TripleSelector",
+          component: isMarried ? "TripleSelector" : 'null',
           enableNav: true,
           value: selectedUser,
           user1Name,
