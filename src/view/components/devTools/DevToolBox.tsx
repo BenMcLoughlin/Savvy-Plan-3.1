@@ -72,7 +72,7 @@ const Wrapper = styled.div<Wrapper>`
   position: absolute;
   bottom: 9rem;
   left: 0rem;
-
+  overflow: hidden;
   transition: all 0.5s ease;
   border-radius: 0 0 10px 10px;
   ${props => props.theme.neomorph}

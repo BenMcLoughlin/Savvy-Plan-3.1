@@ -18,7 +18,7 @@ export const formatCurrency = (number: I.n): string => {
   }
 }
 
-export const formatIncomeName = (name: string, user1Name: string, user2Name: string): string => {
+export const formatIncomeName = (name: string, user1Name?: string, user2Name?: string): string => {
   switch (name) {
     case "user1Cpp":
       return `${user1Name}'s Canada Pension Plan`
@@ -42,6 +42,12 @@ export const formatIncomeName = (name: string, user1Name: string, user2Name: str
       return `${user2Name}'s Old Age Security`
     case "user1Ccb":
       return `Canada Child Benefit`
+    case "rrsp":
+      return `R.R.S.P`
+    case "tfsa":
+      return `T.F.S.A`
+    case "nreg":
+      return `Non-Registered Savings`
   }
   return _.startCase(name)
 }

@@ -1,5 +1,5 @@
 import { createStream } from "model/services/create_functions"
-import { removeMostRecentStream, getYearRange } from "controller/questions/helpers"
+import { removeMostRecentStream, getYearRange, formatNestEggData } from "controller/questions/helpers"
 import { validateNext } from "model/services/validation/validators"
 import { createTripleSliders } from "controller/questions/tripleSelector.creator"
 import * as I from "model/types"
@@ -9,13 +9,13 @@ import { store } from "index"
 import { set, remove } from "model/redux/actions"
 
 export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
-  const stateV2 = store.getState()
-  const { stream_reducer, ui_reducer } = stateV2
-  const { selectedId, dualSelectValue, changeAssumptions } = stateV2.ui_reducer
-  const stream: I.stream = stateV2.stream_reducer[selectedId] || dummyStream
-  const { birthYear, lifeSpan, gender, firstName } = stateV2.user_reducer[user]
+  const state = store.getState()
+  const { stream_reducer, ui_reducer } = state
+  const { selectedId, dualSelectValue, changeAssumptions } = state.ui_reducer
+  const stream: I.stream = state.stream_reducer[selectedId] || dummyStream
+  const { birthYear, lifeSpan, gender, firstName } = state.user_reducer[user]
   const { id, streamType, reg } = stream
-  const { numberOfChildren, maritalStatus, rate1, rate2, inflationRate, mer } = stateV2.user_reducer
+  const { numberOfChildren, maritalStatus, rate1, rate2, inflationRate, mer } = state.user_reducer
   return {
     for: {
       birthYear: () =>
@@ -26,7 +26,7 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
             name: "year", //by setting it as streamType year the component will place valiation on the text
             handleChange: (e: I.event) => set("user_reducer", { [user]: { birthYear: +e.target.value } }),
             onNext: () => {
-              const { chartStartYear, chartEndYear, startWork, endWork } = getYearRange(stateV2, user)
+              const { chartStartYear, chartEndYear, startWork, endWork } = getYearRange(state, user)
               set("ui_reducer", { chartStartYear, chartEndYear })
               // set("user_reducer", { [user]: { startWork, endWork } })
               //store.dispatch({ type: "user_reducer/SET", payload: { [user]: { startWork, endWork } } })
@@ -42,7 +42,7 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
             min: 0,
             step: 1000,
             selectedFocus: true,
-            value: stateV2.user_reducer.retIncome,
+            value: state.user_reducer.retIncome,
             handleChange: value => {
               set("user_reducer", { retIncome: value })
             },
@@ -233,7 +233,7 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
         q.push({
           ...{
             component: "PickSingleOption",
-            value: stateV2.user_reducer.hasChildrenStatus,
+            value: state.user_reducer.hasChildrenStatus,
             handleChange: (value: string) => {
               set("ui_reducer", { hasChildren: value === "yes" || value === "hope to eventually" })
               set("user_reducer", { hasChildrenStatus: value })
@@ -340,10 +340,10 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
 }
 
 export const showUsers = (q: I.a): I.objects => {
-  const stateV2 = store.getState()
-  const { selectedUser, isMarried } = stateV2.ui_reducer
-  const { firstName: user1Name } = stateV2.user_reducer.user1
-  const { firstName: user2Name } = stateV2.user_reducer.user2
+  const state = store.getState()
+  const { selectedUser, isMarried } = state.ui_reducer
+  const { firstName: user1Name } = state.user_reducer.user1
+  const { firstName: user2Name } = state.user_reducer.user2
 
   return {
     introduction: () =>
@@ -363,7 +363,7 @@ export const showUsers = (q: I.a): I.objects => {
         ...{
           chart: "IncomeChart",
           show: "targetIncome",
-          component: isMarried ? "TripleSelector" : 'null',
+          component: isMarried ? "TripleSelector" : "null",
           enableNav: true,
           value: selectedUser,
           user1Name,
@@ -376,7 +376,7 @@ export const showUsers = (q: I.a): I.objects => {
       q.push({
         ...{
           chart: "DonutChart",
-          useExampleState: true,
+          data: formatNestEggData(state),
           handleChange: d => set("ui_reducer", { selectedUser: d }),
         },
         ...addText("targetNestEgg", "user1"),
@@ -407,7 +407,7 @@ export const showUsers = (q: I.a): I.objects => {
 }
 
 export const buttons = (q: I.a): any => {
-  const stateV2 = store.getState()
+  const state = store.getState()
   const { progress } = store.getState().ui_reducer
   const { value } = q[progress]
 
@@ -420,7 +420,7 @@ export const buttons = (q: I.a): any => {
         }
       },
       valid: validateNext(value, q[progress]),
-      stateV2,
+      state,
     }),
     exitButton: () => ({
       handleChange: () => {

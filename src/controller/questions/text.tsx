@@ -98,8 +98,8 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       explanation: efficientIncomeExplanation(),
     },
     targetNestEgg: {
-      question: "In order to fund you're retirement your savings should be structured simliar to this",
-      subTitle: "If you draw $12k from your RRSPs you'll still be in the lowest tax bracket in retirement. Then since you want 52k the remaining $12k could come from your TFSA",
+      question: "In order to fund you're retirement and minimize taxes your savings this would be a good allocation of your savings.",
+      subTitle: "We'll call the amount of savings you have upon entering retirement your \"Nest Egg\". Our next task is to build the savings plan that will ",
     },
 
     gender: {

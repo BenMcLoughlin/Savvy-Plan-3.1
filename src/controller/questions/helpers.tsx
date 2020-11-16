@@ -94,3 +94,20 @@ export const efficientIncomeExplanation = () => {
     const totalIncome = user1.rrspIncome + user1.tfsaIncome
  return `If you only saved in your RRSP's all your income in retirement would be taxable. Your marginal rate would then be 40% and you'd be paying 9k in taxes. With this strategy your marginal rate is 20% and you're only paying $4000 a year in taxes in retirement. `
 }
+
+export const formatNestEggData = ({ ui_reducer, user_reducer }) => {
+  const { users } = ui_reducer
+  const searchValues = ["rrspNestEgg", "tfsaNestEgg", "nregNestEgg"]
+  return users.reduce(
+    (a, user) =>
+      a.concat(
+        searchValues.map(v => ({
+          owner: user_reducer[user].firstName,
+          account: v.slice(0, 4),
+          income: user_reducer[user][v.slice(0, 4) + "Inc"],
+          value: user_reducer[user][v],
+        }))
+      ),
+    []
+  )
+}

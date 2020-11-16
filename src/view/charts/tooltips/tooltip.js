@@ -5,7 +5,7 @@ import { savingsBarHtml } from "view/charts/tooltips/tooltipHtml/savingsBarHtml"
 import { savingsAreaHtml } from "view/charts/tooltips/tooltipHtml/savingsAreaHtml"
 import { savingsStackedAreaHtml } from "view/charts/tooltips/tooltipHtml/savingsStackedAreaHtml"
 import { savingsStackedAreaValueHtml } from "view/charts/tooltips/tooltipHtml/savingsStackedAreaValueHtml"
-import { savingsSunburstChartHtml } from "view/charts/tooltips/tooltipHtml/savingsSunburstChartHtml"
+import { donutChartHtml } from "view/charts/tooltips/tooltipHtml/donutChartHtml"
 import { overviewHtml } from "view/charts/tooltips/tooltipHtml/overviewHtml"
 import { getPeakYear } from "view/charts/createChartFunctions/chartHelpers"
 
@@ -23,20 +23,13 @@ export const buildHtml = (className, color, d, dataObject, n, state, user) => {
       return savingsStackedAreaValueHtml(d, dataObject, user)
     case "overviewAreaChart":
       return overviewHtml(d, dataObject, state)
-    case "savingsSunburstChart":
-      return savingsSunburstChartHtml(d, dataObject, state)
+    case "donutChart":
+      return donutChartHtml(d, dataObject, state)
   }
 }
 
 export const createBarTooltip = (className, dataObject, hoveredName, state) => {
-  const tooltip = d3
-    .select(`.${className}`)
-    .append("div")
-    .attr("class", `${className}tooltip`)
-    .style("opacity", 0)
-    .style("position", "absolute")
-    .style("top", "-100rem")
-    .style("right", "300rem")
+  const tooltip = d3.select(`.${className}`).append("div").attr("class", `${className}tooltip`).style("opacity", 0).style("position", "absolute").style("top", "-100rem").style("right", "300rem")
 
   d3.selectAll(`rect`)
     .on("mouseover", (d, i, n) => {
@@ -149,7 +142,10 @@ export const createStackedAreaTooltip = (className, dataObject, graph, state, xS
         .attr("stroke-width", 2)
         .attr("stroke", "#72929B")
 
-      tooltip.html(buildHtml(className, null, d, dataObject, null, state)).style("opacity", 1)
+      tooltip
+        .html(buildHtml(className, null, d, dataObject, null, state))
+        .style("opacity", 1)
+        .style("left", 160 + "px")
       tooltip2.style("opacity", 1).html(buildHtml("savingsStackedAreaChartValue", null, d, dataObject, null, state, "user2")).style("opacity", 1)
       tooltip3.style("opacity", 1).html(buildHtml("savingsStackedAreaChartValue", null, d, dataObject, null, state, "user1")).style("opacity", 1)
       tooltip.transition().duration(200).style("opacity", 1).style("pointer-events", "none")
@@ -157,15 +153,13 @@ export const createStackedAreaTooltip = (className, dataObject, graph, state, xS
     .on("mouseout", (d, i, n) => {
       d3.selectAll(`circle`).remove()
       d3.selectAll(`line`).remove()
-       tooltip.transition().duration(500).style("opacity", 0)
-       tooltip2.transition().duration(5500).style("opacity", 0)
-       tooltip3.transition().duration(5500).style("opacity", 0)
+      tooltip.transition().duration(500).style("opacity", 0)
+      tooltip2.transition().duration(5500).style("opacity", 0)
+      tooltip3.transition().duration(5500).style("opacity", 0)
     })
     .on("mousemove", d => {
-      tooltip
-        .style("opacity", 1)
-        .style("top", 50 + "px") // always 10px below the cursor
-        .style("left", () => (d3.event.layerX > 1100 ? "1100px" : d3.event.layerX + 50 + "px")) // always 10px to the right of the mouse
+      tooltip.style("opacity", 1).style("top", 50 + "px") // always 10px below the cursor
+      // .style("left", () => (d3.event.layerX > 1100 ? "1100px" : d3.event.layerX + 50 + "px")) // always 10px to the right of the mouse
 
       tooltip2
         .style("opacity", 1) //THIS IS USER 2

@@ -2,26 +2,25 @@
 import React, { FC, useRef, useEffect, useMemo } from "react"
 import styled from "styled-components"
 import { ChartNav } from "view/components"
-import { drawDonutChart, createSunburstData } from "view/charts/createChartFunctions/createDonutChart"
+import { drawDonutChart,  } from "view/charts/createChartFunctions/createDonutChart"
 import * as I from "model/types"
 import { buildIncomeForcast } from "model/calculations/income/income"
-
+import "./tooltip.css"
 
 interface IProps {
   state: I.state
   color_selector: any
   set: (id: string, reducer: string, value: any, childId1?: string) => void
   enableNav?: boolean
-  show?: string
+  data?: string
 }
 
-export const DonutChart: FC<IProps> = ({ color_selector, enableNav, show, state, set }) => {
+export const DonutChart: FC<IProps> = ({ color_selector, enableNav, data, state, set }) => {
 
   const { selectedUser } = state.ui_reducer
   const inputRef = useRef(null)
-  const className = "savingsSunburstChart"
-  const data = useMemo(() => createSunburstData(state), [state.stream_reducer, selectedUser])
-
+  const className = "donutChart"
+console.log(data)
   useEffect(() => {
 
     if (inputRef && inputRef.current) {
@@ -34,6 +33,18 @@ export const DonutChart: FC<IProps> = ({ color_selector, enableNav, show, state,
   return (
     <Wrapper>
       <Canvas className={className} ref={inputRef} />
+      {/* <div className="tooltipWrapper">
+        <div className="tooltipTitle">Bens Target RRSP</div>
+        <div className="displayBox">
+          <div className="displayValue1">165k</div>
+          <div className="subTitle">Ideal Value at age 65</div>
+        </div>
+        <div className="displayTitle">So it can provide</div>
+        <div className="displayBox">
+          <div className="displayValue1">11k</div>
+          <div className="subTitle">Income per year till age 95</div>
+        </div>
+      </div> */}
     </Wrapper>
   )
 }
@@ -45,11 +56,12 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 80rem;
-  height: 50rem;
+  width: 50rem;
+  height: 30rem;
   ${props => props.theme.neomorph};
   border-radius: 15px;
-  margin-top: 14rem;
+  margin-top: -2rem;
+  margin-left: -10rem;
 `
 const Canvas = styled.div`
   width: 100%;
