@@ -2,11 +2,11 @@
 import React, { FC, useEffect, useRef } from "react"
 import styled from "styled-components"
 import { getSavings, getStackedSavings } from "model/calculations/savings/savings.function"
-import { drawAreaChart } from "view/charts/createChartFunctions/createAreaChart"
-import { drawBarChart } from "view/charts/createChartFunctions/createBarChart"
+import { drawAreaChart } from "view/charts/drawCharts/drawAreaChart"
+import { drawBarChart } from "view/charts/drawCharts/drawBarChart"
 import { getSavingsData } from "model/calculations/savings/create/createChartArray"
 import { exampleState, dummyRate1Data } from "data/exampleState"
-import { comparisonData} from "data/planComparisonData"
+import { comparisonData } from "data/planComparisonData"
 import { store } from "index"
 
 interface IProps {
@@ -15,7 +15,7 @@ interface IProps {
   chartData?: string
 }
 
-export const SavingsChart: FC<IProps> = ({ color_selector,  useExampleState, chartData, }) => {
+export const SavingsChart: FC<IProps> = ({ color_selector, useExampleState, chartData }) => {
   let state = store.getState()
   if (useExampleState) state = exampleState
   if (chartData) state = dummyRate1Data

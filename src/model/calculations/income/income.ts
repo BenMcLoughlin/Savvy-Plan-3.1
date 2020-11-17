@@ -39,7 +39,6 @@ export const buildIncomeForcast = (state: I.state): I.objects => {
 
   const chartArray = []
 
-  console.log(1 / users.length)
   users.forEach((user: I.user) => {
     const streams = filter(state.stream_reducer, d => d.streamType === "income" && d.owner === user)
     const cpp = getCpp(inc, user, state)
@@ -75,10 +74,11 @@ export const buildIncomeForcast = (state: I.state): I.objects => {
     })
     set("user_reducer", { [user]: setTargetSavings(inc, r2, endWork, user) })
     set("user_reducer", { [user]: getTargetWithdrawals(inc, endWork, user) })
+    set("user_reducer", { [user]: { cppPayment: cpp } })
   })
 
  // console.log("{ chartArray, inc }:", JSON.stringify(chartArray, null, 4))
- //console.log(JSON.stringify(inc[2055], null, 4))
+ console.log(JSON.stringify(inc, null, 4))
  // console.timeEnd()
   //console.log(chartArray)
   return { chartArray, inc }

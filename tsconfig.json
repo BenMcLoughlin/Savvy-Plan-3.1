@@ -19,6 +19,7 @@
     "jsx": "react",
     "baseUrl": "src",
     "noFallthroughCasesInSwitch": true,
+    "noImplicitThis": false,
     "types": []
   },
   "include": ["src", "jest.config.js"],

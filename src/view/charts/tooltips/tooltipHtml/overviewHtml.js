@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { round } from "view/charts/createChartFunctions/chartHelpers"
+import { round } from "view/charts/drawCharts/chartHelpers"
 import { exampleOverviewData } from "data/exampleState"
 
 const wrapper = `

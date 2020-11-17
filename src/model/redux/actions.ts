@@ -4,7 +4,7 @@ import { store } from "index"
 export const stateV2 = "hi" //store.getState()
 
 export const set = (reducer: string, values: I.a): I.a => {
-console.log(typeof values)
+
   store.dispatch({
     type: `${reducer}/SET`,
     payload: values,

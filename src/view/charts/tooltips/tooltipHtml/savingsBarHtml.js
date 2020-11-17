@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { round } from "view/charts/createChartFunctions/chartHelpers"
+import { round } from "view/charts/drawCharts/chartHelpers"
 
 const topHeader = `
 display: flex;

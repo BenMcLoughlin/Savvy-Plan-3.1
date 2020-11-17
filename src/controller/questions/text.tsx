@@ -7,7 +7,7 @@ import { store } from "index"
 import { set } from "model/redux/actions"
 
 export const addText = (textKey: string, user: I.user, n?: number): I.objects => {
-  const { stream_reducer, user_reducer, ui_reducer} = store.getState()
+  const { stream_reducer, user_reducer, ui_reducer } = store.getState()
   const { selectedId, isMarried, hasChildren } = ui_reducer
   const { rate1, mer, inflationRate, selectedUser } = user_reducer
   const stream: I.stream = stream_reducer[selectedId] || dummyStream
@@ -35,6 +35,14 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       subTitle:
         "Our goal is to see what your government benefits in retirement looks like. If you're earning too much you can have these 'clawed back' through high taxes. By estimating your pension now we build a savings plan that saves you the most in taxes when you retire.",
       question: "This shows your income combined",
+    },
+    cppStartAge: {
+      type: "percentage",
+      subTitle:
+        "Taking your Canada Pension early will lead to a reduction in the amount you receive. Taking it later means you will get more every year. We call the age by which, if you died, it would have been better to start early your break even year. In this case yours is Age 82. ",
+      question: "When would you like to begin taking your Canada Pension Plan? ",
+      bottomLabel: `Return on Investment`,
+      topLabel: "I hope to get ",
     },
     createIncome: {
       explanation: "",
@@ -99,7 +107,7 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
     },
     targetNestEgg: {
       question: "In order to fund you're retirement and minimize taxes your savings this would be a good allocation of your savings.",
-      subTitle: "We'll call the amount of savings you have upon entering retirement your \"Nest Egg\". Our next task is to build the savings plan that will ",
+      subTitle: 'We\'ll call the amount of savings you have upon entering retirement your "Nest Egg". Our next task is to build the savings plan that will ',
     },
 
     gender: {
@@ -248,6 +256,14 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       bottomLabel: `Return on Investment`,
       topLabel: "I hope to get ",
     },
+    rrspStartAge: {
+      type: "percentage",
+      subTitle:
+        "This is called converting it to a RRIF, Registered Retirement Investment Fund. Once it’s converted you have to make a minimum withdrawal of at least 4% each year.  The latest you’re allowed to convert is age 72. ",
+      question: "When would you like to begin drawing income from your Registered Retirement Savings account?",
+      bottomLabel: `Return on Investment`,
+      topLabel: "I'd like to convert in ",
+    },
     savingsCurrentValue: {
       ask: "Just an approximation of the current value is helpful. ",
       bottomLabel: `in my ${reg.toUpperCase()}`,
@@ -278,10 +294,25 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       topLabelFuture: "I'd like to withdraw",
       bottomLabel: "before tax per year",
     },
-    theyWantToChangeAssumptions: {
+    tfsaStartAge: {
+      type: "percentage",
+      subTitle:
+        "There are no rules about when you have to withdraw or how much. For our calculations we’d like to know a year you’ll start withdrawing so that we can ensure you’re earning enough income in retirement. ",
+      question: "When would you like to begin drawing income from your TFSA and other investment savings?",
+      bottomLabel: `Return on Investment`,
+      topLabel: "I hope to get ",
+    },
+    theyWantToChangeRateAssumptions: {
       question: "Would you like to change the plans assumptions?",
       subTitle:
-        "Since we don’t know the future we have a make a series of guesses about what could happen. We call these assumptions and they include interest and inflation rates as well as when you might take your pension income. ",
+        "Since we don’t know the future we have a make a series of guesses about what could happen. We call these assumptions and they include interest and inflation rates and several other factors.",
+      explanation: "Some people enjoy digging into the details while others just want to skip to the results. ",
+      option1: "yes",
+      option2: "no",
+    },
+    theyWantToChangeRetirementAssumptions: {
+      question: "Would you like to change assumptions we’ve made about when you might retire? ",
+      subTitle: "We’ve assumed you’d like to start drawing from your investments, begin collecting Canada Pension Plan, and Old Age security at age 65. ",
       explanation: "Some people enjoy digging into the details while others just want to skip to the results. ",
       option1: "yes",
       option2: "no",

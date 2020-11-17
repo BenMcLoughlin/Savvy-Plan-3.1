@@ -1,21 +1,35 @@
 import { createStream } from "model/services/create_functions"
-import { removeMostRecentStream, getYearRange, formatNestEggData } from "controller/questions/helpers"
+import { removeMostRecentStream, getYearRange, formatNestEggData, formatCppChartData } from "controller/questions/helpers"
 import { validateNext } from "model/services/validation/validators"
 import { createTripleSliders } from "controller/questions/tripleSelector.creator"
+import { createDualSliders } from "controller/questions/createDualSlider.creator"
 import * as I from "model/types"
 import { addText } from "controller/questions/text"
 import { dummyStream } from "data"
 import { store } from "index"
 import { set, remove } from "model/redux/actions"
 
+const slider1 = {
+  bottomLabel: `at age `, //eg "at age 26"
+  max: 2080,
+  min: 50, //if its the first one then just 2020, otherwise its the period priors last year
+  step: 1,
+  topLabel: "eb", //for the first one we want to say "starting in" but after they add changes we want it to say "then in"
+  type: "year",
+  value: 1,
+  handleChange: (value: number) => {
+    null
+  },
+}
 export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
   const state = store.getState()
   const { stream_reducer, ui_reducer } = state
-  const { selectedId, dualSelectValue, changeAssumptions } = state.ui_reducer
+  const { selectedId, dualSelectValue, changeRateAssumptions, changeRetirementAssumptions, users } = state.ui_reducer
   const stream: I.stream = state.stream_reducer[selectedId] || dummyStream
   const { birthYear, lifeSpan, gender, firstName } = state.user_reducer[user]
   const { id, streamType, reg } = stream
   const { numberOfChildren, maritalStatus, rate1, rate2, inflationRate, mer } = state.user_reducer
+
   return {
     for: {
       birthYear: () =>
@@ -34,6 +48,23 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
           },
           ...addText("birthYear", user),
         }),
+      cppStartAge: () => {
+        q.push({
+          ...{
+            chart: "AreaChart", 
+            data: formatCppChartData(state, user),
+            chartName: "cpp",
+            component: "Slider",
+            max: 120,
+            min: 75,
+            step: 1,
+            selectedFocus: true,
+            value: lifeSpan,
+            handleChange: value => set("user_reducer", { [user]: { cppStartAge: value } }),
+          },
+          ...addText("cppStartAge", user),
+        })
+      },
       retIncome: () =>
         q.push({
           ...{
@@ -84,6 +115,20 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
           },
           ...addText("numberOfChildren", user),
         }),
+      oasStartAge: () => {
+        q.push({
+          ...{
+            component: "Slider",
+            max: 120,
+            min: 75,
+            step: 1,
+            selectedFocus: true,
+            value: lifeSpan,
+            handleChange: value => set("user_reducer", { [user]: { oasStartAge: value } }),
+          },
+          ...addText("oasStartAge", user),
+        })
+      },
       income: {
         amount: n => {
           const data = {
@@ -188,6 +233,31 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
           ...addText("rate2", user),
         })
       },
+      rrspStartAge: () => {
+        q.push({
+          ...{
+            component: "MultiSliders",
+            num: users.length,
+            value: lifeSpan,
+            handleChange: value => set("user_reducer", { [user]: { rrspStartAge: value } }),
+            ...createDualSliders("rrspStartAge"),
+          },
+
+          ...addText("rrspStartAge", user),
+        })
+      },
+      tfsaStartAge: () => {
+        q.push({
+          ...{
+            component: "MultiSliders",
+            num: users.length,
+            value: lifeSpan,
+            handleChange: value => set("user_reducer", { [user]: { tfsaStartAge: value } }),
+            ...createDualSliders("rrspStartAge"),
+          },
+          ...addText("tfsaStartAge", user),
+        })
+      },
       savings: {
         currentValue: () =>
           q.push({
@@ -258,15 +328,25 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
           },
           ...addText("isMarried", user),
         }),
-      theyWantToChangeAssumptions: () =>
+      theyWantToChangeRateAssumptions: () =>
         q.push({
           ...{
             component: "DualSelect",
-            value: changeAssumptions,
-            handleChange: () => set("ui_reducer", { dualSelectValue: true, changeAssumptions: true }),
-            handleChange2: () => set("ui_reducer", { dualSelectValue: false, changeAssumptions: false }),
+            value: changeRateAssumptions,
+            handleChange: () => set("ui_reducer", { dualSelectValue: true, changeRateAssumptions: true }),
+            handleChange2: () => set("ui_reducer", { dualSelectValue: false, changeRateAssumptions: false }),
           },
-          ...addText("theyWantToChangeAssumptions", user),
+          ...addText("theyWantToChangeRateAssumptions", user),
+        }),
+      theyWantToChangeRetirementAssumptions: () =>
+        q.push({
+          ...{
+            component: "DualSelect",
+            value: changeRetirementAssumptions,
+            handleChange: () => set("ui_reducer", { dualSelectValue: true, changeRetirementAssumptions: true }),
+            handleChange2: () => set("ui_reducer", { dualSelectValue: false, changeRetirementAssumptions: false }),
+          },
+          ...addText("theyWantToChangeRetirementAssumptions", user),
         }),
       addAnother: {
         income: () =>

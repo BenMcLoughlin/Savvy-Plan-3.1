@@ -6,7 +6,7 @@ import { set } from "model/redux/actions"
 
 export const onboard_questions = (): I.onboard_questions => {
   const state = store.getState()
-  const { isMarried, hasChildren, changeAssumptions } = state.ui_reducer
+  const { isMarried, hasChildren, changeRateAssumptions, changeRetirementAssumptions } = state.ui_reducer
   const q: I.question[] = []
 
   const askUser1 = onboardQuestions(q, "user1")
@@ -51,8 +51,8 @@ export const onboard_questions = (): I.onboard_questions => {
       show.combinedIncomeChart()
     })
   }
-  askUser1.if.theyWantToChangeAssumptions()
-  if (changeAssumptions) {
+  askUser1.if.theyWantToChangeRateAssumptions()
+  if (changeRateAssumptions) {
     askUser1.for.rate1()
     askUser1.for.rate2()
     askUser1.for.inflationRate()
@@ -61,6 +61,13 @@ export const onboard_questions = (): I.onboard_questions => {
     if (isMarried) {
       askUser2.for.lifeSpan()
     }
+  }
+  askUser1.if.theyWantToChangeRetirementAssumptions()
+  if (changeRetirementAssumptions) {
+    askUser1.for.rrspStartAge()
+    askUser1.for.tfsaStartAge()
+    askUser1.for.cppStartAge()
+    askUser1.for.oasStartAge()
   }
 
   askUser1.for.retIncome()
@@ -104,7 +111,7 @@ export const onboard_questions = (): I.onboard_questions => {
   // ask.for.user1.name()
 
   const questions = q
-
+console.log(questions)
   const add = buttons(questions)
 
   return {

@@ -2,10 +2,9 @@
 import React, { FC, useRef, useEffect, useMemo } from "react"
 import styled from "styled-components"
 import { ChartNav } from "view/components"
-import { drawBarChart } from "view/charts/createChartFunctions/createBarChart"
+import { drawBarChart } from "view/charts/drawCharts/drawBarChart"
 import * as I from "model/types"
 import { buildIncomeForcast } from "model/calculations/income/income"
-
 
 interface IProps {
   state: I.state
@@ -16,15 +15,12 @@ interface IProps {
 }
 
 export const IncomeChart: FC<IProps> = ({ color_selector, enableNav, show, state, set }) => {
-
   const { selectedUser } = state.ui_reducer
   const inputRef = useRef(null)
   const className = "incomeChart"
   const { chartArray, inc } = useMemo(() => buildIncomeForcast(state), [state.stream_reducer, selectedUser])
 
-
   useEffect(() => {
-
     if (inputRef && inputRef.current) {
       const width = inputRef.current.offsetWidth
       const height = inputRef.current.offsetHeight

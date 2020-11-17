@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { round } from "view/charts/createChartFunctions/chartHelpers"
+import { round } from "view/charts/drawCharts/chartHelpers"
 
 const wrapper = `
   margin-left: 14rem;
@@ -24,7 +24,6 @@ font-weight: 200;
 `
 
 export const savingsStackedAreaValueHtml = (d, dataObject, user) => {
-
   let total = dataObject[d.year][user].totalSavings
   // if (selectedAccount !== "combined" && selectedUser !== "combined") total = dataObject[d.year][selectedUser][selectedAccount].total
   // if (selectedAccount === "combined" && selectedUser !== "combined") total = dataObject[d.year][selectedUser].totalSavings

@@ -2,7 +2,7 @@
 import React, { FC, useRef, useEffect, useMemo } from "react"
 import styled from "styled-components"
 import { ChartNav } from "view/components"
-import { drawDonutChart,  } from "view/charts/createChartFunctions/createDonutChart"
+import { drawDonutChart } from "view/charts/drawCharts/drawDonutChart"
 import * as I from "model/types"
 import { buildIncomeForcast } from "model/calculations/income/income"
 import "./tooltip.css"
@@ -16,17 +16,16 @@ interface IProps {
 }
 
 export const DonutChart: FC<IProps> = ({ color_selector, enableNav, data, state, set }) => {
-
+  console.log("state:", state)
   const { selectedUser } = state.ui_reducer
   const inputRef = useRef(null)
   const className = "donutChart"
-console.log(data)
-  useEffect(() => {
 
+  useEffect(() => {
     if (inputRef && inputRef.current) {
       const width = inputRef.current.offsetWidth
       const height = inputRef.current.offsetHeight
-      drawDonutChart(color_selector, className, data, height, width)
+      drawDonutChart(color_selector, className, data, height, width, state)
     }
   }, [color_selector, data, set, selectedUser, state])
 

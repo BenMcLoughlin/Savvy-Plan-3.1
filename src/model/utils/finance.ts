@@ -16,6 +16,6 @@ export const PVoCF = (values, r, findBy) => values.reduce((a, n, i) => a + n / (
  */
 
 export const PVoChartCF = (values, r, retYear, filterBy) => {
-  console.log('values:', values)
+
   return values.reduce((a, n, i) => a + (n.year > retYear ? n[filterBy] / (1 + r) ** (i + 1) : 0), 0)
 }

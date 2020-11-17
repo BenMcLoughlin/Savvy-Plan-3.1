@@ -106,7 +106,11 @@ export const EditPanel = compose(connect(mapStateToProps, { set, remove }))(_Edi
 
 //Smart Components Connected to Redux
 
+export {AreaChart} from "view/charts/AreaChart"
+
 export const TextInput = compose(connect(mapStateToProps, { set, remove }))(_TextInput)
+
+
 
 export const DonutChart = compose(connect(mapStateToProps, { set }))(_DonutChart)
 

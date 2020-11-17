@@ -1,3 +1,4 @@
+import { NumberArray } from "d3"
 import * as I from "model/types"
 
 export type period = {
@@ -32,7 +33,8 @@ export interface auth_reducer {
 
 export interface ui_reducer {
   colorIndex: number
-  changeAssumptions: boolean
+  changeRateAssumptions: boolean
+  changeRetirementAssumptions: boolean
   chartStartYear: number
   chartEndYear: number
   dualSelectValue: boolean
@@ -86,6 +88,14 @@ export type userCore = {
   oasStartAge: number
   startWork: number
   avgIncome: number
+  rrspInc: number
+  rrspNestEgg: number
+  rrspStartAge: number
+  tfsaInc: number
+  tfsaNestEgg: number
+  tfsaStartAge: number
+  nregInc: number
+  nregNestEgg: number
 }
 
 export type user_reducer = {

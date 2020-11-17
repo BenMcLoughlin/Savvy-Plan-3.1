@@ -56,7 +56,7 @@ const centerTitle = `
   font-style: italic;
 `
 
-export const donutChartHtml = ({ data }) => {
+export const nestEggDonutHtml = ({ data }) => {
   return `
       <div style="${tooltipWrapper}">
         <div style="${tooltipTitle}">${data.owner}'s Target ${formatIncomeName(data.account)}</div>

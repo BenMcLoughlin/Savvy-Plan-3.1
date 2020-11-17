@@ -99,6 +99,8 @@ export const getMax = (className: string, dataObject: I.objects): I.n => {
       const max = d3.max(beforeTaxIncomeArray)
       return max > 100000 ? max + 30000 : 100000
     }
+    case "cppAreaChart":
+      return 18000
     case "savingsBarChart":
       return getSavingsBarMax(dataObject)
     case "savingsAreaChart":

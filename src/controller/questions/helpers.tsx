@@ -3,7 +3,8 @@ import { set, remove } from "model/redux/actions"
 import { store } from "index"
 import { round } from "model/services/ui_functions"
 import { getCpp, getCcb, getAvgRate, getMargRate, addPensions, beforePension, getAfterTaxIncome, sum, getValues, getTargetIncome } from "model/calculations/income/income.helpers"
-
+import { adjustCpp } from "model/calculations/income/CanadaPensionPlan/CPP.helpers"
+import _ from "lodash"
 
 export const streams = (state: I.state, user: I.user, streamType: I.streamType): I.stream[] => {
   return Object.values(state.stream_reducer as I.stream_reducer).filter((d: I.stream) => d.owner === user && d.streamType === streamType)
@@ -110,4 +111,14 @@ export const formatNestEggData = ({ ui_reducer, user_reducer }) => {
       ),
     []
   )
+}
+
+export const formatCppChartData = ({ ui_reducer, user_reducer }, user) => {
+  const { cppPayment, birthYear, cppStartYear } = user_reducer[user]
+ const data = _.range(60, 70).map(age => ({
+    year: age,
+    value: adjustCpp(cppPayment, age),
+  }))
+  console.log(data)
+  return data
 }

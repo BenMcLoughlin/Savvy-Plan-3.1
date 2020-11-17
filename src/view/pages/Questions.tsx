@@ -19,6 +19,7 @@ export const Questions: FC<IProps> = ({ data }) => {
   const { backButton, nextButton, questions } = data
   const { length } = questions
   const { explanation, backHandleChange, chart, onNext, useExampleState } = data.questions[progress]
+
   const history = useHistory()
   useEffect(() => {
     // saveStore()
@@ -91,7 +92,7 @@ interface IComponent {
 
 const Component = styled.div<IComponent>`
   position: absolute;
-  margin-top: ${props => (props.chart === "IncomeChart" ? "77rem" : props.chart === "SavingsChart" ? "94rem" : "30rem")};
+  margin-top: ${props => (props.chart === "IncomeChart" ? "77rem" : props.chart ? "94rem" : "30rem")};
   left: 0rem;
   width: 80rem;
   justify-content: center;

@@ -25,7 +25,7 @@ export const MultiSliders: FC<ISliderProps> = props => {
 //-----------------------------------------------style-----------------------------------------------//
 
 const Wrapper = styled.div`
-  position: relative;
+  position: relatincomeive;
   width: 64rem;
   height: 12rem;
   display: flex;

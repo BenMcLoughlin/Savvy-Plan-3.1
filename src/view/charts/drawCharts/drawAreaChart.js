@@ -1,10 +1,11 @@
 /* eslint-disable */
 import * as d3 from "d3"
 import { createAreaTooltip, createStackedAreaTooltip } from "view/charts/tooltips/tooltip"
-import { getMax } from "view/charts/createChartFunctions/chartHelpers"
+import { getMax } from "view/charts/drawCharts/chartHelpers"
+import { stackedAreaTooltip } from "view/charts/tooltips/savingsStackedArea/tooltip"
 
 export const drawAreaChart = (className, data, dataObject, height, state, width) => {
-  
+  console.log("data:", data)
   const margin = { top: 20, right: 100, bottom: 10, left: 100 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
@@ -73,15 +74,15 @@ export const drawAreaChart = (className, data, dataObject, height, state, width)
       .enter()
       .append("rect")
       .attr("x", d => xScale(d.year))
-      .attr("y", 0) 
-      .attr("width", (width/85))
+      .attr("y", 0)
+      .attr("width", width / 85)
       .attr("height", height)
       .attr("class", `${className}Rect`)
       .attr("opacity", "0")
       .raise()
 
     if ((className = "savingsStackedAreaChart")) {
-      createStackedAreaTooltip(className, dataObject, graph, state, xScale, yScale)
+      stackedAreaTooltip(className, dataObject, graph, state, xScale, yScale)
     } else {
       createAreaTooltip(className, dataObject, graph, state, xScale, yScale)
     }

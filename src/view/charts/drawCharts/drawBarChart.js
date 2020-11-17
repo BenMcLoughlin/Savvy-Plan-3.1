@@ -1,13 +1,11 @@
 /* eslint-disable */
 import * as d3 from "d3"
-import { getMax, getMin } from "view/charts/createChartFunctions/chartHelpers"
+import { getMax, getMin } from "view/charts/drawCharts/chartHelpers"
 import * as tooltips from "view/charts/tooltips/barTooltip"
-import { buildHtml } from "view/charts/tooltips/tooltip"
+import { incomeBarTooltip } from "view/charts/tooltips/incomeBar/tooltip"
 import _ from "lodash"
 
-
 export const drawBarChart = (colors, className, data, dataObject, height, state, width) => {
-                       
   const { selectedId } = state.ui_reducer
   const stream = state.stream_reducer[selectedId]
 
@@ -69,15 +67,6 @@ export const drawBarChart = (colors, className, data, dataObject, height, state,
 
     rects.exit().remove()
 
-    const tooltip = d3
-      .select(`.${className}`)
-      .append("div")
-      .attr("class", `${className}tooltip`)
-      .style("opacity", 0)
-      .style("position", "absolute")
-      .style("top", "-100rem")
-      .style("right", "30rem")
-
     rects
       .enter()
       .append("g")
@@ -105,18 +94,8 @@ export const drawBarChart = (colors, className, data, dataObject, height, state,
       .attr("y", d => yScale(d[1]))
       .attr("height", d => (yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0))
       .style("cursor", "pointer")
-      .on("mouseover", (d, i, n) => {
-        const name = n[0].parentNode.className.animVal
-        const color = colors[name]
-        tooltip.html(() => buildHtml(className, color, d, dataObject, n, state))
-        tooltip.transition().duration(200).style("opacity", 1).style("pointer-events", "none")
-      })
-      .on("mouseout", (d, i, n) => tooltip.transition().duration(1500).style("opacity", 0))
-      .on("mousemove", () => {
-        tooltip
-          .style("top", d3.event.layerY - 20 + "px") // always 10px below the cursor
-          .style("left", d3.event.layerX + 30 + "px") // always 10px to the right of the mouse
-      })
+
+    incomeBarTooltip(colors, className, dataObject, state)
 
     var ticks = [2020, 2040, 2060]
     var tickLabels = ["2020", "2040", "2060"]

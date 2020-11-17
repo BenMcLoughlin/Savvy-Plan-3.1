@@ -3,7 +3,8 @@ import {merge} from "model/utils"
 
 const initialState = {
   colorIndex: 0,
-  changeAssumptions: true,
+  changeRateAssumptions: true,
+  changeRetirementAssumptions: true,
   chartStartYear: 2007,
   chartEndYear: 2095,
   dualSelectValue: true,

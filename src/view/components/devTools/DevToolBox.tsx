@@ -18,7 +18,7 @@ export const DevToolBox: FC<IProps> = ({set}) => {
   })
 
   const { value1, value2, value3 } = input
-    console.log(value2)
+
 
   const handleChange = e => setInput({ ...input, [e.target.name]: e.target.value })
   const onSubmit = e => 
