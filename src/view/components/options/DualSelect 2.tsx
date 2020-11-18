@@ -1,24 +1,23 @@
 import React, { FC, useState } from "react"
 import styled from "styled-components"
-import _ from "lodash"
 
 interface IProps {
   handleChange: (option1) => void
   handleChange2: (option2, clickFired) => void
-  option1: string 
-  option2: string 
+  option1: string | number
+  option2: string | number
   value: boolean
 }
 
 export const DualSelect: FC<IProps> = ({ handleChange, handleChange2, option1, option2, value }) => {
   const [clickFired, fireClick] = useState<boolean>(false) //we need to know if a button has been clicked
-
   return (
-    <Wrapper option1={option1}>
+    <Wrapper>
       <Option
         onClick={() => {
           //the onclick is used to create new objects, for instance, do you own a house? "yes", then it creates a house object
           if (handleChange && !clickFired) {
+            console.log("option1:", option1)
             //but we can't have objects created with every click
             handleChange(option1) //creates the new object
             fireClick(true) //then ensures that clicking again whon't make a new one
@@ -27,7 +26,7 @@ export const DualSelect: FC<IProps> = ({ handleChange, handleChange2, option1, o
         selected={value}
         id="yes"
       >
-        {_.startCase(option1)}
+        {option1}
       </Option>
       <Option
         onClick={() => {
@@ -40,7 +39,7 @@ export const DualSelect: FC<IProps> = ({ handleChange, handleChange2, option1, o
         id="no"
       >
         {" "}
-        {_.startCase(option2)}
+        {option2}
       </Option>
       <Pill selected={value} option1={option1}></Pill>
     </Wrapper>
@@ -49,23 +48,24 @@ export const DualSelect: FC<IProps> = ({ handleChange, handleChange2, option1, o
 
 //---------------------------STYLES-------------------------------------------//
 
-interface Props {
-  selected?: boolean
-  option1?: string | number
-}
-
-const Wrapper = styled.div<Props>`
+const Wrapper = styled.div`
   display: inline-flex;
-  height: 3.5rem;
+  height: 3rem;
+  background-color: ${props => props.theme.color.lightGrey};
   box-shadow: rgba(64, 62, 61, 0.05) 0px 3px 10px 0px;
   margin: 0px;
   padding: 0px;
-  border-radius: ${props => (props.option1 === "rates" ? "10px 10px 0 0 " : "25px")};
-  background: #f4f4f3;
-  box-shadow: ${props => (props.option1 === "rates" ? "-19px -19px 38px #ffffff" : "19px 19px 38px #b0b0af, -19px -19px 38px #ffffff")};
+  border-radius: 25px;
 `
+interface OProps {
+  selected: boolean
+}
+interface PProps {
+  selected: boolean
+  option1: string | number
+}
 
-const Option = styled.div<Props>`
+const Option = styled.div<OProps>`
   position: relative;
   min-width: 16rem;
   color: ${props => (props.selected ? props.theme.color.ice : "grey")};
@@ -82,14 +82,14 @@ const Option = styled.div<Props>`
   font-size: ${props => props.theme.fontSize.small};
   font-weight: bold;
 `
-const Pill = styled.div<Props>`
+const Pill = styled.div<PProps>`
         position: absolute;
-        min-width: 17rem;
-        height: 3.5rem;
-        background-color: ${props => props.theme.color.steelBlue};
+        min-width: 16rem;
+        height: 3rem;
+        background-color: ${props => props.theme.color.primary};
         transform: ${props => (props.selected ? "translate(0,0)" : "translateX(100%)")};
         transition: all .3s ease;
-        border-radius: ${props => (props.option1 === "rates" ? "10px 10px 0 0 " : "25px")};
+        border-radius: 25px;
         animation: 0.2s cubic-bezier(0.645, 0.045, 0.355, 1) 0s 1 normal forwards running fmdUjs;
 }
 `

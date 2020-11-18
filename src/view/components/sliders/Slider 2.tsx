@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { FC, useState } from "react"
 import styled from "styled-components"
 
@@ -15,15 +14,16 @@ interface ISliderProps {
   selectedFocus?: boolean
 }
 
-export const Slider: FC<ISliderProps> = ({ min, handleChange, topLabel, bottomLabel, type, max, selectedFocus, step, value }) => {
+export const Slider: FC<ISliderProps> = ({ min, handleChange, topLabel, bottomLabel, type, max, selectedFocus, step, value}) => {
+
   const [focus, setFocus] = useState(false)
-console.log('min:', min)
+
   return (
     <Wrapper>
       <Label>{topLabel}</Label>
       <Value
         type="text"
-        autoFocus={selectedFocus ? selectedFocus : false}
+        autoFocus = {selectedFocus ? selectedFocus : false}
         onFocus={e => {
           e.target.select()
           setFocus(true)
@@ -31,9 +31,9 @@ console.log('min:', min)
         onBlur={() => setFocus(false)}
         autoComplete="off"
         onChange={e => {
-          const value = e.target.value.replace(",", "").replace("%", "")
-          handleChange(type === "percentage" ? value : +value)
-        }}
+          const value =  e.target.value.replace(",", "").replace("%", "")
+          handleChange(type === "percentage" ? value : +value)}
+        }
         value={type === "percentage" && !focus ? `${value}%` : type === "year" ? value : value.toLocaleString()}
       />
       <RangeBar
@@ -86,7 +86,6 @@ const RangeBar = styled.input<IRange>`
   margin-top: 2rem;
   margin-bottom: 2rem;
   transition: all 1s ease;
-  ${props => props.theme.neomorph};
   background: linear-gradient(90deg, ${props => "#707070 "} ${props => props.percentage}, ${props => "#C8C7C7"} ${props => props.percentage});
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -97,7 +96,6 @@ const RangeBar = styled.input<IRange>`
     border: 0.5px solid #707070;
     border-radius: 50%;
     cursor: pointer;
-    ${props => props.theme.neomorph};
   }
 
   &:active::-webkit-slider-thumb {

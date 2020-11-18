@@ -1,35 +1,32 @@
 import React, { FC, useState, useEffect } from "react"
 import styled from "styled-components"
 import * as components from "view/components"
-import { AssumptionsPanel, ProgressBar, Next, Back } from "view/components"
+import { ProgressBar, Next, Back, TripleSliderSelector } from "view/components"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
-import { useHistory, Redirect } from "react-router-dom"
+import { useHistory, Redirect, useParams } from "react-router-dom"
 import { matchThenShowComponent } from "model/services/display_functions"
 import * as I from "model/types"
-import { store } from "index"
-import { set } from "model/redux/actions"
 
 interface IProps {
+  set: I.set
+  remove: I.remove
+  state: I.state
   data: any
 }
 
-export const Questions: FC<IProps> = ({ data }) => {
-  const { progress, showAssumptionsPanel } = store.getState().ui_reducer
+export const Questions: FC<IProps> = ({ data, state, set }) => {
+  const { progress } = state.ui_reducer
   const [direction, setDirection] = useState<string>("forward")
   const { backButton, nextButton, questions } = data
   const { length } = questions
-  const { explanation, backHandleChange, chart, onNext, useExampleState } = data.questions[progress]
-
+  const { explanation, backHandleChange, chart, nextHandleChange, showChart, enableNav, subTitle } = data.questions[progress]
   const history = useHistory()
+
   useEffect(() => {
-    // saveStore()
     history.push(`/onboarding/${progress}`)
-    window.addEventListener("popstate", () => {
-      set("ui_reducer", { progress: +history.location.pathname.replace(/\D/g, "") })
+    window.addEventListener("popstate", e => {
+      set("progress", "ui_reducer", +history.location.pathname.replace(/\D/g, ""))
     })
-    // sendRequest(`http://localhost:5000/api/users/save`, "POST", JSON.stringify(state), {
-    //   "Content-Type": "application/json",
-    // })
   }, [progress, history])
 
   if (progress === length - 2) return <Redirect to="/plan" />
@@ -37,9 +34,8 @@ export const Questions: FC<IProps> = ({ data }) => {
   return (
     <Wrapper>
       <ProgressBar length={length} progress={progress} />
-      < AssumptionsPanel/>
       <Text>
-        {progress > 0 && explanation && <h3 style={{ fontWeight: "bold" }}>Why this matters</h3>}
+        {progress > 0 && <h3 style={{ fontWeight: "bold" }}>Why we Ask</h3>}
         <h4>{explanation}</h4>
       </Text>
       <TransitionGroup>
@@ -59,9 +55,8 @@ export const Questions: FC<IProps> = ({ data }) => {
         )}
       </TransitionGroup>
       {progress > 0 && <Back {...backButton} setDirection={setDirection} backHandleChange={backHandleChange} />}
-      {chart && <Chart useExampleState={useExampleState}>{matchThenShowComponent(components, data.questions[progress], chart)}</Chart>}
-
-      <Next {...nextButton} onNext={onNext} setDirection={setDirection} />
+      {showChart && <Chart>{matchThenShowComponent(components, data.questions[progress], chart)}</Chart>}
+      <Next {...nextButton} nextHandleChange={nextHandleChange} setDirection={setDirection} />
     </Wrapper>
   )
 }
@@ -94,24 +89,18 @@ interface IComponent {
 
 const Component = styled.div<IComponent>`
   position: absolute;
-  margin-top: ${props => (props.chart === "IncomeChart" ? "77rem" : props.chart ? "94rem" : "30rem")};
+  margin-top: ${props => (props.chart === "IncomeChart" ? "77rem" : props.chart === "SavingsChart" ? "94rem" : "30rem")};
   left: 0rem;
   width: 80rem;
   justify-content: center;
   display: flex;
   height: 40rem;
 `
-
-interface Chart {
-  useExampleState: boolean
-}
-
-const Chart = styled.div<Chart>`
+const Chart = styled.div`
   position: absolute;
-  top: ${props => (props.useExampleState ? "10rem" : "23rem")};
-  left: ${props => (props.useExampleState ? "-10rem" : "32rem")};
-  width: ${props => (props.useExampleState ? "140rem" : "80rem")};
-  height: ${props => (props.useExampleState ? "55rem" : "30rem")};
+  top: 23rem;
+  left: 40rem;
+  width: 80rem;
   justify-content: center;
   display: flex;
 `

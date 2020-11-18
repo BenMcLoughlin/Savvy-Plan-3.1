@@ -2,88 +2,145 @@
 import React, { FC, useState } from "react"
 import styled from "styled-components"
 import * as I from "model/types"
+import { DualSelect, Slider } from "view/components"
 import { ArrowLeftS } from "@styled-icons/remix-line"
+import { onboardQuestions } from "controller/questions/questions.controller"
+import { store } from "index"
 
 interface IProps {}
 
 export const AssumptionsPanel: FC<IProps> = () => {
   const [progress, setProgress] = useState<number>()
   const [open, toggleOpen] = useState<boolean>(false)
+  const [assumption, toggleAssumption] = useState<string>("rates")
   const [input, setInput] = useState<I.a>({
     value1: "ui_reducer",
     value2: "",
     value3: "",
   })
-
+  console.log("Hello")
   const { value1, value2, value3 } = input
 
   const handleChange = e => setInput({ ...input, [e.target.name]: e.target.value })
 
+  const buildSlidersArray = () => {
+    const state = store.getState()
+    const { isMarried } = state.ui_reducer
+    const q: I.a = []
+    const askUser1 = onboardQuestions(q, "user1")
+    const askUser2 = onboardQuestions(q, "user2")
+
+    if (assumption === "rates") {
+      askUser1.for.rate1()
+      askUser1.for.rate2()
+      askUser1.for.inflationRate()
+      askUser1.for.managementExpenseRatio()
+      askUser1.for.lifeSpan()
+      if (isMarried) {
+        askUser2.for.lifeSpan()
+      }
+    }
+    // if (assumption === "retirementFactors") {
+    //   askUser1.for.rrspStartAge()
+    //   askUser1.for.tfsaStartAge()
+    //   askUser1.for.cppStartAge()
+    // }
+    return q
+  }
+  const slidersArray = buildSlidersArray()
+
+  const sliderValues = slidersArray[0].min
+  console.log("slidersArray[0]:", sliderValues)
   return (
     <Wrapper open={open}>
-      {!open && <Title onClick={() => toggleOpen(!open)}>Dev Toolbox</Title>}
+      {!open && <Title onClick={() => toggleOpen(!open)}>Assumptions</Title>}
+      <Tabs open={open}>
+        <DualSelect
+          handleChange={value => toggleAssumption(value)}
+          handleChange2={value => toggleAssumption(value)}
+          option1={"rates"}
+          option2={"retirementFactors"}
+          value={assumption === "rates"}
+        />
+      </Tabs>
       {open && (
-        <OpenWrapper>
+        <>
+          <Row>
+            {slidersArray.map(data => (
+              <Slider {...data} />
+            ))}
+          </Row>
+
           <ArrowLeft onClick={() => toggleOpen(!open)} />
-          <Column>
-            <FormTitle>Rate Assumptions</FormTitle>
-            <Form>
-            </Form>
-          </Column>
-        </OpenWrapper>
+        </>
       )}
     </Wrapper>
   )
 }
-
+//${props => (props.open ? "70rem" : "4rem")};
+//  ${props => props.theme.neomorph}
 //---------------------------STYLES-------------------------------------------//
 
-interface Wrapper {
+interface Props {
   open: boolean
 }
-const Wrapper = styled.div<Wrapper>`
-  background: black;
-  height: 17rem;
-  width: ${props => (props.open ? "70rem" : "4rem")};
+const Wrapper = styled.div<Props>`
+  height: 20rem;
+  width: ${props => (props.open ? "100rem" : "4rem")};
   display: flex;
   flex-direction: column;
-  left: 20rem;
+  left: 0rem;
   color: white;
   padding: 1rem;
   position: absolute;
-  bottom: 9rem;
-  left: 0rem;
-  overflow: hidden;
+  top: 35rem;
   transition: all 0.5s ease;
   border-radius: 0 0 10px 10px;
-  ${props => props.theme.neomorph}
-  z-index: 10000;
+  ${props => props.theme.neomorph};
 `
-const OpenWrapper = styled.div`
-  position: relative;
+const Body = styled(Wrapper)<Props>`
+  width: 100%;
+  top: 0rem;
 `
 const Title = styled.div`
   height: 5rem;
   width: 10rem;
   margin-top: 3rem;
-  margin-left: -5rem;
-  display: flex;
-  flex-direction: column;
+  margin-left: -6rem;
   cursor: pointer;
   font-size: 1.4rem;
   color: ${props => props.theme.color.darkGrey};
   transform: rotate(90deg);
+  transition: all 0.5s ease;
 `
-const FormTitle = styled.div`
+const Tabs = styled.div<Props>`
+  width: ${props => (props.open ? "40rem" : "0rem")};
+  position: absolute;
+  top: -5rem;
+  z-index: 5000;
+  overflow: hidden;
+  transition: all 0.5s ease;
+`
+const SelectTabs = styled.div`
   height: 2rem;
-  margin-bottom: 2rem;
-  width: 12rem;
+  position: absolute;
+  top: -5rem;
+  width: 30rem;
   color: ${props => props.theme.color.darkGrey};
   font-size: 1.4rem;
-`
-const Column = styled.div`
   display: flex;
-  flex-direction: column;
+`
+const Tab = styled.div`
+  height: 2rem;
+  margin-bottom: 2rem;
+  width: 22rem;
+  color: ${props => props.theme.color.darkGrey};
+  font-size: 1.4rem;
+  background: yellow;
+`
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
   height: 100%;
   position: absolute;
   top: 3rem;
