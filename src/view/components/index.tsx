@@ -89,6 +89,10 @@ export { PickNumber } from "./options/PickNumber"
 export { PickSingleOption } from "./options/PickSingleOption"
 export const PickNumberWithText = compose(connect(mapStateToProps, { set, remove }))(_PickNumberWithText)
 
+//Panels
+
+export { AssumptionsPanel } from "view/components/panels/AssumptionsPanel"
+
 //Scroll
 export { ScrollCircles } from "./scroll/ScrollCircles"
 

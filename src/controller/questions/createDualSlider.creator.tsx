@@ -1,18 +1,16 @@
-import { round } from "model/services/ui_functions"
-import { addPeriodToStream } from "model/services/create_functions"
-import _ from "lodash"
+
 import * as I from "model/types"
 import { store } from "index"
-import { set, remove } from "model/redux/actions"
+import { set } from "model/redux/actions"
 
-export const createDualSliders = (accountStartAge): I.objects => {
+export const createDualSliders = (accountStartAge: string): I.objects => {
   const { ui_reducer, user_reducer, ui_reducer: {isMarried} } = store.getState()
 
   const { users } = ui_reducer
 
   return users.reduce(
     (obj, user, i) => {
-      const {birthYear, firstName } = user_reducer[user]
+      const { firstName } = user_reducer[user]
       obj[`slider${i + 1}`] = {
         bottomLabel: isMarried ? `${firstName}` : "Convert in", //eg "at age 26"
         max: 72,

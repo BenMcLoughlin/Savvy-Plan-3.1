@@ -5,16 +5,23 @@ import * as I from "model/types"
 import { store } from "index"
 
 export const round = (number: I.n): I.a => {
+  if (number !== undefined && number <= 10000) return `${(Math.round(number / 100) * 100) / 1000} k`
   if (number !== undefined && number <= 1000000) return `${(Math.round(number / 1000) * 1000) / 1000} k`
   if (number > 1000000) return `${(Math.round(number / 10000) * 10000) / 1000000} M`
   return null
 }
 export const formatCurrency = (number: I.n): string => {
+    if (number <= 10000) {
+      return `${number / 100} K`
+    }
   if (number < 100000) {
     return `${number / 1000} `
   }
   if (number >= 100000) {
     return `${number / 1000} K`
+  }
+  if (number >= 10000) {
+    return `${number / 100} K`
   }
 }
 
@@ -100,7 +107,9 @@ export const getMax = (className: string, dataObject: I.objects): I.n => {
       return max > 100000 ? max + 30000 : 100000
     }
     case "cppAreaChart":
-      return 18000
+      return 20000
+    case "oasAreaChart":
+      return 12000
     case "savingsBarChart":
       return getSavingsBarMax(dataObject)
     case "savingsAreaChart":

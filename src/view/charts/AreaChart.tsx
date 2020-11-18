@@ -29,7 +29,7 @@ export const AreaChart: FC<IProps> = ({ data, dataObject, chartName }) => {
       const areaHeight = inputAreaRef.current.offsetHeight
       drawAreaChart(className, data, dataObject, areaHeight, state, areaWidth)
     }
-  }, [])
+  }, [state])
 
   return (
     <Wrapper>

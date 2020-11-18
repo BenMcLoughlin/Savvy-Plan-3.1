@@ -1,7 +1,6 @@
 /* eslint-disable */
 import * as d3 from "d3"
 import { getMax, getMin } from "view/charts/drawCharts/chartHelpers"
-import * as tooltips from "view/charts/tooltips/barTooltip"
 import { incomeBarTooltip } from "view/charts/tooltips/incomeBar/tooltip"
 import _ from "lodash"
 
@@ -10,7 +9,7 @@ export const drawBarChart = (colors, className, data, dataObject, height, state,
   const stream = state.stream_reducer[selectedId]
 
   const { period, flow } = stream
-  const { mouseout } = tooltips
+
   let periodStart = 0
   let periodEnd = 0
   let streamName = ""

@@ -1,12 +1,11 @@
 /* eslint-disable */
 import * as d3 from "d3"
 import { getMax, getMin } from "view/charts/drawCharts/chartHelpers"
-import * as tooltips from "view/charts/tooltips/barTooltip"
 import { nestEggDonutTooltip } from "view/charts/tooltips/nestEggDonut/tooltip"
 import _ from "lodash"
 
 export const drawDonutChart = (colors, className, data, height, width, state) => {
-  console.log(data)
+
   d3.select(`.${className} > *`).remove()
   d3.select(`.${className}tooltip`).remove()
 

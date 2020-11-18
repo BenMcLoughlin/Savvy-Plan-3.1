@@ -131,7 +131,7 @@ const buildUserToolTip = (year, user) => `<div style="${wrapper}">
       `
 
 export const stackedTooltipHtml = (d, dataObject, state) => {
-  console.log("hello")
+
   if (data[d.year]) {
     return `
    <div style="${wrapTwo}">

@@ -48,6 +48,8 @@ export interface ui_reducer {
   selectedPage: string
   selectedScenario: number
   selectedUser: string
+  showAssumptionsPanel: boolean
+  showRetirementAssumptions: boolean
   users: I.user[]
   dummy: string
   dummyNested: I.a

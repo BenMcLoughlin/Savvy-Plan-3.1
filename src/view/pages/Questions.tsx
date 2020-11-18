@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from "react"
 import styled from "styled-components"
 import * as components from "view/components"
-import { ProgressBar, Next, Back } from "view/components"
+import { AssumptionsPanel, ProgressBar, Next, Back } from "view/components"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 import { useHistory, Redirect } from "react-router-dom"
 import { matchThenShowComponent } from "model/services/display_functions"
@@ -14,7 +14,7 @@ interface IProps {
 }
 
 export const Questions: FC<IProps> = ({ data }) => {
-  const { progress } = store.getState().ui_reducer
+  const { progress, showAssumptionsPanel } = store.getState().ui_reducer
   const [direction, setDirection] = useState<string>("forward")
   const { backButton, nextButton, questions } = data
   const { length } = questions
@@ -59,6 +59,7 @@ export const Questions: FC<IProps> = ({ data }) => {
       </TransitionGroup>
       {progress > 0 && <Back {...backButton} setDirection={setDirection} backHandleChange={backHandleChange} />}
       {chart && <Chart useExampleState={useExampleState}>{matchThenShowComponent(components, data.questions[progress], chart)}</Chart>}
+      {showAssumptionsPanel && <AssumptionsPanel/>}
       <Next {...nextButton} onNext={onNext} setDirection={setDirection} />
     </Wrapper>
   )

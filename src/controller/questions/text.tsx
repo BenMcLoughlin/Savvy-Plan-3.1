@@ -1,5 +1,5 @@
 import _ from "lodash"
-import { clean, efficientIncome, efficientIncomeExplanation } from "controller/questions/helpers"
+import { clean, efficientIncome} from "controller/questions/helpers"
 import { round } from "model/services/ui_functions"
 import { dummyStream } from "data"
 import * as I from "model/types"
@@ -9,12 +9,13 @@ import { set } from "model/redux/actions"
 export const addText = (textKey: string, user: I.user, n?: number): I.objects => {
   const { stream_reducer, user_reducer, ui_reducer } = store.getState()
   const { selectedId, isMarried, hasChildren } = ui_reducer
-  const { rate1, mer, inflationRate, selectedUser } = user_reducer
+  const { rate1, mer, inflationRate,} = user_reducer
   const stream: I.stream = stream_reducer[selectedId] || dummyStream
   const isUser1 = user === "user1"
   const { reg } = stream
-  const { firstName: spouseFirstName, rrspInc, avgIncome: user2AvgInc } = user_reducer.user2
-  const { firstName, avgIncome: user1AvgInc, rrspInc: user1RspInc, tfsaInc: user1TfsaInc } = user_reducer.user1
+  const { firstName: spouseFirstName,  avgIncome: user2AvgInc } = user_reducer.user2
+  const { firstName, birthYear, cppStartAge, oasStartAge } = user_reducer[user]
+  const {  avgIncome: user1AvgInc } = user_reducer.user1
   const { user2, retIncome } = user_reducer
 
   const data = {
@@ -23,6 +24,11 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       option1: "yes",
       option2: "no",
       question: "Would you like to add another income source?",
+    },
+    assumptionsPanel: {
+      subTitle:
+        "Since the assumptions change everything you might want to change them at different points when you’re building the plan. Just click on the tab to open the tool box.",
+      question: "We’ve added a tool box to enable you to change the assumptions anywhere in your plan. ",
     },
     birthYear: {
       explanation: "This forms the basis of our financial calculations.",
@@ -37,12 +43,12 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       question: "This shows your income combined",
     },
     cppStartAge: {
-      type: "percentage",
-      subTitle:
-        "Taking your Canada Pension early will lead to a reduction in the amount you receive. Taking it later means you will get more every year. We call the age by which, if you died, it would have been better to start early your break even year. In this case yours is Age 82. ",
-      question: "When would you like to begin taking your Canada Pension Plan? ",
-      bottomLabel: `Return on Investment`,
-      topLabel: "I hope to get ",
+      subTitle: isUser1
+        ? "The earlier you take Canada Pension Plan the less you will receive. This chart shows how much more you could receive each year if you wait. These values are before tax and are estimated using the income details you provided."
+        : "If theres a large difference between what you are both recieveing that will play into our tax saving strategy.",
+      question: `When would ${isMarried ? firstName : "you"} like to begin taking ${isMarried ? "their" : "your"} Canada Pension Plan?`,
+      bottomLabel: `in ${+cppStartAge + +birthYear}`,
+      topLabel: "I'd like to start at age ",
     },
     createIncome: {
       explanation: "",
@@ -92,6 +98,14 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       ],
       question: isMarried ? `Does ${_.startCase(firstName)} have investments?` : "Do you have investments?",
     },
+    oasStartAge: {
+      subTitle: isUser1
+        ? "The earlier you take Canada Pension Plan the less you will receive. This chart shows how much more you could receive each year if you wait. These values are before tax and are estimated using the income details you provided."
+        : "If theres a large difference between what you are both recieveing that will play into our tax saving strategy.",
+      question: `When would ${isMarried ? firstName : "you"} like to begin taking ${isMarried ? "their" : "your"} Old Age Security?`,
+      bottomLabel: `in ${+oasStartAge + +birthYear}`,
+      topLabel: "I'd like to start at age ",
+    },
     retIncome: {
       ask: "Just an approximation of the current value is helpful. ",
       bottomLabel: `$${round(retIncome / 12).toLocaleString()} a month`,
@@ -103,7 +117,7 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
     targetIncomeChart: {
       question: "We calculated the most efficient way for you to draw your retirement income and placed it in the chart below",
       subTitle: efficientIncome(),
-      explanation: efficientIncomeExplanation(),
+      explanation: efficientIncome(),
     },
     targetNestEgg: {
       question: "In order to fund you're retirement and minimize taxes your savings this would be a good allocation of your savings.",
@@ -117,7 +131,8 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       question: isUser1 ? "What's your gender?" : "What's your sspouse's gender?",
     },
     haveChildren: {
-      explanation: "We'd like to estimate your government child benefits. Even if you only plan on having children its helpful to know so we can show you how it will impact your finances.",
+      explanation:
+        "We'd like to estimate your government child benefits. Even if you only plan on having children its helpful to know so we can show you how it will impact your finances.",
       optionArray: ["yes", "no", "hope to eventually", "yes, and they are over 18"],
       question: "Do you have children?",
     },
@@ -127,7 +142,9 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
         "Given the income you entered we estimate your Canada Pension Plan payment, in todays dollars, to be around $14k per year if you take it at 65 along with $7k in Old Age Pension. The lowest income tax bracket is $42 k, so our strategy is to figure out how much you need to invest in your RRSP’s to be drawing income that will keep you in the lowest bracket in retirement. ",
     },
     lifeSpan: {
-      explanation: "Many of our calculations are trying to estimate how long your money needs to last for. If you don't live as long you dont need to save as much! ",
+      explanation: isUser1
+        ? "Many of our calculations are trying to estimate how long your money needs to last for when drawing income in retirement. The longer you live the more you will need to have saved."
+        : "",
       subTitle: "We typically use 95",
       label: "First Name",
       question: `We you like to adjust ${isMarried && !isUser1 ? spouseFirstName + "'s" : "your"} life span?`,
@@ -158,11 +175,11 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
     },
     inflationRate: {
       type: "percentage",
-      subTitle: `We use 2%. Since we want to have all our estimates in todays dollars we will deduct this from your return on investment. Making your rate of return after inflation ${(
+      subTitle: `When we show you values like income, or savings, far in the future we'd like them to be in todays dollars so their easier to understand. A simple trick to remove inflation from our calculations is to deduct it from your rate of retun. Now your return would be ${(
         rate1 - inflationRate
       ).toFixed(2)}%`,
       question: "Would you like to adjust the estimated inflation rate?",
-      bottomLabel: ``,
+      bottomLabel: `We use 2%`,
       topLabel: "Inflation might be ",
     },
     introduction: {
@@ -243,18 +260,20 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
     },
     rate1: {
       type: "percentage",
-      explanation: "This assumption is very important as we try to estimate how much you need to save and how much income you can have in retirement. ",
-      subTitle: "We like to use 6%, but some might consider this a higher risk rate of return..",
+      explanation: "This assumption is very important as we try to estimate how much you need to save until retirement.",
+      subTitle:
+        "Usually anything above 6% is considered higher risk and lower than 6% is lower risk.  There's no way of knowing what you'll actually get so its best to play it safe when planning but not so safe that your savings goals aren't realistic. ",
       question: "Would you like to adjust your pre-retirement rate of return?",
-      bottomLabel: `Return on Investment`,
+      bottomLabel: `We use 6%,`,
       topLabel: "I hope to get ",
     },
     rate2: {
       type: "percentage",
-      subTitle: "We usually use 4.5%, its helpful to assume that you'll want to take on less risk in retirement which could mean having a lower return. ",
+      explanation: "We use this interest rate to calculate how much income you can draw from your investments in retirement.",
+      subTitle: "Its helpful to assume that you'll want to take on less risk in retirement leading to a lower return. ",
       question: "Would you like to adjust your lower risk rate of return for after you've retired?",
-      bottomLabel: `Return on Investment`,
-      topLabel: "I hope to get ",
+      bottomLabel: `We use 4.5%`,
+      topLabel: "I hope to get",
     },
     rrspStartAge: {
       type: "percentage",
@@ -274,7 +293,8 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
     savingsContributions: {
       question: `This chart shows your ${clean(reg)} as it grows with contributions and without making any withdrawals. `,
       subTitle: `How much do you plan to contribute each year to your ${reg}?`,
-      explanation: n === 0 ? "Our goal is to estimate how much you could withdraw in retirement. Knowing that helps us make decisions like when to retire or how much to save. " : "BANANANAN",
+      explanation:
+        n === 0 ? "Our goal is to estimate how much you could withdraw in retirement. Knowing that helps us make decisions like when to retire or how much to save. " : "BANANANAN",
       topLabelPast: "I contributed",
       topLabelFuture: "I plan to contribute",
       bottomLabel: "per year",
@@ -282,7 +302,8 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
     savingsRates: {
       question: `This chart shows how your ${reg} grows as you save and then shrinks as you draw income in retirement.`,
       subTitle: `How much do you plan to contribute each year to your ${reg}?`,
-      explanation: n === 0 ? "Our goal is to estimate how much you could withdraw in retirement. Knowing that helps us make decisions like when to retire or how much to save. " : "BANANANAN",
+      explanation:
+        n === 0 ? "Our goal is to estimate how much you could withdraw in retirement. Knowing that helps us make decisions like when to retire or how much to save. " : "BANANANAN",
       topLabelPast: "I think I'll earn",
       topLabelFuture: "I plan to contribute",
       bottomLabel: "per year",
@@ -305,7 +326,7 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
     theyWantToChangeRateAssumptions: {
       question: "Would you like to change the plans assumptions?",
       subTitle:
-        "Since we don’t know the future we have a make a series of guesses about what could happen. We call these assumptions and they include interest and inflation rates and several other factors.",
+        "Since we don’t know the future we have a make a series of guesses about what could happen. We call these assumptions, they include interest and inflation rates along with several other factors. They have already been set but you're welcome to adjust them to your preferences.",
       explanation: "Some people enjoy digging into the details while others just want to skip to the results. ",
       option1: "yes",
       option2: "no",

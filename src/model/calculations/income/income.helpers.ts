@@ -1,4 +1,4 @@
-import userEvent from "@testing-library/user-event"
+
 import _ from "lodash"
 import { insert0 } from "model/calculations/helpers"
 import * as I from "model/types"
@@ -7,18 +7,18 @@ export { getCcb } from "model/calculations/income/CanadaChildBenefit/CCB.functio
 export { getTargetIncomeV2 } from "model/calculations/income/targetIncome/targetIncome.function"
 export { getAvgRate, getMargRate } from "model/calculations/income/tax/tax.helpers"
 import { tCon, rCon } from "model/calculations/income/data"
-import { map, meanBy, merge } from "lodash"
+import { meanBy,} from "lodash"
 import { Finance } from "financejs"
 import { set } from "model/redux/actions"
 
-export const addPensions = (cpp, oas, ccb, inc, year, user) => ({
+export const addPensions = (cpp: I.a, oas: I.a, ccb: I.a, inc: I.a, year: I.a, user: I.a): I.a => ({
   ...inc[year][user].income,
   [`${user}Ccb`]: user === "user1" ? ccb : 0,
   [`${user}Cpp`]: year < 2050 ? 0 : cpp,
   [`${user}Oas`]: year < 2050 ? 0 : oas,
 })
 
-export const getYearRange = ({ ui_reducer: { chartStartYear, chartEndYear } }): I.n[] => _.range(chartStartYear, chartEndYear)
+export const getYearRange = ({ ui_reducer: { chartStartYear, chartEndYear } }: I.state): I.n[] => _.range(chartStartYear, chartEndYear)
 
 export const sum = (obj: I.objects, query: string, streams: I.stream[]): I.n =>
   Object.entries(obj).reduce((acc: any, [k, v]) => {

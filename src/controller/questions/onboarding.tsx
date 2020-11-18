@@ -2,7 +2,6 @@ import * as I from "model/types"
 import { buttons, onboardQuestions, showUsers } from "controller/questions/questions.controller"
 import { streams } from "controller/questions/helpers"
 import { store } from "index"
-import { set } from "model/redux/actions"
 
 export const onboard_questions = (): I.onboard_questions => {
   const state = store.getState()
@@ -62,12 +61,19 @@ export const onboard_questions = (): I.onboard_questions => {
       askUser2.for.lifeSpan()
     }
   }
+    show.assumptionsPanel()
   askUser1.if.theyWantToChangeRetirementAssumptions()
   if (changeRetirementAssumptions) {
     askUser1.for.rrspStartAge()
     askUser1.for.tfsaStartAge()
     askUser1.for.cppStartAge()
+    if (isMarried) {
+      askUser2.for.cppStartAge()
+    }
     askUser1.for.oasStartAge()
+    if (isMarried) {
+      askUser2.for.oasStartAge()
+    }
   }
 
   askUser1.for.retIncome()
@@ -111,7 +117,7 @@ export const onboard_questions = (): I.onboard_questions => {
   // ask.for.user1.name()
 
   const questions = q
-console.log(questions)
+  console.log(questions)
   const add = buttons(questions)
 
   return {

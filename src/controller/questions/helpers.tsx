@@ -2,8 +2,7 @@ import * as I from "model/types"
 import { set, remove } from "model/redux/actions"
 import { store } from "index"
 import { round } from "model/services/ui_functions"
-import { getCpp, getCcb, getAvgRate, getMargRate, addPensions, beforePension, getAfterTaxIncome, sum, getValues, getTargetIncome } from "model/calculations/income/income.helpers"
-import { adjustCpp } from "model/calculations/income/CanadaPensionPlan/CPP.helpers"
+import { adjustCpp, adjustOas } from "model/calculations/income/CanadaPensionPlan/CPP.helpers"
 import _ from "lodash"
 
 export const streams = (state: I.state, user: I.user, streamType: I.streamType): I.stream[] => {
@@ -48,15 +47,9 @@ export const getYearRange = (state: I.state, user: I.user): I.objects => {
   return { chartStartYear, chartEndYear, startWork, endWork }
 }
 
-export const showTargetIncome = () => {
-  const {
-    user_reducer,
-    ui_reducer: { isMarried },
-  } = store.getState()
-  return "hi"
-}
 
-export const efficientIncome = () => {
+
+export const efficientIncome = (): string => {
   const { ui_reducer, user_reducer } = store.getState()
   const { user1, user2, retIncome } = user_reducer
   const {  isMarried, } = ui_reducer
@@ -88,15 +81,7 @@ export const efficientIncome = () => {
 
 }
 
-export const efficientIncomeExplanation = () => {
-    const { ui_reducer, user_reducer } = store.getState()
-    const { user1, user2, retIncome } = user_reducer
-    const { isMarried } = ui_reducer
-    const totalIncome = user1.rrspIncome + user1.tfsaIncome
- return `If you only saved in your RRSP's all your income in retirement would be taxable. Your marginal rate would then be 40% and you'd be paying 9k in taxes. With this strategy your marginal rate is 20% and you're only paying $4000 a year in taxes in retirement. `
-}
-
-export const formatNestEggData = ({ ui_reducer, user_reducer }) => {
+export const formatNestEggData = ({ ui_reducer, user_reducer }: I.state): I.a => {
   const { users } = ui_reducer
   const searchValues = ["rrspNestEgg", "tfsaNestEgg", "nregNestEgg"]
   return users.reduce(
@@ -113,12 +98,22 @@ export const formatNestEggData = ({ ui_reducer, user_reducer }) => {
   )
 }
 
-export const formatCppChartData = ({ ui_reducer, user_reducer }, user) => {
-  const { cppPayment, birthYear, cppStartYear } = user_reducer[user]
- const data = _.range(60, 70).map(age => ({
+export const formatCppChartData = ({ user_reducer }: I.state, user: I.user): I.a => {
+  const { cppPayment } = user_reducer[user]
+ const data = _.range(60, 71).map(age => ({
     year: age,
+    user: user,
     value: adjustCpp(cppPayment, age),
   }))
-  console.log(data)
+
+  return data
+}
+export const formatOasChartData = (user: I.user): I.a => {
+  const data = _.range(65, 71).map(age => ({
+    year: age,
+    user: user,
+    value: adjustOas(7200, age),
+  }))
+
   return data
 }

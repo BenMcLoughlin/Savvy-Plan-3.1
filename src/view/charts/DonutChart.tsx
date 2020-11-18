@@ -16,7 +16,7 @@ interface IProps {
 }
 
 export const DonutChart: FC<IProps> = ({ color_selector, enableNav, data, state, set }) => {
-  console.log("state:", state)
+
   const { selectedUser } = state.ui_reducer
   const inputRef = useRef(null)
   const className = "donutChart"

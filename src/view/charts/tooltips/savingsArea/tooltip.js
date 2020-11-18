@@ -1,4 +1,4 @@
-import { savingsAreaHtml } from "view/charts/tooltips/savingsArea/savingsAreaTooltip-html"
+import { savingsAreaHtml } from "view/charts/tooltips/savingsArea/html"
 
 //createAreaTooltip
 

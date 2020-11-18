@@ -1,5 +1,5 @@
 import { createStream } from "model/services/create_functions"
-import { removeMostRecentStream, getYearRange, formatNestEggData, formatCppChartData } from "controller/questions/helpers"
+import { removeMostRecentStream, getYearRange, formatNestEggData, formatCppChartData, formatOasChartData } from "controller/questions/helpers"
 import { validateNext } from "model/services/validation/validators"
 import { createTripleSliders } from "controller/questions/tripleSelector.creator"
 import { createDualSliders } from "controller/questions/createDualSlider.creator"
@@ -9,24 +9,12 @@ import { dummyStream } from "data"
 import { store } from "index"
 import { set, remove } from "model/redux/actions"
 
-const slider1 = {
-  bottomLabel: `at age `, //eg "at age 26"
-  max: 2080,
-  min: 50, //if its the first one then just 2020, otherwise its the period priors last year
-  step: 1,
-  topLabel: "eb", //for the first one we want to say "starting in" but after they add changes we want it to say "then in"
-  type: "year",
-  value: 1,
-  handleChange: (value: number) => {
-    null
-  },
-}
 export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
   const state = store.getState()
   const { stream_reducer, ui_reducer } = state
   const { selectedId, dualSelectValue, changeRateAssumptions, changeRetirementAssumptions, users } = state.ui_reducer
   const stream: I.stream = state.stream_reducer[selectedId] || dummyStream
-  const { birthYear, lifeSpan, gender, firstName } = state.user_reducer[user]
+  const { birthYear, lifeSpan, gender, firstName, cppStartAge, oasStartAge, } = state.user_reducer[user]
   const { id, streamType, reg } = stream
   const { numberOfChildren, maritalStatus, rate1, rate2, inflationRate, mer } = state.user_reducer
 
@@ -40,7 +28,7 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
             name: "year", //by setting it as streamType year the component will place valiation on the text
             handleChange: (e: I.event) => set("user_reducer", { [user]: { birthYear: +e.target.value } }),
             onNext: () => {
-              const { chartStartYear, chartEndYear, startWork, endWork } = getYearRange(state, user)
+              const { chartStartYear, chartEndYear } = getYearRange(state, user)
               set("ui_reducer", { chartStartYear, chartEndYear })
               // set("user_reducer", { [user]: { startWork, endWork } })
               //store.dispatch({ type: "user_reducer/SET", payload: { [user]: { startWork, endWork } } })
@@ -51,16 +39,18 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
       cppStartAge: () => {
         q.push({
           ...{
-            chart: "AreaChart", 
+            chart: "AreaChart",
             data: formatCppChartData(state, user),
             chartName: "cpp",
             component: "Slider",
-            max: 120,
-            min: 75,
+            max: 70,
+            min: 60,
             step: 1,
             selectedFocus: true,
-            value: lifeSpan,
-            handleChange: value => set("user_reducer", { [user]: { cppStartAge: value } }),
+            value: cppStartAge,
+            handleChange: value => {
+              set("user_reducer", { [user]: { cppStartAge: value } })
+            },
           },
           ...addText("cppStartAge", user),
         })
@@ -118,13 +108,18 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
       oasStartAge: () => {
         q.push({
           ...{
+            chart: "AreaChart",
+            data: formatOasChartData(user),
+            chartName: "oas",
             component: "Slider",
-            max: 120,
-            min: 75,
+            max: 70,
+            min: 65,
             step: 1,
             selectedFocus: true,
-            value: lifeSpan,
-            handleChange: value => set("user_reducer", { [user]: { oasStartAge: value } }),
+            value: oasStartAge,
+            handleChange: value => {
+              set("user_reducer", { [user]: { oasStartAge: value } })
+            },
           },
           ...addText("oasStartAge", user),
         })
@@ -426,6 +421,10 @@ export const showUsers = (q: I.a): I.objects => {
   const { firstName: user2Name } = state.user_reducer.user2
 
   return {
+    assumptionsPanel: () =>
+      q.push({
+        ...addText("assumptionsPanel", "user1"),
+      }),
     introduction: () =>
       q.push({
         ...{
