@@ -2,15 +2,16 @@ import * as I from "model/types"
 import { buttons, onboardQuestions, showUsers } from "controller/questions/questions.controller"
 import { streams } from "controller/questions/helpers"
 import { store } from "index"
+import { addQuestionsText } from "controller/questions/text"
 
 export const onboard_questions = (): I.onboard_questions => {
   const state = store.getState()
   const { isMarried, hasChildren, changeRateAssumptions, changeRetirementAssumptions } = state.ui_reducer
   const q: I.question[] = []
 
-  const askUser1 = onboardQuestions(q, "user1")
-  const askUser2 = onboardQuestions(q, "user2")
-  const show = showUsers(q)
+  const askUser1 = onboardQuestions(q, "user1", addQuestionsText)
+  const askUser2 = onboardQuestions(q, "user2", addQuestionsText)
+  const show = showUsers(q, addQuestionsText)
 
   show.introduction()
   show.whatWeWillBuild()

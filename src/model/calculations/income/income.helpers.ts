@@ -71,7 +71,7 @@ export const getValues = (u: I.user, r1: number, r2: number, inc, s: number, e: 
     (d: I.a) => d[u].cppEligibleIncome
   )
 
-  set("user_reducer", { [u]: { avgIncome: +topTenAvg } })
+  //set("user_reducer", { [u]: { avgIncome: +topTenAvg } })
 
   return {
     maxTfsa: -fin.PMT(

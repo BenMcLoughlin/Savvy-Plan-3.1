@@ -2,135 +2,147 @@
 import React, { FC, useState } from "react"
 import styled from "styled-components"
 import * as I from "model/types"
+import { DualSelect, Slider } from "view/components"
 import { ArrowLeftS } from "@styled-icons/remix-line"
+import { assumptions_props } from "controller/assumptions/assumptions_props"
+import { store } from "index"
+import { TransitionGroup, CSSTransition } from "react-transition-group"
 
 interface IProps {}
 
 export const AssumptionsPanel: FC<IProps> = () => {
-  const [progress, setProgress] = useState<number>()
   const [open, toggleOpen] = useState<boolean>(false)
-  const [input, setInput] = useState<I.a>({
-    value1: "ui_reducer",
-    value2: "",
-    value3: "",
-  })
+  const [assumption, toggleAssumption] = useState<string>("rates")
+  const [userName, toggleUser] = useState<string>()
 
-  const { value1, value2, value3 } = input
+  const { slidersArray, user1Name, user2Name } = assumptions_props(assumption, userName)
 
-  const handleChange = e => setInput({ ...input, [e.target.name]: e.target.value })
+  //   <TransitionGroup component={null}>
+  //   {isOpen && (
+  //     <CSSTransition classNames="dialog" timeout={300}>
+  //       <div className="dialog--overlay" onClick={onClose}>
+  //         <div className="dialog">{message}</div>
+  //       </div>
+  //     </CSSTransition>
+  //   )}
+  // </TransitionGroup>
 
   return (
-    <Wrapper open={open}>
-      {!open && <Title onClick={() => toggleOpen(!open)}>Dev Toolbox</Title>}
-      {open && (
-        <OpenWrapper>
-          <ArrowLeft onClick={() => toggleOpen(!open)} />
-          <Column>
-            <FormTitle>Rate Assumptions</FormTitle>
-            <Form>
-            </Form>
-          </Column>
-        </OpenWrapper>
-      )}
+    <Wrapper>
+      <Tabs open={open} assumption={assumption}>
+        <DualSelect
+          type={"tab"}
+          handleChange={value => toggleAssumption(value)}
+          handleChange2={value => toggleAssumption(value)}
+          option1={"rates"}
+          option2={"retirementFactors"}
+          value={assumption === "rates"}
+        />
+        <UserSelector assumption={assumption}>
+          <DualSelect
+            type={"tab"}
+            handleChange={value => toggleUser(value)}
+            handleChange2={value => toggleUser(value)}
+            option1={user1Name}
+            option2={user2Name}
+            value={userName === user1Name}
+          />
+        </UserSelector>
+      </Tabs>
+      <Panel open={open}>
+        {!open && <Title onClick={() => toggleOpen(!open)}>Assumptions</Title>}
+        {open && (
+          <>
+            <TransitionGroup component={null}>
+              {assumption === "rates" ||
+                (assumption === "retirementFactors" && (
+                  <CSSTransition timeout={700} classNames="fade-in">
+                    <Row>
+                      {slidersArray.map(data => (
+                        <Slider {...data} />
+                      ))}
+                    </Row>
+                  </CSSTransition>
+                ))}
+              <ArrowLeft onClick={() => toggleOpen(!open)} />
+            </TransitionGroup>
+          </>
+        )}
+      </Panel>
     </Wrapper>
   )
 }
-
+//${props => (props.open ? "70rem" : "4rem")};
+//  ${props => props.theme.neomorph}
 //---------------------------STYLES-------------------------------------------//
 
-interface Wrapper {
-  open: boolean
+interface Props {
+  open?: boolean
+  assumption?: string
 }
-const Wrapper = styled.div<Wrapper>`
-  background: black;
-  height: 17rem;
-  width: ${props => (props.open ? "70rem" : "4rem")};
-  display: flex;
-  flex-direction: column;
-  left: 20rem;
+const Wrapper = styled.div`
+  position: absolute;
+  top: 55rem;
+  left: 0rem;
+`
+const Panel = styled.div<Props>`
+  height: 20rem;
+  width: ${props => (props.open ? "110rem" : "4rem")};
+  justify-content: space-around;
   color: white;
   padding: 1rem;
-  position: absolute;
-  bottom: 9rem;
-  left: 0rem;
-  overflow: hidden;
   transition: all 0.5s ease;
   border-radius: 0 0 10px 10px;
-  ${props => props.theme.neomorph}
-  z-index: 10000;
+  overflow: hidden;
+  ${props => props.theme.neomorph};
 `
-const OpenWrapper = styled.div`
-  position: relative;
-`
+
 const Title = styled.div`
   height: 5rem;
   width: 10rem;
   margin-top: 3rem;
-  margin-left: -5rem;
-  display: flex;
-  flex-direction: column;
+  margin-left: -6rem;
   cursor: pointer;
   font-size: 1.4rem;
   color: ${props => props.theme.color.darkGrey};
   transform: rotate(90deg);
+  transition: all 0.5s ease;
 `
-const FormTitle = styled.div`
-  height: 2rem;
-  margin-bottom: 2rem;
-  width: 12rem;
-  color: ${props => props.theme.color.darkGrey};
-  font-size: 1.4rem;
-`
-const Column = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+const Tabs = styled.div<Props>`
+  width: ${props => (props.open ? "70rem" : "0rem")};
   position: absolute;
-  top: 3rem;
-  left: 5rem;
-`
-const Form = styled.div`
-  height: 3rem;
-  width: 55rem;
+  height: 4rem;
+  top: -4.2rem;
+  z-index: 5000;
+  overflow: hidden;
   display: flex;
-  justify-content: space-between;
+  transition: all 0.5s ease;
 `
-const InputWrapper = styled.div`
+
+const Row = styled.div`
+  display: flex;
+  flex-wrap: start;
+  flex-gap: 3rem;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  overflow: hidden;
+  margin-left: 2rem;
+  > * {
+    margin-left: 1rem;
+  }
+`
+const UserSelector = styled.div<Props>`
+  width: ${props => (props.assumption === "retirementFactors" ? "35rem" : "0rem")};
+  height: 3rem;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  position: absolute;
+  top: 0.4rem;
+  left: 2rem;
   position: relative;
 `
 
-const Label = styled.label`
-  font-size: 1.2rem;
-  font-weight: normal;
-  pointer-events: none;
-  color: ${props => props.theme.color.darkGrey};
-  font-weight: 800;
-  position: absolute;
-  top: 1.2rem;
-  left: 2rem;
-`
-
-const Input = styled.input`
-  background-color: white;
-  font-size: 1.2rem;
-  font-weight: 600;
-  padding: 0.5rem;
-  display: block;
-  width: 15rem;
-  padding: 3rem 0rem 2rem 2rem;
-  margin-top: 1rem;
-  height: 4rem;
-  border: none;
-  border-radius: 5px;
-  background: ${props => props.theme.color.background};
-  color: ${props => props.theme.color.darkGrey};
-  ${props => props.theme.neomorph};
-  &:focus {
-    outline: none;
-    border: 1px solid ${props => props.theme.color.green};
-    color: ${props => props.theme.color.darkGrey};
-  }
-`
 const ArrowLeft = styled(ArrowLeftS)`
   height: 4.2rem;
   width: 4.2rem;
@@ -139,25 +151,4 @@ const ArrowLeft = styled(ArrowLeftS)`
   position: absolute;
   top: 1rem;
   left: 1rem;
-`
-const Button = styled.button`
-  height: 3.2rem;
-  min-width: 8rem;
-  max-width: 17rem;
-  border-radius: 100px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0.01, 0.08);
-  color: ${props => props.theme.color.darkGrey};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  font-size: ${props => props.theme.fontSize.small};
-  cursor: pointer;
-  outline: none;
-  margin-top: 2rem;
-  margin-left: 2rem;
-  transition: all 0.2s ease-in;
-  text-transform: capitalize;
-  ${props => props.theme.neomorph};
-  background: ${props => props.theme.color.background};
 `

@@ -4,17 +4,17 @@ import { validateNext } from "model/services/validation/validators"
 import { createTripleSliders } from "controller/questions/tripleSelector.creator"
 import { createDualSliders } from "controller/questions/createDualSlider.creator"
 import * as I from "model/types"
-import { addText } from "controller/questions/text"
+
 import { dummyStream } from "data"
 import { store } from "index"
 import { set, remove } from "model/redux/actions"
 
-export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
+export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects => {
   const state = store.getState()
   const { stream_reducer, ui_reducer } = state
   const { selectedId, dualSelectValue, changeRateAssumptions, changeRetirementAssumptions, users } = state.ui_reducer
   const stream: I.stream = state.stream_reducer[selectedId] || dummyStream
-  const { birthYear, lifeSpan, gender, firstName, cppStartAge, oasStartAge, } = state.user_reducer[user]
+  const { birthYear, lifeSpan, gender, firstName, cppStartAge, oasStartAge, rrspStartAge, tfsaStartAge } = state.user_reducer[user]
   const { id, streamType, reg } = stream
   const { numberOfChildren, maritalStatus, rate1, rate2, inflationRate, mer } = state.user_reducer
 
@@ -46,7 +46,6 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
             max: 70,
             min: 60,
             step: 1,
-            selectedFocus: true,
             value: cppStartAge,
             handleChange: value => {
               set("user_reducer", { [user]: { cppStartAge: value } })
@@ -62,7 +61,7 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
             max: 300000,
             min: 0,
             step: 1000,
-            selectedFocus: true,
+
             value: state.user_reducer.retIncome,
             handleChange: value => {
               set("user_reducer", { retIncome: value })
@@ -115,7 +114,6 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
             max: 70,
             min: 65,
             step: 1,
-            selectedFocus: true,
             value: oasStartAge,
             handleChange: value => {
               set("user_reducer", { [user]: { oasStartAge: value } })
@@ -158,10 +156,11 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
         q.push({
           ...{
             component: "Slider",
+            type: "percentage",
             max: 5,
             min: 0,
             step: 0.1,
-            selectedFocus: true,
+     
             value: inflationRate,
             handleChange: value => {
               set("user_reducer", { inflationRate: value, r1: (rate1 - mer - value) / 100, r2: (rate2 - mer - value) / 100 })
@@ -177,7 +176,7 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
             max: 120,
             min: 75,
             step: 1,
-            selectedFocus: true,
+
             value: lifeSpan,
             handleChange: value => set("user_reducer", { [user]: { lifeSpan: value } }),
           },
@@ -188,6 +187,7 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
         q.push({
           ...{
             component: "Slider",
+            type: "percentage",
             max: 4,
             min: 0,
             step: 0.1,
@@ -202,6 +202,7 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
         q.push({
           ...{
             component: "Slider",
+            type: "percentage",
             max: 10,
             min: 0,
             step: 0.1,
@@ -216,6 +217,7 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
         q.push({
           ...{
             component: "Slider",
+            type: "percentage",
             max: 10,
             min: 0,
             step: 0.1,
@@ -233,7 +235,10 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
           ...{
             component: "MultiSliders",
             num: users.length,
-            value: lifeSpan,
+            value: rrspStartAge,
+            min: 50,
+            max: 72,
+            step: 1,
             handleChange: value => set("user_reducer", { [user]: { rrspStartAge: value } }),
             ...createDualSliders("rrspStartAge"),
           },
@@ -246,7 +251,10 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
           ...{
             component: "MultiSliders",
             num: users.length,
-            value: lifeSpan,
+            value: tfsaStartAge,
+            min: 50,
+            max: 80,
+            step: 1,
             handleChange: value => set("user_reducer", { [user]: { tfsaStartAge: value } }),
             ...createDualSliders("rrspStartAge"),
           },
@@ -261,7 +269,7 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
               max: 300000,
               min: 0,
               step: 1000,
-              selectedFocus: true,
+        
               value: stream.currentValue,
               handleChange: (value: string) => {
                 set("ui_reducer", { dualSelectValue: true, selectedAccount: stream.reg })
@@ -414,7 +422,7 @@ export const onboardQuestions = (q: I.a, user: I.user): I.objects => {
   }
 }
 
-export const showUsers = (q: I.a): I.objects => {
+export const showUsers = (q: I.a, addText: I.a): I.objects => {
   const state = store.getState()
   const { selectedUser, isMarried } = state.ui_reducer
   const { firstName: user1Name } = state.user_reducer.user1

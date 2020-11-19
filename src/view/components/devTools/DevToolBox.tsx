@@ -70,7 +70,7 @@ const Wrapper = styled.div<Wrapper>`
   color: white;
   padding: 1rem;
   position: absolute;
-  bottom: 9rem;
+  top: 9rem;
   left: 0rem;
   overflow: hidden;
   transition: all 0.5s ease;

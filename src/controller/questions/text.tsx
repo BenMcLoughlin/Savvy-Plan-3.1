@@ -1,21 +1,21 @@
 import _ from "lodash"
-import { clean, efficientIncome} from "controller/questions/helpers"
+import { clean, efficientIncome } from "controller/questions/helpers"
 import { round } from "model/services/ui_functions"
 import { dummyStream } from "data"
 import * as I from "model/types"
 import { store } from "index"
 import { set } from "model/redux/actions"
 
-export const addText = (textKey: string, user: I.user, n?: number): I.objects => {
+export const addQuestionsText = (textKey: string, user: I.user, n?: number): I.objects => {
   const { stream_reducer, user_reducer, ui_reducer } = store.getState()
   const { selectedId, isMarried, hasChildren } = ui_reducer
-  const { rate1, mer, inflationRate,} = user_reducer
+  const { rate1, mer, inflationRate } = user_reducer
   const stream: I.stream = stream_reducer[selectedId] || dummyStream
   const isUser1 = user === "user1"
   const { reg } = stream
-  const { firstName: spouseFirstName,  avgIncome: user2AvgInc } = user_reducer.user2
+  const { firstName: spouseFirstName, avgIncome: user2AvgInc } = user_reducer.user2
   const { firstName, birthYear, cppStartAge, oasStartAge } = user_reducer[user]
-  const {  avgIncome: user1AvgInc } = user_reducer.user1
+  const { avgIncome: user1AvgInc } = user_reducer.user1
   const { user2, retIncome } = user_reducer
 
   const data = {
@@ -163,7 +163,6 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       question: "How many children?",
     },
     managementExpenseRatio: {
-      type: "percentage",
       subTitle: `Your management fee is paid to the firm managing your investments and varies from 0.5% to 3%. For our calculations we use 1.2%. Like inflation, this fee is deducted from your return to get your real rate of return. Your ${rate1}% return minus ${inflationRate}% inflation and ${mer}% in fees will then be ${(
         rate1 -
         inflationRate -
@@ -174,7 +173,6 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       topLabel: "My fee is ",
     },
     inflationRate: {
-      type: "percentage",
       subTitle: `When we show you values like income, or savings, far in the future we'd like them to be in todays dollars so their easier to understand. A simple trick to remove inflation from our calculations is to deduct it from your rate of retun. Now your return would be ${(
         rate1 - inflationRate
       ).toFixed(2)}%`,
@@ -259,7 +257,6 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       question: "Are you married?",
     },
     rate1: {
-      type: "percentage",
       explanation: "This assumption is very important as we try to estimate how much you need to save until retirement.",
       subTitle:
         "Usually anything above 6% is considered higher risk and lower than 6% is lower risk.  There's no way of knowing what you'll actually get so its best to play it safe when planning but not so safe that your savings goals aren't realistic. ",
@@ -268,7 +265,6 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       topLabel: "I hope to get ",
     },
     rate2: {
-      type: "percentage",
       explanation: "We use this interest rate to calculate how much income you can draw from your investments in retirement.",
       subTitle: "Its helpful to assume that you'll want to take on less risk in retirement leading to a lower return. ",
       question: "Would you like to adjust your lower risk rate of return for after you've retired?",
@@ -276,7 +272,6 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       topLabel: "I hope to get",
     },
     rrspStartAge: {
-      type: "percentage",
       subTitle:
         "This is called converting it to a RRIF, Registered Retirement Investment Fund. Once it’s converted you have to make a minimum withdrawal of at least 4% each year.  The latest you’re allowed to convert is age 72. ",
       question: "When would you like to begin drawing income from your Registered Retirement Savings account?",
@@ -316,7 +311,6 @@ export const addText = (textKey: string, user: I.user, n?: number): I.objects =>
       bottomLabel: "before tax per year",
     },
     tfsaStartAge: {
-      type: "percentage",
       subTitle:
         "There are no rules about when you have to withdraw or how much. For our calculations we’d like to know a year you’ll start withdrawing so that we can ensure you’re earning enough income in retirement. ",
       question: "When would you like to begin drawing income from your TFSA and other investment savings?",
