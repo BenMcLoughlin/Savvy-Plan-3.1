@@ -1,5 +1,0 @@
-export { Column } from "./Column"
-export { Section } from "./Section"
-export { Row } from "./Row"
-export { P} from "./P"
-export { H1, H2, H3, H4} from "./H-Headers"
