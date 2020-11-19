@@ -27,7 +27,6 @@ export const AssumptionsPanel: FC<IProps> = () => {
   //   )}
   // </TransitionGroup>
 
-
   const sliderValues = slidersArray[0].min
   console.log("slidersArray[0]:", sliderValues)
   return (
@@ -56,19 +55,15 @@ export const AssumptionsPanel: FC<IProps> = () => {
         {!open && <Title onClick={() => toggleOpen(!open)}>Assumptions</Title>}
         {open && (
           <>
-            <TransitionGroup component={null}>
-              {assumption === "rates" ||
-                (assumption === "retirementFactors" && (
-                  <CSSTransition timeout={700} classNames="fade-in">
-                    <Row>
-                      {slidersArray.map(data => (
-                        <Slider {...data} />
-                      ))}
-                    </Row>
-                  </CSSTransition>
+            <CSSTransition in={assumption === "retirementFactors"} timeout={200} classNames="fade-in">
+              <Row>
+                {slidersArray.map(data => (
+                  <Slider {...data} />
                 ))}
-              <ArrowLeft onClick={() => toggleOpen(!open)} />
-            </TransitionGroup>
+              </Row>
+            </CSSTransition>
+
+            <ArrowLeft onClick={() => toggleOpen(!open)} />
           </>
         )}
       </Panel>
