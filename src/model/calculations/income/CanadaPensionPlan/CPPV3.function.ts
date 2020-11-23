@@ -5,7 +5,8 @@ import { getSAAPE, getFAAPE, adjustCpp, sumArray, sumPensionableEarnings, adjust
 import * as I from "model/types"
 import { userInfo } from "os"
 
-export const getCpp = (user: I.user, { yearRange: income, state: { user_reducer } }: I.a): number => {
+export const cpp = (user: I.user, { yearRange: income, state: { user_reducer } }: I.a): I.objects => {
+
   const { birthYear } = user_reducer[user]
   const { cppStartAge } = user_reducer[user]
 
@@ -50,10 +51,12 @@ export const getCpp = (user: I.user, { yearRange: income, state: { user_reducer 
 
   const adjustedBenefit = adjustCpp(benefit, cppStartAge)
 
-  return adjustedBenefit > 0 ? adjustedBenefit : 0
+  return { cpp: adjustedBenefit > 0 ? adjustedBenefit : 0 }
+
 }
 
-export const getOas = (user: I.user, { state: { user_reducer }}: I.a): number => {
+export const oas = (user: I.user, { state: { user_reducer }}: I.a): I.objects => {
   const { oasStartAge } = user_reducer[user]
-  return adjustOas(7200, oasStartAge)
+  const returnValue = adjustOas(7200, oasStartAge)
+  return { oas: returnValue } 
 }

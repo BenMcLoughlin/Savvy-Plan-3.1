@@ -45,7 +45,7 @@ font-weight: 700;
 `
 
 export const incomeTooltipHtml = (d, dataObject, color, n, state) => {
-  console.log("Hello")
+console.log('d:', d)
   const { selectedUser } = state.ui_reducer
   const { firstName: user1FirstName, birthYear: user1BirthYear } = state.user_reducer.user1
   const { firstName: user2FirstName, birthYear: user2BirthYear } = state.user_reducer.user2

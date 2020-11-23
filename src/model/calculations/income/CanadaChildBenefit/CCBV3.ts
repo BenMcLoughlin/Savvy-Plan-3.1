@@ -37,15 +37,13 @@ export const getReduction = (adjustedFamilyNetIncome: number, kidsBirthYearArray
   }
 }
 
-export const ccb = (user, fnState, year): I.objects => {
+export const getCcb = (user, fnState, year):number => {
   const { state, yearRange } = fnState
 
-  const returnValue = { income: { ccb: 0 } }
-
-  if (user === "user2") return {}
+  if (user === "user2") return 0
   const { yearFirstChildBorn, yearLastChildLeaves, kidsBirthYearArray } = getYearRange(state) //these values will be used in CCB calculation but are just grabbed once here
   if (year > yearLastChildLeaves || year < yearFirstChildBorn || !state.ui_reducer.hasChildren) {
-    return returnValue
+    return 0
   }
 
   const benefitBeforeReduction = getBenefitBeforeReduction(kidsBirthYearArray, year)
@@ -56,5 +54,6 @@ export const ccb = (user, fnState, year): I.objects => {
 
   const ccb = benefitBeforeReduction - reduction
 
-  const finalValue = { ...returnValue, income: { ...returnValue.income, ccb: ccb > 0 ? ccb : 0 } }
+  return ccb > 0 ? ccb : 0
+
 }

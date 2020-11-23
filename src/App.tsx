@@ -17,7 +17,8 @@ const App = ({ state }) => {
 
   const newPageData = pages_data[`${selectedPage}Page_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
   //console.log("state:", JSON.stringify(state, null, 4))
-  console.log("incomeForcastV3", JSON.stringify(buildIncomeForcast(state), null, 4))
+  //buildIncomeForcast(state)
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -26,7 +27,7 @@ const App = ({ state }) => {
           <BrowserRouter>
             <Header />
             {isLoading && <Loading />}
-            <DevToolBox />
+            {/* <DevToolBox /> */}
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/product" component={Product} />

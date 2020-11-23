@@ -34,7 +34,7 @@ export const AssumptionsPanel: FC<IProps> = () => {
   return (
     <>
       {showAssumptionsPanel && (
-        <Wrapper>
+        <Wrapper open={open}>
           {showRetirementAssumptions && (
             <Tabs open={open} assumption={assumption}>
               <DualSelect
@@ -65,8 +65,7 @@ export const AssumptionsPanel: FC<IProps> = () => {
                 <TransitionGroup component={null}>
                   {transitionKeys.map(
                     transitionKey =>
-                      (transitionKey === assumption ||
-                      transitionKey === userName) && (
+                      (transitionKey === assumption || transitionKey === userName) && (
                         <CSSTransition timeout={800} classNames="fade-in">
                           <Row>
                             {slidersArray.map(data => (
@@ -95,10 +94,13 @@ interface Props {
   open?: boolean
   assumption?: string
 }
-const Wrapper = styled.div`
+const Wrapper = styled.div<Props>`
   position: absolute;
-  top: 55rem;
+  top: 50rem;
   left: 0rem;
+  z-index: 500;
+
+
 `
 const Panel = styled.div<Props>`
   height: 20rem;

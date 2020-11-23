@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { ChartNav } from "view/components"
 import { drawBarChart } from "view/charts/drawCharts/drawBarChart"
 import * as I from "model/types"
-import { buildIncomeForcast } from "model/calculations/income/income"
+import { buildIncomeForcast } from "model/calculations/income/incomeV3"
 
 interface IProps {
   state: I.state
@@ -25,13 +25,13 @@ export const IncomeChart: FC<IProps> = ({ color_selector, enableNav, show, state
   } = user_reducer
   const inputRef = useRef(null)
   const className = "incomeChart"
-  const { chartArray, inc } = useMemo(() => buildIncomeForcast(state), [state.stream_reducer, selectedUser, r1, r2, u1Ls, u2Ls])
+  const { chartArray, yearRange } = useMemo(() => buildIncomeForcast(state), [state.stream_reducer, state.user_reducer, r1, r2, u1Ls, u2Ls])
 
   useEffect(() => {
     if (inputRef && inputRef.current) {
       const width = inputRef.current.offsetWidth
       const height = inputRef.current.offsetHeight
-      drawBarChart(color_selector, className, chartArray, inc, height, state, width)
+      drawBarChart(color_selector, className, chartArray, yearRange, height, state, width)
     }
   }, [color_selector, chartArray, set, selectedUser, state])
 

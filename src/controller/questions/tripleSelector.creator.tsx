@@ -12,8 +12,8 @@ export const createTripleSliders = (flow: I.flow, text: I.a, selectedPeriod: str
 
   const periods = +Object.keys(stream[flow]).pop()
 
-  const optionArray = _.range(1, periods + 1).map(d => round(stream[flow][d].value) / 1000 + "K")
-
+  const optionArray = _.range(1, periods + 1).map(d => round(stream[flow][d].value))
+  
   const labelArray = _.range(1, periods + 1).map(d => `${stream[flow][d].start} - ${stream[flow][d].end}`)
 
   const { birthYear } = state.user_reducer[owner]
