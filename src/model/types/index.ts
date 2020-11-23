@@ -41,10 +41,12 @@ export type event = ChangeEvent<HTMLInputElement>
 
 export type { action } from "model/types/global/redux_types"
 export type { auth_reducer } from "model/types/global/redux_types"
+export type { calc_reducer } from "model/types/global/redux_types"
 
 export type { reducer } from "model/types/global/redux_types"
 export type { state } from "model/types/global/redux_types"
 export type { savedState } from "model/types/global/redux_types"
+export type { period } from "model/types/global/redux_types"
 export type { stream } from "model/types/global/redux_types"
 export type { stream_reducer } from "model/types/global/redux_types"
 export type { ui_reducer } from "model/types/global/redux_types"

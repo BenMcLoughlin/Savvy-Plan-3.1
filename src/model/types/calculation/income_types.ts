@@ -16,7 +16,7 @@ type userIncome = {
   income: incomeStreams
   afterTaxIncome: incomeStreams
   taxableInc: number
-  cppEligibleIncome: number
+  cppEligible: number
 }
 
 export type incomeForcast = {

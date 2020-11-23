@@ -115,9 +115,8 @@ export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects 
             min: 65,
             step: 1,
             value: oasStartAge,
-            handleChange: value => {
-              set("user_reducer", { [user]: { oasStartAge: value } })
-            },
+            handleChange: value =>  set("user_reducer", { [user]: { oasStartAge: value } }),
+            onNext: () =>  set("ui_reducer", { showRetirementAssumptions: true })
           },
           ...addText("oasStartAge", user),
         })
@@ -160,7 +159,7 @@ export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects 
             max: 5,
             min: 0,
             step: 0.1,
-     
+
             value: inflationRate,
             handleChange: value => {
               set("user_reducer", { inflationRate: value, r1: (rate1 - mer - value) / 100, r2: (rate2 - mer - value) / 100 })
@@ -176,9 +175,9 @@ export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects 
             max: 120,
             min: 75,
             step: 1,
-
             value: lifeSpan,
             handleChange: value => set("user_reducer", { [user]: { lifeSpan: value } }),
+            onNext: () =>  set("ui_reducer", { showAssumptionsPanel: true })
           },
           ...addText("lifeSpan", user),
         })
@@ -269,7 +268,7 @@ export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects 
               max: 300000,
               min: 0,
               step: 1000,
-        
+
               value: stream.currentValue,
               handleChange: (value: string) => {
                 set("ui_reducer", { dualSelectValue: true, selectedAccount: stream.reg })
@@ -338,6 +337,11 @@ export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects 
             value: changeRateAssumptions,
             handleChange: () => set("ui_reducer", { dualSelectValue: true, changeRateAssumptions: true }),
             handleChange2: () => set("ui_reducer", { dualSelectValue: false, changeRateAssumptions: false }),
+            onNext: () => {
+              if (!changeRateAssumptions) {
+                set("ui_reducer", { showAssumptionsPanel: true })
+              }
+            },
           },
           ...addText("theyWantToChangeRateAssumptions", user),
         }),
@@ -348,6 +352,11 @@ export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects 
             value: changeRetirementAssumptions,
             handleChange: () => set("ui_reducer", { dualSelectValue: true, changeRetirementAssumptions: true }),
             handleChange2: () => set("ui_reducer", { dualSelectValue: false, changeRetirementAssumptions: false }),
+            onNext: () => {
+              if (!changeRetirementAssumptions) {
+                set("ui_reducer", { showRetirementAssumptions: true })
+              }
+            },
           },
           ...addText("theyWantToChangeRetirementAssumptions", user),
         }),
@@ -433,6 +442,29 @@ export const showUsers = (q: I.a, addText: I.a): I.objects => {
       q.push({
         ...addText("assumptionsPanel", "user1"),
       }),
+    combinedIncomeChart: () =>
+      q.push({
+        ...{
+          chart: "IncomeChart",
+          component: "TripleSelector",
+          enableNav: true,
+          value: selectedUser,
+          user1Name,
+          user2Name,
+          handleChange: d => set("ui_reducer", { selectedUser: d }),
+        },
+        ...addText("combinedIncomeChart", "user1"),
+      }),
+
+    incomeParagraph: () =>
+      q.push({
+        ...{
+          chart: "IncomeChart",
+          component: "Paragraph",
+          enableNav: true,
+        },
+        ...addText("incomeParagraph", "user1"),
+      }),
     introduction: () =>
       q.push({
         ...{
@@ -441,9 +473,9 @@ export const showUsers = (q: I.a, addText: I.a): I.objects => {
         },
         ...addText("introduction", "user1"),
       }),
-    whatWeWillBuild: () =>
+    retirementAssumptionsPanel: () =>
       q.push({
-        ...addText("whatWeWillBuild", "user1"),
+        ...addText("retirementAssumptionsPanel", "user1"),
       }),
     targetIncomeChart: () =>
       q.push({
@@ -468,27 +500,9 @@ export const showUsers = (q: I.a, addText: I.a): I.objects => {
         },
         ...addText("targetNestEgg", "user1"),
       }),
-    combinedIncomeChart: () =>
+    whatWeWillBuild: () =>
       q.push({
-        ...{
-          chart: "IncomeChart",
-          component: "TripleSelector",
-          enableNav: true,
-          value: selectedUser,
-          user1Name,
-          user2Name,
-          handleChange: d => set("ui_reducer", { selectedUser: d }),
-        },
-        ...addText("combinedIncomeChart", "user1"),
-      }),
-    incomeParagraph: () =>
-      q.push({
-        ...{
-          chart: "IncomeChart",
-          component: "Paragraph",
-          enableNav: true,
-        },
-        ...addText("incomeParagraph", "user1"),
+        ...addText("whatWeWillBuild", "user1"),
       }),
   }
 }

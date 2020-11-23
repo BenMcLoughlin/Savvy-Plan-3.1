@@ -50,8 +50,9 @@ export const getYearRange = (state: I.state, user: I.user): I.objects => {
 
 
 export const efficientIncome = (): string => {
-  const { ui_reducer, user_reducer } = store.getState()
-  const { user1, user2, retIncome } = user_reducer
+  const { ui_reducer, user_reducer, calc_reducer } = store.getState()
+  const { user1, user2, retIncome } = calc_reducer
+  const {user1: {firstName: u1FirstName}, user2: {firstName: u2FirstName}} = user_reducer
   const {  isMarried, } = ui_reducer
 
   if (!isMarried && user1.nregInc < 100) {
@@ -63,25 +64,21 @@ export const efficientIncome = (): string => {
       user1.tfsaInc
     )} could come from your TFSA along with ${round(user1.nregInc)} from your Non-registered savings.`}
   if (isMarried && user1.nregInc < 100) {
-    return `If you draw ${round(user1.rrspInc)} from ${user1.firstName}'s RRSPs and ${round(user2.rrspInc)} from ${
-    user2.firstName
-  }'s RRSPs you'll both still be in the lowest tax bracket in retirement. Then since you want ${round(retIncome)} total income, the remaining ${round(
-    user1.tfsaInc + user2.tfsaInc
-  )} could come from both your TFSA's.`
+    return `If you draw ${round(user1.rrspInc)} from ${u1FirstName}'s RRSPs and ${round(user2.rrspInc)} from ${u2FirstName}
+    }'s RRSPs you'll both still be in the lowest tax bracket in retirement. Then since you want ${round(retIncome)} total income, the remaining ${round(
+      user1.tfsaInc + user2.tfsaInc
+    )} could come from both your TFSA's.`
   }
   if (isMarried && user1.nregInc > 100) {
-    return `If you draw ${round(user1.rrspInc)} from ${user1.firstName}'s RRSPs and ${round(user2.rrspInc)} from ${
-    user2.firstName
-  }'s RRSPs you'll both still be in the lowest tax bracket in retirement. Then since you want ${round(retIncome)} total income, ${round(
-    user1.tfsaInc + user2.tfsaInc
-  )} could come from both your TFSA's along with ${round(
-    user1.nregInc + user2.nregInc
-  )} from your Non-registered savings.`
+    return `If you draw ${round(user1.rrspInc)} from ${u1FirstName}'s RRSPs and ${round(user2.rrspInc)} from ${u2FirstName}
+    }'s RRSPs you'll both still be in the lowest tax bracket in retirement. Then since you want ${round(retIncome)} total income, ${round(
+      user1.tfsaInc + user2.tfsaInc
+    )} could come from both your TFSA's along with ${round(user1.nregInc + user2.nregInc)} from your Non-registered savings.`
   }
 
 }
 
-export const formatNestEggData = ({ ui_reducer, user_reducer }: I.state): I.a => {
+export const formatNestEggData = ({ calc_reducer, ui_reducer, user_reducer }: I.state): I.a => {
   const { users } = ui_reducer
   const searchValues = ["rrspNestEgg", "tfsaNestEgg", "nregNestEgg"]
   return users.reduce(
@@ -90,8 +87,8 @@ export const formatNestEggData = ({ ui_reducer, user_reducer }: I.state): I.a =>
         searchValues.map(v => ({
           owner: user_reducer[user].firstName,
           account: v.slice(0, 4),
-          income: user_reducer[user][v.slice(0, 4) + "Inc"],
-          value: user_reducer[user][v],
+          income: calc_reducer[user][v.slice(0, 4) + "Inc"],
+          value: calc_reducer[user][v],
         }))
       ),
     []

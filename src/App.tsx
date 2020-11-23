@@ -9,6 +9,7 @@ import { createPage } from "model/services/pages/createPage"
 import { onboard_questions } from "controller/questions/onboarding"
 import { connect } from "react-redux"
 import * as I from "model/types"
+import { buildIncomeForcast } from "model/calculations/income/incomeV3"
 
 const App = ({ state }) => {
   const { selectedPage } = state.ui_reducer
@@ -16,6 +17,7 @@ const App = ({ state }) => {
 
   const newPageData = pages_data[`${selectedPage}Page_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
   //console.log("state:", JSON.stringify(state, null, 4))
+  console.log("incomeForcastV3", JSON.stringify(buildIncomeForcast(state), null, 4))
 
   return (
     <ThemeProvider theme={theme}>

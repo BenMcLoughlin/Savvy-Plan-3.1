@@ -3,8 +3,9 @@
 import { historicYmpe, fiveYearYMPE, YMPE } from "model/calculations/income/CanadaPensionPlan/CPP.data"
 import { getSAAPE, getFAAPE, adjustCpp, sumArray, sumPensionableEarnings, adjustOas } from "model/calculations/income/CanadaPensionPlan/CPP.helpers"
 import * as I from "model/types"
+import { userInfo } from "os"
 
-export const getCpp = (income: I.objects, user: I.user, { user_reducer }: I.state): number => {
+export const getCpp = (user: I.user, { yearRange: income, state: { user_reducer } }: I.a): number => {
   const { birthYear } = user_reducer[user]
   const { cppStartAge } = user_reducer[user]
 
@@ -35,7 +36,7 @@ export const getCpp = (income: I.objects, user: I.user, { user_reducer }: I.stat
     SAAPE_array.push(SAAPE)
   }
 
-  //console.log('JSON.stringify(APE_object,null,4):', JSON.stringify(APE_object,null,4))
+  //console.log("JSON.stringify(APE_object,null,4):", JSON.stringify(APE_object, null, 4))
 
   const TAPE = sumPensionableEarnings(APE_array, contributoryPeriod)
 
@@ -52,7 +53,7 @@ export const getCpp = (income: I.objects, user: I.user, { user_reducer }: I.stat
   return adjustedBenefit > 0 ? adjustedBenefit : 0
 }
 
-export const getOas = (user: I.user, { user_reducer }: I.state): number => {
-  const oasStartAge = user_reducer[`${user}OasStartAge`]
+export const getOas = (user: I.user, { state: { user_reducer }}: I.a): number => {
+  const { oasStartAge } = user_reducer[user]
   return adjustOas(7200, oasStartAge)
 }

@@ -2,7 +2,14 @@ import { stackedTooltipHtml, stackedTooltipValuesHtml } from "view/charts/toolti
 import * as d3 from "d3"
 
 export const stackedAreaTooltip = (className, dataObject, graph, state, xScale, yScale) => {
-  const tooltip = d3.select(`.${className}`).append("div").attr("class", `${className}tooltip`).style("opacity", 0).style("position", "absolute")
+  const tooltip = d3
+    .select(`.${className}`)
+    .append("div")
+    .attr("class", `${className}tooltip`)
+    .style("opacity", 0)
+    .style("position", "absolute")
+    .style("top", 50 + "px")
+    .style("left", 200 + "px") 
 
   const tooltip2 = d3.select(`.${className}`).append("div").attr("class", `${className}tooltip2`).style("opacity", 0).style("position", "absolute")
 
@@ -52,7 +59,6 @@ export const stackedAreaTooltip = (className, dataObject, graph, state, xScale, 
       tooltip
         .html(stackedTooltipHtml(d, dataObject, state))
         .style("opacity", 1)
-        .style("left", 80 + "px")
       tooltip2.style("opacity", 1).html(stackedTooltipValuesHtml(d, dataObject, "user1"))
       tooltip3.style("opacity", 1).html(stackedTooltipValuesHtml(d, dataObject, "user1")).style("opacity", 1)
       tooltip.transition().duration(200).style("opacity", 1).style("pointer-events", "none")
@@ -65,8 +71,8 @@ export const stackedAreaTooltip = (className, dataObject, graph, state, xScale, 
       tooltip3.transition().duration(5500).style("opacity", 0)
     })
     .on("mousemove", d => {
-      tooltip.style("opacity", 1).style("top", 50 + "px") // always 10px below the cursor
-      // .style("left", () => (d3.event.layerX > 1100 ? "1100px" : d3.event.layerX + 50 + "px")) // always 10px to the right of the mouse
+      tooltip
+        .style("opacity", 1)
 
       tooltip2
         .style("opacity", 1) //THIS IS USER 2

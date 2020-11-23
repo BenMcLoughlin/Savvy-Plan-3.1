@@ -52,6 +52,7 @@ export const onboard_questions = (): I.onboard_questions => {
     })
   }
   askUser1.if.theyWantToChangeRateAssumptions()
+
   if (changeRateAssumptions) {
     askUser1.for.rate1()
     askUser1.for.rate2()
@@ -63,6 +64,7 @@ export const onboard_questions = (): I.onboard_questions => {
     }
   }
     show.assumptionsPanel()
+
   askUser1.if.theyWantToChangeRetirementAssumptions()
   if (changeRetirementAssumptions) {
     askUser1.for.rrspStartAge()
@@ -76,6 +78,8 @@ export const onboard_questions = (): I.onboard_questions => {
       askUser2.for.oasStartAge()
     }
   }
+
+  show.retirementAssumptionsPanel()
 
   askUser1.for.retIncome()
   show.targetIncomeChart(1)
@@ -118,7 +122,7 @@ export const onboard_questions = (): I.onboard_questions => {
   // ask.for.user1.name()
 
   const questions = q
-  console.log(questions)
+
   const add = buttons(questions)
 
   return {

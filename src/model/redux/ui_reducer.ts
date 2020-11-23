@@ -16,6 +16,7 @@ const initialState = {
   selectedId: "dummy",
   selectedScenario: 1,
   selectedPage: "savings",
+  showTargetIncome: true, 
   showAssumptionsPanel: false,
   showRetirementAssumptions: false,
   selectedUser: "user1",

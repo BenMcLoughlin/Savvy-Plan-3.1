@@ -11,12 +11,14 @@ import { TransitionGroup, CSSTransition } from "react-transition-group"
 interface IProps {}
 
 export const AssumptionsPanel: FC<IProps> = () => {
-  const [open, toggleOpen] = useState<boolean>(false)
-  const [assumption, toggleAssumption] = useState<string>("rates")
-  const [userName, toggleUser] = useState<string>()
-
-  const { slidersArray, user1Name, user2Name } = assumptions_props(assumption, userName)
-
+  const {
+      ui_reducer: { showAssumptionsPanel, showRetirementAssumptions },
+    } = store.getState(),
+    [open, toggleOpen] = useState<boolean>(false),
+    [assumption, toggleAssumption] = useState<string>("rates"),
+    [userName, toggleUser] = useState<string>(),
+    { slidersArray, user1Name, user2Name } = assumptions_props(assumption, userName),
+    transitionKeys = ["rates", "retirementFactors", user1Name, user2Name]
   //   <TransitionGroup component={null}>
   //   {isOpen && (
   //     <CSSTransition classNames="dialog" timeout={300}>
@@ -28,46 +30,61 @@ export const AssumptionsPanel: FC<IProps> = () => {
   // </TransitionGroup>
 
   const sliderValues = slidersArray[0].min
-  console.log("slidersArray[0]:", sliderValues)
-  return (
-    <Wrapper>
-      <Tabs open={open} assumption={assumption}>
-        <DualSelect
-          type={"tab"}
-          handleChange={value => toggleAssumption(value)}
-          handleChange2={value => toggleAssumption(value)}
-          option1={"rates"}
-          option2={"retirementFactors"}
-          value={assumption === "rates"}
-        />
-        <UserSelector assumption={assumption}>
-          <DualSelect
-            type={"tab"}
-            handleChange={value => toggleUser(value)}
-            handleChange2={value => toggleUser(value)}
-            option1={user1Name}
-            option2={user2Name}
-            value={userName === user1Name}
-          />
-        </UserSelector>
-      </Tabs>
-      <Panel open={open}>
-        {!open && <Title onClick={() => toggleOpen(!open)}>Assumptions</Title>}
-        {open && (
-          <>
-            <CSSTransition in={assumption === "retirementFactors"} timeout={200} classNames="fade-in">
-              <Row>
-                {slidersArray.map(data => (
-                  <Slider {...data} />
-                ))}
-              </Row>
-            </CSSTransition>
 
-            <ArrowLeft onClick={() => toggleOpen(!open)} />
-          </>
-        )}
-      </Panel>
-    </Wrapper>
+  return (
+    <>
+      {showAssumptionsPanel && (
+        <Wrapper>
+          {showRetirementAssumptions && (
+            <Tabs open={open} assumption={assumption}>
+              <DualSelect
+                type={"tab"}
+                handleChange={value => toggleAssumption(value)}
+                handleChange2={value => toggleAssumption(value)}
+                option1={"rates"}
+                option2={"retirementFactors"}
+                value={assumption === "rates"}
+              />
+              <UserSelector assumption={assumption}>
+                <DualSelect
+                  type={"tab"}
+                  handleChange={value => toggleUser(value)}
+                  handleChange2={value => toggleUser(value)}
+                  option1={user1Name}
+                  option2={user2Name}
+                  value={userName === user1Name}
+                />
+              </UserSelector>
+            </Tabs>
+          )}
+
+          <Panel open={open}>
+            {!open && <Title onClick={() => toggleOpen(!open)}>Assumptions</Title>}
+            {open && (
+              <>
+                <TransitionGroup component={null}>
+                  {transitionKeys.map(
+                    transitionKey =>
+                      (transitionKey === assumption ||
+                      transitionKey === userName) && (
+                        <CSSTransition timeout={800} classNames="fade-in">
+                          <Row>
+                            {slidersArray.map(data => (
+                              <Slider {...data} />
+                            ))}
+                          </Row>
+                        </CSSTransition>
+                      )
+                  )}
+                </TransitionGroup>
+
+                <ArrowLeft onClick={() => toggleOpen(!open)} />
+              </>
+            )}
+          </Panel>
+        </Wrapper>
+      )}
+    </>
   )
 }
 //${props => (props.open ? "70rem" : "4rem")};

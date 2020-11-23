@@ -50,6 +50,7 @@ export interface ui_reducer {
   selectedUser: string
   showAssumptionsPanel: boolean
   showRetirementAssumptions: boolean
+  showTargetIncome: boolean
   users: I.user[]
   dummy: string
   dummyNested: I.a
@@ -90,14 +91,8 @@ export type userCore = {
   oasStartAge: number
   startWork: number
   avgIncome: number
-  rrspInc: number
-  rrspNestEgg: number
   rrspStartAge: number
-  tfsaInc: number
-  tfsaNestEgg: number
   tfsaStartAge: number
-  nregInc: number
-  nregNestEgg: number
 }
 
 export type user_reducer = {
@@ -115,9 +110,25 @@ export type user_reducer = {
   user1: userCore
   user2: userCore
 }
+export type userCalcs = {
+  avgIncome: number
+  cppPayment: number
+  rrspInc: number
+  rrspNestEgg: number
+  tfsaInc: number
+  tfsaNestEgg: number
+  nregInc: number
+  nregNestEgg: number
+}
+
+export type calc_reducer = {
+  user1: userCalcs
+  user2: userCalcs
+}
 
 export interface state {
   auth_reducer: auth_reducer
+  calc_reducer: calc_reducer
   ui_reducer: ui_reducer
   stream_reducer: stream_reducer
   user_reducer: user_reducer

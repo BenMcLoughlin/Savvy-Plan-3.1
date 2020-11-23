@@ -1,6 +1,24 @@
 import * as I from "model/types"
 
 export const exampleState = {
+  calc_reducer: {
+    user1: {
+      avgIncome: 40000,
+      rrspNestEgg: 0,
+      tfsaInc: 0,
+      tfsaNestEgg: 0,
+      nregInc: 0,
+      nregNestEgg: 0,
+    },
+    user2: {
+      avgIncome: 40000,
+      rrspNestEgg: 0,
+      tfsaInc: 0,
+      tfsaNestEgg: 0,
+      nregInc: 0,
+      nregNestEgg: 0,
+    },
+  },
   ui_reducer: {
     chartEndYear: 2085,
     chartStartYear: 2007,
@@ -139,14 +157,8 @@ export const exampleState = {
       oasStartAge: 65,
       lifeSpan: 95,
       startWork: 2007,
-      avgIncome: 40000,
-      rrspNestEgg: 0,
       rrspStartAge: 65,
-      tfsaInc: 0,
-      tfsaNestEgg: 0,
       tfsaStartAge: 65,
-      nregInc: 0,
-      nregNestEgg: 0,
     },
     user2: {
       birthYear: 1995,
@@ -154,18 +166,12 @@ export const exampleState = {
       endWork: 2050,
       firstName: "",
       lastName: "",
-      gender: "female",
+      gender: "male",
       oasStartAge: 65,
       lifeSpan: 95,
       startWork: 2007,
-      avgIncome: 40000,
-      rrspNestEgg: 0,
       rrspStartAge: 65,
-      tfsaInc: 0,
-      tfsaNestEgg: 0,
       tfsaStartAge: 65,
-      nregInc: 0,
-      nregNestEgg: 0,
     },
   },
   auth_reducer: {

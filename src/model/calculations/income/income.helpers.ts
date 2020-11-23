@@ -1,4 +1,3 @@
-
 import _ from "lodash"
 import { insert0 } from "model/calculations/helpers"
 import * as I from "model/types"
@@ -7,7 +6,7 @@ export { getCcb } from "model/calculations/income/CanadaChildBenefit/CCB.functio
 export { getTargetIncomeV2 } from "model/calculations/income/targetIncome/targetIncome.function"
 export { getAvgRate, getMargRate } from "model/calculations/income/tax/tax.helpers"
 import { tCon, rCon } from "model/calculations/income/data"
-import { meanBy,} from "lodash"
+import { meanBy } from "lodash"
 import { Finance } from "financejs"
 import { set } from "model/redux/actions"
 
@@ -41,15 +40,15 @@ export const beforePension = (streams: I.stream[], year: I.n): I.objects => {
     const value = Math.max(...Object.values(stream.in).map((d: any) => (d.start <= year && d.end > year ? d.value : 0)))
     return (income = insert0(income, stream.name, value))
   })
-  const cppEligibleIncome = sum(income, "cppEligible", streams)
-  return { income, cppEligibleIncome }
+  const cppEligible = sum(income, "cppEligible", streams)
+  return { income, cppEligible }
 }
 
 export const beforePensionV2 = (streams, y) =>
   streams.reduce((a, n) => {
     const value = Math.max(...Object.values(n.in).map((d: I.a) => (d.start <= y && d.end > y ? d.value : 0)))
     a[n.name] = value
-    a.cppEligibleIncome = a.cppEligibleIncome + value || value
+    a.cppEligible = a.cppEligible + value || value
     return a
   }, {})
 
@@ -66,12 +65,12 @@ export const getValues = (u: I.user, r1: number, r2: number, inc, s: number, e: 
   const checkMax = (value, year) => (value > (rCon[year] || rCon[2022]) ? rCon[year] || rCon[2022] : value)
   const topTenAvg = meanBy(
     Object.values(inc)
-      .sort((a, b) => b[u].cppEligibleIncome - a[u].cppEligibleIncome)
+      .sort((a, b) => b[u].cppEligible - a[u].cppEligible)
       .slice(0, 10),
-    (d: I.a) => d[u].cppEligibleIncome
+    (d: I.a) => d[u].cppEligible
   )
 
-  //set("user_reducer", { [u]: { avgIncome: +topTenAvg } })
+  set("user_reducer", { [u]: { avgIncome: +topTenAvg } })
 
   return {
     maxTfsa: -fin.PMT(
@@ -82,7 +81,7 @@ export const getValues = (u: I.user, r1: number, r2: number, inc, s: number, e: 
     maxRrsp: -fin.PMT(
       r2,
       30,
-      Object.entries(inc).reduce((a, [k, v]) => a + (+k > +s && +k < +e ? checkMax(v[u].cppEligibleIncome * 0.18, k) + a * r1 : 0), 0)
+      Object.entries(inc).reduce((a, [k, v]) => a + (+k > +s && +k < +e ? checkMax(v[u].cppEligible * 0.18, k) + a * r1 : 0), 0)
     ),
     topTenAvg,
     incPerc: 1,
@@ -113,7 +112,28 @@ export const getTargetIncome = (endWork, income, incPerc, retIncome, taxableInc,
   }
 }
 
-
 export const getAccountPresentValues = (values, r, retYear) => {
-  return values.reduce((a, n, i) => (a.user1Tfsa = (a.user1Tfsa + (n.year > retYear ? a.user1Tfsa / (1 + r) ** (i + 1) : 0) || 0), 0))
+  return values.reduce((a, n, i) => ((a.user1Tfsa = a.user1Tfsa + (n.year > retYear ? a.user1Tfsa / (1 + r) ** (i + 1) : 0) || 0), 0))
 }
+
+/**
+ * takes state and will return an array of years from when the youngest user is 18 to 95
+ * @param state state to get the range
+ * @returns [2007,2008,2009, 2010,2011, 2012,2013,2014,2015]
+ */
+
+export const years = ({ ui_reducer: { chartStartYear, chartEndYear } }: I.state): number[] => _.range(chartStartYear, chartEndYear)
+
+/**
+ * takes one function that will return an object and unkown arguments
+ * It will fire the function, passing in user and the other arugments
+ * @param fn function it receives that it will pass user too and fire
+ * @param args could be the proto object or the year
+ * @returns {
+ * user1: {
+ * ,
+ * user2: {
+ * }}
+ * }
+ */
+export const forEachUser = (fn, ...args) => ["user1", "user2"].reduce((a, user) => ({ ...a, [user]: fn(user, ...args) }), {})

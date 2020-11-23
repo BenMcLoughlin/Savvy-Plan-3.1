@@ -24,22 +24,21 @@ export const getValues = (u: I.user, r1: number, r2: number, inc, s: number, e: 
       maxRrsp: -fin.PMT(
         r2,
         30,
-        Object.entries(inc).reduce((a, [k, v]) => a + (+k > +s && +k < +e ? checkMax(v[u].cppEligibleIncome * 0.18, k) + a * r1 : 0), 0)
+        Object.entries(inc).reduce((a, [k, v]) => a + (+k > +s && +k < +e ? checkMax(v[u].cppEligible * 0.18, k) + a * r1 : 0), 0)
       ),
       topTenAvg: meanBy(
         Object.values(inc)
-          .sort((a, b) => b[u].cppEligibleIncome - a[u].cppEligibleIncome)
+          .sort((a, b) => b[u].cppEligible - a[u].cppEligible)
           .slice(0, 10),
-        (d: I.a) => d[u].cppEligibleIncome
+        (d: I.a) => d[u].cppEligible
       ),
     }
   }
 }
 
 export const getTargetIncomeV2 = (endWork, income, incPerc, retIncome, taxableInc, maxTfsa, maxRrsp, topTenAvg, year, user) => {
-  
   let retInc = retIncome * incPerc
-  
+
   const lowBracketDiff = taxableInc < 41725 ? 41725 - taxableInc : 0
   const totalDiff = retInc > taxableInc ? retInc - taxableInc : 0
   const rrspContAdj = topTenAvg / 70000

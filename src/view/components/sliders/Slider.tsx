@@ -17,7 +17,7 @@ interface ISliderProps {
 
 export const Slider: FC<ISliderProps> = ({ min, handleChange, topLabel, bottomLabel, type, max, selectedFocus, step, value }) => {
   const [focus, setFocus] = useState(false)
-console.log('min:', min)
+
   return (
     <Wrapper>
       <Label>{topLabel}</Label>

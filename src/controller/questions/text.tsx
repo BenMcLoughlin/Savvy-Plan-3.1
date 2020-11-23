@@ -271,6 +271,11 @@ export const addQuestionsText = (textKey: string, user: I.user, n?: number): I.o
       bottomLabel: `We use 4.5%`,
       topLabel: "I hope to get",
     },
+    retirementAssumptionsPanel: {
+      subTitle:
+        "Since the assumptions change everything you might want to change them at different points when you’re building the plan. Just click on the tab to open the tool box.",
+      question: "We’ve added a tab to your tool box to enable you to change the retirement assumptions anywhere in your plan. ",
+    },
     rrspStartAge: {
       subTitle:
         "This is called converting it to a RRIF, Registered Retirement Investment Fund. Once it’s converted you have to make a minimum withdrawal of at least 4% each year.  The latest you’re allowed to convert is age 72. ",
