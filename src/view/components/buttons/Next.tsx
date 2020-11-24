@@ -5,7 +5,7 @@ import { CSSTransition } from "react-transition-group"
 import { useHttpClient } from "view/hooks"
 import * as I from "model/types"
 import { store } from "index"
-
+import { set } from "model/redux/actions"
 
 interface IProps {
   setDirection: (value: string) => void
@@ -14,7 +14,7 @@ interface IProps {
   valid: boolean
 }
 
-export const Next: FC<IProps> = ({ handleChange, onNext, setDirection, valid}) => {
+export const Next: FC<IProps> = ({ handleChange, onNext, setDirection, valid }) => {
   const state = store.getState()
 
   const { sendRequest } = useHttpClient()
@@ -50,6 +50,7 @@ export const Next: FC<IProps> = ({ handleChange, onNext, setDirection, valid}) =
               setDirection("forward")
               saveStore()
               handleChange(setDirection, valid)
+              set("ui_reducer", { assumptionPanelOpen: false })
               if (onNext) onNext()
             }}
             id="nextButton"

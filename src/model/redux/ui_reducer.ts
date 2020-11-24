@@ -2,6 +2,7 @@ import * as I from "model/types"
 import {merge} from "model/utils"
 
 const initialState = {
+  assumptionPanelOpen: false, 
   colorIndex: 0,
   changeRateAssumptions: true,
   changeRetirementAssumptions: true,

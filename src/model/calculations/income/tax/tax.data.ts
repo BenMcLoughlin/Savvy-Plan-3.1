@@ -90,7 +90,6 @@ export const PTR = {
 
 export const taxes = {
   federal: {
-    basicPersonal: 12298,
     1: {
       bot: 0,
       top: 48535,
@@ -123,7 +122,6 @@ export const taxes = {
     },
   },
   britishColumbia: {
-    basicPersonal: 10949,
     1: {
       bot: 0,
       top: 41725,
@@ -160,10 +158,17 @@ export const taxes = {
       rate: 0.168,
       constant: 11270,
     },
+  }
+}
+
+export const craValues = {
+  federal: {
+    basicPersonal: 12298,
+  },
+  britishColumbia: {
+    basicPersonal: 10949,
   },
   cppcontributes: 2898,
   eiPremiums: 856.36,
   employmentAmount: 1245,
 }
-
-

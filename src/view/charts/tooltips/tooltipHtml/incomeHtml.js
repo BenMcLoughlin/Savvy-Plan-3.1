@@ -49,7 +49,7 @@ export const incomeHtml = (d, dataObject, color, n, state) => {
   const { firstName: user1FirstName, birthYear: user1BirthYear } = state.user_reducer.user1
   const { firstName: user2FirstName, birthYear: user2BirthYear } = state.user_reducer.user2
   const name = n[0].parentNode.className.animVal
-
+console.log('name :', name )
   const { year } = dataObject[d.data.year]
 
   return `

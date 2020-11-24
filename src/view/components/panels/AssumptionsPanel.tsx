@@ -12,9 +12,9 @@ interface IProps {}
 
 export const AssumptionsPanel: FC<IProps> = () => {
   const {
-      ui_reducer: { showAssumptionsPanel, showRetirementAssumptions },
+      ui_reducer: { assumptionPanelOpen, showAssumptionsPanel, showRetirementAssumptions },
     } = store.getState(),
-    [open, toggleOpen] = useState<boolean>(false),
+    [open, toggleOpen] = useState<boolean>(assumptionPanelOpen),
     [assumption, toggleAssumption] = useState<string>("rates"),
     [userName, toggleUser] = useState<string>(),
     { slidersArray, user1Name, user2Name } = assumptions_props(assumption, userName),
@@ -144,7 +144,7 @@ const Row = styled.div`
   width: 100%;
   position: absolute;
   overflow: hidden;
-  margin-left: 2rem;
+  margin-left: 5rem;
   > * {
     margin-left: 1rem;
   }

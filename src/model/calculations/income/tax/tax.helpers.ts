@@ -1,22 +1,22 @@
 /* eslint-disable */
-import { taxes } from "model/calculations/income/tax/tax.data"
+import { taxes, craValues } from "model/calculations/income/tax/tax.data"
 import * as I from "model/types"
 
 type getTax = (income: I.n, government: I.government) => I.n
 
+export const getTax = (income: number, government: I.government): any => {
+  const { rate, constant } = Object.values(taxes[government]).find((d: any) => income >= d.bot && income < d.top) //find the object that contains the bracket details the income fits into
 
-export const getTax = (income: I.n, government: I.government): I.n => {
-  const { rate, constant }: any = Object.values(taxes[government]).find((d: any): any => income >= d.bot && income < d.top) //find the object that contains the bracket details the income fits into
   const tax = income * rate - constant
   return tax //return the provincial taxes for that income amount, this is done by mulitplying income by the rate and subtracting the constant
 }
 
 export const getBasicCredits = (income: I.n, government: I.government): I.n => {
-  const { basicPersonal } = taxes[government] //return the provincial taxes for that income amount, this is done by mulitplying income by the rate and subtracting the constant
+  const { basicPersonal } = craValues[government] //return the provincial taxes for that income amount, this is done by mulitplying income by the rate and subtracting the constant
 
-  const { cppcontributes, eiPremiums } = taxes
+  const { cppcontributes, eiPremiums } = craValues
   let employmentAmount = 0
-  if (government === "federal") employmentAmount = taxes.employmentAmount
+  if (government === "federal") employmentAmount = craValues.employmentAmount
 
   const totalCredits = basicPersonal + cppcontributes + eiPremiums + employmentAmount
 
@@ -25,7 +25,7 @@ export const getBasicCredits = (income: I.n, government: I.government): I.n => {
   return totalCredits * lowestRate
 }
 
-export const getAfterTaxIncome = (income:I.n, federalTaxes:I.n, provincialTaxes:I.n, federalCredits:I.n, provincialCredits:I.n):I.n => {
+export const getAfterTaxIncome = (income: I.n, federalTaxes: I.n, provincialTaxes: I.n, federalCredits: I.n, provincialCredits: I.n): I.n => {
   return income - (federalTaxes + provincialTaxes) + federalCredits + provincialCredits
 }
 
@@ -40,7 +40,7 @@ export const getAvgRate = (income: I.n): I.n => {
 
   return taxRate > 0 ? taxRate : 0
 }
-export const getMargRate = (income: I.n): I.n => {
+export const getMargRate = (income: I.n = 0): I.n => {
   const federalTaxes = getTax(income, "federal")
   const provincialTaxes = getTax(income, "britishColumbia")
 
@@ -82,7 +82,7 @@ const indexationIncreasePerYear = {
   2042: 0.019,
 }
 
-export const adjustByCraIndex = (value:I.n): I.objects => {
+export const adjustByCraIndex = (value: I.n): I.objects => {
   //the value provided must be in todays dollars
   const thisYear = new Date().getFullYear()
 

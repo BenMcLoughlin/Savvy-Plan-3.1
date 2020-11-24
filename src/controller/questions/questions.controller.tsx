@@ -440,6 +440,7 @@ export const showUsers = (q: I.a, addText: I.a): I.objects => {
   return {
     assumptionsPanel: () =>
       q.push({
+        component: "Arrow",
         ...addText("assumptionsPanel", "user1"),
       }),
     combinedIncomeChart: () =>

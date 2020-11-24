@@ -21,6 +21,7 @@ export type { useForm } from "model/types/global/hooks_types"
 
 export type { incomeForcast } from "model/types/calculation/income_types"
 export type { government } from "model/types/calculation/income_types"
+export type { taxBracket } from "model/types/calculation/income_types"
 
 //FUNCTION TYPES
 
