@@ -9,7 +9,7 @@ export const stackedAreaTooltip = (className, dataObject, graph, state, xScale, 
     .style("opacity", 0)
     .style("position", "absolute")
     .style("top", 50 + "px")
-    .style("left", 200 + "px") 
+    .style("left", 200 + "px")
 
   const tooltip2 = d3.select(`.${className}`).append("div").attr("class", `${className}tooltip2`).style("opacity", 0).style("position", "absolute")
 
@@ -56,9 +56,7 @@ export const stackedAreaTooltip = (className, dataObject, graph, state, xScale, 
         .attr("stroke-width", 2)
         .attr("stroke", "#72929B")
 
-      tooltip
-        .html(stackedTooltipHtml(d, dataObject, state))
-        .style("opacity", 1)
+      tooltip.html(stackedTooltipHtml(d, dataObject, state)).style("opacity", 1)
       tooltip2.style("opacity", 1).html(stackedTooltipValuesHtml(d, dataObject, "user1"))
       tooltip3.style("opacity", 1).html(stackedTooltipValuesHtml(d, dataObject, "user1")).style("opacity", 1)
       tooltip.transition().duration(200).style("opacity", 1).style("pointer-events", "none")
@@ -71,8 +69,7 @@ export const stackedAreaTooltip = (className, dataObject, graph, state, xScale, 
       tooltip3.transition().duration(5500).style("opacity", 0)
     })
     .on("mousemove", d => {
-      tooltip
-        .style("opacity", 1)
+      tooltip.style("opacity", 1)
 
       tooltip2
         .style("opacity", 1) //THIS IS USER 2

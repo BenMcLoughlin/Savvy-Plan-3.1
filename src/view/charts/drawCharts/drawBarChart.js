@@ -92,7 +92,7 @@ export const drawBarChart = (colors, className, data, dataObject, height, state,
       })
       .attr("y", d => yScale(d[1]))
       .attr("height", d => (yScale(d[0]) > 0 ? yScale(d[0]) - yScale(d[1]) : 0))
-      .style("cursor", "pointer")
+      .attr("cursor", "pointer")
 
     incomeBarTooltip(colors, className, dataObject, state)
 

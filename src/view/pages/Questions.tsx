@@ -14,29 +14,30 @@ interface IProps {
 }
 
 export const Questions: FC<IProps> = ({ data }) => {
-  const { progress, showAssumptionsPanel } = store.getState().ui_reducer
-  const [direction, setDirection] = useState<string>("forward")
-  const { backButton, nextButton, questions } = data
-  const { length } = questions
-  const { explanation, backHandleChange, chart, onNext, useExampleState } = data.questions[progress]
+  // const { progress } = store.getState().ui_reducer
+  // const [direction, setDirection] = useState<string>("forward")
+  // const { backButton, nextButton, questions } = data
+  // const { length } = questions
+  // const { explanation, backHandleChange, chart, onNext, useExampleState, onShow } = data.questions[progress]
 
-  const history = useHistory()
-  useEffect(() => {
-    // saveStore()
-    history.push(`/onboarding/${progress}`)
-    window.addEventListener("popstate", () => {
-      set("ui_reducer", { progress: +history.location.pathname.replace(/\D/g, "") })
-    })
-    // sendRequest(`http://localhost:5000/api/users/save`, "POST", JSON.stringify(state), {
-    //   "Content-Type": "application/json",
-    // })
-  }, [progress, history])
+  // const history = useHistory()
+  // useEffect(() => {
+  //   // saveStore()
+  //   history.push(`/onboarding/${progress}`)
+  //   window.addEventListener("popstate", () => {
+  //     set("ui_reducer", { progress: +history.location.pathname.replace(/\D/g, "") })
+  //   })
+  //   if (onShow) {onShow()}
+  //   // sendRequest(`http://localhost:5000/api/users/save`, "POST", JSON.stringify(state), {
+  //   //   "Content-Type": "application/json",
+  //   // })
+  // }, [progress, history])
 
-  if (progress === length - 2) return <Redirect to="/plan" />
+  // if (progress === length - 2) return <Redirect to="/plan" />
 
   return (
     <Wrapper>
-      <ProgressBar length={length} progress={progress} />
+      {/* <ProgressBar length={length} progress={progress} />
       < AssumptionsPanel/>
       <Text>
         {progress > 0 && explanation && <h3 style={{ fontWeight: "bold" }}>Why this matters</h3>}
@@ -61,7 +62,7 @@ export const Questions: FC<IProps> = ({ data }) => {
       {progress > 0 && <Back {...backButton} setDirection={setDirection} backHandleChange={backHandleChange} />}
       {chart && <Chart useExampleState={useExampleState}>{matchThenShowComponent(components, data.questions[progress], chart)}</Chart>}
 
-      <Next {...nextButton} onNext={onNext} setDirection={setDirection} />
+      <Next {...nextButton} onNext={onNext} setDirection={setDirection} /> */}
     </Wrapper>
   )
 }
@@ -94,7 +95,7 @@ interface IComponent {
 
 const Component = styled.div<IComponent>`
   position: absolute;
-  margin-top: ${props => (props.chart === "IncomeChart" ? "77rem" : props.chart ? "94rem" : "30rem")};
+  margin-top: ${props => (props.chart === "IncomeChart" ? "77rem" : props.chart ? "90rem" : "33rem")};
   left: 0rem;
   width: 80rem;
   justify-content: center;
@@ -109,8 +110,8 @@ interface Chart {
 const Chart = styled.div<Chart>`
   position: absolute;
   top: ${props => (props.useExampleState ? "10rem" : "23rem")};
-  left: ${props => (props.useExampleState ? "-10rem" : "32rem")};
-  width: ${props => (props.useExampleState ? "140rem" : "80rem")};
+  left: ${props => (props.useExampleState ? "-10rem" : "27rem")};
+  width: ${props => (props.useExampleState ? "140rem" : "82rem")};
   height: ${props => (props.useExampleState ? "55rem" : "30rem")};
   justify-content: center;
   display: flex;
@@ -122,14 +123,14 @@ const Text = styled.div`
   flex-wrap: flex-start;
   flex-direction: column;
   position: absolute;
-  left: 10rem;
+  left: 4rem;
   top: 25rem;
 `
 
 const Header = styled.div`
   position: absolute;
   top: -2rem;
-  margin-left: 2rem;
+  margin-left: 10rem;
   display: flex;
   flex-direction: column;
   padding: 3rem;
@@ -141,6 +142,7 @@ interface IH2 {
 const H2 = styled.h2<IH2>`
   margin-top: ${p => (p.textLength > 100 ? "-7rem" : "-4rem")};
   width: 80rem;
+  margin-top: -2rem;
   line-height: 4.4rem;
 `
 // const TransitionGroup = styled(TransitionGroup)`

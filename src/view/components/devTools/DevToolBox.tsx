@@ -46,7 +46,7 @@ export const DevToolBox: FC<IProps> = ({set}) => {
                 <Label>Value</Label>
                 <Input value={value3} name={"value3"} onChange={e => handleChange(e)} />
               </InputWrapper>
-              <Button onClick={() => set(value1, {[value2]: value3})}>Set</Button>
+              <Button onClick={() => set(value1, {[value2]: (value3 === 'false' ? false : value3 === "true" ? true : value3)})}>Set</Button>
             </Form>
           </Column>
         </OpenWrapper>

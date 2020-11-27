@@ -5,15 +5,23 @@ import * as I from "model/types"
 import { store } from "index"
 
 export const round = (number: I.n): I.a => {
+  if (number <= 0.1) {
+    return `${(number * 100).toFixed(2)}%`
+  }
+  if (number <= 1) {
+    return `${(number * 100).toFixed()}%`
+  }
   if (number !== undefined && number <= 10000) return `${(Math.round(number / 100) * 100) / 1000} k`
   if (number !== undefined && number <= 1000000) return `${(Math.round(number / 1000) * 1000) / 1000} k`
   if (number > 1000000) return `${(Math.round(number / 10000) * 10000) / 1000000} M`
   return null
 }
 export const formatCurrency = (number: I.n): string => {
-    if (number <= 10000) {
-      return `${number / 100} K`
-    }
+  console.log("number:", number)
+
+  if (number <= 10000) {
+    return `${number / 100} K`
+  }
   if (number < 100000) {
     return `${number / 1000} `
   }
@@ -110,6 +118,8 @@ export const getMax = (className: string, dataObject: I.objects): I.n => {
       return 20000
     case "oasAreaChart":
       return 12000
+    case "lifespanAreaChart":
+      return 0.9
     case "savingsBarChart":
       return getSavingsBarMax(dataObject)
     case "savingsAreaChart":

@@ -16,7 +16,7 @@ interface IProps {
 
 export const IncomeChart: FC<IProps> = ({ color_selector, enableNav, show, state, set }) => {
   const { selectedUser } = state.ui_reducer
-  const { user_reducer } = state
+  const { user_reducer, stream_reducer } = state
   const {
     r1,
     r2,
@@ -25,8 +25,8 @@ export const IncomeChart: FC<IProps> = ({ color_selector, enableNav, show, state
   } = user_reducer
   const inputRef = useRef(null)
   const className = "incomeChart"
-  const { chartArray, yearRange } = useMemo(() => buildIncomeForcast(state), [state.stream_reducer, state.user_reducer, r1, r2, u1Ls, u2Ls])
-console.log('yearRange:', yearRange)
+  const { chartArray, yearRange } = useMemo(() => buildIncomeForcast(state), [stream_reducer, user_reducer, selectedUser, r1, r2, u1Ls, u2Ls])
+
   useEffect(() => {
     if (inputRef && inputRef.current) {
       const width = inputRef.current.offsetWidth

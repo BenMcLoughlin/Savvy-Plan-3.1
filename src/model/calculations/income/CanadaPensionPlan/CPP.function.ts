@@ -3,7 +3,6 @@
 import { historicYmpe, fiveYearYMPE, YMPE } from "model/calculations/income/CanadaPensionPlan/CPP.data"
 import { getSAAPE, getFAAPE, adjustCpp, sumArray, sumPensionableEarnings, adjustOas } from "model/calculations/income/CanadaPensionPlan/CPP.helpers"
 import * as I from "model/types"
-import { userInfo } from "os"
 
 export const cpp = (user: I.user, { yearRange: income, state: { user_reducer } }: I.a): I.objects => {
   const { birthYear } = user_reducer[user]

@@ -13,11 +13,11 @@ export const drawDonutChart = (colors, className, data, height, width, state) =>
   const graphHeight = height - margin.top - margin.bottom - 100
   const graphWidth = width - margin.left - margin.right - 100
 
-  const radius = graphWidth / 4
+  const radius = graphWidth / 3.5
 
   const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${graphWidth} ${graphHeight}`)
 
-  const graph = svg.append("g").attr("transform", `translate(${graphWidth / 2.2},${graphHeight / 2.5})`)
+  const graph = svg.append("g").attr("transform", `translate(${graphWidth / 2},${graphHeight / 3.5})`)
 
   const pie = d3
     .pie()

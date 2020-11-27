@@ -57,6 +57,7 @@ const centerTitle = `
 `
 
 export const nestEggDonutHtml = ({ data }) => {
+  console.log('data:', data)
   return `
       <div style="${tooltipWrapper}">
         <div style="${tooltipTitle}">${data.owner}'s Target ${formatIncomeName(data.account)}</div>

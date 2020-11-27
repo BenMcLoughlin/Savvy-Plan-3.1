@@ -48,9 +48,10 @@ export const onboard_questions = (): I.onboard_questions => {
       askUser2.for.income.registration()
       askUser2.for.income.amount(i)
       askUser2.if.addAnother.income()
-      show.combinedIncomeChart()
     })
+    show.combinedIncomeChart()
   }
+
   askUser1.if.theyWantToChangeRateAssumptions()
 
   if (changeRateAssumptions) {
@@ -63,7 +64,7 @@ export const onboard_questions = (): I.onboard_questions => {
       askUser2.for.lifeSpan()
     }
   }
-    show.assumptionsPanel()
+  show.assumptionsPanel()
 
   askUser1.if.theyWantToChangeRetirementAssumptions()
   if (changeRetirementAssumptions) {

@@ -24,7 +24,7 @@ const initialState = {
   },
 }
 
-export const calc_reducer = (state = initialState, action: I.a): I.calc_reducer => {
+export const calc_reducer = (state = initialState, action: I.a): I.a => {
   const { type, payload } = action
   switch (type) {
     case "calc_reducer/SET":

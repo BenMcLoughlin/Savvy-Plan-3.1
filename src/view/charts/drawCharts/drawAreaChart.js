@@ -2,6 +2,7 @@
 import * as d3 from "d3"
 import { savingsAreaTooltip } from "view/charts/tooltips/savingsArea/tooltip"
 import { cppAreaTooltip } from "view/charts/tooltips/cppArea/tooltips"
+import { lifespanAreaTooltip } from "view/charts/tooltips/lifespan/tooltip"
 import { getMax } from "view/charts/drawCharts/chartHelpers"
 import { stackedAreaTooltip } from "view/charts/tooltips/savingsStackedArea/tooltip"
 
@@ -9,17 +10,23 @@ export const drawAreaChart = (className, data, dataObject, height, state, width)
   const margin = { top: 20, right: 50, bottom: 40, left: 50 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
-
-  console.log(className)
+  console.log(data)
+  console.log("data:", data)
   d3.select(`.${className} > *`).remove()
   d3.select(`.${className}tooltip`).remove()
   d3.select(`.${className}tooltip2`).remove()
   d3.select(`.${className}tooltip3`).remove()
+  d3.select(`.${"oasAreaChart"} > *`).remove()
+  d3.select(`.${"oasAreaChart"}tooltip`).remove()
+  d3.select(`.${"oasAreaChart"}tooltip2`).remove()
+  d3.select(`.${"oasAreaChart"}tooltip3`).remove()
+  d3.select(`.${"cppAreaChart"} > *`).remove()
+  d3.select(`.${"cppAreaChart"}tooltip`).remove()
+  d3.select(`.${"cppAreaChart"}tooltip2`).remove()
+  d3.select(`.${"cppAreaChart"}tooltip3`).remove()
   d3.selectAll(`circle`).remove()
 
-  const stackedKeys = Object.keys(data[0])
-
-  const hideAxis = true
+  const stackedKeys = Object.keys(data[0]).filter(d => d !== "year")
 
   const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${width} ${height}`)
 
@@ -31,7 +38,7 @@ export const drawAreaChart = (className, data, dataObject, height, state, width)
 
   const stack = d3.stack().keys(stackedKeys).order(d3.stackOrderReverse).offset(d3.stackOffsetDiverging)
 
-  const color = className === "cppAreaChart" ? "#F29278" : className === "oasAreaChart" ? "#72929B" :"#5E9090"
+  const color = className === "cppAreaChart" ? "#F29278" : className === "oasAreaChart" ? "#72929B" : className === "lifespanAreaChart" ? "#FFD152" : "#5E9090"
 
   var defs = svg.append("defs")
 
@@ -67,9 +74,12 @@ export const drawAreaChart = (className, data, dataObject, height, state, width)
       .attr("class", "area")
       .attr("fill", "url(#svgGradient)")
       .attr("id", "chart")
+      .attr("cursor", "pointer")
       .style("opacity", (d, i) => (i > 3 ? 0.3 : 1))
       .raise()
       .attr("d", area)
+      .attr("stroke-width", 2)
+      .attr("stroke", "#F8F8F7")
 
     graph
       .selectAll("rect")
@@ -78,14 +88,18 @@ export const drawAreaChart = (className, data, dataObject, height, state, width)
       .append("rect")
       .attr("x", d => xScale(d.year))
       .attr("y", 0)
-      .attr("width", width / 85)
+      .attr("cursor", "pointer")
+      .attr("width", width / 65)
       .attr("height", height)
       .attr("class", `${className}Rect`)
       .attr("opacity", "0")
       .raise()
-    console.log(className)
+
     if (className === "cppAreaChart" || className === "oasAreaChart") {
-      cppAreaTooltip(className, data, graph, state, yScale, xScale)
+      cppAreaTooltip(className, data, graph, height, state, yScale, xScale, width)
+    }
+    if (className === "lifespanAreaChart") {
+      lifespanAreaTooltip(className, data, graph, height, state, yScale, xScale, width)
     }
     if (className === "savingsStackedAreaChart") {
       stackedAreaTooltip(className, dataObject, graph, state, xScale, yScale)
@@ -93,20 +107,6 @@ export const drawAreaChart = (className, data, dataObject, height, state, width)
     if (className === "savingsAreaChart") {
       savingsAreaTooltip(className, dataObject, graph, state, xScale, yScale)
     }
-    const xAxisGroup = graph.append("g").attr("transform", `translate(0, ${graphHeight})`).attr("class", "axis")
-
-    const yAxisGroup = graph.append("g").attr("class", "axis")
-    const xAxis = d3.axisBottom(xScale).tickValues([])
-
-    const yAxis = d3
-      .axisLeft(yScale)
-      .ticks("3")
-      .tickFormat(d => `${d / 1000}k`)
-    if (!hideAxis) {
-      xAxisGroup.call(xAxis)
-      yAxisGroup.call(yAxis)
-    }
   }
-
   update(data)
 }

@@ -1,5 +1,5 @@
 import { createStream } from "model/services/create_functions"
-import { removeMostRecentStream, getYearRange, formatNestEggData, formatCppChartData, formatOasChartData } from "controller/questions/helpers"
+import { removeMostRecentStream, getYearRange, formatNestEggData, formatCppChartData, formatOasChartData, formatLifespanData } from "controller/questions/helpers"
 import { validateNext } from "model/services/validation/validators"
 import { createTripleSliders } from "controller/questions/tripleSelector.creator"
 import { createDualSliders } from "controller/questions/createDualSlider.creator"
@@ -115,8 +115,7 @@ export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects 
             min: 65,
             step: 1,
             value: oasStartAge,
-            handleChange: value =>  set("user_reducer", { [user]: { oasStartAge: value } }),
-            onNext: () =>  set("ui_reducer", { showRetirementAssumptions: true })
+            handleChange: value => set("user_reducer", { [user]: { oasStartAge: value } }),
           },
           ...addText("oasStartAge", user),
         })
@@ -171,13 +170,15 @@ export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects 
       lifeSpan: () => {
         q.push({
           ...{
+            chart: "AreaChart",
+            chartName: "lifespan",
+            data: formatLifespanData(),
             component: "Slider",
             max: 120,
             min: 75,
             step: 1,
             value: lifeSpan,
             handleChange: value => set("user_reducer", { [user]: { lifeSpan: value } }),
-            onNext: () =>  set("ui_reducer", { showAssumptionsPanel: true })
           },
           ...addText("lifeSpan", user),
         })
@@ -190,7 +191,7 @@ export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects 
             max: 4,
             min: 0,
             step: 0.1,
-            selectedFocus: true,
+
             value: mer,
             handleChange: value => set("user_reducer", { mer: value, r1: (rate1 - value - inflationRate) / 100, r2: (rate2 - value - inflationRate) / 100 }),
           },
@@ -205,7 +206,7 @@ export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects 
             max: 10,
             min: 0,
             step: 0.1,
-            selectedFocus: true,
+
             value: rate1,
             handleChange: value => set("user_reducer", { rate1: value, r1: (value - mer - inflationRate) / 100 }),
           },
@@ -220,7 +221,6 @@ export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects 
             max: 10,
             min: 0,
             step: 0.1,
-            selectedFocus: true,
             value: rate2,
             handleChange: value => {
               set("user_reducer", { rate2: value, r1: (value - mer - inflationRate) / 100 })
@@ -255,7 +255,7 @@ export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects 
             max: 80,
             step: 1,
             handleChange: value => set("user_reducer", { [user]: { tfsaStartAge: value } }),
-            ...createDualSliders("rrspStartAge"),
+            ...createDualSliders("tfsaStartAge"),
           },
           ...addText("tfsaStartAge", user),
         })
@@ -376,6 +376,9 @@ export const onboardQuestions = (q: I.a, user: I.user, addText: I.a): I.objects 
                   removeMostRecentStream(user, streamType)
                 }
               },
+              onNext: () => {
+                if (!ui_reducer.dualSelectValue) set("ui_reducer", { selectedUser: "combined" })
+              },
             },
             ...addText("addAnotherIncome", user),
           }),
@@ -440,7 +443,7 @@ export const showUsers = (q: I.a, addText: I.a): I.objects => {
   return {
     assumptionsPanel: () =>
       q.push({
-        component: "Arrow",
+        onShow: () => set("ui_reducer", { showAssumptionsPanel: true }),
         ...addText("assumptionsPanel", "user1"),
       }),
     combinedIncomeChart: () =>
@@ -476,6 +479,7 @@ export const showUsers = (q: I.a, addText: I.a): I.objects => {
       }),
     retirementAssumptionsPanel: () =>
       q.push({
+        onShow: () => set("ui_reducer", { showRetirementAssumptionsPanel: true }),
         ...addText("retirementAssumptionsPanel", "user1"),
       }),
     targetIncomeChart: () =>

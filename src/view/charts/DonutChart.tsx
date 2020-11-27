@@ -16,10 +16,15 @@ interface IProps {
 }
 
 export const DonutChart: FC<IProps> = ({ color_selector, enableNav, data, state, set }) => {
-
   const { selectedUser } = state.ui_reducer
   const inputRef = useRef(null)
   const className = "donutChart"
+
+  const { stream_reducer, user_reducer, ui_reducer } = state
+
+  const {} = state.calc_reducer
+
+  useMemo(() => buildIncomeForcast(state), [stream_reducer, user_reducer, ui_reducer])
 
   useEffect(() => {
     if (inputRef && inputRef.current) {
@@ -31,7 +36,20 @@ export const DonutChart: FC<IProps> = ({ color_selector, enableNav, data, state,
 
   return (
     <Wrapper>
+      <Card>
+        <Title fontSize={"1.9rem"} bold={"bold"}>
+          Target Nest Egg
+        </Title>
+        <Value fontSize={"2.7rem"}>607K</Value>
+        <Title>So it can provide</Title>
+        <Value fontSize={"2.7rem"}>30K</Value>
+        <Title>Retirement Income</Title>
+        <Title>Topping you up to a total of</Title>
+        <Value fontSize={"2.7rem"}>30K</Value>
+        <Title>After Tax Per Year</Title>
+      </Card>
       <Canvas className={className} ref={inputRef} />
+
       {/* <div className="tooltipWrapper">
         <div className="tooltipTitle">Bens Target RRSP</div>
         <div className="displayBox">
@@ -50,20 +68,44 @@ export const DonutChart: FC<IProps> = ({ color_selector, enableNav, data, state,
 
 //---------------------------STYLES-------------------------------------------//
 
+interface Props {
+  fontSize?: string
+  bold?: string
+}
+
 const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   position: relative;
-  width: 50rem;
+  width: 70rem;
   height: 30rem;
-  ${props => props.theme.neomorph};
-  border-radius: 15px;
   margin-top: -2rem;
   margin-left: -10rem;
 `
 const Canvas = styled.div`
-  width: 100%;
+  width: 60%;
   height: 100%;
-  position: absolute;
+  border-radius: 15px;
+  ${props => props.theme.neomorph};
+`
+const Card = styled.div`
+  width: 35%;
+  height: 100%;
+  border-radius: 15px;
+  ${props => props.theme.neomorph};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+`
+const Title = styled.div<Props>`
+  font-size: ${props => props.fontSize};
+  font-weight: ${props => props.bold};
+  padding: 0.6rem;
+`
+const Value = styled.div<Props>`
+  font-size: ${props => props.fontSize};
+  font-weight: ${props => props.bold};
+  padding: 0.6rem;
 `

@@ -13,7 +13,7 @@ import { set } from "model/redux/actions"
  * @param state the current state containing all income streams
  */
 export const buildIncomeForcast = (state: I.state) => {
-  //console.time("income")
+  console.time("income")
   const returnValue = getForcast(state)
     .setStreams("income")
     .forEachYearAndUser(get(income))
@@ -23,7 +23,7 @@ export const buildIncomeForcast = (state: I.state) => {
     .calculate(targetNestEgg, targetWithdrawals)
     .setCaculationResultsInReducer()
 
-  //console.timeEnd("income")
+  console.timeEnd("income")
   return returnValue
 }
 
@@ -132,13 +132,16 @@ function getForcast(state) {
      * @param  fns - takes any number of functions, fires them for each user
      * @return  An object containing the results of all functions fired
      */
-    calculate: (...fns: I.a) =>
-      add(
+    calculate: (...fns: I.a) => {
+      console.log("d:", d)
+      return add(
         d,
         fns.map(fn => add(d, { calcResults: forEachUser(fn, d) }))
-      ),
+      )
+    },
     setCaculationResultsInReducer: () => (set("calc_reducer", { ...d.calcResults }), d),
   }
+  console.log("d.calcResults:", d.calcResults)
   return d
 }
 
@@ -183,10 +186,8 @@ function afterTaxIncomeDetails(user, fnState, year) {
     ccb = hasChildren ? getCcb(user, fnState, year) : 0,
     cpp = year >= birthYear + cppStartAge ? calcResults[user].cpp : 0,
     oas = year >= birthYear + oasStartAge ? calcResults[user].oas : 0,
-    tfsa = year >= birthYear + tfsaStartAge ? calcResults[user].maxTfsa : 0,
-    rrsp = year >= birthYear + rrspStartAge ? calcResults[user].maxRrsp : 0,
-    nReg = year >= birthYear + tfsaStartAge ? calcResults[user].nReg : 0,
     taxableInc = yearRange[year][user].cppEligible + oas + cpp || 0,
+    { tfsa, rrsp, nreg } = getTargetIncome(user, fnState, year, taxableInc),
     marginalRate = getMargRate(taxableInc),
     averageRate = getAvgRate(taxableInc),
     afterTaxIncome = taxableInc * (1 - averageRate)
@@ -196,7 +197,7 @@ function afterTaxIncomeDetails(user, fnState, year) {
       [`${user}Ccb`]: ccb,
       [`${user}Cpp`]: cpp,
       [`${user}Oas`]: oas,
-      [`${user}Nreg`]: nReg,
+      [`${user}Nreg`]: nreg,
       [`${user}Rrsp`]: rrsp,
       [`${user}Tfsa`]: tfsa,
     },
@@ -216,12 +217,15 @@ function afterTaxIncomeDetails(user, fnState, year) {
 function income(user, { streams }, year) {
   return streams
     .filter(stream => stream.owner === user)
-    .reduce((a, stream) => {
-      const value = Math.max(...Object.values(stream.in).map((d: I.a) => (d.start <= year && d.end > year ? d.value : 0)))
-      a.cppEligible = value + (a.cppEligible || 0)
-      a = { ...a, income: { ...a.income, [stream.name]: value } }
-      return a
-    }, {})
+    .reduce(
+      (a, stream) => {
+        const value = Math.max(...Object.values(stream.in).map((d: I.a) => (d.start <= year && d.end > year ? d.value : 0)))
+        a.cppEligible = value + (a.cppEligible || 0)
+        a = { ...a, income: { ...a.income, [stream.name]: value } }
+        return a
+      },
+      { cppEligible: 0 }
+    )
 }
 
 let fin = new Finance()
@@ -233,7 +237,7 @@ let fin = new Finance()
  */
 
 function targetSavings(user, { yearRange: inc, state: { ui_reducer, user_reducer } }) {
-  const { showTargetIncome } = ui_reducer
+  const { showTargetIncome, users } = ui_reducer
   const { r1, r2 } = user_reducer
   const { birthYear, startWork, tfsaStartAge, rrspStartAge } = user_reducer[user]
   if (!showTargetIncome) {
@@ -263,7 +267,7 @@ function targetSavings(user, { yearRange: inc, state: { ui_reducer, user_reducer
       Object.entries(inc).reduce((a, [k, v]) => a + (+k > startWork && +k < birthYear + rrspStartAge ? checkMax(v[user].cppEligible * 0.18, k) + a * r1 : 0), 0)
     ),
     topTenAvg,
-    incPerc: 1,
+    incPerc: 1 / users.length,
   }
 }
 
@@ -309,4 +313,50 @@ const targetWithdrawals = (user, fnState) => {
     rrsp: rrspStartAge + birthYear,
   }
   return ["tfsa", "rrsp", "nreg"].reduce((a, n) => ((a[`${n}Inc`] = yearRange[startIncAge[n] + 5][user].income[`${user}${startCase(n)}`]), a), {})
+}
+
+/** getTargetIncome
+ * Determines the most efficient amounts to draw from ones RRSP, TFSA and Non Registered Accounts.
+ * @param user
+ * @param fnState
+ * retIncome is the desired retirement income input by the user, eg 70 k
+ * we need to know the years the user will start withdrawing so we take their birthYear and tfsa & rrsp start years from the user reducer
+ * Theres only so much RRSP and TFSA they could be able to withdraw, those maximums were already calculated and stored in the calc_reducer
+ * We'll use the average top 10 years of earnings to guage if they were in a high tax bracket and should focus on RRSPs
+ * We want to fill up the lowest tax bracket with RRSP income, so we calculate the low bracket diff
+ */
+
+function getTargetIncome(user, fnState, year, taxableInc) {
+  const { retIncome } = fnState.state.user_reducer
+  const { birthYear, rrspStartAge, tfsaStartAge } = fnState.state.user_reducer[user]
+  const { maxTfsa, maxRrsp, topTenAvg, incPerc } = fnState.calcResults[user]
+  const userRetInc = retIncome * incPerc
+
+  const v = {
+    rrsp: 0,
+    tfsa: 0,
+    nreg: 0,
+  }
+
+  if (userRetInc < taxableInc) return v
+
+  const lowBracketDiff = taxableInc < 41725 ? 41725 - taxableInc : 1
+
+  const totalDiff = userRetInc > 41725 ? userRetInc - taxableInc : lowBracketDiff
+
+  const rrspContAdj = topTenAvg / 80000
+
+  const rrspPerc = (lowBracketDiff / totalDiff) * rrspContAdj
+
+  const rrspPercMax = rrspPerc > 0.9 ? 0.9 : rrspPerc
+
+  const tfsaPerc = +userRetInc < maxTfsa + 41725 ? 1 - rrspPercMax : maxTfsa / totalDiff
+
+  const nregPerc = rrspPerc + tfsaPerc < 1 ? 1 - rrspPerc - tfsaPerc : 0
+
+  return {
+    rrsp: year >= birthYear + rrspStartAge ? (rrspPerc * totalDiff < maxRrsp ? rrspPerc * totalDiff : maxRrsp) : 0,
+    tfsa: year >= birthYear + tfsaStartAge ? tfsaPerc * totalDiff : 0,
+    nreg: year >= birthYear + tfsaStartAge ? nregPerc * totalDiff : 0,
+  }
 }

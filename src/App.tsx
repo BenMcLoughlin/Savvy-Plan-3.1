@@ -26,7 +26,7 @@ const App = ({ state }) => {
           <BrowserRouter>
             <Header />
             {isLoading && <Loading />}
-            {/* <DevToolBox /> */}
+            <DevToolBox />
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/product" component={Product} />

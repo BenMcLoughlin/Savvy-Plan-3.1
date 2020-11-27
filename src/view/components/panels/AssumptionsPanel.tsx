@@ -1,9 +1,10 @@
 /* eslint-disable */
-import React, { FC, useState } from "react"
+import React, { FC, useState, useEffect } from "react"
 import styled from "styled-components"
 import * as I from "model/types"
 import { DualSelect, Slider } from "view/components"
 import { ArrowLeftS } from "@styled-icons/remix-line"
+import { ThreeDotsVertical } from "@styled-icons/bootstrap"
 import { assumptions_props } from "controller/assumptions/assumptions_props"
 import { store } from "index"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
@@ -12,24 +13,18 @@ interface IProps {}
 
 export const AssumptionsPanel: FC<IProps> = () => {
   const {
-      ui_reducer: { assumptionPanelOpen, showAssumptionsPanel, showRetirementAssumptions },
+      ui_reducer: { showAssumptionsPanel, showRetirementAssumptions },
     } = store.getState(),
-    [open, toggleOpen] = useState<boolean>(assumptionPanelOpen),
+    [open, toggleOpen] = useState<boolean>(false),
     [assumption, toggleAssumption] = useState<string>("rates"),
     [userName, toggleUser] = useState<string>(),
     { slidersArray, user1Name, user2Name } = assumptions_props(assumption, userName),
     transitionKeys = ["rates", "retirementFactors", user1Name, user2Name]
-  //   <TransitionGroup component={null}>
-  //   {isOpen && (
-  //     <CSSTransition classNames="dialog" timeout={300}>
-  //       <div className="dialog--overlay" onClick={onClose}>
-  //         <div className="dialog">{message}</div>
-  //       </div>
-  //     </CSSTransition>
-  //   )}
-  // </TransitionGroup>
 
-  const sliderValues = slidersArray[0].min
+  useEffect(() => {
+    toggleOpen(showAssumptionsPanel) 
+    if (showRetirementAssumptions) toggleAssumption("retirementFactors")
+  }, [showAssumptionsPanel, showRetirementAssumptions])
 
   return (
     <>
@@ -59,7 +54,11 @@ export const AssumptionsPanel: FC<IProps> = () => {
           )}
 
           <Panel open={open}>
-            {!open && <Title onClick={() => toggleOpen(!open)}>Assumptions</Title>}
+            {!open && (
+              <Title onClick={() => toggleOpen(!open)}>
+                <DotsIcon /> Assumptions
+              </Title>
+            )}
             {open && (
               <>
                 <TransitionGroup component={null}>
@@ -96,11 +95,9 @@ interface Props {
 }
 const Wrapper = styled.div<Props>`
   position: absolute;
-  top: 50rem;
+  top: 55rem;
   left: 0rem;
   z-index: 500;
-
-
 `
 const Panel = styled.div<Props>`
   height: 20rem;
@@ -116,15 +113,22 @@ const Panel = styled.div<Props>`
 
 const Title = styled.div`
   height: 5rem;
-  width: 10rem;
-  margin-top: 3rem;
-  margin-left: -6rem;
+  width: 15rem;
+  margin-top: 4rem;
+  margin-left: -6.6rem;
   cursor: pointer;
-  font-size: 1.4rem;
+  font-size: 1.7rem;
   color: ${props => props.theme.color.darkGrey};
-  transform: rotate(90deg);
   transition: all 0.5s ease;
+  letter-spacing: 0.1rem;
+  transform: rotate(90deg);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  font-weight:
 `
+
 const Tabs = styled.div<Props>`
   width: ${props => (props.open ? "70rem" : "0rem")};
   position: absolute;
@@ -169,3 +173,12 @@ const ArrowLeft = styled(ArrowLeftS)`
   top: 1rem;
   left: 1rem;
 `
+const DotsIcon = styled(ThreeDotsVertical)`
+  height: 2rem;
+  width: 2rem;
+  margin-top: .3rem;
+  margin-left: 0.5rem;
+  color: ${props => props.theme.color.primary};
+  cursor: pointer;
+`
+

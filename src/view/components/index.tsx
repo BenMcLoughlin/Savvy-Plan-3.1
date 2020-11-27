@@ -76,7 +76,6 @@ export { Footer } from "./layout/Footer"
 export const Login = compose(connect(mapStateToProps, { set, remove }))(_Login)
 
 //Nav
-export { Arrow } from "./nav/Arrow"
 export { ChartNav } from "./nav/ChartNav"
 export { ProgressBar } from "./nav/ProgressBar"
 export { SideNav } from "./nav/SideNav"
@@ -111,9 +110,11 @@ export const EditPanel = compose(connect(mapStateToProps, { set, remove }))(_Edi
 
 //Smart Components Connected to Redux
 
-export { AreaChart } from "view/charts/AreaChart"
+export {AreaChart} from "view/charts/AreaChart"
 
 export const TextInput = compose(connect(mapStateToProps, { set, remove }))(_TextInput)
+
+
 
 export const DonutChart = compose(connect(mapStateToProps, { set }))(_DonutChart)
 

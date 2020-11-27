@@ -39,7 +39,7 @@ export const savingsAreaTooltip = (className, dataObject, graph, state, xScale, 
         .attr("stroke-width", 2)
         .attr("stroke", "#72929B")
 
-      tooltip.html(() => savingsAreaHtml(d, dataObject,state))
+      tooltip.html(() => savingsAreaHtml(d, dataObject, state))
       tooltip.transition().duration(200).style("opacity", 1).style("pointer-events", "none")
     })
     .on("mouseout", (d, i, n) => {

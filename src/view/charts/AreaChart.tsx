@@ -1,12 +1,7 @@
 /* eslint-disable */
 import React, { FC, useEffect, useRef } from "react"
 import styled from "styled-components"
-import { getSavings, getStackedSavings } from "model/calculations/savings/savings.function"
 import { drawAreaChart } from "view/charts/drawCharts/drawAreaChart"
-import { drawBarChart } from "view/charts/drawCharts/drawBarChart"
-import { getSavingsData } from "model/calculations/savings/create/createChartArray"
-import { exampleState, dummyRate1Data } from "data/exampleState"
-import { comparisonData } from "data/planComparisonData"
 import { store } from "index"
 import * as I from "model/types"
 

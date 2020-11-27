@@ -4,8 +4,8 @@ import {merge} from "model/utils"
 const initialState = {
   assumptionPanelOpen: false, 
   colorIndex: 0,
-  changeRateAssumptions: true,
-  changeRetirementAssumptions: true,
+  changeRateAssumptions: null,
+  changeRetirementAssumptions: null,
   chartStartYear: 2007,
   chartEndYear: 2095,
   dualSelectValue: true,

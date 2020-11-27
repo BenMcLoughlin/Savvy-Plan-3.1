@@ -7,15 +7,16 @@ import { store } from "index"
 import { set } from "model/redux/actions"
 
 export const addQuestionsText = (textKey: string, user: I.user, n?: number): I.objects => {
-  const { stream_reducer, user_reducer, ui_reducer } = store.getState()
+  const { stream_reducer, user_reducer, ui_reducer, calc_reducer } = store.getState()
   const { selectedId, isMarried, hasChildren } = ui_reducer
   const { rate1, mer, inflationRate } = user_reducer
   const stream: I.stream = stream_reducer[selectedId] || dummyStream
   const isUser1 = user === "user1"
   const { reg } = stream
-  const { firstName: spouseFirstName, avgIncome: user2AvgInc } = user_reducer.user2
+  const { firstName: spouseFirstName } = user_reducer.user2
   const { firstName, birthYear, cppStartAge, oasStartAge } = user_reducer[user]
-  const { avgIncome: user1AvgInc } = user_reducer.user1
+  const { avgIncome: user1AvgInc } = calc_reducer.user1
+  const { avgIncome: user2AvgInc } = calc_reducer.user2
   const { user2, retIncome } = user_reducer
 
   const data = {
@@ -37,16 +38,17 @@ export const addQuestionsText = (textKey: string, user: I.user, n?: number): I.o
       question: isUser1 ? "What's your birth year?" : "What's your spouse's birth year?",
     },
     combinedIncomeChart: {
-      explanation: "This forms the basis of our financial calculations.",
-      subTitle:
+      subTitle: "This will form the basis for the next steps in building your plan.",
+      explanation:
         "Our goal is to see what your government benefits in retirement looks like. If you're earning too much you can have these 'clawed back' through high taxes. By estimating your pension now we build a savings plan that saves you the most in taxes when you retire.",
       question: "This shows your income combined",
     },
     cppStartAge: {
-      subTitle: isUser1
+      subTitle: isUser1 ? "This shows how much CPP you could receive each year." : "bye",
+      explanation: isUser1
         ? "The earlier you take Canada Pension Plan the less you will receive. This chart shows how much more you could receive each year if you wait. These values are before tax and are estimated using the income details you provided."
         : "If theres a large difference between what you are both recieveing that will play into our tax saving strategy.",
-      question: `When would ${isMarried ? firstName : "you"} like to begin taking ${isMarried ? "their" : "your"} Canada Pension Plan?`,
+      question: `When would ${isMarried ? firstName : "you"} like to begin taking Canada Pension Plan?`,
       bottomLabel: `in ${+cppStartAge + +birthYear}`,
       topLabel: "I'd like to start at age ",
     },
@@ -99,10 +101,10 @@ export const addQuestionsText = (textKey: string, user: I.user, n?: number): I.o
       question: isMarried ? `Does ${_.startCase(firstName)} have investments?` : "Do you have investments?",
     },
     oasStartAge: {
-      subTitle: isUser1
+      explanation: isUser1
         ? "The earlier you take Canada Pension Plan the less you will receive. This chart shows how much more you could receive each year if you wait. These values are before tax and are estimated using the income details you provided."
         : "If theres a large difference between what you are both recieveing that will play into our tax saving strategy.",
-      question: `When would ${isMarried ? firstName : "you"} like to begin taking ${isMarried ? "their" : "your"} Old Age Security?`,
+      question: `When would ${isMarried ? firstName : "you"} like to begin collecting Old Age Security?`,
       bottomLabel: `in ${+oasStartAge + +birthYear}`,
       topLabel: "I'd like to start at age ",
     },
@@ -120,8 +122,8 @@ export const addQuestionsText = (textKey: string, user: I.user, n?: number): I.o
       explanation: efficientIncome(),
     },
     targetNestEgg: {
-      question: "In order to fund you're retirement and minimize taxes your savings this would be a good allocation of your savings.",
-      subTitle: 'We\'ll call the amount of savings you have upon entering retirement your "Nest Egg". Our next task is to build the savings plan that will ',
+      question: "The most efficient way for you to retire and pay the least amount of taxes would be for your savings to look like this.",
+      explanation: 'We\'ll call the amount of savings you have upon entering retirement your "Nest Egg". Our next task is to build the savings plan that will ',
     },
 
     gender: {
@@ -145,7 +147,7 @@ export const addQuestionsText = (textKey: string, user: I.user, n?: number): I.o
       explanation: isUser1
         ? "Many of our calculations are trying to estimate how long your money needs to last for when drawing income in retirement. The longer you live the more you will need to have saved."
         : "",
-      subTitle: "We typically use 95",
+      subTitle: isUser1 ? "This is called a survival chart and shows the probability of living to a given age.  " : "",
       label: "First Name",
       question: `We you like to adjust ${isMarried && !isUser1 ? spouseFirstName + "'s" : "your"} life span?`,
       topLabel: "I hope to live until ",
@@ -173,9 +175,9 @@ export const addQuestionsText = (textKey: string, user: I.user, n?: number): I.o
       topLabel: "My fee is ",
     },
     inflationRate: {
-      subTitle: `When we show you values like income, or savings, far in the future we'd like them to be in todays dollars so their easier to understand. A simple trick to remove inflation from our calculations is to deduct it from your rate of retun. Now your return would be ${(
+      subTitle: `When we show you values like income, or savings, far in the future we'd like them to be in todays dollars so their easier to understand. A simple trick to remove inflation from our calculations is to deduct it from your rate of retun. So if ${inflationRate}% is the inflation rate we then use ${(
         rate1 - inflationRate
-      ).toFixed(2)}%`,
+      ).toFixed(2)}% as our return on investment`,
       question: "Would you like to adjust the estimated inflation rate?",
       bottomLabel: `We use 2%`,
       topLabel: "Inflation might be ",
@@ -213,7 +215,7 @@ export const addQuestionsText = (textKey: string, user: I.user, n?: number): I.o
     incomeAmount: {
       question:
         isUser1 && n === 0
-          ? "We're going to build a chart that shows your income for each year of your life."
+          ? "This chart shows your estimated income for each year."
           : isUser1 && n === 1
           ? "The more income streams you add the more accurate our estimates can be."
           : n === 2
@@ -230,15 +232,12 @@ export const addQuestionsText = (textKey: string, user: I.user, n?: number): I.o
           ? "The more income streams you add the more accurate our estimates can be."
           : n === 2
           ? "Add this income to the chart"
-          : "banana",
+          : null,
       topLabelPast: "I earned",
       topLabelFuture: "I hope to earn",
       bottomLabel: "before tax per year",
       explainer: "If you think your income might change you can add different earning periods, ignore inflation.",
-      subTitle:
-        isUser1 && n === 0
-          ? `Give us an estimate of your ${stream.name} income. We'll then estimate your Canada Pension Plan and Old Age Security.`
-          : `Give us an estimate of your ${stream.name} income`,
+      subTitle: isUser1 && n === 0 ? `We'll use your estimates to calculate what your Canada Pension Plan and Old Age Security income might be.` : null,
     },
     incomeName: {
       explanation: 'Examples could be if you work as an Engineer, you could say "Engineering". Or name if after the employer that pays you, like "Wal Mart".',
@@ -259,7 +258,7 @@ export const addQuestionsText = (textKey: string, user: I.user, n?: number): I.o
     rate1: {
       explanation: "This assumption is very important as we try to estimate how much you need to save until retirement.",
       subTitle:
-        "Usually anything above 6% is considered higher risk and lower than 6% is lower risk.  There's no way of knowing what you'll actually get so its best to play it safe when planning but not so safe that your savings goals aren't realistic. ",
+        "Usually anything above 6% is considered higher risk.  There's no way of knowing what you'll actually get so its best to play it safe when planning but not so safe that your savings goals aren't realistic. ",
       question: "Would you like to adjust your pre-retirement rate of return?",
       bottomLabel: `We use 6%,`,
       topLabel: "I hope to get ",
@@ -278,7 +277,9 @@ export const addQuestionsText = (textKey: string, user: I.user, n?: number): I.o
     },
     rrspStartAge: {
       subTitle:
-        "This is called converting it to a RRIF, Registered Retirement Investment Fund. Once it’s converted you have to make a minimum withdrawal of at least 4% each year.  The latest you’re allowed to convert is age 72. ",
+        "The latest you’re allowed to convert is age 72. We usually keep it simple and use 65 but this is where strategy comes into play regarding how you can save on taxes.  ",
+      explanation:
+        "This is called converting it to a RRIF, Registered Retirement Investment Fund. Once it’s converted you have to make a minimum withdrawal of at least 4% each year. ",
       question: "When would you like to begin drawing income from your Registered Retirement Savings account?",
       bottomLabel: `Return on Investment`,
       topLabel: "I'd like to convert in ",
@@ -317,7 +318,7 @@ export const addQuestionsText = (textKey: string, user: I.user, n?: number): I.o
     },
     tfsaStartAge: {
       subTitle:
-        "There are no rules about when you have to withdraw or how much. For our calculations we’d like to know a year you’ll start withdrawing so that we can ensure you’re earning enough income in retirement. ",
+        "There are no rules about when you have to withdraw or how much. For our calculations we’d like to estimate how much you can withdraw each year and we need a starting year for our formula. ",
       question: "When would you like to begin drawing income from your TFSA and other investment savings?",
       bottomLabel: `Return on Investment`,
       topLabel: "I hope to get ",
