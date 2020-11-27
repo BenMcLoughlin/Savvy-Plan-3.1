@@ -10,10 +10,7 @@ import { onboard_questions } from "controller/questions/onboarding"
 import { connect } from "react-redux"
 import * as I from "model/types"
 import { buildIncomeForcast } from "model/calculations/income/income"
-// Add this in your component file
-require('react-dom');
-window.React2 = require('react');
-console.log(window.React1 === window.React2);
+
 
 const App = ({ state }) => {
   const { selectedPage } = state.ui_reducer
