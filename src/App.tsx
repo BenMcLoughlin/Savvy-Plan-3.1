@@ -12,6 +12,8 @@ import * as I from "model/types"
 import { buildIncomeForcast } from "model/calculations/income/income"
 
 
+
+
 const App = ({ state }) => {
   const { selectedPage } = state.ui_reducer
   const { isLoading } = state.auth_reducer
