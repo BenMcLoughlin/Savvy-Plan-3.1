@@ -2,15 +2,13 @@ import React from "react"
 import { Header, Footer, Login, PrivateRoute, Loading, DevToolBox } from "view/components"
 import styled, { ThemeProvider } from "styled-components"
 import { theme } from "model/styles/theme"
-import { Account, Display, LandingPage, Pricing, Product, Questions } from "view/pages"
+import { ManagePlan, Landing, BuildPlan } from "view/pages"
 import { BrowserRouter, Route } from "react-router-dom"
 import * as pages_data from "data"
-import { createPage } from "model/services/pages/createPage"
-import { onboard_questions } from "controller/questions/onboarding"
+import * as factory from "model/factory"
+import { onboard_questions } from "controller/buildPlan/onboarding"
 import { connect } from "react-redux"
 import * as I from "model/types"
-import { buildIncomeForcast } from "model/calculations/income/income"
-
 
 
 
@@ -19,8 +17,6 @@ const App = ({ state }) => {
   const { isLoading } = state.auth_reducer
 
   const newPageData = pages_data[`${selectedPage}Page_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
-  //console.log("state:", JSON.stringify(state, null, 4))
-  //buildIncomeForcast(state)
 
   return (
     <ThemeProvider theme={theme}>
@@ -30,13 +26,18 @@ const App = ({ state }) => {
             <Header />
             {isLoading && <Loading />}
             <DevToolBox />
-            <Route exact path="/" component={LandingPage} />
+            <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />
-            <Route exact path="/product" component={Product} />
-            <Route exact path="/pricing" component={Pricing} />
-            <PrivateRoute path="/account" component={Account} />
-            <PrivateRoute path={`/onboarding`} render={() => <Questions data={onboard_questions()} />} />
-            <PrivateRoute exact path="/plan" render={() => <Display data={createPage(newPageData)} />} />
+            {/* <PrivateRoute path="/account" component={Account} /> */}
+            <PrivateRoute
+              path={`/onboarding`}
+              render={() => <BuildPlan data={onboard_questions()} />}
+            />
+            <PrivateRoute
+              exact
+              path="/plan"
+              render={() => <ManagePlan data={factory.plan(newPageData)} />}
+            />
           </BrowserRouter>
         </Content>
         <Footer />

@@ -9,6 +9,9 @@ export type n = number
 
 export type { pages } from "model/types/global/data_types"
 
+//FORCAST
+export type { forcast } from "model/types/global/forcast_types"
+
 //HOOKS TYPES
 export type { useHttpClient } from "model/types/global/hooks_types"
 export type { formData } from "model/types/global/hooks_types"
@@ -20,15 +23,13 @@ export type { useForm } from "model/types/global/hooks_types"
 //INCOME CALCULATION TYPES
 
 export type { incomeForcast } from "model/types/calculation/income_types"
-export type { government } from "model/types/calculation/income_types"
-export type { taxBracket } from "model/types/calculation/income_types"
 
 //FUNCTION TYPES
 
 export type { set } from "model/types/global/function_types"
 export type { remove } from "model/types/global/function_types"
 
-//QUESTIONS
+//buildPlan
 export type { question } from "model/types/global/onboarding_types"
 export type { onboard_questions } from "model/types/global/onboarding_types"
 
@@ -48,6 +49,7 @@ export type { reducer } from "model/types/global/redux_types"
 export type { state } from "model/types/global/redux_types"
 export type { savedState } from "model/types/global/redux_types"
 export type { period } from "model/types/global/redux_types"
+export type { periods } from "model/types/global/redux_types"
 export type { stream } from "model/types/global/redux_types"
 export type { stream_reducer } from "model/types/global/redux_types"
 export type { ui_reducer } from "model/types/global/redux_types"
@@ -57,6 +59,12 @@ export type { flow } from "model/types/global/redux_types"
 //SAVINGS TYPES
 
 export type { savingsObject } from "model/types/calculation/savings_types"
+
+//Tax Types
+export type { craValues } from "model/types/tax"
+export type { government } from "model/types/tax"
+export type { taxBracket } from "model/types/tax"
+export type { taxBrackets } from "model/types/tax"
 
 //VARIABLE TYPES
 

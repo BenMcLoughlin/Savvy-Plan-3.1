@@ -22,6 +22,6 @@
     "noImplicitThis": false,
     "types": []
   },
-  "include": ["src", "jest.config.js"],
+  "include": ["src", "jest.config.js", "trash/chartHelpers 3.ts", "trash/SavingsChart.tsx", "trash/validation", "trash/lodash", "trash/createPage.ts", "trash/services", "trash/Product.tsx"],
   "exclude": ["node_modules"]
 }

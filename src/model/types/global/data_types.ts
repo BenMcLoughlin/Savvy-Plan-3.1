@@ -61,7 +61,7 @@ interface Islider extends Iquestion {
   bottomLabel: string
 }
 
-export interface questions {
+export interface buildPlan {
   streamType: I.streamType
   q1: Iquestion
   q2: Iquestion

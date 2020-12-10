@@ -5,7 +5,7 @@ import * as C from "view/components"
 import * as I from "model/types"
 import { CSSTransition } from "react-transition-group"
 import { useForm, useHttpClient } from "view/hooks"
-import { validateSignUpErrors } from "model/services"
+import * as isValid from "model/utils/validate"
 import { Redirect } from "react-router-dom"
 import { set } from "model/redux/actions"
 import { store } from "index"
@@ -24,7 +24,7 @@ export const Login: FC = () => {
   const { formData, setForm } = useForm("email", "password", "passwordConfirm")
   const { email, password, passwordConfirm } = formData
 
-  const noErrors = validateSignUpErrors(state)
+  const noErrors = isValid.signUp(state)
 
   useEffect(() => window.localStorage.clear(), [])
 

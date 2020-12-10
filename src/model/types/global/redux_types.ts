@@ -1,13 +1,15 @@
-import { NumberArray } from "d3"
 import * as I from "model/types"
 
 export type period = {
-  [key: string]: {
-    start: number
-    value: number
-    end: number
-  }
+  start: number
+  value: number
+  end: number
 }
+
+export type periods = {
+  [key: string]: period
+}
+
 export type flow = "in" | "out"
 
 export type action = {
@@ -63,10 +65,10 @@ export type stream = {
   createdAt: number
   currentValue: number
   flow: string
-  in: period
+  in: periods
   id: string
   owner: I.owner
-  out: period
+  out: periods
   name: string
   payment: number
   streamType: I.streamType

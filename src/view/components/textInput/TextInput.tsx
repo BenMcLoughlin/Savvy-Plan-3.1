@@ -1,7 +1,7 @@
 import React, { FC, useState, ChangeEvent } from "react"
 import styled from "styled-components"
 import _ from "lodash"
-import { validateText } from "model/services/validation/validators"
+import * as isValid from "model/utils/validate"
 import * as I from "model/types"
 import { set, remove } from "model/redux/actions"
 
@@ -18,7 +18,7 @@ interface IProps {
 export const TextInput: FC<IProps> = ({ handleChange, formData, label, placeholder, type = "text", value, name = label }) => {
   const [enableErrors, setEnableErrors] = useState<boolean>(false)
 
-  const error = validateText(name, value, formData ? formData : null)
+  const error = isValid.textInput(name, value, formData ? formData : null)
 
   const { isError, text } = error
 

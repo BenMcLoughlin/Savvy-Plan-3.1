@@ -18,12 +18,10 @@ import { Next as _Next } from "view/components/buttons/Next"
 import { color_selector } from "model/redux/selectors"
 
 //Chart Imports
+import { Chart as _Chart } from "view/charts/Chart"
 import { DonutChart as _DonutChart } from "view/charts/DonutChart"
-import { IncomeChart as _IncomeChart } from "view/charts/IncomeChart"
-import { SavingsChart as _SavingsChart } from "view/charts/SavingsChart"
-import { NetWorthChart as _NetWorthChart } from "view/charts/NetWorthChart"
-import { TaxesChart as _TaxesChart } from "view/charts/TaxesChart"
-import { SpendingChart as _SpendingChart } from "view/charts/SpendingChart"
+
+
 
 //DevTools
 import { DevToolBox as _DevToolBox } from "view/components/devTools/DevToolBox"
@@ -35,6 +33,13 @@ const mapStateToProps = (state: I.state) => ({
   state,
   color_selector: color_selector(state),
 })
+
+//html
+export { Column } from "view/components/html/Column"
+export { Section } from "view/components/html/Section"
+export { Row } from "view/components/html/Row"
+export { P } from "view/components/html/P"
+export { H1, H2, H3, H4 } from "view/components/html/H-Headers"
 
 //Buttons
 export { AddButton } from "./buttons/AddButton"
@@ -110,33 +115,9 @@ export const EditPanel = compose(connect(mapStateToProps, { set, remove }))(_Edi
 
 //Smart Components Connected to Redux
 
-export {AreaChart} from "view/charts/AreaChart"
-
 export const TextInput = compose(connect(mapStateToProps, { set, remove }))(_TextInput)
 
-
+export const Chart = compose(connect(mapStateToProps, { set }))(_Chart)
 
 export const DonutChart = compose(connect(mapStateToProps, { set }))(_DonutChart)
 
-export const IncomeChart = compose(connect(mapStateToProps, { set }))(_IncomeChart)
-/**
- * The <SavingsChart> renders a chart showing the users savings from age 18-95.
- *  */
-
-export const SavingsChart = compose(connect(mapStateToProps, { set }))(_SavingsChart)
-
-/**
- * The <NetWorthChart> renders a chart showing the users net worth from current age until  95.
- *  */
-
-export const NetWorthChart = compose(connect(mapStateToProps, { set }))(_NetWorthChart)
-/**
- * The <TaxesChart> renders a chart showing the users Taxes from current age until  95.
- *  */
-
-export const TaxesChart = compose(connect(mapStateToProps, { set }))(_TaxesChart)
-/**
- * The <SpendingChart> renders a chart showing the users spending from current age until  95.
- *  */
-
-export const SpendingChart = compose(connect(mapStateToProps, { set }))(_SpendingChart)

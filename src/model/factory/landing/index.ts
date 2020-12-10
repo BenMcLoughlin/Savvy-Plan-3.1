@@ -1,0 +1,1 @@
+export {intro} from "model/factory/landing/intro"

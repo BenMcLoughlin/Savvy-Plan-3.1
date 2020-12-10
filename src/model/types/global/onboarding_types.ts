@@ -67,12 +67,10 @@ export interface questionsController {
   type: string
 }
 
-
 export type question = IMultiSliders | IPickMultipleOptions | IDualSelect | textInput | IPickNumber | IPickSingleOption | slider | slidersArray
 
 export interface onboard_questions {
-  questions: any
+  buildPlan: any
   nextButton: any
   backButton: any
 }
-

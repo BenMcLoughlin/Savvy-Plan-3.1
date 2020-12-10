@@ -19,6 +19,7 @@
     "@types/styled-components": "^5.1.4",
     "csv-parser": "^2.3.3",
     "d3": "^5.7.0",
+    "file-system": "^2.2.2",
     "financejs": "^4.1.0",
     "jest-puppeteer": "^4.4.0",
     "lodash": "^4.17.20",

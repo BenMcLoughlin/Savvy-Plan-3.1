@@ -1,0 +1,6 @@
+export { adjustByIndex } from "model/utils/tax/adjustByIndex"
+export { afterTaxIncome } from "model/utils/tax/afterTaxIncome"
+export { averageRate } from "model/utils/tax/averageRate"
+export { credits } from "model/utils/tax/credits"
+export { marginalRate } from "model/utils/tax/marginalRate"
+export { payable } from "model/utils/tax/payable"

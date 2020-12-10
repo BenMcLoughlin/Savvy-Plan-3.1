@@ -12,4 +12,9 @@ export const chartColors = {
   user2Tfsa: "#D8BABB",
   user1Nreg: "#F6BC23",
   user2Nreg: "#4BB9D0",
+  cpp: "#F29278",
+  oas: "#72929B",
+  savings: "#72929B",
+  introSavings: "#5E9090",
+  lifespan: "#FEDE76",
 }

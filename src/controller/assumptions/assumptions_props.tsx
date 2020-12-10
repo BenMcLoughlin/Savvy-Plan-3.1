@@ -1,16 +1,16 @@
 import * as I from "model/types"
-import { onboardQuestions } from "controller/questions/questions.controller"
+import { onboardQuestions } from "controller/buildPlan/buildPlan.controller"
 import { store } from "index"
 import { addAssumptionsText } from "controller/assumptions/text"
 
 export const assumptions_props = (display: string, userName: string): I.a => {
   const state = store.getState()
-    const {
-      user1: { firstName: user1Name },
-      user2: { firstName: user2Name },
-    } = state.user_reducer
+  const {
+    user1: { firstName: user1Name },
+    user2: { firstName: user2Name },
+  } = state.user_reducer
 
-    const user = userName === user1Name ? "user1" : "user2"
+  const user = userName === user1Name ? "user1" : "user2"
 
   const { isMarried, hasChildren, changeRateAssumptions, changeRetirementAssumptions } = state.ui_reducer
   const slidersArray: I.a = []
@@ -36,5 +36,5 @@ export const assumptions_props = (display: string, userName: string): I.a => {
     askUser.for.oasStartAge()
     askUser.for.lifeSpan()
   }
-  return {slidersArray, user1Name, user2Name}
+  return { slidersArray, user1Name, user2Name }
 }

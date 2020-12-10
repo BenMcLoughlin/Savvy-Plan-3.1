@@ -1,0 +1,7 @@
+export { cpp } from "view/charts/tooltips/cpp/tooltips"
+export { cpp as oas } from "view/charts/tooltips/cpp/tooltips"
+export { income } from "view/charts/tooltips/income"
+export { lifespan } from "view/charts/tooltips/lifespan"
+export { nestEgg } from "view/charts/tooltips/nestEgg"
+export { savings } from "view/charts/tooltips/savings"
+export { introSavings } from "view/charts/tooltips/introSavings"
