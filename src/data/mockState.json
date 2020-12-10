@@ -1,0 +1,287 @@
+{
+    "auth_reducer": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZDEyNmQzYjJhODljYmNlMDU0OGYzMCIsInR5cGUiOiJVc2VyIiwiaWF0IjoxNjA3NTQyNDg0LCJleHAiOjE2MDkyNzA0ODR9.-4-ojXW4zO8QvaY-s8nN3sLiq5erJsFKpSDQgOsXhYc",
+        "isLoading": false,
+        "errors": {
+            "email": null,
+            "msg": "No document found with that ID",
+            "First Name": null,
+            "child1BirthYear": null,
+            "Source of Income": null
+        }
+    },
+    "calc_reducer": {
+        "user1": {
+            "avgIncome": 40000,
+            "cppPayment": 9000,
+            "rrspInc": 15728.570215389984,
+            "rrspNestEgg": 674839.2095804055,
+            "tfsaInc": 1993.7624216691538,
+            "tfsaNestEgg": 130938.9511126159,
+            "nregInc": 0,
+            "nregNestEgg": 0,
+            "cpp": 16802.66736294086,
+            "oas": 7200,
+            "maxTfsa": 33005.102086607265,
+            "maxRrsp": 45572.203181827106,
+            "topTenAvg": 71000,
+            "incPerc": 0.5
+        },
+        "user2": {
+            "avgIncome": 40000,
+            "cppPayment": 9000,
+            "rrspInc": 15446.514516693705,
+            "rrspNestEgg": 691894.3515821499,
+            "tfsaInc": 2997.0849062241514,
+            "tfsaNestEgg": 134248.1577696708,
+            "nregInc": 0,
+            "nregNestEgg": 0,
+            "cpp": 16081.400577082142,
+            "oas": 7200,
+            "maxTfsa": 31263.4162897883,
+            "maxRrsp": 39287.754404553954,
+            "topTenAvg": 67000,
+            "incPerc": 0.5
+        }
+    },
+    "stream_reducer": {
+        "user1Income_816378": {
+            "amortization": 0,
+            "color": "#72929B",
+            "cppEligible": true,
+            "createdAt": 1607542526301,
+            "currentValue": 0,
+            "flow": "in",
+            "in": {
+                "1": {
+                    "start": 2006,
+                    "value": 40000,
+                    "end": 2030
+                },
+                "2": {
+                    "start": 2030,
+                    "value": 54000,
+                    "end": 2040
+                },
+                "3": {
+                    "start": 2040,
+                    "value": 71000,
+                    "end": 2052
+                }
+            },
+            "id": "user1Income_816378",
+            "owner": "user1",
+            "out": {
+                "1": {
+                    "start": 2020,
+                    "value": 0,
+                    "end": 2030
+                }
+            },
+            "name": "Race car driving",
+            "payment": 0,
+            "streamType": "income",
+            "rate": 0,
+            "reg": "Regular Employment",
+            "taxable": true,
+            "scenarios": 0,
+            "startValue": 0,
+            "startYear": 0,
+            "periodIn": 3,
+            "periodOut": 1
+        },
+        "user1Income_536938": {
+            "amortization": 0,
+            "color": "#B0CFE3",
+            "cppEligible": true,
+            "createdAt": 1607542569138,
+            "currentValue": 0,
+            "flow": "in",
+            "in": {
+                "1": {
+                    "start": 2005,
+                    "value": 7000,
+                    "end": 2018
+                }
+            },
+            "id": "user1Income_536938",
+            "owner": "user1",
+            "out": {
+                "1": {
+                    "start": 2020,
+                    "value": 0,
+                    "end": 2030
+                }
+            },
+            "name": "Boston Pizza",
+            "payment": 0,
+            "streamType": "income",
+            "rate": 0,
+            "reg": "Regular Employment",
+            "taxable": true,
+            "scenarios": 0,
+            "startValue": 0,
+            "startYear": 0,
+            "periodIn": 1,
+            "periodOut": 1
+        },
+        "user2Income_169751": {
+            "amortization": 0,
+            "color": "#FEDE76",
+            "cppEligible": true,
+            "createdAt": 1607542597916,
+            "currentValue": 0,
+            "flow": "in",
+            "in": {
+                "1": {
+                    "start": 2020,
+                    "value": 0,
+                    "end": 2030
+                }
+            },
+            "id": "user2Income_169751",
+            "owner": "user2",
+            "out": {
+                "1": {
+                    "start": 2020,
+                    "value": 0,
+                    "end": 2030
+                }
+            },
+            "name": "",
+            "payment": 0,
+            "streamType": "income",
+            "rate": 0,
+            "reg": "employment",
+            "taxable": true,
+            "scenarios": 0,
+            "startValue": 0,
+            "startYear": 0,
+            "periodIn": 1,
+            "periodOut": 1
+        },
+        "user2Income_66705": {
+            "amortization": 0,
+            "color": "#4BB9D0",
+            "cppEligible": true,
+            "createdAt": 1607542598901,
+            "currentValue": 0,
+            "flow": "in",
+            "in": {
+                "1": {
+                    "start": 2007,
+                    "value": 37000,
+                    "end": 2028
+                },
+                "2": {
+                    "start": 2028,
+                    "value": 48000,
+                    "end": 2033
+                },
+                "3": {
+                    "start": 2033,
+                    "value": 59000,
+                    "end": 2038
+                },
+                "4": {
+                    "start": 2038,
+                    "value": 67000,
+                    "end": 2051
+                }
+            },
+            "id": "user2Income_66705",
+            "owner": "user2",
+            "out": {
+                "1": {
+                    "start": 2020,
+                    "value": 0,
+                    "end": 2030
+                }
+            },
+            "name": "Waitress",
+            "payment": 0,
+            "streamType": "income",
+            "rate": 0,
+            "reg": "Regular Employment",
+            "taxable": true,
+            "scenarios": 0,
+            "startValue": 0,
+            "startYear": 0,
+            "periodIn": 1,
+            "periodOut": 1
+        }
+    },
+    "ui_reducer": {
+        "colorIndex": 4,
+        "changeRateAssumptions": false,
+        "changeRetirementAssumptions": false,
+        "chartStartYear": 2004,
+        "chartEndYear": 2082,
+        "dualSelectValue": false,
+        "hasChildren": true,
+        "isMarried": true,
+        "progress": 33,
+        "selectedAccount": "income",
+        "selectedId": "user2Income_66705",
+        "selectedScenario": 1,
+        "selectedPage": "savings",
+        "showTargetIncome": true,
+        "selectedUser": "user1",
+        "scenarios": {
+            "1": "basic"
+        },
+        "users": [
+            "user1",
+            "user2"
+        ],
+        "assumptionPanelOpen": false,
+        "showAssumptionsPanel": true,
+        "showRetirementAssumptions": true,
+        "showRetirementAssumptionsPanel": true
+    },
+    "user_reducer": {
+        "retIncome": 71000,
+        "hasChildrenStatus": "yes",
+        "inflationRate": 2,
+        "maritalStatus": "married",
+        "mer": 2,
+        "r1": 0.04,
+        "r2": 0.02,
+        "numberOfChildren": 2,
+        "province": "britishColumbia",
+        "rate1": 6,
+        "rate2": 4.5,
+        "user1": {
+            "birthYear": 1987,
+            "cppStartAge": 65,
+            "endWork": 2050,
+            "firstName": "Ricky Bobby",
+            "gender": "male",
+            "lastName": "",
+            "lifeSpan": 95,
+            "oasStartAge": 65,
+            "startWork": 2007,
+            "rrspStartAge": 65,
+            "tfsaStartAge": 65
+        },
+        "user2": {
+            "birthYear": 1986,
+            "cppStartAge": 65,
+            "endWork": 2050,
+            "firstName": "Janet",
+            "gender": "female",
+            "lastName": "",
+            "lifeSpan": 95,
+            "oasStartAge": 65,
+            "startWork": 2007,
+            "rrspStartAge": 65,
+            "tfsaStartAge": 65
+        },
+        "child1BirthYear": 2017,
+        "child2BirthYear": 2019
+    },
+    "_persist": {
+        "version": -1,
+        "rehydrated": true
+    }
+}

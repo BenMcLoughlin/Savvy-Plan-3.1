@@ -29,10 +29,10 @@ export const lifespanTooltipHtml = d => {
   return `
         <div style="${tooltipWrapper}">
             <div style="${text}">
-              ${u.asCurrency(d.male + d.female)} of Women still alive
+              ${u.asPercentage(d.male + d.female)} of Women still alive
             </div style="${text}">
             <div style="${text}">
-              ${u.asCurrency(d.male)} of Men still alive
+              ${u.asPercentage(d.male)} of Men still alive
             </div style="${text}">
       </div style="${tooltipWrapper}">
    `
@@ -59,13 +59,13 @@ export const lifespanTooltipHtml2 = d => {
 //                    <div style="${box}">
 //                        <p> Before tax</p>
 //                        <p style="${value}"> ${
-//                          u.asCurrency(dataObject[d.data.year].user1.income[name]) || u.asCurrency(dataObject[d.data.year].user2.income[name])
+//                          u.asPercentage(dataObject[d.data.year].user1.income[name]) || u.asPercentage(dataObject[d.data.year].user2.income[name])
 //                        }</p>
 //                      </div>
 //                      <div style="${box}">
 //                        <p> After tax</p>
 //                        <p style="${value}"> ${
-//                          u.asCurrency(dataObject[d.data.year].user1.income[name]) || u.asCurrency(dataObject[d.data.year].user2.income[name])
+//                          u.asPercentage(dataObject[d.data.year].user1.income[name]) || u.asPercentage(dataObject[d.data.year].user2.income[name])
 //                        }</p>
 //                      </div>
 //                  </div>
@@ -77,20 +77,20 @@ export const lifespanTooltipHtml2 = d => {
 //                      <p> Before tax</p>
 //                      <p style="${value}"> ${
 //                        selectedUser === "combined"
-//                          ? u.asCurrency(dataObject[d.data.year].user1.beforeTaxIncome + dataObject[d.data.year].user2.beforeTaxIncome)
+//                          ? u.asPercentage(dataObject[d.data.year].user1.beforeTaxIncome + dataObject[d.data.year].user2.beforeTaxIncome)
 //                          : selectedUser === "user2"
-//                          ? u.asCurrency(dataObject[d.data.year].user2.beforeTaxIncome)
-//                          : u.asCurrency(dataObject[d.data.year].user1.beforeTaxIncome)
+//                          ? u.asPercentage(dataObject[d.data.year].user2.beforeTaxIncome)
+//                          : u.asPercentage(dataObject[d.data.year].user1.beforeTaxIncome)
 //                      }</p>
 //                    </div>
 //                    <div style="${box}">
 //                      <p> After tax</p>
 //                      <p style="${value}"> ${
 //                        selectedUser === "combined"
-//                          ? u.asCurrency(dataObject[d.data.year].user1.afterTaxIncome + dataObject[d.data.year].user2.afterTaxIncome)
+//                          ? u.asPercentage(dataObject[d.data.year].user1.afterTaxIncome + dataObject[d.data.year].user2.afterTaxIncome)
 //                          : selectedUser === "user2"
-//                          ? u.asCurrency(dataObject[d.data.year].user2.afterTaxIncome)
-//                          : u.asCurrency(dataObject[d.data.year].user1.afterTaxIncome)
+//                          ? u.asPercentage(dataObject[d.data.year].user2.afterTaxIncome)
+//                          : u.asPercentage(dataObject[d.data.year].user1.afterTaxIncome)
 //                      }</p>
 //                    </div>
 //                  </div>

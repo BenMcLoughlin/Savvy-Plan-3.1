@@ -58,18 +58,21 @@ interface Props {
 const Wrapper = styled.div<Props>`
   display: inline-flex;
   height: 3.5rem;
+  width: 34rem;
   box-shadow: rgba(64, 62, 61, 0.05) 0px 3px 10px 0px;
   margin: 0px;
   padding: 0px;
   border-radius: ${props => (props.type === "tab" ? "10px 10px 0 0 " : "25px")};
-  background: #f4f4f3;
-  box-shadow: ${props => (props.type === "tab" ? "-19px -19px 38px #ffffff" : "19px 19px 38px #b0b0af, -19px -19px 38px #ffffff")};
+  box-shadow: ${props =>
+    props.type === "tab"
+      ? "-19px -19px 38px #ffffff"
+      : "19px 19px 38px #b0b0af, -19px -19px 38px #ffffff"};
   overflow: hidden;
 `
 
 const Option = styled.div<Props>`
   position: relative;
-  min-width: 16rem;
+  width: 16rem;
   color: ${props => (props.selected ? props.theme.color.ice : "grey")};
   text-align: center;
   z-index: 1;
@@ -83,10 +86,11 @@ const Option = styled.div<Props>`
   justify-content: center;
   font-size: ${props => props.theme.fontSize.small};
   font-weight: bold;
+
 `
 const Pill = styled.div<Props>`
         position: absolute;
-        min-width: 17rem;
+        width: 17rem;
         overflow: hidden;
         height: 3.5rem;
         background-color: ${props => props.theme.color.steelBlue};

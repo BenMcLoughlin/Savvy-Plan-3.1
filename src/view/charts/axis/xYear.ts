@@ -1,10 +1,10 @@
 import * as d3 from "d3"
 
 export const xYear = (graph, x) => {
-  const xAxisGroup = graph.append("g").attr("transform", `translate(0, 350)`).attr("class", "axis")
+  const xAxisGroup = graph.append("g").attr("transform", `translate(0, 160)`).attr("class", "axis")
 
-  var ticks = [2020, 2040, 2060]
-  var tickLabels = ["2020", "2040", "2060"]
+  var ticks = [2020, 2040, 2060, 2080]
+  var tickLabels = ["2020 ", "2040", "2060", "2080"]
 
   const xAxis = d3
     .axisBottom(x)

@@ -1,5 +1,5 @@
 import { years, chartDataListener } from "model/utils"
-
+import { set, remove } from "model/redux/actions"
 
 /** Prototupe
  * Object for providing methods to an object above the object on the prototype chain
@@ -82,6 +82,11 @@ export const forcastMethods = {
       this.releventStreams = Object.assign(Object.create(this), values)
       return this
     }
+    return this
+  },
+
+  set() {
+    set("calc_reducer", this.calcResults)
     return this
   },
 

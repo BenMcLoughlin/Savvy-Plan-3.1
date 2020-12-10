@@ -11,7 +11,6 @@ const errorText = {
   child3BirthYear: "Please provide a valid year.",
 }
 
-
 /** textInput
  * validates text input into a text box 
 * it checks if its an email, password, passwordConform, year or childyear and it the text is incorrect it will 
@@ -21,10 +20,9 @@ const errorText = {
  *@param formData the form data, used when doing a password confirm to check the other password
 
  *@returns boolean
-**/ 
-  
+**/
 
-export const textInput = (name: string, value: string, formData?: I.formData): I.validText => {
+export const textInput = (name: string, value: string, formData?: I.loginForm): I.validText => {
   const error =
     name === "email"
       ? isValid.email(value)

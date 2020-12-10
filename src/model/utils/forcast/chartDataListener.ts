@@ -13,18 +13,17 @@ import * as u from "model/utils"
  **/
 
 export const chartDataListener = (state: I.state, forcast: I.forcast) => {
-  const { selectedUser } = state.ui_reducer
+  const { selectedUser, isMarried } = state.ui_reducer
   const { selectedAccount } = state.ui_reducer
-
   return Object.entries(forcast).map(([year, v]) => {
     let values = {}
     if (v[selectedUser] && v[selectedUser][selectedAccount]) {
       values = v[selectedUser][selectedAccount]
     }
-    if (!v[selectedUser] && v["user1"][selectedAccount]) {
+    if (!v[selectedUser] && v["user1"][selectedAccount] && isMarried) {
       values = u.combine(v["user1"][selectedAccount], v["user2"][selectedAccount])
     }
-    if (!v[selectedUser] && !v["user1"][selectedAccount]) {
+    if (!v[selectedUser] && !v["user1"][selectedAccount] && isMarried) {
       values = u.combine(v["user1"], v["user2"])
     }
     return { ...values, year }

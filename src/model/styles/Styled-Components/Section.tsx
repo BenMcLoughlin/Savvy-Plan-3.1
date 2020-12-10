@@ -5,6 +5,7 @@ interface IProps {
   width?: number
   height?: number
   justify?: string
+  marginTop?: number
 }
 
 export const Section: FC<IProps> = props => {
@@ -17,5 +18,6 @@ const Wrapper = styled.div<IProps>`
   display: flex;
   width: ${props => (props.width ? props.width + "rem" : "100%")};
   height: ${props => (props.height ? props.height + "rem" : "100%")};
+  margin-top: ${props => (props.marginTop ? props.marginTop + "rem" : "0")};
   justify-content: ${props => (props.justify ? props.justify : "space-around")};
 `

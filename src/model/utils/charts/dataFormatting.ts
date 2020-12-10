@@ -70,7 +70,6 @@ export const formatIntroductionChart = () => {
     chartData.push({ year: d.year, user2: d.user2TotalSavings, user1: d.user1TotalSavings - d.user2TotalSavings })
     return { ...a, [d.year]: d }
   }, {})
-  console.log("rawData:", rawData)
   return {
     chartData,
     rawData,

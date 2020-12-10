@@ -4,7 +4,6 @@ import * as u from "model/utils"
 import * as tooltip from "view/charts/tooltips"
 
 export const area = (colors, chartName, allData, height, state, width) => {
-  console.log("chartName:", chartName)
   const margin = { top: 60, right: 50, bottom: 40, left: 50 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
@@ -12,7 +11,6 @@ export const area = (colors, chartName, allData, height, state, width) => {
   d3.select(`.${chartName}`).selectAll("*").remove()
 
   const { chartData: data } = allData
-  console.log("allData.rawData:", allData.rawData)
 
   const { length } = data
 
@@ -35,11 +33,27 @@ export const area = (colors, chartName, allData, height, state, width) => {
 
   var defs = svg.append("defs")
 
-  var gradient = defs.append("linearGradient").attr("id", "svgGradient").attr("x1", "0%").attr("x2", "100%").attr("y1", "0%").attr("y2", "100%")
+  var gradient = defs
+    .append("linearGradient")
+    .attr("id", "svgGradient")
+    .attr("x1", "0%")
+    .attr("x2", "100%")
+    .attr("y1", "0%")
+    .attr("y2", "100%")
 
-  gradient.append("stop").attr("class", "start").attr("offset", "0%").attr("stop-color", color).attr("stop-opacity", 1)
+  gradient
+    .append("stop")
+    .attr("class", "start")
+    .attr("offset", "0%")
+    .attr("stop-color", color)
+    .attr("stop-opacity", 1)
 
-  gradient.append("stop").attr("class", "end").attr("offset", "100%").attr("stop-color", "white").attr("stop-opacity", 1)
+  gradient
+    .append("stop")
+    .attr("class", "end")
+    .attr("offset", "100%")
+    .attr("stop-color", "white")
+    .attr("stop-opacity", 1)
 
   const update = data => {
     const d3Max = u.getMax(chartName, allData)
@@ -60,7 +74,12 @@ export const area = (colors, chartName, allData, height, state, width) => {
       .y1(d => y(d[1]))
       .curve(d3.curveBasis) //sets the lines to be less jagged
 
-    var layer = graph.selectAll(".layer").data(stack(data)).enter().append("g").attr("class", "layer")
+    var layer = graph
+      .selectAll(".layer")
+      .data(stack(data))
+      .enter()
+      .append("g")
+      .attr("class", "layer")
 
     layer
       .append("path")

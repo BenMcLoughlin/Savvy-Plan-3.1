@@ -12,10 +12,18 @@ interface IProps {
   type: string
   value: string
   name?: string
-  formData?: I.formData
+  formData?: I.loginForm
 }
 
-export const TextInput: FC<IProps> = ({ handleChange, formData, label, placeholder, type = "text", value, name = label }) => {
+export const TextInput: FC<IProps> = ({
+  handleChange,
+  formData,
+  label,
+  placeholder,
+  type = "text",
+  value,
+  name = label,
+}) => {
   const [enableErrors, setEnableErrors] = useState<boolean>(false)
 
   const error = isValid.textInput(name, value, formData ? formData : null)

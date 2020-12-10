@@ -14,11 +14,18 @@ interface IProps {
 }
 
 export const BuildPlan: FC<IProps> = ({ data }) => {
-  const { progress, showAssumptionsPanel } = store.getState().ui_reducer
+  const { progress } = store.getState().ui_reducer
   const [direction, setDirection] = useState<string>("forward")
   const { backButton, nextButton, buildPlan } = data
   const { length } = buildPlan
-  const { explanation, backHandleChange, chartName, onNext, chartSize, onUseEffect } = data.buildPlan[progress]
+  const {
+    explanation,
+    backHandleChange,
+    chartName,
+    onNext,
+    chartSize,
+    onUseEffect,
+  } = data.buildPlan[progress]
   const history = useHistory()
   useEffect(() => {
     // saveStore()
@@ -39,7 +46,7 @@ export const BuildPlan: FC<IProps> = ({ data }) => {
   return (
     <Wrapper>
       <ProgressBar length={length} progress={progress} />
-      <AssumptionsPanel />
+      <AssumptionsPanel {...data.buildPlan[progress]} />
       <Text>
         {progress > 0 && explanation && <h3 style={{ fontWeight: "bold" }}>Why this matters</h3>}
         <h4>{explanation}</h4>
@@ -54,13 +61,17 @@ export const BuildPlan: FC<IProps> = ({ data }) => {
                     <H2 textLength={data.question.length}>{data.question}</H2>
                     <h3>{data.subTitle}</h3>
                   </Header>
-                  <Component chart={chartName}>{u.matchThenShowComponent(components, data, data.component)}</Component>
+                  <Component chart={chartName}>
+                    {u.matchThenShowComponent(components, data, data.component)}
+                  </Component>
                 </Content>
               </CSSTransition>
             )
         )}
       </TransitionGroup>
-      {progress > 0 && <Back {...backButton} setDirection={setDirection} backHandleChange={backHandleChange} />}
+      {progress > 0 && (
+        <Back {...backButton} setDirection={setDirection} backHandleChange={backHandleChange} />
+      )}
       {chartName && (
         <ChartWrapper chartSize={chartSize}>
           <Chart {...data.buildPlan[progress]} />
@@ -100,7 +111,8 @@ interface IComponent {
 
 const Component = styled.div<IComponent>`
   position: absolute;
-  margin-top: ${props => (props.chart === "IncomeChart" ? "77rem" : props.chart ? "94rem" : "30rem")};
+  margin-top: ${props =>
+    props.chart === "IncomeChart" ? "77rem" : props.chart ? "94rem" : "30rem"};
   left: 0rem;
   width: 80rem;
   justify-content: center;

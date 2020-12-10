@@ -15,6 +15,7 @@ export const Row: FC<IProps> = (props, { props: children }) => {
 const Wrapper = styled.div<IProps>`
   display: flex;
   flex-direction: row;
+  height: 5rem;
   width: ${props => (props.width ? props.width + "rem" : "100%")};
   justify-content: ${props => (props.justify ? props.justify : "space-around")};
 `

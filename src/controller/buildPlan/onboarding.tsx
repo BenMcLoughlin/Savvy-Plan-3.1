@@ -3,10 +3,16 @@ import { buttons, onboardQuestions, showUsers } from "controller/buildPlan/build
 import { streams } from "controller/buildPlan/helpers"
 import { store } from "index"
 import { addQuestionsText } from "controller/buildPlan/text"
+import * as checkIf from "model/utils/checkIf"
 
 export const onboard_questions = (): I.onboard_questions => {
   const state = store.getState()
-  const { isMarried, hasChildren, changeRateAssumptions, changeRetirementAssumptions } = state.ui_reducer
+  const {
+    isMarried,
+    hasChildren,
+    changeRateAssumptions,
+    changeRetirementAssumptions,
+  } = state.ui_reducer
   const q: I.question[] = []
 
   const askUser1 = onboardQuestions(q, "user1", addQuestionsText)
@@ -14,7 +20,7 @@ export const onboard_questions = (): I.onboard_questions => {
   const show = showUsers(q, addQuestionsText)
 
   show.introduction()
-  show.whatWeWillBuild()
+  // show.whatWeWillBuild()
   askUser1.for.name()
   askUser1.for.birthYear()
   askUser1.for.gender()
@@ -32,25 +38,27 @@ export const onboard_questions = (): I.onboard_questions => {
 
   askUser1.to.create.income()
 
-  streams(state, "user1", "income").map((s, i) => {
-    askUser1.for.income.name(i)
-    askUser1.for.income.registration()
-    askUser1.for.income.amount(i)
-    askUser1.if.addAnother.income()
-  })
+  if (checkIf.streamsExist("income")) {
+    streams(state, "user1", "income").map((s, i) => {
+      askUser1.for.income.name(i)
+      askUser1.for.income.registration()
+      askUser1.for.income.amount(i)
+      askUser1.if.addAnother.income()
+    })
+
+    if (isMarried) {
+      askUser2.to.create.income()
+      streams(state, "user2", "income").map((s, i) => {
+        askUser2.for.income.name(i)
+        askUser2.for.income.registration()
+        askUser2.for.income.amount(i)
+        askUser2.if.addAnother.income()
+      })
+      show.combinedIncomeChart()
+    }
+  }
 
   //show.incomeParagraph()
-
-  if (isMarried) {
-    askUser2.to.create.income()
-    streams(state, "user2", "income").map((s, i) => {
-      askUser2.for.income.name(i)
-      askUser2.for.income.registration()
-      askUser2.for.income.amount(i)
-      askUser2.if.addAnother.income()
-    })
-    show.combinedIncomeChart()
-  }
 
   askUser1.if.theyWantToChangeRateAssumptions()
 

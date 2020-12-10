@@ -14,10 +14,8 @@ const initialState = {
   rate1: 6,
   rate2: 4.5,
   user1: {
-    avgIncome: 40000,
     birthYear: 1990,
     cppStartAge: 65,
-    cppPayment: 9000,
     endWork: 2050,
     firstName: "Ben",
     gender: "male",
@@ -25,20 +23,12 @@ const initialState = {
     lifeSpan: 95,
     oasStartAge: 65,
     startWork: 2007,
-    rrspInc: 0,
-    rrspNestEgg: 0,
     rrspStartAge: 65,
-    tfsaInc: 0,
-    tfsaNestEgg: 0,
     tfsaStartAge: 65,
-    nregInc: 0,
-    nregNestEgg: 0,
   },
   user2: {
-    avgIncome: 40000,
     birthYear: 1990,
     cppStartAge: 65,
-    cppPayment: 9000,
     endWork: 2050,
     firstName: "Kelsey",
     gender: "female",
@@ -46,18 +36,15 @@ const initialState = {
     lifeSpan: 95,
     oasStartAge: 65,
     startWork: 2007,
-    rrspInc: 0,
-    rrspNestEgg: 0,
     rrspStartAge: 65,
-    tfsaInc: 0,
-    tfsaNestEgg: 0,
     tfsaStartAge: 65,
-    nregInc: 0,
-    nregNestEgg: 0,
   },
 }
 
-export default function user_reducer(state: I.user_reducer = initialState, action: I.a): I.user_reducer {
+export default function user_reducer(
+  state: I.user_reducer = initialState,
+  action: I.a
+): I.user_reducer {
   const { type, payload } = action
   switch (type) {
     case "user_reducer/SET":

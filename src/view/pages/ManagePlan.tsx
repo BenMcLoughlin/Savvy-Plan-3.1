@@ -2,7 +2,14 @@
 import React, { FC } from "react"
 import styled from "styled-components"
 
-import { AddPrompt, InfoCard, SideNav, TripleSelector, Selector, IncomeDisplay } from "view/components"
+import {
+  AddPrompt,
+  InfoCard,
+  SideNav,
+  TripleSelector,
+  Selector,
+  IncomeDisplay,
+} from "view/components"
 
 import * as I from "model/types"
 import { store } from "index"
@@ -14,7 +21,16 @@ interface IProps {
 export const ManagePlan: FC<IProps> = ({ data }) => {
   const { selectedId } = store.getState().ui_reducer
 
-  const { addPrompt, chart, editPrompt, editPanel, infoCards, sideNav, scenarioNav, tripleSelector } = data
+  const {
+    addPrompt,
+    chart,
+    editPrompt,
+    editPanel,
+    infoCards,
+    sideNav,
+    scenarioNav,
+    tripleSelector,
+  } = data
 
   return (
     <Wrapper>

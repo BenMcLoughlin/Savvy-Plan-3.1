@@ -9,7 +9,6 @@ export const getAdjustedFamilyNetIncome = (income: I.incomeForcast, year: number
 export const getBenefitBeforeReduction = (kidsBirthYearArray: number[], year: number): number => {
   //find ages of children at this given year
   const agesThisYear = kidsBirthYearArray.map(d => year - d)
-  //console.log(agesThisYear)
   const under6 = agesThisYear.filter(d => d <= 6 && d > 0).length * cra.ccbRates.under6Benefit //mulitiply the number of children under 6 by the benefit for those childre, eg 2 kids x $6765
   const between6And17 = agesThisYear.filter(d => d > 6 && d <= 17).length * cra.ccbRates.between6And17Benefit
 

@@ -17,7 +17,7 @@ class Show {
   }
 
   thatSays() {
-    console.log('hi')
+
     return this
   }
 

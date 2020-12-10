@@ -1,15 +1,13 @@
 import * as I from "model/types"
-import {merge} from "model/utils"
+import { merge } from "model/utils"
 
 const initialState = {
-  assumptionPanelOpen: false, 
   colorIndex: 0,
-  changeRateAssumptions: null,
-  changeRetirementAssumptions: null,
+  changeRateAssumptions: false,
+  changeRetirementAssumptions: false,
   chartStartYear: 2007,
   chartEndYear: 2095,
   dualSelectValue: true,
-  newStream: false,
   hasChildren: true,
   isMarried: true,
   progress: 0,
@@ -17,18 +15,12 @@ const initialState = {
   selectedId: "dummy",
   selectedScenario: 1,
   selectedPage: "savings",
-  showTargetIncome: true, 
-  showAssumptionsPanel: false,
-  showRetirementAssumptions: false,
+  showTargetIncome: true,
   selectedUser: "user1",
   scenarios: {
     [1]: "basic",
   },
   users: ["user1" as I.user, "user2" as I.user],
-  dummy: "hi",
-  dummyNested: {
-    dummyNested1: "",
-  },
 }
 
 export default function ui_reducer(state: I.ui_reducer = initialState, action: I.a): I.ui_reducer {

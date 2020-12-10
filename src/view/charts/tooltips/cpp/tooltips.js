@@ -19,7 +19,7 @@ export const cpp = (allData, colors, chartName, graph, y, x) => {
     .attr("class", `${chartName}tooltip`)
     .style("opacity", 1)
     .style("position", "absolute")
-    .style("top", y(d.value) - 120 + "px")
+    .style("top", y(d.value) - 60 + "px")
     .style("left", x(selectedAge) - 50 + "px")
     .html(() => cppCenterTooltipHtml(allData, selectedAge))
 

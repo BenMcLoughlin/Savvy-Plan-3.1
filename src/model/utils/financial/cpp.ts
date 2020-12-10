@@ -57,10 +57,9 @@ export const cpp = ({ forcast: income, user_reducer }, user: I.user) => {
 
     const adjustedBenefit = u.adjustCpp(benefit, cppStartAge)
 
-    return { cpp: adjustedBenefit > 0 ? adjustedBenefit : 0 }
+    return { cpp: adjustedBenefit > 0 ? +adjustedBenefit.toFixed(2) : 0 }
   }
 }
-
 
 function getSAAPE(UPE: I.n): I.n {
   const ympeAdjustment = cra.fiveYearYmpe / cra.Ympe
@@ -70,10 +69,22 @@ function getSAAPE(UPE: I.n): I.n {
 }
 
 function getFAAPE(year: I.n, APE: I.n): I.n {
-  return year < 2019 ? 0 : year === 2019 ? APE * 0.15 : year === 2020 ? APE * 0.3 : year === 2021 ? APE * 0.5 : year === 2022 ? APE * 0.75 : year > 2022 ? APE * 1 : 0
+  return year < 2019
+    ? 0
+    : year === 2019
+    ? APE * 0.15
+    : year === 2020
+    ? APE * 0.3
+    : year === 2021
+    ? APE * 0.5
+    : year === 2022
+    ? APE * 0.75
+    : year > 2022
+    ? APE * 1
+    : 0
 }
 
-function sumPensionableEarnings (array: I.n[], contributoryPeriod: I.n): I.n {
+function sumPensionableEarnings(array: I.n[], contributoryPeriod: I.n): I.n {
   if (array.length > 0) {
     return array
       .sort()

@@ -14,15 +14,13 @@ export type { forcast } from "model/types/global/forcast_types"
 
 //HOOKS TYPES
 export type { useHttpClient } from "model/types/global/hooks_types"
-export type { formData } from "model/types/global/hooks_types"
-
-// export type formData = _formData
-
-export type { useForm } from "model/types/global/hooks_types"
 
 //INCOME CALCULATION TYPES
 
 export type { incomeForcast } from "model/types/calculation/income_types"
+
+//LOGIN
+export type { loginForm } from "model/types/login"
 
 //FUNCTION TYPES
 

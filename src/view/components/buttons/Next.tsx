@@ -2,10 +2,9 @@ import React, { FC, useEffect } from "react"
 import styled from "styled-components"
 import { ArrowIosForwardOutline } from "@styled-icons/evaicons-outline/ArrowIosForwardOutline"
 import { CSSTransition } from "react-transition-group"
-import { useHttpClient } from "view/hooks"
-import * as I from "model/types"
 import { store } from "index"
 import { set } from "model/redux/actions"
+import * as backend from "model/utils/backend"
 
 interface IProps {
   setDirection: (value: string) => void
@@ -16,16 +15,6 @@ interface IProps {
 
 export const Next: FC<IProps> = ({ handleChange, onNext, setDirection, valid }) => {
   const state = store.getState()
-
-  const { sendRequest } = useHttpClient()
-
-  const saveStore = async () => {
-    await sendRequest(`/api/store/saveStore`, "PATCH", JSON.stringify(state), {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: "Bearer " + state.auth_reducer.token,
-    })
-  }
 
   useEffect(() => {
     const pressEnter = (event: KeyboardEvent) => {
@@ -48,7 +37,7 @@ export const Next: FC<IProps> = ({ handleChange, onNext, setDirection, valid }) 
             valid={valid}
             onClick={() => {
               setDirection("forward")
-              saveStore()
+              backend.saveStore()
               handleChange(setDirection, valid)
               set("ui_reducer", { assumptionPanelOpen: false })
               if (onNext) onNext()

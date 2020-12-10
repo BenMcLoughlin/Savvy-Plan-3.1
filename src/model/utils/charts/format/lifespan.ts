@@ -1,4 +1,5 @@
 import lifespanData from "data/LifeSpanData.json"
+import * as I from "model/types"
 
 /**  format.lifespan
  * takes data in json format showing the survival rates of men and women, estimated for 2025  and
@@ -8,7 +9,7 @@ import lifespanData from "data/LifeSpanData.json"
  *@returns an array of objects with year and values that can be used in a stacked area chart
  **/
 
-export const lifespan = (): Lifespan => {
+export const lifespan = (state: I.state, user: I.user): Lifespan => {
   //data retrieved from https://www.osfi-bsif.gc.ca/Eng/oca-bac/as-ea/Pages/mpsspc.aspx
 
   const data = lifespanData.map((d: LifespanYear) => {
@@ -18,7 +19,8 @@ export const lifespan = (): Lifespan => {
       female: d.women2025 - d.men2025,
     }
   })
-  return { chartData: data, rawData: lifespanData }
+
+  return { chartData: data, rawData: lifespanData, state, user }
 }
 
 //types
@@ -29,15 +31,19 @@ interface Year {
   female: number
 }
 
-
 interface LifespanYear {
   age: number
   men2025: number
   women2025: number
 }
 
+interface rawData {
+  [key: string]: LifespanYear
+}
 
 interface Lifespan {
   chartData: Year[]
   rawData: LifespanYear[]
+  state: I.state
+  user: I.user
 }

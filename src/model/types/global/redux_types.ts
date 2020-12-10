@@ -42,7 +42,6 @@ export interface ui_reducer {
   dualSelectValue: boolean
   hasChildren: boolean
   isMarried: boolean
-  newStream: boolean
   progress: number
   scenarios: I.objects
   selectedAccount: string
@@ -50,12 +49,8 @@ export interface ui_reducer {
   selectedPage: string
   selectedScenario: number
   selectedUser: string
-  showAssumptionsPanel: boolean
-  showRetirementAssumptions: boolean
   showTargetIncome: boolean
   users: I.user[]
-  dummy: string
-  dummyNested: I.a
 }
 
 export type stream = {
@@ -92,7 +87,6 @@ export type userCore = {
   lifeSpan: number
   oasStartAge: number
   startWork: number
-  avgIncome: number
   rrspStartAge: number
   tfsaStartAge: number
 }

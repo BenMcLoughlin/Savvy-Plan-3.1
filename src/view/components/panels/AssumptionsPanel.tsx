@@ -9,62 +9,105 @@ import { assumptions_props } from "controller/assumptions/assumptions_props"
 import { store } from "index"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
 
-interface IProps {}
+interface IProps {
+  showAssumptionsPanel?: boolean
+  showRetirementTabs?: boolean
+}
 
-export const AssumptionsPanel: FC<IProps> = () => {
+export const AssumptionsPanel: FC<IProps> = ({ showAssumptionsPanel, showRetirementTabs }) => {
+  const state = store.getState()
   const {
-      ui_reducer: { showAssumptionsPanel, showRetirementAssumptions },
-    } = store.getState(),
-    [open, toggleOpen] = useState<boolean>(false),
-    [assumption, toggleAssumption] = useState<string>("rates"),
-    [userName, toggleUser] = useState<string>(),
-    { slidersArray, user1Name, user2Name } = assumptions_props(assumption, userName),
-    transitionKeys = ["rates", "retirementFactors", user1Name, user2Name]
+    ui_reducer: { isMarried },
+  } = state
+
+  const { firstName } = state.user_reducer.user1
+
+  const [panelState, setPanelState] = useState({
+    panelOpen: false,
+    sideTabVisible: false,
+    retirementTabVisible: false,
+    selectedPanelTab: "rates",
+    selectedUserTab: firstName,
+  })
+
+  const setValue = newState => {
+    setPanelState({ ...panelState, ...newState })
+  }
+
+  const {
+    panelOpen,
+    sideTabVisible,
+    retirementTabVisible,
+    selectedPanelTab,
+    selectedUserTab,
+  } = panelState
+
+  const { slidersArray, user1Name, user2Name } = assumptions_props(
+    selectedPanelTab,
+    selectedUserTab
+  )
+
+  const transitionKeys = ["rates", "retirementFactors", user1Name, user2Name]
 
   useEffect(() => {
-    toggleOpen(showAssumptionsPanel) 
-    if (showRetirementAssumptions) toggleAssumption("retirementFactors")
-  }, [showAssumptionsPanel, showRetirementAssumptions])
+    if (showAssumptionsPanel) {
+      setValue({ sideTabVisible: true })
+      setTimeout(() => {
+        setValue({ sideTabVisible: true, panelOpen: true })
+      }, 1000)
+    }
+    if (showRetirementTabs) {
+      setValue({ retirementTabVisible: true })
+      setTimeout(() => {
+        setValue({
+          retirementTabVisible: true,
+          selectedPanelTab: "retirementFactors",
+          panelOpen: true,
+        })
+      }, 1000)
+    }
+  }, [showAssumptionsPanel, showRetirementTabs])
 
   return (
     <>
-      {showAssumptionsPanel && (
-        <Wrapper open={open}>
-          {showRetirementAssumptions && (
-            <Tabs open={open} assumption={assumption}>
+      {sideTabVisible && (
+        <Wrapper panelOpen={panelOpen}>
+          {retirementTabVisible && (
+            <Tabs panelOpen={panelOpen}>
               <DualSelect
                 type={"tab"}
-                handleChange={value => toggleAssumption(value)}
-                handleChange2={value => toggleAssumption(value)}
+                handleChange={value => setValue({ selectedPanelTab: value })}
+                handleChange2={value => setValue({ selectedPanelTab: value })}
                 option1={"rates"}
                 option2={"retirementFactors"}
-                value={assumption === "rates"}
-              />
-              <UserSelector assumption={assumption}>
-                <DualSelect
-                  type={"tab"}
-                  handleChange={value => toggleUser(value)}
-                  handleChange2={value => toggleUser(value)}
-                  option1={user1Name}
-                  option2={user2Name}
-                  value={userName === user1Name}
-                />
-              </UserSelector>
+                value={selectedPanelTab === "rates"}
+              />{" "}
+              {isMarried && (
+                <UserSelector selectedPanelTab={selectedPanelTab}>
+                  <DualSelect
+                    type={"tab"}
+                    handleChange={value => setValue({ selectedUserTab: value })}
+                    handleChange2={value => setValue({ selectedUserTab: value })}
+                    option1={user1Name}
+                    option2={user2Name}
+                    value={selectedUserTab === user1Name}
+                  />
+                </UserSelector>
+              )}
             </Tabs>
           )}
-
-          <Panel open={open}>
-            {!open && (
-              <Title onClick={() => toggleOpen(!open)}>
+          <Panel panelOpen={panelOpen}>
+            {!panelOpen && (
+              <Title onClick={() => setValue({ panelOpen: !panelOpen })}>
                 <DotsIcon /> Assumptions
               </Title>
             )}
-            {open && (
+            {panelOpen && (
               <>
                 <TransitionGroup component={null}>
                   {transitionKeys.map(
                     transitionKey =>
-                      (transitionKey === assumption || transitionKey === userName) && (
+                      (transitionKey === selectedPanelTab || transitionKey === selectedUserTab) && (
                         <CSSTransition timeout={800} classNames="fade-in">
                           <Row>
                             {slidersArray.map(data => (
@@ -76,7 +119,7 @@ export const AssumptionsPanel: FC<IProps> = () => {
                   )}
                 </TransitionGroup>
 
-                <ArrowLeft onClick={() => toggleOpen(!open)} />
+                <ArrowLeft onClick={() => setValue({ panelOpen: !panelOpen })} />
               </>
             )}
           </Panel>
@@ -85,13 +128,13 @@ export const AssumptionsPanel: FC<IProps> = () => {
     </>
   )
 }
-//${props => (props.open ? "70rem" : "4rem")};
+//${props => (props.panelOpen ? "70rem" : "4rem")};
 //  ${props => props.theme.neomorph}
 //---------------------------STYLES-------------------------------------------//
 
 interface Props {
-  open?: boolean
-  assumption?: string
+  panelOpen?: boolean
+  selectedPanelTab?: string
 }
 const Wrapper = styled.div<Props>`
   position: absolute;
@@ -101,7 +144,7 @@ const Wrapper = styled.div<Props>`
 `
 const Panel = styled.div<Props>`
   height: 20rem;
-  width: ${props => (props.open ? "110rem" : "4rem")};
+  width: ${props => (props.panelOpen ? "110rem" : "4rem")};
   justify-content: space-around;
   color: white;
   padding: 1rem;
@@ -126,11 +169,11 @@ const Title = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  font-weight:
+  font-weight: ;
 `
 
 const Tabs = styled.div<Props>`
-  width: ${props => (props.open ? "70rem" : "0rem")};
+  width: ${props => (props.panelOpen ? "70rem" : "0rem")};
   position: absolute;
   height: 4rem;
   top: -4.2rem;
@@ -154,7 +197,7 @@ const Row = styled.div`
   }
 `
 const UserSelector = styled.div<Props>`
-  width: ${props => (props.assumption === "retirementFactors" ? "35rem" : "0rem")};
+  width: ${props => (props.selectedPanelTab === "retirementFactors" ? "35rem" : "0rem")};
   height: 3rem;
   transition: all 0.5s ease;
   overflow: hidden;
@@ -176,9 +219,8 @@ const ArrowLeft = styled(ArrowLeftS)`
 const DotsIcon = styled(ThreeDotsVertical)`
   height: 2rem;
   width: 2rem;
-  margin-top: .3rem;
+  margin-top: 0.3rem;
   margin-left: 0.5rem;
   color: ${props => props.theme.color.primary};
   cursor: pointer;
 `
-

@@ -4,6 +4,8 @@ import { set, remove } from "model/redux/actions"
 import { EditPanel as _EditPanel } from "./cards/EditPanel"
 import { Header as _Header } from "./layout/Header"
 import { Login as _Login } from "./login/Login"
+import { ResetPassword as _ResetPassword } from "./login/ResetPassword"
+import { Pricing as _Pricing } from "./login/Pricing"
 import * as I from "model/types"
 
 //DevButtons
@@ -20,8 +22,6 @@ import { color_selector } from "model/redux/selectors"
 //Chart Imports
 import { Chart as _Chart } from "view/charts/Chart"
 import { DonutChart as _DonutChart } from "view/charts/DonutChart"
-
-
 
 //DevTools
 import { DevToolBox as _DevToolBox } from "view/components/devTools/DevToolBox"
@@ -79,6 +79,8 @@ export { Footer } from "./layout/Footer"
 
 //login
 export const Login = compose(connect(mapStateToProps, { set, remove }))(_Login)
+export const ResetPassword = compose(connect(mapStateToProps, { set, remove }))(_ResetPassword)
+export const Pricing = compose(connect(mapStateToProps, { set, remove }))(_Pricing)
 
 //Nav
 export { ChartNav } from "./nav/ChartNav"
@@ -92,7 +94,10 @@ export { DualSelect } from "./options/DualSelect"
 export { PickMultipleOptions } from "./options/PickMultipleOptions"
 export { PickNumber } from "./options/PickNumber"
 export { PickSingleOption } from "./options/PickSingleOption"
-export const PickNumberWithText = compose(connect(mapStateToProps, { set, remove }))(_PickNumberWithText)
+export { PickString } from "view/components/options/PickString"
+export const PickNumberWithText = compose(connect(mapStateToProps, { set, remove }))(
+  _PickNumberWithText
+)
 
 //Panels
 
@@ -120,4 +125,3 @@ export const TextInput = compose(connect(mapStateToProps, { set, remove }))(_Tex
 export const Chart = compose(connect(mapStateToProps, { set }))(_Chart)
 
 export const DonutChart = compose(connect(mapStateToProps, { set }))(_DonutChart)
-

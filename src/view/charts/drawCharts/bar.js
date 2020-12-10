@@ -27,7 +27,7 @@ export const bar = (colors, chartName, allData, height, state, width) => {
 
   const { hideAxis } = state.ui_reducer
 
-  const margin = { top: 0, right: 100, bottom: 70, left: 80 }
+  const margin = { top: 100, right: 100, bottom: 70, left: 80 }
   const graphHeight = height - margin.top - margin.bottom
   const graphWidth = width - margin.left - margin.right
 
@@ -43,7 +43,11 @@ export const bar = (colors, chartName, allData, height, state, width) => {
     .attr("width", 500) //graphWidth)
     .attr("transform", `translate(${margin.left}, ${margin.top})`)
 
-  const stack = d3.stack().keys(stackedKeys).order(d3.stackOrderNone).offset(d3.stackOffsetDiverging)
+  const stack = d3
+    .stack()
+    .keys(stackedKeys)
+    .order(d3.stackOrderNone)
+    .offset(d3.stackOffsetDiverging)
 
   const update = data => {
     const max = u.getMax(chartName, allData)
@@ -83,21 +87,22 @@ export const bar = (colors, chartName, allData, height, state, width) => {
       .attr("y", d => y(d[1]))
       .attr("cursor", "pointer")
       .attr("class", "pointer")
-    .attr("class", (d, i, n) => {
-      const name = n[0].parentNode.className.animVal
-      return `${name}`
-    })
-    .attr("opacity", (d, i, n) => {
+      .attr("class", (d, i, n) => {
+        const name = n[0].parentNode.className.animVal
+        return `${name}`
+      })
+      .attr("opacity", (d, i, n) => {
+        const name = n[0].parentNode.className.animVal
+        return streamName === name && d.data.year >= periodStart && d.data.year < periodEnd
+          ? 0.7
+          : 1
+      })
 
-      const name = n[0].parentNode.className.animVal
-      return streamName === name && d.data.year >= periodStart && d.data.year < periodEnd ? 0.7 : 1
-    })
-
-    .on("click", (d, i, n) => {
-      const name = n[0].parentNode.className.animVal
-      const id = Object.values(state.stream_reducer).filter(d => d.name === name)[0]["id"]
-      set("selectedId", "ui_reducer", id)
-    })
+    // .on("click", (d, i, n) => {
+    //   const name = n[0].parentNode.className.animVal
+    //   const id = Object.values(state.stream_reducer).filter(d => d.name === name)[0]["id"]
+    //   set("selectedId", "ui_reducer", id)
+    // })
 
     // incomeBarTooltip(colors, chartName, allData)
 

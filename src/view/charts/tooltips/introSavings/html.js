@@ -34,10 +34,10 @@ const header = `
   justify-content: space-between;
 `
 const headerText = `
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: bold;
   margin-left: 1rem;
-  margin-top: -0.4rem;
+  margin-top: 1rem;
   height: 3rem;
 `
 const headerAge = `
@@ -87,7 +87,7 @@ const displayValue = `
   border-bottom: 1px solid lightgrey;
 `
 const title = `
-
+ 
 `
 const displayTitle = `
   height: 2rem;
@@ -111,10 +111,6 @@ const buildUserToolTip = (year, user, data) => `<div style="${wrapper}">
              <div style="${displayBox(data[year][`${user}Highlight`] === "spending")}">
                 <div style="${displayValue}">${u.asCurrency(data[year][`${user}Spending`])}</div>
                 <div style="${displayTitle}">spending</div>
-             </div>
-             <div style="${displayBox(data[year][`${user}Highlight`] === "debts")}">
-                <div style="${displayValue}">${u.asCurrency(data[year][`${user}Debts`])}</div>
-                <div style="${displayTitle}">debt</div>
              </div>
              <div style="${displayBox(data[year][`${user}Highlight`] === "investments")}">
                 <div style="${displayValue}">${u.asCurrency(data[year][`${user}TotalSavings`])}</div>

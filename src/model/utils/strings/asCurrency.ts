@@ -7,7 +7,9 @@
 
 export const asCurrency = (n: number): string => {
   const round = (n, p) => Math.round(n / p) * p
-
+  if (typeof n === "undefined") {
+    return 0 + ""
+  }
   if (n) {
     return n < 1000
       ? `${round(n, 10)}`

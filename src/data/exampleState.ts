@@ -33,7 +33,6 @@ export const exampleState = {
     selectedUser: "user1",
     dualSelectValue: true,
     hasChildren: false,
-    newStream: false,
     scenarios: {
       [1]: "base",
     },
@@ -196,7 +195,6 @@ export const dummyRate1Data = {
     selectedUser: "user1",
     dualSelectValue: true,
     hasChildren: false,
-    newStream: false,
     scenarios: {
       [1]: "base",
     },

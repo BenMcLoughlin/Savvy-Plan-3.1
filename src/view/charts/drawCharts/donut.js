@@ -3,21 +3,23 @@ import * as d3 from "d3"
 import * as tooltip from "view/charts/tooltips"
 import _ from "lodash"
 
-export const donut = (colors, className, allData, height, state, width) => {
-
- const { chartData: data } = allData
-
+export const donut = (colors, chartName, allData, height, state, width) => {
+  const { chartData: data } = allData
+  console.log("colors:", colors)
   d3.select(`.${chartName}`).selectAll("*").remove()
-  
+
   const margin = { top: 30, right: 100, bottom: 20, left: 140 }
   const graphHeight = height - margin.top - margin.bottom - 100
   const graphWidth = width - margin.left - margin.right - 100
 
-  const radius = graphWidth / 3.5
+  const radius = graphWidth / 2.6
 
-  const svg = d3.select(`.${className}`).append("svg").attr("viewBox", `0 0 ${graphWidth} ${graphHeight}`)
+  const svg = d3
+    .select(`.${chartName}`)
+    .append("svg")
+    .attr("viewBox", `0 0 ${graphWidth} ${graphHeight}`)
 
-  const graph = svg.append("g").attr("transform", `translate(${graphWidth / 2},${graphHeight / 3.5})`)
+  const graph = svg.append("g").attr("transform", `translate(${graphWidth / 2},${graphHeight / 6})`)
 
   const pie = d3
     .pie()
@@ -37,10 +39,10 @@ export const donut = (colors, className, allData, height, state, width) => {
       .append("path")
       .attr("class", "arc")
       .attr("d", arcPath)
-      .attr("fill", (d, i) => colors[i])
+      .attr("fill", (d, i) => colors[d.data.account])
       .attr("cursor", "pointer")
 
-   // nestEggDonutTooltip(className, allData, state)
+    tooltip[chartName](allData, colors, chartName, graph)
   }
   update(data)
 }

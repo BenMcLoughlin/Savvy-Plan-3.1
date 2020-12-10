@@ -1,13 +1,6 @@
 import { ChangeEvent } from "react"
 
-export interface formData {
-  [key: string]: string
-}
 
-export interface useForm {
-  formData: formData
-  setForm: (e: ChangeEvent<HTMLInputElement>) => void
-}
 
 export interface stringObject {
   [key: string]: string

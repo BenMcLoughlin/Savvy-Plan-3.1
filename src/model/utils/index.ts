@@ -18,6 +18,7 @@ export { ccb } from "model/utils/financial/ccb"
 export { cpp } from "model/utils/financial/cpp"
 export { oas } from "model/utils/financial/oas"
 export { payment } from "model/utils/financial/payment"
+export { presentValue } from "model/utils/financial/presentValue"
 
 
 
@@ -42,6 +43,7 @@ export { helperMethods } from "model/utils/methods/helpers"
 //Text
 export { asIncome } from "model/utils/strings/asIncome"
 export { asCurrency } from "model/utils/strings/asCurrency"
+export { asPercentage } from "model/utils/strings/asPercentage"
 
 //Validate
 export { next } from "model/utils/validate/next"

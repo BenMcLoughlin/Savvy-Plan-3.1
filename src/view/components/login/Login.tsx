@@ -4,11 +4,20 @@ import { TextInput, Button, SocialMediaIcons } from "view/components"
 import * as C from "view/components"
 import * as I from "model/types"
 import { CSSTransition } from "react-transition-group"
-import { useForm, useHttpClient } from "view/hooks"
-import * as isValid from "model/utils/validate"
 import { Redirect } from "react-router-dom"
-import { set } from "model/redux/actions"
 import { store } from "index"
+import { Link } from "react-router-dom"
+import * as backend from "model/utils/backend/index"
+
+type FormProps = {
+  email: string
+  password: string
+  passwordConfirm: string
+  isAdvisor: boolean
+  planType: string
+  advisor: ""
+  role: ""
+}
 
 export const Login: FC = () => {
   const state = store.getState()
@@ -19,46 +28,33 @@ export const Login: FC = () => {
 
   const { token, errors } = state.auth_reducer
 
-  const { sendRequest } = useHttpClient()
+  const [formData, setFormData] = useState<FormProps>({
+    email: "ben@hotmail.com",
+    password: "ben@hotmail.com",
+    passwordConfirm: "ben@hotmail.com",
+    isAdvisor,
+    advisor: "",
+    role: "",
+    planType: "trial",
+  })
 
-  const { formData, setForm } = useForm("email", "password", "passwordConfirm")
+  const setForm = e => {
+    return setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
   const { email, password, passwordConfirm } = formData
-
-  const noErrors = isValid.signUp(state)
 
   useEffect(() => window.localStorage.clear(), [])
 
   const handleSubmit = async e => {
     e.preventDefault()
-    if (noErrors) {
-      const res = await sendRequest(`api/users/${userWantsTo}`, "POST", JSON.stringify(formData), {
-        "Content-Type": "application/json",
-      })
-      if (isNewUser && res) {
-        await sendRequest(`api/store/createStore`, "POST", JSON.stringify(state), {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + res.token,
-        })
-      }
-      if (!isNewUser && res) {
-        const response: I.a = await sendRequest(`api/store/getStore`, "GET", null, {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + res.token,
-        })
-
-        await set("ui_reducer", { ...response.data.data.ui_reducer })
-        await set("user_reducer", { ...response.data.data.user_reducer })
-        await set("stream_reducer", { ...response.data.data.stream_reducer })
-      }
-
-      res && set("auth_reducer", { token: res.token })
-    }
+    backend[isNewUser ? "signUp" : "login"](formData)
   }
 
   if (token) {
     return <Redirect to="/onboarding" />
   }
-
+  console.log("formData:", formData)
   return (
     <PageSize>
       <Wrapper>
@@ -66,23 +62,67 @@ export const Login: FC = () => {
           <H2>Welcome to Savvy Plan</H2>
           <Div>
             I am a...{" "}
-            <C.DualSelect handleChange={() => setIsAdvisor(true)} handleChange2={() => setIsAdvisor(false)} option1={"financial Advisor"} option2={"Not an advisor"} value={isAdvisor} />
+            <C.DualSelect
+              handleChange={() => {
+                setFormData({ ...formData, isAdvisor: true })
+                setIsAdvisor(true)
+              }}
+              handleChange2={() => {
+                setIsAdvisor(false)
+                setFormData({ ...formData, isAdvisor: false })
+              }}
+              option1={"financial Advisor"}
+              option2={"Not an advisor"}
+              value={isAdvisor}
+            />
           </Div>
           <Div>
-            And I'd like to.. <C.DualSelect handleChange={() => setIsNewUser(true)} handleChange2={() => setIsNewUser(false)} option1={"sign up"} option2={"sign in"} value={isNewUser} />
+            And I'd like to..{" "}
+            <C.DualSelect
+              handleChange={() => setIsNewUser(true)}
+              handleChange2={() => setIsNewUser(false)}
+              option1={"sign up"}
+              option2={"sign in"}
+              value={isNewUser}
+            />
           </Div>
         </Left>
         <Form onSubmit={e => handleSubmit(e)}>
-          <TextInput label="email" handleChange={setForm} name={"email"} value={email} type="text" />
-          <TextInput label="password" handleChange={setForm} name={"password"} value={password} type="password" />
-          <CSSTransition in={isNewUser} mountOnEnter unmountOnExit timeout={700} classNames="fade-in">
-            <TextInput label="confirm password" handleChange={setForm} name={"passwordConfirm"} value={passwordConfirm} formData={formData} type="password" />
+          <TextInput
+            label="email"
+            handleChange={e => setForm(e)}
+            name={"email"}
+            value={email}
+            type="text"
+          />
+          <TextInput
+            label="password"
+            handleChange={setForm}
+            name={"password"}
+            value={password}
+            type="password"
+          />
+          <CSSTransition
+            in={isNewUser}
+            mountOnEnter
+            unmountOnExit
+            timeout={700}
+            classNames="fade-in"
+          >
+            <TextInput
+              label="confirm password"
+              handleChange={setForm}
+              name={"passwordConfirm"}
+              value={passwordConfirm}
+              formData={formData}
+              type="password"
+            />
           </CSSTransition>
           <LowerWrapper isNewUser={isNewUser}>
             <Button type="submit" label={userWantsTo} handleChange={() => null} />
             <p>{`Or ${userWantsTo} with...`}</p>
             <SocialMediaIcons handleChange={() => null} />
-            <ButtonAsText>Forgot Password?</ButtonAsText>
+            <ButtonAsText to="reset">Forgot Password?</ButtonAsText>
             {/* {errors.length > 0 && errors.map((error, i) => <Error i={i}>wrong email easdf and bars</Error>)} */}
           </LowerWrapper>
           {errors.msg && <Error>{errors.msg}</Error>}
@@ -155,9 +195,11 @@ const Form = styled.form`
     margin-top: 2rem;
   }
 `
-const ButtonAsText = styled.h2`
+const ButtonAsText = styled(Link)`
   font-size: 1.6rem;
   font-weight: 200;
+  text-decoration: none;
+  color: grey;
 `
 
 interface Props {

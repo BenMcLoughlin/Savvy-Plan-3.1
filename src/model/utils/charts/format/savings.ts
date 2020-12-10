@@ -8,7 +8,7 @@ import * as I from "model/types"
  **/
 
 export const savings = givenState => {
-  console.log("givenState:", givenState)
+
   let state = u.addToPrototype(givenState, u.forcastMethods, u.helperMethods)
 
   return state

@@ -1,5 +1,14 @@
 import React from "react"
-import { Header, Footer, Login, PrivateRoute, Loading, DevToolBox } from "view/components"
+import {
+  Header,
+  Footer,
+  Login,
+  PrivateRoute,
+  Loading,
+  DevToolBox,
+  ResetPassword,
+  Pricing,
+} from "view/components"
 import styled, { ThemeProvider } from "styled-components"
 import { theme } from "model/styles/theme"
 import { ManagePlan, Landing, BuildPlan } from "view/pages"
@@ -10,12 +19,10 @@ import { onboard_questions } from "controller/buildPlan/onboarding"
 import { connect } from "react-redux"
 import * as I from "model/types"
 
-
-
 const App = ({ state }) => {
   const { selectedPage } = state.ui_reducer
   const { isLoading } = state.auth_reducer
-
+ // console.log("state:", JSON.stringify(state, null, 4))
   const newPageData = pages_data[`${selectedPage}Page_data`] //each page has a function that recieves state and returns a large object with all the up to date values, this matches data with the selected page
 
   return (
@@ -28,6 +35,8 @@ const App = ({ state }) => {
             <DevToolBox />
             <Route exact path="/" component={Landing} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/reset" component={ResetPassword} />
+            <Route exact path="/pricing" component={Pricing} />
             {/* <PrivateRoute path="/account" component={Account} /> */}
             <PrivateRoute
               path={`/onboarding`}
