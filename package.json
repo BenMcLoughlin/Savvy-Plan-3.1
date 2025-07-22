@@ -21,7 +21,7 @@
     "d3": "^5.7.0",
     "file-system": "^2.2.2",
     "financejs": "^4.1.0",
-    "jest-puppeteer": "^4.4.0",
+    "jest-puppeteer": "^11.0.0",
     "lodash": "^4.17.20",
     "puppeteer": "^5.4.1",
     "react": "^17.0.1",
